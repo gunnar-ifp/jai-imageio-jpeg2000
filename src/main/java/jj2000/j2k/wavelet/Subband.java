@@ -548,6 +548,7 @@ public abstract class Subband {
      *
      * @return Subband informations
      * */
+    @Override
     public String toString() {
 
         String string =

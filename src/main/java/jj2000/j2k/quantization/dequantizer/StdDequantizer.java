@@ -155,6 +155,7 @@ public class StdDequantizer extends Dequantizer {
      * the number of fractional bits. For floating-point data 0 is
      * returned.
      * */
+    @Override
     public int getFixedPoint(int c){
         return 0;
     }
@@ -198,6 +199,7 @@ public class StdDequantizer extends Dequantizer {
      *
      * @see DataBlk
      * */
+    @Override
     public final DataBlk getCodeBlock(int c, int m, int n, SubbandSyn sb,
                                         DataBlk cblk) {
         return getInternCodeBlock(c,m,n,sb,cblk);
@@ -241,6 +243,7 @@ public class StdDequantizer extends Dequantizer {
      *
      * @see DataBlk
      * */
+    @Override
     public final
         DataBlk getInternCodeBlock(int c, int m, int n, SubbandSyn sb,
                                      DataBlk cblk) {

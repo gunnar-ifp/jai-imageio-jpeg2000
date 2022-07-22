@@ -394,6 +394,7 @@ public class EBCOTRateAllocator extends PostCompRateAllocator {
      * Prints the timing information, if collected, and calls 'finalize' on
      * the super class.
      * */
+    @Override
     public void finalize() throws Throwable {
         if (DO_TIMING) {
             StringBuffer sb;
@@ -418,6 +419,7 @@ public class EBCOTRateAllocator extends PostCompRateAllocator {
      * Runs the rate allocation algorithm and writes the data to the bit
      * stream writer object provided to the constructor.
      * */
+    @Override
     public void runAndWrite() throws IOException {
         //Now, run the rate allocation
         buildAndWriteLayers();
@@ -429,6 +431,7 @@ public class EBCOTRateAllocator extends PostCompRateAllocator {
      * account. This method will get all the code-blocks and then initialize
      * the target bitrates for each layer, according to the specifications.
      * */
+    @Override
     public void initialize() throws IOException{
         int n,i,l;
         int ho; // The header overhead (in bytes)

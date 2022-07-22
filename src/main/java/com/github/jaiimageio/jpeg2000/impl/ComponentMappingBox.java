@@ -112,6 +112,7 @@ public class ComponentMappingBox extends Box {
     }
 
     /** Parse the component mapping from the provided content data array. */
+    @Override
     protected void parse(byte[] data) {
         int len = data.length / 4;
         components = new short[len];
@@ -130,6 +131,7 @@ public class ComponentMappingBox extends Box {
      *  box.  The format of this node is defined in the XML dtd and xsd
      *  for the JP2 image file.
      */
+    @Override
     public IIOMetadataNode getNativeNode() {
         IIOMetadataNode node = new IIOMetadataNode(Box.getName(getType()));
         setDefaultAttributes(node);
@@ -167,6 +169,7 @@ public class ComponentMappingBox extends Box {
         return map;
     }
 
+    @Override
     protected void compose() {
         if (data != null)
             return;

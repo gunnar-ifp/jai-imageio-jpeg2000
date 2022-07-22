@@ -221,6 +221,7 @@ public abstract class EntropyCoder extends ImgDataAdapter
      *
      * @see jj2000.j2k.roi.encoder.ROIScaler
      * */
+    @Override
     public boolean isReversible(int t,int c) {
         return src.isReversible(t,c);
     }
@@ -239,6 +240,7 @@ public abstract class EntropyCoder extends ImgDataAdapter
      *
      * @see Subband
      * */
+    @Override
     public SubbandAn getAnSubbandTree(int t,int c) {
         return src.getAnSubbandTree(t,c);
     }
@@ -247,6 +249,7 @@ public abstract class EntropyCoder extends ImgDataAdapter
      * Returns the horizontal offset of the code-block partition. Allowable
      * values are 0 and 1, nothing else.
      * */
+    @Override
     public int getCbULX() {
         return src.getCbULX();
     }
@@ -255,6 +258,7 @@ public abstract class EntropyCoder extends ImgDataAdapter
      * Returns the vertical offset of the code-block partition. Allowable
      * values are 0 and 1, nothing else.
      * */
+    @Override
     public int getCbULY() {
         return src.getCbULY();
     }

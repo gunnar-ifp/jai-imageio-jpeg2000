@@ -71,34 +71,42 @@ public class ImageInputStreamWrapper extends InputStream {
     }
 
     // Override the methods defined in <code>InputStream</code>
+    @Override
     public int read() throws IOException {
         return src.read();
     }
 
+    @Override
     public void close() throws IOException {
         src.close();
     }
 
+    @Override
     public synchronized void mark(int readlimit) {
         src.mark();
     }
 
+    @Override
     public boolean markSupported() {
 	return true;
     }
 
+    @Override
     public int read(byte b[]) throws IOException {
 	return src.read(b, 0, b.length);
     }
 
+    @Override
     public int read(byte b[], int off, int len) throws IOException {
         return src.read(b, off, len);
     }
 
+    @Override
     public synchronized void reset() throws IOException {
 	src.reset();
     }
 
+    @Override
     public long skip(long n) throws IOException {
         return src.skipBytes(n);
     }

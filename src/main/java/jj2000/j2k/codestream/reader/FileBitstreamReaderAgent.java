@@ -2185,6 +2185,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
      *
      * @param y The vertical indexes of the new tile.
      * */
+    @Override
     public void setTile(int x,int y) {
 
         int i;          // counter
@@ -2262,6 +2263,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
      * then columns). An NoNextElementException is thrown if the
      * current tile is the last one (i.e. there is no next tile).
      * */
+    @Override
     public void nextTile(){
         if (ctX == ntX-1 && ctY == ntY-1) { // Already at last tile
             throw new NoNextElementException();
@@ -2323,6 +2325,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
      * @return The compressed code-block, with a certain number of layers
      * determined by the available data and 'nl'.
      * */
+    @Override
     public DecLyrdCBlk getCodeBlock(int c,int m,int n,SubbandSyn sb,int fl,
                                     int nl,DecLyrdCBlk ccb) {
 

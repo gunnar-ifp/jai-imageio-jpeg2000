@@ -189,6 +189,7 @@ public abstract class CBlkWTData {
      *
      * @return Block dimensions and progressiveness in a string
      * */
+    @Override
     public String toString(){
 	String typeString = "";
 	switch(getDataType()){

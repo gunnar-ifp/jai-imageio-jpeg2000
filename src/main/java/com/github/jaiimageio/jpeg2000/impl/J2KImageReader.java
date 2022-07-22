@@ -293,6 +293,7 @@ public class J2KImageReader extends ImageReader implements MsgLogger {
     }
 
     /** Overrides the method defined in the superclass. */
+    @Override
     public void setInput(Object input,
                          boolean seekForwardOnly,
                          boolean ignoreMetadata) {
@@ -308,40 +309,47 @@ public class J2KImageReader extends ImageReader implements MsgLogger {
     }
 
     /** Overrides the method defined in the superclass. */
+    @Override
     public int getNumImages(boolean allowSearch) throws IOException {
         return 1;
     }
 
+    @Override
     public int getWidth(int imageIndex) throws IOException {
         checkIndex(imageIndex);
         readHeader();
         return width;
     }
 
+    @Override
     public int getHeight(int imageIndex) throws IOException {
         checkIndex(imageIndex);
         readHeader();
         return height;
     }
 
+    @Override
     public int getTileGridXOffset(int imageIndex) throws IOException {
         checkIndex(imageIndex);
         readHeader();
         return hd.getTilingOrigin(null).x;
     }
 
+    @Override
     public int getTileGridYOffset(int imageIndex) throws IOException {
         checkIndex(imageIndex);
         readHeader();
         return hd.getTilingOrigin(null).y;
     }
 
+    @Override
     public int getTileWidth(int imageIndex) throws IOException {
         checkIndex(imageIndex);
         readHeader();
         return hd.getNomTileWidth();
     }
 
+    @Override
     public int getTileHeight(int imageIndex) throws IOException {
         checkIndex(imageIndex);
         readHeader();
@@ -378,6 +386,7 @@ public class J2KImageReader extends ImageReader implements MsgLogger {
         this.height = hd.getImgHeight();
     }
 
+    @Override
     public Iterator getImageTypes(int imageIndex)
         throws IOException {
         checkIndex(imageIndex);
@@ -391,10 +400,12 @@ public class J2KImageReader extends ImageReader implements MsgLogger {
         return null;
     }
 
+    @Override
     public ImageReadParam getDefaultReadParam() {
         return new J2KImageReadParam();
     }
 
+    @Override
     public IIOMetadata getImageMetadata(int imageIndex)
         throws IOException {
         checkIndex(imageIndex);
@@ -409,10 +420,12 @@ public class J2KImageReader extends ImageReader implements MsgLogger {
         return imageMetadata;
     }
 
+    @Override
     public IIOMetadata getStreamMetadata() throws IOException {
         return null;
     }
 
+    @Override
     public BufferedImage read(int imageIndex, ImageReadParam param)
         throws IOException {
         checkIndex(imageIndex);
@@ -446,6 +459,7 @@ public class J2KImageReader extends ImageReader implements MsgLogger {
         return bi;
     }
 
+    @Override
     public RenderedImage readAsRenderedImage(int imageIndex,
                                              ImageReadParam param)
                                              throws IOException {
@@ -475,15 +489,18 @@ public class J2KImageReader extends ImageReader implements MsgLogger {
         return ri;
     }
 
+    @Override
     public boolean canReadRaster() {
         return true;
     }
 
+    @Override
     public boolean isRandomAccessEasy(int imageIndex) throws IOException {
         checkIndex(imageIndex);
         return false;
     }
 
+    @Override
     public Raster readRaster(int imageIndex,
                              ImageReadParam param) throws IOException {
         checkIndex(imageIndex);
@@ -516,6 +533,7 @@ public class J2KImageReader extends ImageReader implements MsgLogger {
         return ras;
     }
 
+    @Override
     public boolean isImageTiled(int imageIndex) {
         checkIndex(imageIndex);
         readHeader();
@@ -528,6 +546,7 @@ public class J2KImageReader extends ImageReader implements MsgLogger {
         return false;
     }
 
+    @Override
     public void reset() {
         // reset local Java structures
         super.reset();
@@ -558,14 +577,17 @@ public class J2KImageReader extends ImageReader implements MsgLogger {
     }
 
     // --- Begin jj2000.j2k.util.MsgLogger implementation ---
+    @Override
     public void flush() {
         // Do nothing.
     }
 
+    @Override
     public void println(String str, int flind, int ind) {
         printmsg(INFO, str);
     }
 
+    @Override
     public void printmsg(int sev, String msg) {
         if(logJJ2000Msg) {
             String msgSev;

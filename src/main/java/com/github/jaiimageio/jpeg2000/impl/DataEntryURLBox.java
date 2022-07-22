@@ -108,6 +108,7 @@ public class DataEntryURLBox extends Box {
     }
 
     /** Parses the content of this box from its content byte array. */
+    @Override
     protected void parse(byte[] data) {
         version = data[0];
         flags = new byte[3];
@@ -122,6 +123,7 @@ public class DataEntryURLBox extends Box {
      *  box.  The format of this node is defined in the XML dtd and xsd
      *  for the JP2 image file.
      */
+    @Override
     public IIOMetadataNode getNativeNode() {
         return getNativeNodeForSimpleBox();
     }
@@ -141,6 +143,7 @@ public class DataEntryURLBox extends Box {
         return url;
     }
 
+    @Override
     protected void compose() {
         if (data != null)
             return;

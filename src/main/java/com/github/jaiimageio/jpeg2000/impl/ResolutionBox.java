@@ -158,6 +158,7 @@ public class ResolutionBox extends Box {
     }
 
     /** Parse the data elements from the provided content data array. */
+    @Override
     protected void parse(byte[] data) {
         numV = (short)(((data[0] & 0xFF) << 8) | (data[1] & 0xFF));
         denomV = (short)(((data[2] & 0xFF) << 8) | (data[3] & 0xFF));
@@ -173,6 +174,7 @@ public class ResolutionBox extends Box {
      *  box.  The format of this node is defined in the XML dtd and xsd
      *  for the JP2 image file.
      */
+    @Override
     public IIOMetadataNode getNativeNode() {
         IIOMetadataNode node = new IIOMetadataNode(Box.getName(getType()));
         setDefaultAttributes(node);
@@ -210,6 +212,7 @@ public class ResolutionBox extends Box {
         return node;
     }
 
+    @Override
     protected void compose() {
         if (data != null)
             return;

@@ -2527,6 +2527,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
      *
      * @return Information in a String
      * */
+    @Override
     public String toString(){
         return hdStr;
     }

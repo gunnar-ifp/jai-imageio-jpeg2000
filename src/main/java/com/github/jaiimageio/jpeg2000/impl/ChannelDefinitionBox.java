@@ -184,6 +184,7 @@ public class ChannelDefinitionBox extends Box {
     }
 
     /** Parse the channel definitions from the content data array. */
+    @Override
     protected void parse(byte[] data) {
         num = (short)((data[0] << 8) | data[1]);
         channels = new short[num];
@@ -220,6 +221,7 @@ public class ChannelDefinitionBox extends Box {
      *  box.  The format of this node is defined in the XML dtd and xsd
      *  for the JP2 image file.
      */
+    @Override
     public IIOMetadataNode getNativeNode() {
         IIOMetadataNode node = new IIOMetadataNode(Box.getName(getType()));
         setDefaultAttributes(node);
@@ -252,6 +254,7 @@ public class ChannelDefinitionBox extends Box {
         return node;
     }
 
+    @Override
     protected void compose() {
         if (data != null)
             return;

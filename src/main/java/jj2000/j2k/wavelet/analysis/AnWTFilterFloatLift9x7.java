@@ -150,6 +150,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat {
      * @param highStep This is the step, or interleave factor, of the
      * high-pass output samples in the highSig array.
      * */
+    @Override
     public
         void analyze_lpf(float inSig[], int inOff, int inLen, int inStep,
                      float lowSig[], int lowOff, int lowStep,
@@ -331,6 +332,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat {
      *
      * @see AnWTFilter#analyze_hpf
      * */
+    @Override
     public void analyze_hpf(float inSig[], int inOff, int inLen, int inStep,
                     float lowSig[], int lowOff, int lowStep,
                     float highSig[], int highOff, int highStep) {
@@ -467,6 +469,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat {
      *
      * @return 2
      * */
+    @Override
     public int getAnLowNegSupport() {
         return 4;
     }
@@ -479,6 +482,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat {
      * @return The number of taps of the low-pass analysis filter in
      * the positive direction
      * */
+    @Override
     public int getAnLowPosSupport() {
         return 4;
     }
@@ -491,6 +495,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat {
      * @return The number of taps of the high-pass analysis filter in
      * the negative direction
      * */
+    @Override
     public int getAnHighNegSupport() {
         return 3;
     }
@@ -503,6 +508,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat {
      * @return The number of taps of the high-pass analysis filter in
      * the positive direction
      * */
+    @Override
     public int getAnHighPosSupport() {
         return 3;
     }
@@ -517,6 +523,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat {
      * @return The number of taps of the low-pass synthesis filter in
      * the negative direction
      * */
+    @Override
     public int getSynLowNegSupport() {
         return 3;
     }
@@ -531,6 +538,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat {
      * @return The number of taps of the low-pass synthesis filter in
      * the positive direction
      * */
+    @Override
     public int getSynLowPosSupport() {
         return 3;
     }
@@ -545,6 +553,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat {
      * @return The number of taps of the high-pass synthesis filter in
      * the negative direction
      * */
+    @Override
     public int getSynHighNegSupport() {
         return 4;
     }
@@ -559,6 +568,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat {
      * @return The number of taps of the high-pass synthesis filter in
      * the positive direction
      * */
+    @Override
     public int getSynHighPosSupport() {
         return 4;
     }
@@ -577,6 +587,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat {
      * @return The time-reversed low-pass synthesis waveform of the
      * filter.
      * */
+    @Override
     public float[] getLPSynthesisFilter() {
         return LPSynthesisFilter;
     }
@@ -596,6 +607,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat {
      * @return The time-reversed high-pass synthesis waveform of the
      * filter.
      * */
+    @Override
     public float[] getHPSynthesisFilter() {
         return HPSynthesisFilter;
     }
@@ -607,6 +619,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat {
      *
      * @return WT_FILTER_INT_LIFT.
      * */
+    @Override
     public int getImplType() {
         return WT_FILTER_FLOAT_LIFT;
     }
@@ -618,6 +631,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat {
      * @return true since the 9x7 is reversible, provided the appropriate
      * rounding is performed.
      * */
+    @Override
     public boolean isReversible() {
         return false;
     }
@@ -651,6 +665,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat {
      * @return true if both overlaps are greater than 2, and correct
      * processing is applied in the analyze() method.
      * */
+    @Override
     public boolean isSameAsFullWT(int tailOvrlp, int headOvrlp, int inLen) {
 
         //If the input signal has even length.
@@ -675,6 +690,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat {
      *
      * @param The object against which to test inequality.
      * */
+    @Override
     public boolean equals(Object obj) {
         // To spped up test, first test for reference equality
         return obj == this ||
@@ -689,11 +705,13 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat {
      *
      * @return The filter type.
      * */
+    @Override
     public int getFilterType(){
         return FilterTypes.W9X7;
     }
 
     /** Debugging method */
+    @Override
     public String toString(){
 	return "w9x7";
     }

@@ -78,6 +78,7 @@ public class SignatureBox extends Box {
      *  box.  The format of this node is defined in the XML dtd and xsd
      *  for the JP2 image file.
      */
+    @Override
     public IIOMetadataNode getNativeNode() {
         IIOMetadataNode node = new IIOMetadataNode(Box.getName(getType()));
         setDefaultAttributes(node);
@@ -85,6 +86,7 @@ public class SignatureBox extends Box {
         return node;
     }
 
+    @Override
     protected void compose() {
         if (data != null)
             return;

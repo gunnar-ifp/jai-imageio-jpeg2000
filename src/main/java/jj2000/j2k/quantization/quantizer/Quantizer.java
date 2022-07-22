@@ -198,6 +198,7 @@ public abstract class Quantizer extends ImgDataAdapter
      *
      * @see #calcSbParams
      * */
+    @Override
     public SubbandAn getAnSubbandTree(int t,int c) {
         SubbandAn sbba;
 
@@ -212,6 +213,7 @@ public abstract class Quantizer extends ImgDataAdapter
      * Returns the horizontal offset of the code-block partition. Allowable
      * values are 0 and 1, nothing else.
      * */
+    @Override
     public int getCbULX() {
         return src.getCbULX();
     }
@@ -220,6 +222,7 @@ public abstract class Quantizer extends ImgDataAdapter
      * Returns the vertical offset of the code-block partition. Allowable
      * values are 0 and 1, nothing else.
      * */
+    @Override
     public int getCbULY() {
         return src.getCbULY();
     }

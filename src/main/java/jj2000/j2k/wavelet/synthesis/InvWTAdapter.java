@@ -120,6 +120,7 @@ public abstract class InvWTAdapter implements InvWT {
      * @return The vertical coordinate of the image origin in the canvas
      * system, on the reference grid.
      * */
+    @Override
     public void setImgResLevel(int rl) {
         if(rl<0) {
             throw new IllegalArgumentException("Resolution level index "+
@@ -138,6 +139,7 @@ public abstract class InvWTAdapter implements InvWT {
      *
      * @return The total current tile's width in pixels.
      * */
+    @Override
     public int getTileWidth() {
         // Retrieves the tile maximum resolution level index and request the
         // width from the source module.
@@ -163,6 +165,7 @@ public abstract class InvWTAdapter implements InvWT {
      *
      * @return The total current tile's height in pixels.
      * */
+    @Override
     public int getTileHeight() {
         // Retrieves the tile maximum resolution level index and request the
         // height from the source module.
@@ -178,11 +181,13 @@ public abstract class InvWTAdapter implements InvWT {
     }
 
     /** Returns the nominal width of tiles */
+    @Override
     public int getNomTileWidth() {
         return mressrc.getNomTileWidth();
     }
 
     /** Returns the nominal height of tiles */
+    @Override
     public int getNomTileHeight() {
         return mressrc.getNomTileHeight();
     }
@@ -194,6 +199,7 @@ public abstract class InvWTAdapter implements InvWT {
      *
      * @return The total image's width in pixels.
      * */
+    @Override
     public int getImgWidth() {
         return mressrc.getImgWidth(reslvl);
     }
@@ -205,6 +211,7 @@ public abstract class InvWTAdapter implements InvWT {
      *
      * @return The total image's height in pixels.
      * */
+    @Override
     public int getImgHeight() {
         return mressrc.getImgHeight(reslvl);
     }
@@ -214,6 +221,7 @@ public abstract class InvWTAdapter implements InvWT {
      *
      * @return The number of components in the image.
      * */
+    @Override
     public int getNumComps() {
         return mressrc.getNumComps();
     }
@@ -231,6 +239,7 @@ public abstract class InvWTAdapter implements InvWT {
      *
      * @see jj2000.j2k.image.ImgData
      * */
+    @Override
     public int getCompSubsX(int c) {
         return mressrc.getCompSubsX(c);
     }
@@ -248,6 +257,7 @@ public abstract class InvWTAdapter implements InvWT {
      *
      * @see jj2000.j2k.image.ImgData
      * */
+    @Override
     public int getCompSubsY(int c) {
         return mressrc.getCompSubsY(c);
     }
@@ -261,6 +271,7 @@ public abstract class InvWTAdapter implements InvWT {
      *
      * @return The width in pixels of component <tt>n</tt> in tile <tt>t</tt>.
      * */
+    @Override
     public int getTileCompWidth(int t,int c) {
         // Retrieves the tile-component maximum resolution index and gets the
         // width from the source.
@@ -281,6 +292,7 @@ public abstract class InvWTAdapter implements InvWT {
      * @return The height in pixels of component <tt>n</tt> in tile
      * <tt>t</tt>. 
      * */
+    @Override
     public int getTileCompHeight(int t,int c) {
         // Retrieves the tile-component maximum resolution index and gets the
         // height from the source.
@@ -297,6 +309,7 @@ public abstract class InvWTAdapter implements InvWT {
      * @return The width in pixels of component <tt>c</tt> in the overall
      * image.
      * */
+    @Override
     public int getCompImgWidth(int c) {
         // Retrieves the component maximum resolution index and gets the width
         // from the source module.
@@ -316,6 +329,7 @@ public abstract class InvWTAdapter implements InvWT {
      * @return The height in pixels of component <tt>n</tt> in the overall
      * image.
      * */
+    @Override
     public int getCompImgHeight(int c) {
         // Retrieves the component maximum resolution index and gets the
         // height from the source module.
@@ -334,6 +348,7 @@ public abstract class InvWTAdapter implements InvWT {
      *
      * @param y The vertical index of the new tile.
      * */
+    @Override
     public void setTile(int x, int y) {
         mressrc.setTile(x,y);
     }
@@ -345,6 +360,7 @@ public abstract class InvWTAdapter implements InvWT {
      *
      * <p>This default implementation calls the same method on the source.</p>
      * */
+    @Override
     public void nextTile() {
         mressrc.nextTile();
     }
@@ -360,6 +376,7 @@ public abstract class InvWTAdapter implements InvWT {
      *
      * @return The current tile's indices (vertical and horizontal indexes).
      * */
+    @Override
     public Point getTile(Point co) {
         return mressrc.getTile(co);
     }
@@ -372,6 +389,7 @@ public abstract class InvWTAdapter implements InvWT {
      *
      * @return The current tile's index (starts at 0).
      * */
+    @Override
     public int getTileIdx() {
         return mressrc.getTileIdx();
     }
@@ -382,6 +400,7 @@ public abstract class InvWTAdapter implements InvWT {
      *
      * @param c The component index.
      * */
+    @Override
     public int getCompULX(int c) {
 	// Find tile-component maximum resolution index and gets information
         // from the source module.
@@ -396,6 +415,7 @@ public abstract class InvWTAdapter implements InvWT {
      *
      * @param c The component index.
      * */
+    @Override
     public int getCompULY(int c) {
 	// Find tile-component maximum resolution index and gets information
         // from the source module.
@@ -414,6 +434,7 @@ public abstract class InvWTAdapter implements InvWT {
      * @return The horizontal coordinate of the image origin in the canvas
      * system, on the reference grid.
      * */
+    @Override
     public int getImgULX() {
         return mressrc.getImgULX(reslvl);
     }
@@ -428,16 +449,19 @@ public abstract class InvWTAdapter implements InvWT {
      * @return The vertical coordinate of the image origin in the canvas
      * system, on the reference grid.
      * */
+    @Override
     public int getImgULY() {
         return mressrc.getImgULY(reslvl);
     }
 
     /** Returns the horizontal tile partition offset in the reference grid */
+    @Override
     public int getTilePartULX() {
         return mressrc.getTilePartULX();
     }
 
     /** Returns the vertical tile partition offset in the reference grid */
+    @Override
     public int getTilePartULY() {
         return mressrc.getTilePartULY();
     }
@@ -453,6 +477,7 @@ public abstract class InvWTAdapter implements InvWT {
      * @return The number of tiles in the horizontal (Point.x) and vertical
      * (Point.y) directions.
      * */
+    @Override
     public Point getNumTiles(Point co) {
         return mressrc.getNumTiles(co);
     }
@@ -464,6 +489,7 @@ public abstract class InvWTAdapter implements InvWT {
      *
      * @return The total number of tiles in the image.
      * */
+    @Override
     public int getNumTiles() {
         return mressrc.getNumTiles();
     }

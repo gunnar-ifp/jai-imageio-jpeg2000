@@ -67,6 +67,7 @@ public interface InvWTData extends MultiResImgData {
      *
      * @return The root of the tree structure.
      * */
+    @Override
     public SubbandSyn getSynSubbandTree(int t,int c);
 
     /**

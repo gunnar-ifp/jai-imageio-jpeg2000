@@ -1271,6 +1271,7 @@ public class J2KImageWriteParamJava extends ImageWriteParam {
      *  should be called before any tile-specific parameter setting method
      *  to be called.
      */
+    @Override
     public void setSourceBands(int[] bands) {
         super.setSourceBands(bands);
         if (bands != null) {
@@ -1283,6 +1284,7 @@ public class J2KImageWriteParamJava extends ImageWriteParam {
      *  should be called before any tile-specific parameter setting method
      *  to be called.
      */
+    @Override
     public void setTiling(int tw, int th, int xOff, int yOff) {
         super.setTiling(tw, th, xOff, yOff);
         getNumTiles();
@@ -1293,6 +1295,7 @@ public class J2KImageWriteParamJava extends ImageWriteParam {
      *  method should be called before any tile-specific parameter setting
      *  method to be called.
      */
+    @Override
     public void setSourceSubsampling(int sx, int sy, int xOff, int yOff) {
         super.setSourceSubsampling(sx, sy, xOff, yOff);
         getNumTiles();

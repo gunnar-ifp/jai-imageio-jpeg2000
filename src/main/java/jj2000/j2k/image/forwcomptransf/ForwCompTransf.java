@@ -157,7 +157,8 @@ public class ForwCompTransf extends ImgDataAdapter
      * @return The value of the fixed point position of the source
      * since the color transform does not affect it.
      * */
-     public int getFixedPoint(int c){
+     @Override
+    public int getFixedPoint(int c){
          return src.getFixedPoint(c);
      }
 
@@ -314,6 +315,7 @@ public class ForwCompTransf extends ImgDataAdapter
      *
      * @return A descriptive string
      * */
+    @Override
     public String toString() {
         switch(transfType){
         case FORW_RCT:
@@ -340,6 +342,7 @@ public class ForwCompTransf extends ImgDataAdapter
      *
      * @return The bitdepth of component 'c' after mixing.
      * */
+    @Override
     public int getNomRangeBits(int c) {
         switch(transfType){
         case FORW_RCT:
@@ -392,6 +395,7 @@ public class ForwCompTransf extends ImgDataAdapter
      *
      * @see BlkImgDataSrc#getCompData
      * */
+    @Override
     public DataBlk getCompData(DataBlk blk, int c){
         // If requesting a component whose index is greater than 3 or there is
         // no transform return a copy of data (getInternCompData returns the
@@ -419,6 +423,7 @@ public class ForwCompTransf extends ImgDataAdapter
      *
      * @return The requested DataBlk
      * */
+    @Override
     public DataBlk getInternCompData(DataBlk blk, int c){
         switch(transfType){
         case NONE:
@@ -744,6 +749,7 @@ public class ForwCompTransf extends ImgDataAdapter
      *
      * @param y The vertical index of the new tile.
      * */
+    @Override
     public void setTile(int x, int y) {
         src.setTile(x,y);
 	tIdx = getTileIdx(); // index of the current tile
@@ -775,6 +781,7 @@ public class ForwCompTransf extends ImgDataAdapter
      * <P>This default implementation just advances to the next tile in the
      * source and re-initializes properly component transformation variables.
      * */
+    @Override
     public void nextTile() {
         src.nextTile();
 	tIdx = getTileIdx(); // index of the current tile

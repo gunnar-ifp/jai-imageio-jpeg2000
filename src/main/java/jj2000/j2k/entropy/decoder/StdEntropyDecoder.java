@@ -643,6 +643,7 @@ public class StdEntropyDecoder extends EntropyDecoder
      * Prints the timing information, if collected, and calls 'finalize' on
      * the super class.
      * */
+    @Override
     public void finalize() throws Throwable {
         if (DO_TIMING) {
             int c;
@@ -706,6 +707,7 @@ public class StdEntropyDecoder extends EntropyDecoder
      *
      * @see DataBlk
      * */
+    @Override
     public DataBlk getCodeBlock(int c, int m, int n, SubbandSyn sb,
                                 DataBlk cblk) {
         long stime = 0L;  // Start time for timed sections
@@ -951,6 +953,7 @@ public class StdEntropyDecoder extends EntropyDecoder
      *
      * @see DataBlk
      * */
+    @Override
     public DataBlk getInternCodeBlock(int c, int m, int n, SubbandSyn sb,
                                         DataBlk cblk) {
         return getCodeBlock(c,m,n,sb,cblk);

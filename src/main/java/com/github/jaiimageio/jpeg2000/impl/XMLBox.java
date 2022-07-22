@@ -98,6 +98,7 @@ public class XMLBox extends Box {
      *  box.  The format of this node is defined in the XML dtd and xsd
      *  for the JP2 image file.
      */
+    @Override
     public IIOMetadataNode getNativeNode() {
         try {
             IIOMetadataNode node = new IIOMetadataNode(Box.getName(getType()));

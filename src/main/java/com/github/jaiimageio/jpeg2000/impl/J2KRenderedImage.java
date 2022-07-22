@@ -97,6 +97,7 @@ public class J2KRenderedImage extends SimpleRenderedImage {
         colorModel = readState.getColorModel();
     }
 
+    @Override
     public synchronized Raster getTile(int tileX, int tileY) {
         if (currentTile != null &&
             currentTileGrid.x == tileX &&

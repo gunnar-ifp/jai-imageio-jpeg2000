@@ -188,6 +188,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
      *
      * @return True if the quantized data is reversible, false if not.
      * */
+    @Override
     public boolean isReversible(int t,int c){
 	return src.isReversible(t,c);
     }
@@ -206,6 +207,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
      *
      * @see Subband
      * */
+    @Override
     public SubbandAn getAnSubbandTree(int t,int c) {
         return src.getAnSubbandTree(t,c);
     }
@@ -214,6 +216,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
      * Returns the horizontal offset of the code-block partition. Allowable
      * values are 0 and 1, nothing else.
      * */
+    @Override
     public int getCbULX() {
         return src.getCbULX();
     }
@@ -222,6 +225,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
      * Returns the vertical offset of the code-block partition. Allowable
      * values are 0 and 1, nothing else.
      * */
+    @Override
     public int getCbULY() {
         return src.getCbULY();
     }
@@ -483,6 +487,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
      *
      * @see CBlkWTData
      * */
+    @Override
     public CBlkWTData getNextCodeBlock(int n, CBlkWTData cblk) {
         return getNextInternCodeBlock(n,cblk);
     }
@@ -507,6 +512,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
      *
      * @see CBlkWTData
      * */
+    @Override
     public CBlkWTData getNextInternCodeBlock(int c, CBlkWTData cblk){
         int mi,i,j,k,wrap;
         int ulx, uly, w, h;
@@ -692,6 +698,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
      *
      * @param y The vertical index of the new tile.
      * */
+    @Override
     public void setTile(int x, int y) {
         super.setTile(x,y);
         if(roi)
@@ -703,6 +710,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
      * columns). An NoNextElementException is thrown if the current tile is
      * the last one (i.e. there is no next tile).
      * */
+    @Override
     public void nextTile() {
         super.nextTile();
         if(roi)

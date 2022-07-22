@@ -96,6 +96,7 @@ public class UUIDBox extends Box {
     }
 
     /** Parses the data elements from the provided data array. */
+    @Override
     protected void parse(byte[] data) {
         uuid = new byte[16];
         System.arraycopy(data, 0, uuid, 0, 16);
@@ -117,10 +118,12 @@ public class UUIDBox extends Box {
      *  box.  The format of this node is defined in the XML dtd and xsd
      *  for the JP2 image file.
      */
+    @Override
     public IIOMetadataNode getNativeNode() {
         return getNativeNodeForSimpleBox();
     }
 
+    @Override
     protected void compose() {
         if (data != null)
             return;

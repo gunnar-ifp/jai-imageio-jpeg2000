@@ -255,6 +255,7 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
         }
     }
 
+    @Override
     public Object clone() {
         J2KMetadata theClone = null;
 
@@ -271,6 +272,7 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
         return theClone;
     }
 
+    @Override
     public Node getAsTree(String formatName) {
         if (formatName == null) {
             throw new IllegalArgumentException(I18N.getString("J2KMetadata0"));
@@ -340,6 +342,7 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
     }
 
     // Standard tree node methods
+    @Override
     protected IIOMetadataNode getStandardChromaNode() {
         HeaderBox header = (HeaderBox)getElement("JPEG2000HeaderBox");
         PaletteBox palette = (PaletteBox)getElement("JPEG2000PaletteBox");
@@ -390,6 +393,7 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
         return node;
     }
 
+    @Override
     protected IIOMetadataNode getStandardCompressionNode() {
         IIOMetadataNode node = new IIOMetadataNode("Compression");
 
@@ -400,6 +404,7 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
         return node;
     }
 
+    @Override
     protected IIOMetadataNode getStandardDataNode() {
         IIOMetadataNode node = new IIOMetadataNode("Data");
         PaletteBox palette = (PaletteBox)getElement("JPEG2000PaletteBox");
@@ -472,6 +477,7 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
         return node;
     }
 
+    @Override
     protected IIOMetadataNode getStandardDimensionNode() {
         ResolutionBox box =
             (ResolutionBox)getElement("JPEG2000CaptureResolutionBox");
@@ -498,6 +504,7 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
         return null;
     }
 
+    @Override
     protected IIOMetadataNode getStandardTransparencyNode() {
         ChannelDefinitionBox channel =
             (ChannelDefinitionBox)getElement("JPEG2000ChannelDefinitionBox");
@@ -536,6 +543,7 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
         return null;
     }
 
+    @Override
     protected IIOMetadataNode getStandardTextNode() {
         if (boxes == null)
             return null;
@@ -557,10 +565,12 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
         return text;
     }
 
+    @Override
     public boolean isReadOnly() {
         return false;
     }
 
+    @Override
     public void mergeTree(String formatName, Node root)
         throws IIOInvalidTreeException {
         if (formatName == null) {
@@ -583,6 +593,7 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
         }
     }
 
+    @Override
     public void setFromTree(String formatName, Node root)
         throws IIOInvalidTreeException {
         if (formatName == null) {
@@ -607,6 +618,7 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
         }
     }
 
+    @Override
     public void reset() {
         boxes.clear();
     }

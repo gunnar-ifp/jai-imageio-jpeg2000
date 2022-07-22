@@ -130,6 +130,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat {
      *
      * @see SynWTFilter#synthetize_lpf
      * */
+    @Override
     public
         void synthetize_lpf(float[] lowSig,int lowOff,int lowLen,int lowStep,
                             float[] highSig,int highOff,int highLen,
@@ -285,6 +286,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat {
      *
      * @see SynWTFilter#synthetize_hpf
      * */
+    @Override
     public
         void synthetize_hpf(float[] lowSig,int lowOff,int lowLen,int lowStep,
 			    float[] highSig,int highOff,int highLen,
@@ -416,6 +418,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat {
      *
      * @return 2
      * */
+    @Override
     public int getAnLowNegSupport() {
         return 4;
     }
@@ -427,6 +430,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat {
      * @return The number of taps of the low-pass analysis filter in the
      * positive direction
      * */
+    @Override
     public int getAnLowPosSupport() {
         return 4;
     }
@@ -438,6 +442,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat {
      * @return The number of taps of the high-pass analysis filter in
      * the negative direction
      * */
+    @Override
     public int getAnHighNegSupport() {
         return 3;
     }
@@ -449,6 +454,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat {
      * @return The number of taps of the high-pass analysis filter in the
      * positive direction
      * */
+    @Override
     public int getAnHighPosSupport() {
         return 3;
     }
@@ -462,6 +468,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat {
      * @return The number of taps of the low-pass synthesis filter in the
      * negative direction
      * */
+    @Override
     public int getSynLowNegSupport() {
         return 3;
     }
@@ -475,6 +482,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat {
      * @return The number of taps of the low-pass synthesis filter in the
      * positive direction
      * */
+    @Override
     public int getSynLowPosSupport() {
         return 3;
     }
@@ -488,6 +496,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat {
      * @return The number of taps of the high-pass synthesis filter in the
      * negative direction
      * */
+    @Override
     public int getSynHighNegSupport() {
         return 4;
     }
@@ -501,6 +510,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat {
      * @return The number of taps of the high-pass synthesis filter in the
      * positive direction
      * */
+    @Override
     public int getSynHighPosSupport() {
         return 4;
     }
@@ -512,6 +522,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat {
      *
      * @return WT_FILTER_INT_LIFT.
      * */
+    @Override
     public int getImplType() {
         return WT_FILTER_FLOAT_LIFT;
     }
@@ -523,6 +534,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat {
      * @return true since the 9x7 is reversible, provided the appropriate
      * rounding is performed.
      * */
+    @Override
     public boolean isReversible() {
         return false; 
     }
@@ -559,6 +571,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat {
      *
      *
      */
+    @Override
     public boolean isSameAsFullWT(int tailOvrlp, int headOvrlp, int inLen) {
         
         //If the input signal has even length.
@@ -580,6 +593,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat {
      *
      *
      */
+    @Override
     public String toString(){
         return "w9x7 (lifting)";
     }

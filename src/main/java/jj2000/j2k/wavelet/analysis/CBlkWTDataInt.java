@@ -72,6 +72,7 @@ public class CBlkWTDataInt extends CBlkWTData {
      *
      *
      */
+    @Override
     public final int getDataType() {
         return DataBlk.TYPE_INT;
     }
@@ -86,6 +87,7 @@ public class CBlkWTDataInt extends CBlkWTData {
      *
      *
      */
+    @Override
     public final Object getData() {
         return data;
     }
@@ -112,6 +114,7 @@ public class CBlkWTDataInt extends CBlkWTData {
      *
      *
      * */
+    @Override
     public final void setData(Object arr) {
         data = (int[]) arr;
     }

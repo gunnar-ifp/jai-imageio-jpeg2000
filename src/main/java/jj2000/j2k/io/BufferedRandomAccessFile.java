@@ -258,6 +258,7 @@ public abstract class BufferedRandomAccessFile
      *
      * @exception java.io.IOException If an I/O error ocurred.
      * */
+    @Override
     public void close() throws IOException{
 	/* If the buffer has been changed, it need to be saved before
 	 * closing
@@ -270,6 +271,7 @@ public abstract class BufferedRandomAccessFile
     /**
      * Returns the current offset in the file
      * */
+    @Override
     public int getPos(){
 	return (offset+pos);
     }
@@ -282,6 +284,7 @@ public abstract class BufferedRandomAccessFile
      *
      * @exception java.io.IOException If an I/O error ocurred.
      * */
+    @Override
     public int length() throws IOException{
 	int len;
 
@@ -308,6 +311,7 @@ public abstract class BufferedRandomAccessFile
      *
      * @exception java.io.IOException If an I/O error ocurred.
      * */
+    @Override
     public void seek(int off) throws IOException{
 	/* If the new offset is within the buffer, only the pos value needs
 	 * to be modified. Else, the buffer must be moved. */
@@ -333,6 +337,7 @@ public abstract class BufferedRandomAccessFile
      *
      * @exception java.io.EOFException If the end of file was reached
      * */
+    @Override
     public final int read() throws IOException, EOFException{
 	if(pos<maxByte){ // The byte can be read from the buffer
 	    // In Java, the bytes are always signed.
@@ -366,6 +371,7 @@ public abstract class BufferedRandomAccessFile
      *
      * @exception IOException If an I/O error ocurred.
      * */
+    @Override
     public final void readFully(byte b[], int off, int len)
         throws IOException {
         int clen; // current length to read
@@ -398,6 +404,7 @@ public abstract class BufferedRandomAccessFile
      *
      * @exception java.io.IOException If an I/O error ocurred.
      * */
+    @Override
     public final void write(int b) throws IOException{
 	// As long as pos is less than the length of the buffer we can write
 	// to the buffer. If the position is after the buffer a new buffer is
@@ -484,6 +491,7 @@ public abstract class BufferedRandomAccessFile
      *
      * @exception java.io.IOException If an I/O error ocurred.
      * */
+    @Override
     public final void writeByte(int v) throws IOException{
 	write(v);
     }
@@ -495,6 +503,7 @@ public abstract class BufferedRandomAccessFile
      *
      * @exception java.io.IOException If an I/O error ocurred.
      * */
+    @Override
     public final void flush() throws IOException{
         if(byteBufferChanged){
 	    theFile.seek(offset);
@@ -515,6 +524,7 @@ public abstract class BufferedRandomAccessFile
      *
      * @exception java.io.IOException If an I/O error ocurred.
      * */
+    @Override
     public final byte readByte() throws EOFException, IOException {
 	if(pos<maxByte){ // The byte can be read from the buffer
 	    // In Java, the bytes are always signed.
@@ -544,6 +554,7 @@ public abstract class BufferedRandomAccessFile
      *
      * @exception java.io.IOException If an I/O error ocurred.
      * */
+    @Override
     public final int readUnsignedByte() throws EOFException, IOException{
         return read();
     }
@@ -559,6 +570,7 @@ public abstract class BufferedRandomAccessFile
      *
      * @see EndianType
      * */
+    @Override
     public int getByteOrdering(){
 	return byteOrdering;
     }
@@ -574,6 +586,7 @@ public abstract class BufferedRandomAccessFile
      *
      * @exception java.io.IOException If an I/O error ocurred.
      * */
+    @Override
     public int skipBytes(int n)throws EOFException, IOException{
 	if(n<0)
 	    throw new IllegalArgumentException("Can not skip negative number "+
@@ -591,6 +604,7 @@ public abstract class BufferedRandomAccessFile
     /**
      * Returns a string of information about the file
      * */
+    @Override
     public String toString(){
 	return "BufferedRandomAccessFile: "+fileName+" ("+
 	    ((isReadOnly)?"read only":"read/write")+

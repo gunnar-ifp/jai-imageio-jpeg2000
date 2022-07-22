@@ -122,6 +122,7 @@ public class PrecInfo {
      *
      * @return PrecInfo information 
      * */
+    @Override
     public String toString() {
         return "ulx="+ulx+",uly="+uly+",w="+w+",h="+h+",rgulx="+rgulx+
             ",rguly="+rguly+",rgw="+rgw+",rgh="+rgh;

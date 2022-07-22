@@ -84,12 +84,14 @@ public class J2KImageWriterSpi extends ImageWriterSpi {
               null, null);
     }
 
+    @Override
     public String getDescription(Locale locale) {
 	String desc = PackageUtil.getSpecificationTitle() + 
 	    " JPEG 2000 Image Writer";
 	return desc;
     }
 
+    @Override
     public void onRegistration(ServiceRegistry registry,
                                Class category) {
         if (registered) {
@@ -116,6 +118,7 @@ public class J2KImageWriterSpi extends ImageWriterSpi {
         }
     }
 
+    @Override
     public boolean canEncodeImage(ImageTypeSpecifier type) {
         SampleModel sm = type.getSampleModel();
         if (sm.getNumBands() > 16384)
@@ -126,6 +129,7 @@ public class J2KImageWriterSpi extends ImageWriterSpi {
         return true;
     }
 
+    @Override
     public ImageWriter createWriterInstance(Object extension)
         throws IIOException {
         return new J2KImageWriter(this);

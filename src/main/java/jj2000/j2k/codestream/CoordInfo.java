@@ -94,6 +94,7 @@ public abstract class CoordInfo {
      *
      * @return String with object's information
      * */
+    @Override
     public String toString() {
         return "ulx="+ulx+", uly="+uly+", w="+w+", h="+h;
     }

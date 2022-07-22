@@ -140,6 +140,7 @@ public class StreamMsgLogger implements MsgLogger {
      *
      *
      * */
+    @Override
     public void printmsg(int sev, String msg) {
         PrintWriter lout;
         int ind;
@@ -189,6 +190,7 @@ public class StreamMsgLogger implements MsgLogger {
      *
      *
      * */
+    @Override
     public void println(String str, int flind, int ind) {
         mp.print(out,flind,ind,str);
     }
@@ -199,6 +201,7 @@ public class StreamMsgLogger implements MsgLogger {
      *
      *
      * */
+    @Override
     public void flush() {
         out.flush();
     }

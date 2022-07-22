@@ -148,6 +148,7 @@ public abstract class Dequantizer extends MultiResImgDataAdapter
      *
      * @see Subband
      * */
+    @Override
     public int getNomRangeBits(int c) {
         return rb[c];
     }
@@ -168,6 +169,7 @@ public abstract class Dequantizer extends MultiResImgDataAdapter
      *
      * @return The root of the tree structure.
      * */
+    @Override
     public SubbandSyn getSynSubbandTree(int t,int c) {
         return src.getSynSubbandTree(t,c);
     }
@@ -176,6 +178,7 @@ public abstract class Dequantizer extends MultiResImgDataAdapter
      * Returns the horizontal code-block partition origin. Allowable values
      * are 0 and 1, nothing else.
      * */
+    @Override
     public int getCbULX() {
         return src.getCbULX();
     }
@@ -184,6 +187,7 @@ public abstract class Dequantizer extends MultiResImgDataAdapter
      * Returns the vertical code-block partition origin. Allowable values are
      * 0 and 1, nothing else.
      * */
+    @Override
     public int getCbULY() {
         return src.getCbULY();
     }
@@ -218,6 +222,7 @@ public abstract class Dequantizer extends MultiResImgDataAdapter
      *
      * @param y The vertical index of the new tile.
      * */
+    @Override
     public void setTile(int x, int y) {
         src.setTile(x,y);
 	tIdx = getTileIdx(); // index of the current tile
@@ -277,6 +282,7 @@ public abstract class Dequantizer extends MultiResImgDataAdapter
      * <P>This default implementation just advances to the next tile in the
      * source and re-initializes properly component transformation variables.
      * */
+    @Override
     public void nextTile() {
         src.nextTile();
 	tIdx = getTileIdx(); // index of the current tile

@@ -273,6 +273,7 @@ public class J2KMetadataFormatResources extends ListResourceBundle {
     public J2KMetadataFormatResources() {
     }
 
+    @Override
     protected Object[][] getContents() {
       return contents;
     }

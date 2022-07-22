@@ -331,6 +331,7 @@ ploop:
      *
      * @return A string with the contents of the object
      * */
+    @Override
     public String toString() {
         return super.toString() +
             "\n nVldTrunc = "+nVldTrunc+", nTotTrunc="+nTotTrunc+", num. ROI"+

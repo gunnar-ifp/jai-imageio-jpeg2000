@@ -158,6 +158,7 @@ public class ModuleSpec implements Cloneable {
         }
     }
 
+    @Override
     protected Object clone() {
         ModuleSpec ms;
         try {

@@ -600,6 +600,7 @@ public class StdEntropyCoder extends EntropyCoder
          * running. This last step occurs even if exceptions are thrown by the
          * 'compressCodeBlock()' method.
          * */
+        @Override
         public void run() {
 	    // Start the code-block compression
             try {
@@ -1034,6 +1035,7 @@ public class StdEntropyCoder extends EntropyCoder
      * Prints the timing information, if collected, and calls 'finalize' on
      * the super class.
      * */
+    @Override
     public void finalize() throws Throwable {
         if (DO_TIMING) {
             int c;
@@ -1096,6 +1098,7 @@ public class StdEntropyCoder extends EntropyCoder
      *
      * @return The code-block width for the specified tile and component
      * */
+    @Override
     public int getCBlkWidth(int t, int c) {
         return cblks.getCBlkWidth(ModuleSpec.SPEC_TILE_COMP,t,c);
     }
@@ -1109,6 +1112,7 @@ public class StdEntropyCoder extends EntropyCoder
      *
      * @return The code-block height for the specified tile and component.
      * */
+    @Override
     public int getCBlkHeight(int t,int c) {
         return cblks.getCBlkHeight(ModuleSpec.SPEC_TILE_COMP,t,c);
     }
@@ -1143,6 +1147,7 @@ public class StdEntropyCoder extends EntropyCoder
      *
      * @see CBlkRateDistStats
      * */
+    @Override
     public CBlkRateDistStats getNextCodeBlock(int c, CBlkRateDistStats ccb) {
         long stime = 0L;     // Start time for timed sections
         if (tPool == null) { // Use single threaded implementation
@@ -1263,6 +1268,7 @@ public class StdEntropyCoder extends EntropyCoder
      *
      * @param y The vertical index of the new tile.
      * */
+    @Override
     public void setTile(int x, int y) {
         super.setTile(x,y);
         // Reset the tilespecific variables
@@ -1281,6 +1287,7 @@ public class StdEntropyCoder extends EntropyCoder
      * <P>This default implementation just advances to the next tile
      * in the source.
      * */
+    @Override
     public void nextTile() {
         // Reset the tilespecific variables
         if (finishedTileComponent != null) {
@@ -3457,6 +3464,7 @@ public class StdEntropyCoder extends EntropyCoder
      * @return The precinct partition width for the specified
      * component, tile and resolution level
      * */
+    @Override
     public int getPPX(int t, int c, int rl) {
         return pss.getPPX(t, c, rl);
     }
@@ -3474,6 +3482,7 @@ public class StdEntropyCoder extends EntropyCoder
      * @return The precinct partition height for the specified
      * component, tile and resolution level
      * */
+    @Override
     public int getPPY(int t, int c, int rl) {
         return pss.getPPY(t, c, rl);
     }
@@ -3489,6 +3498,7 @@ public class StdEntropyCoder extends EntropyCoder
      * @return True if precinct partition is used for the specified
      * component and tile, returns false otherwise.
      * */
+    @Override
     public boolean precinctPartitionUsed(int c, int t) {
         return precinctPartition[c][t];
     }

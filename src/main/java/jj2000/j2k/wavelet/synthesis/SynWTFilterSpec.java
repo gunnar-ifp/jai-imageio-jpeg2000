@@ -142,6 +142,7 @@ public class SynWTFilterSpec extends ModuleSpec {
     }
 
     /** Debugging method */
+    @Override
     public String toString(){
 	String str = "";
 	SynWTFilter[][] an;

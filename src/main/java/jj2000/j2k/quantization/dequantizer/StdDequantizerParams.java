@@ -117,6 +117,7 @@ public class StdDequantizerParams extends DequantizerParams {
      *
      * @see Dequantizer
      * */
+    @Override
     public int getDequantizerType() {
         return QuantizationType.Q_TYPE_SCALAR_DZ;
     }

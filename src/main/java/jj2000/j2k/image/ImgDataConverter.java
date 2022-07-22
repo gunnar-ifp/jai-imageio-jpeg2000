@@ -113,7 +113,8 @@ public class ImgDataConverter extends ImgDataAdapter implements BlkImgDataSrc {
      * @return The position of the fixed-point, which is the same as the
      * number of fractional bits.
      * */
-     public int getFixedPoint(int c){
+     @Override
+    public int getFixedPoint(int c){
         return fp;
      }
 
@@ -153,6 +154,7 @@ public class ImgDataConverter extends ImgDataAdapter implements BlkImgDataSrc {
      *
      * @see #getInternCompData
      * */
+    @Override
     public DataBlk getCompData(DataBlk blk, int c){
         return getData(blk,c,false);
     }
@@ -199,6 +201,7 @@ public class ImgDataConverter extends ImgDataAdapter implements BlkImgDataSrc {
      *
      * @see #getCompData
      * */
+    @Override
     public final DataBlk getInternCompData(DataBlk blk, int c){
         return getData(blk,c,true);
     }

@@ -146,6 +146,7 @@ public class ROI{
     /**
      * This function prints all relevant data for the ROI
      */
+    @Override
     public String toString(){
         if(arbShape) {
             return "ROI with arbitrary shape, PGM file= "+maskPGM;

@@ -175,6 +175,7 @@ public class ForwWTFull extends ForwardWT {
      *
      * @return WT_IMPL_FULL
      * */
+    @Override
     public int getImplementationType(int c) {
         return WaveletTransform.WT_IMPL_FULL;
     }
@@ -191,6 +192,7 @@ public class ForwWTFull extends ForwardWT {
      * @return The number of decompositions applied to the LL band (0 for no
      * wavelet transform).
      * */
+    @Override
     public int getDecompLevels(int t,int c) {
         return ((Integer)dls.getTileCompVal(t,c)).intValue();
     }
@@ -205,6 +207,7 @@ public class ForwWTFull extends ForwardWT {
      *
      * @return The wavelet decomposition.
      * */
+    @Override
     public int getDecomp(int t,int c) {
         return WT_DECOMP_DYADIC;
     }
@@ -230,6 +233,7 @@ public class ForwWTFull extends ForwardWT {
      *
      * @return The horizontal analysis wavelet filters used in each level.
      * */
+    @Override
     public AnWTFilter[] getHorAnWaveletFilters(int t,int c) {
         return filters.getHFilters(t,c);
     }
@@ -255,6 +259,7 @@ public class ForwWTFull extends ForwardWT {
      *
      * @return The vertical analysis wavelet filters used in each level.
      * */
+    @Override
     public AnWTFilter[] getVertAnWaveletFilters(int t,int c) {
         return filters.getVFilters(t,c);
     }
@@ -270,6 +275,7 @@ public class ForwWTFull extends ForwardWT {
      *
      * @return true is the wavelet transform is reversible, false if not.
      * */
+    @Override
     public boolean isReversible(int t,int c) {
 	return filters.isReversible(t,c);
     }
@@ -278,6 +284,7 @@ public class ForwWTFull extends ForwardWT {
      * Returns the horizontal offset of the code-block partition. Allowable
      * values are 0 and 1, nothing else.
      * */
+    @Override
     public int getCbULX() {
         return cb0x;
     }
@@ -286,6 +293,7 @@ public class ForwWTFull extends ForwardWT {
      * Returns the vertical offset of the code-block partition. Allowable
      * values are 0 and 1, nothing else.
      * */
+    @Override
     public int getCbULY() {
         return cb0y;
     }
@@ -304,6 +312,7 @@ public class ForwWTFull extends ForwardWT {
      * @return The position of the fixed-point, which is the same as the
      * number of fractional bits. For floating-point data 0 is returned.
      * */
+    @Override
     public int getFixedPoint(int c) {
         return src.getFixedPoint(c);
     }
@@ -342,6 +351,7 @@ public class ForwWTFull extends ForwardWT {
      *
      * @see CBlkWTData
      * */
+    @Override
     public CBlkWTData getNextInternCodeBlock(int c, CBlkWTData cblk) {
         int cbm,cbn,cn,cm;
         int acb0x, acb0y;
@@ -546,6 +556,7 @@ public class ForwWTFull extends ForwardWT {
      *
      * @see CBlkWTData
      * */
+    @Override
     public CBlkWTData getNextCodeBlock(int c, CBlkWTData cblk) {
         // We can not directly use getNextInternCodeBlock() since that returns
         // a reference to the internal buffer, we have to copy that data
@@ -614,6 +625,7 @@ public class ForwWTFull extends ForwardWT {
      *
      * @return Current data type
      * */
+    @Override
     public int getDataType(int t,int c){
 	return filters.getWTDataType(t,c);
     }
@@ -896,6 +908,7 @@ public class ForwWTFull extends ForwardWT {
      *
      * @param y The vertical coordinate of the new tile.
      * */
+    @Override
     public void setTile(int x, int y) {
         int i;
 
@@ -921,6 +934,7 @@ public class ForwWTFull extends ForwardWT {
      * values of the 'reversible' array. It also resets the decomposed
      * component buffers.
      * */
+    @Override
     public void nextTile() {
         int i;
 
@@ -949,6 +963,7 @@ public class ForwWTFull extends ForwardWT {
      * @see SubbandAn
      * @see Subband
      * */
+    @Override
     public SubbandAn getAnSubbandTree(int t,int c) {
         if (subbTrees[t][c] == null) {
             subbTrees[t][c] =

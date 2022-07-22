@@ -108,6 +108,7 @@ public class Progression implements ProgressionType{
 	this.lye = lye;
     }
 
+    @Override
     public String toString(){
 	String str =  "type= ";
 	switch(type){

@@ -185,6 +185,7 @@ public class HeaderInfo implements Markers,ProgressionType,FilterTypes,
         }
 
         /** Display information found in SIZ marker segment */
+        @Override
         public String toString() {
             String str = "\n --- SIZ ("+lsiz+" bytes) ---\n";
             str += " Capabilities : "+rsiz+"\n";
@@ -217,6 +218,7 @@ public class HeaderInfo implements Markers,ProgressionType,FilterTypes,
         public int tnsot;
 
         /** Display information found in this SOT marker segment */
+        @Override
         public String toString() {
             String str = "\n --- SOT ("+lsot+" bytes) ---\n";
             str += "Tile index         : "+isot+"\n";
@@ -254,6 +256,7 @@ public class HeaderInfo implements Markers,ProgressionType,FilterTypes,
             return ms;
         }
         /** Display information found in this COD marker segment */
+        @Override
         public String toString() {
             String str = "\n --- COD ("+lcod+" bytes) ---\n";
             str += " Coding style   : ";
@@ -339,6 +342,7 @@ public class HeaderInfo implements Markers,ProgressionType,FilterTypes,
         public int[] spcoc_t = new int[1];
         public int[] spcoc_ps;
         /** Display information found in this COC marker segment */
+        @Override
         public String toString() {
             String str = "\n --- COC ("+lcoc+" bytes) ---\n";
             str += " Component      : "+ccoc+"\n";
@@ -395,6 +399,7 @@ public class HeaderInfo implements Markers,ProgressionType,FilterTypes,
         public int srgn;
         public int sprgn;
         /** Display information found in this RGN marker segment */
+        @Override
         public String toString() {
             String str = "\n --- RGN ("+lrgn+" bytes) ---\n";
             str += " Component : "+crgn+"\n";
@@ -433,6 +438,7 @@ public class HeaderInfo implements Markers,ProgressionType,FilterTypes,
         }
 
         /** Display information found in this QCD marker segment */
+        @Override
         public String toString() {
             String str = "\n --- QCD ("+lqcd+" bytes) ---\n";
             str += " Quant. type    : ";
@@ -506,6 +512,7 @@ public class HeaderInfo implements Markers,ProgressionType,FilterTypes,
         }
 
        /** Display information found in this QCC marker segment */
+        @Override
         public String toString() {
             String str = "\n --- QCC ("+lqcc+" bytes) ---\n";
             str += " Component      : "+cqcc+"\n";
@@ -567,6 +574,7 @@ public class HeaderInfo implements Markers,ProgressionType,FilterTypes,
         public int[] cepoc;
         public int[] ppoc;
         /** Display information found in this POC marker segment */
+        @Override
         public String toString() {
             String str = "\n --- POC ("+lpoc+" bytes) ---\n";
 	    str += " Chg_idx RSpoc CSpoc LYEpoc REpoc CEpoc Ppoc\n";
@@ -608,6 +616,7 @@ public class HeaderInfo implements Markers,ProgressionType,FilterTypes,
         public int[] xcrg;
         public int[] ycrg;
         /** Display information found in the CRG marker segment */
+        @Override
         public String toString() {
             String str = "\n --- CRG ("+lcrg+" bytes) ---\n";
             for(int c=0; c<xcrg.length; c++) {
@@ -626,6 +635,7 @@ public class HeaderInfo implements Markers,ProgressionType,FilterTypes,
         public int rcom;
         public byte[] ccom;
         /** Display information found in the COM marker segment */
+        @Override
         public String toString() {
             String str = "\n --- COM ("+lcom+" bytes) ---\n";
             if (rcom==0) {

@@ -403,6 +403,7 @@ public class CBlkSizeSpec extends ModuleSpec {
      *
      * @param value Default value
      * */
+    @Override
     public void setDefault(Object value){
         super.setDefault(value);
 
@@ -418,6 +419,7 @@ public class CBlkSizeSpec extends ModuleSpec {
      *
      * @param value Tile's default value
      *  */
+    @Override
     public void setTileDef(int t, Object value){
         super.setTileDef(t, value);
 
@@ -433,6 +435,7 @@ public class CBlkSizeSpec extends ModuleSpec {
      *
      * @param value Component's default value
      *  */
+    @Override
     public void setCompDef(int c, Object value){
         super.setCompDef(c, value);
 
@@ -449,6 +452,7 @@ public class CBlkSizeSpec extends ModuleSpec {
      *
      * @param value Tile-component's value
      *  */
+    @Override
     public void setTileCompVal(int t,int c, Object value){
         super.setTileCompVal(t, c, value);
 
