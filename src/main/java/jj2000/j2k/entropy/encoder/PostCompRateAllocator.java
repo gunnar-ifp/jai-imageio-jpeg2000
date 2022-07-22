@@ -145,9 +145,7 @@ public abstract class PostCompRateAllocator extends ImgDataAdapter {
      *
      * @param src The source of entropy coded data.
      *
-     * @param ln The number of layers to create
-     *
-     * @param pt The Progression type, as defined in 'ProgressionType'.
+     * @param nl The number of layers to create
      *
      * @param bw The packet bit stream writer.
      *
@@ -177,8 +175,6 @@ public abstract class PostCompRateAllocator extends ImgDataAdapter {
      * simulated but before calling the runAndWrite() one. The header must be
      * rewritten after a call to this method since the number of layers may
      * change.
-     *
-     * @param oldSyntax Whether or not the old syntax is used.
      *
      * @see #runAndWrite
      * */
@@ -226,7 +222,7 @@ public abstract class PostCompRateAllocator extends ImgDataAdapter {
      *
      * @param src The source of entropy coded data.
      *
-     * @param pl The parameter lis (or options).
+     * @param wp The parameter list (or options).
      *
      * @param rate The target bitrate for the rate allocation
      *

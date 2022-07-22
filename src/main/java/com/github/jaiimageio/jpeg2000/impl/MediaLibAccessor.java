@@ -179,8 +179,7 @@ public class MediaLibAccessor {
      *  Returns the most efficient FormatTag that is compatible with
      *  the destination raster and all source rasters.
      *
-     *  @param srcs the source <code>Raster</code>; may be <code>null</code>.
-     *  @param dst  the destination <code>Raster</code>.
+     *  @param src the source <code>Raster</code>; may be <code>null</code>.
      */
     public static int findCompatibleTag(Raster src) {
         SampleModel dstSM = src.getSampleModel();

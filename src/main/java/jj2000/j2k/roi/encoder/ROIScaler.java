@@ -157,7 +157,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
      *
      * @param uba Flag indicating whether block aligning is used.
      *
-     * @param encSpec The encoder specifications for addition of roi specs
+     * @param wp The encoder specifications for addition of roi specs
      * */
     public ROIScaler(Quantizer src,
                      ROIMaskGenerator mg,
@@ -240,9 +240,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
      *
      * @param src The source of data to scale
      *
-     * @param pl The parameter list (or options).
-     *
-     * @param encSpec The encoder specifications for addition of roi specs
+     * @param wp The parameter list (or options).
      *
      * @exception IllegalArgumentException If an error occurs while parsing
      * the options in 'pl'

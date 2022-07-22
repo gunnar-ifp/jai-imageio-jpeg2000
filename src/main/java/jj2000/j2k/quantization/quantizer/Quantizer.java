@@ -255,7 +255,7 @@ public abstract class Quantizer extends ImgDataAdapter
      *
      * @param src The source of data to be quantized
      *
-     * @param encSpec Encoder specifications
+     * @param wp Encoder specifications
      *
      * @exception IllegalArgumentException If an error occurs while parsing
      * the options in 'pl'

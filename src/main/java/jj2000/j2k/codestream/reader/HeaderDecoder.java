@@ -116,7 +116,6 @@ import com.github.jaiimageio.jpeg2000.impl.J2KImageReadParamJava;
  * displayed and its length parameter is used to skip it.
  *
  * @see DecoderSpecs
- * @see Decoder
  * @see FileBitstreamReaderAgent
  * */
 public class HeaderDecoder implements ProgressionType, Markers,
@@ -2496,7 +2495,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
      * @param src The bit stream reader agent where to get code-block data
      * from.
      *
-     * @param pl The parameter list containing parameters applicable to the
+     * @param j2krparam The parameter list containing parameters applicable to the
      * entropy decoder (other parameters can also be present).
      *
      * @return The ROI descaler

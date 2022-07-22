@@ -688,7 +688,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat {
      * <P>Currently the implementation of this method only tests if 'obj' is
      * also of the class AnWTFilterFloatLift9x7
      *
-     * @param The object against which to test inequality.
+     * @param obj The object against which to test inequality.
      * */
     @Override
     public boolean equals(Object obj) {

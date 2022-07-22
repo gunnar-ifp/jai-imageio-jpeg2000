@@ -161,7 +161,7 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions {
      *
      * @param tiler The tiler module.
      *
-     * @param encSpec The encoder specifications
+     * @param wp The encoder specifications
      *
      * @param roiSc The ROI scaler module.
      *
@@ -1693,7 +1693,7 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions {
      * (if needed)</li> <li>RGN (if needed)</li> <li>POC (if needed)</li>
      * <li>SOD</li> </ol>
      *
-     * @param length The length of the current tile-part.
+     * @param tileLength The length of the current tile-part.
      *
      * @param tileIdx Index of the tile to write
      * */

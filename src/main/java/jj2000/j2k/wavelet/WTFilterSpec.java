@@ -126,8 +126,6 @@ public abstract class WTFilterSpec {
      *
      * @param n The component index
      *
-     * @param t The tile index, in raster scan order.
-     *
      * @return The specification type for component 'n' and tile 't'.
      *
      *
