@@ -130,7 +130,7 @@ public class UUIDListBox extends Box {
         setDefaultAttributes(node);
 
         IIOMetadataNode child = new IIOMetadataNode("NumberUUID");
-        child.setUserObject(new Short(num));
+        child.setUserObject(Short.valueOf(num));
 	child.setNodeValue("" + num);
         node.appendChild(child);
 

@@ -225,7 +225,7 @@ public class FileFormatWriter implements FileFormatBoxes {
 
     private void writeBox(IIOMetadataNode node) throws IOException {
         int type = Box.getTypeInt((String)Box.getAttribute(node, "Type"));
-        int length = new Integer((String)Box.getAttribute(node, "Length")).intValue();
+        int length = Integer.parseInt((String)Box.getAttribute(node, "Length"));
         Box box = Box.createBox(type, node);
         otherLength += length;
         stream.writeInt(length);
@@ -242,7 +242,7 @@ public class FileFormatWriter implements FileFormatBoxes {
             String name = node.getNodeName();
 
             if (format.isLeaf(name))
-                length += new Integer((String)Box.getAttribute(node, "Length")).intValue();
+                length += Integer.parseInt((String)Box.getAttribute(node, "Length"));
             else
                 length += computeLength(node);
 

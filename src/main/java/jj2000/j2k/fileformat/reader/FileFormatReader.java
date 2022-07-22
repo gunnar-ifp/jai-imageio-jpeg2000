@@ -183,7 +183,7 @@ public class FileFormatReader implements FileFormatBoxes{
                 in.seek(pos);
                 if(codeStreamPos == null)
                     codeStreamPos = new Vector();
-                codeStreamPos.addElement(new Integer(pos));
+                codeStreamPos.addElement(Integer.valueOf(pos));
                 return;
             }
 
@@ -426,12 +426,12 @@ public class FileFormatReader implements FileFormatBoxes{
 
         if(codeStreamPos == null)
             codeStreamPos = new Vector();
-        codeStreamPos.addElement(new Integer(ccpos));
+        codeStreamPos.addElement(Integer.valueOf(ccpos));
 
         // Add new codestream length to length vector
         if(codeStreamLength == null)
             codeStreamLength = new Vector();
-        codeStreamLength.addElement(new Integer(length));
+        codeStreamLength.addElement(Integer.valueOf(length));
 
         return true;
     }

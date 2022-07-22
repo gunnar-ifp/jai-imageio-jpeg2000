@@ -98,7 +98,7 @@ public class IntegerSpec extends ModuleSpec{
 
         if(values==null){ // No parameter specified
             try{
-                setDefault(new Integer(defaultValue));
+                setDefault(Integer.valueOf(defaultValue));
             }
             catch(NumberFormatException e){
                     throw new IllegalArgumentException("Non recognized value"+
@@ -138,7 +138,7 @@ public class IntegerSpec extends ModuleSpec{
  		break;
             default:
                 try{
-                    value = new Integer(word);
+                    value = Integer.valueOf(word);
                 }
                 catch(NumberFormatException e){
                     throw new IllegalArgumentException("Non recognized value"+
@@ -193,7 +193,7 @@ public class IntegerSpec extends ModuleSpec{
             // the default value
             if(ndefspec!=0){
                 try{
-                    setDefault(new Integer(defaultValue));
+                    setDefault(Integer.valueOf(defaultValue));
                 }
                 catch(NumberFormatException e){
                     throw new IllegalArgumentException("Non recognized value"+

@@ -227,7 +227,7 @@ public class ChannelDefinitionBox extends Box {
         setDefaultAttributes(node);
 
         IIOMetadataNode child = new IIOMetadataNode("NumberOfDefinition");
-        child.setUserObject(new Short(num));
+        child.setUserObject(Short.valueOf(num));
         child.setNodeValue("" + num);
 	node.appendChild(child);
 
@@ -236,17 +236,17 @@ public class ChannelDefinitionBox extends Box {
 
         for (int i = 0; i < num; i++) {
             IIOMetadataNode child1 = new IIOMetadataNode("ChannelNumber");
-            child1.setUserObject(new Short(channels[i]));
+            child1.setUserObject(Short.valueOf(channels[i]));
 	    child1.setNodeValue("" + channels[i]);
             child.appendChild(child1);
 
             child1 = new IIOMetadataNode("ChannelType");
-            child1.setUserObject(new Short(types[i]));
+            child1.setUserObject(Short.valueOf(types[i]));
 	    child1.setNodeValue("" + types[i]);
             child.appendChild(child1);
 
             child1 = new IIOMetadataNode("Association");
-            child1.setUserObject(new Short(associations[i]));
+            child1.setUserObject(Short.valueOf(associations[i]));
 	    child1.setNodeValue("" + associations[i]);
             child.appendChild(child1);
         }

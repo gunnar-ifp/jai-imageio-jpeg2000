@@ -344,14 +344,10 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
 	    case 'R': // Rectangular ROI to be read
 		nrOfROIs++;
 		try{
-		    word = stok.nextToken();
-		    ulx = (new Integer(word)).intValue();
-		    word = stok.nextToken();
-		    uly = (new Integer(word)).intValue();
-		    word = stok.nextToken();
-		    w = (new Integer(word)).intValue();
-		    word = stok.nextToken();
-		    h = (new Integer(word)).intValue();
+		    ulx = Integer.parseInt(word = stok.nextToken());
+		    uly = Integer.parseInt(word = stok.nextToken());
+		    w   = Integer.parseInt(word = stok.nextToken());
+		    h   = Integer.parseInt(word = stok.nextToken());
 		}
 		catch(NumberFormatException e){
 		    throw new IllegalArgumentException("Bad parameter for "+
@@ -383,12 +379,9 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
 		nrOfROIs++;
 
 		try{
-		    word = stok.nextToken();
-		    x = (new Integer(word)).intValue();
-		    word = stok.nextToken();
-		    y = (new Integer(word)).intValue();
-		    word = stok.nextToken();
-		    rad = (new Integer(word)).intValue();
+		    x   = Integer.parseInt(word = stok.nextToken());
+		    y   = Integer.parseInt(word = stok.nextToken());
+		    rad = Integer.parseInt(word = stok.nextToken());
 		}
 		catch(NumberFormatException e){
 		    throw new IllegalArgumentException("Bad parameter for "+
@@ -736,7 +729,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
             for (int c=nc-1; c>=0; c--) {
 		tmp = src.getMaxMagBits(c);
                 maxMagBits[t][c] = tmp;
-		rois.setTileCompVal(t,c,new Integer(tmp));
+		rois.setTileCompVal(t,c,Integer.valueOf(tmp));
             }
             if( t<nt-1 ) src.nextTile();
         }

@@ -673,7 +673,7 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
 
                     if (name1.equals("NumChannels")) {
                         String s = (String)Box.getAttribute(child, "value");
-                        numComps = new Integer(s).intValue();
+                        numComps = Integer.parseInt(s);
                     }
 
                     if (name1.equals("ColorSpaceType"))
@@ -732,7 +732,7 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
 
             if (name.equals("PaletteEntry")) {
                 String s = (String)Box.getAttribute(child, "index");
-                int index = new Integer(s).intValue();
+                int index = Integer.parseInt(s);
                 if(index > maxIndex) {
                     maxIndex = index;
                 }
@@ -762,18 +762,18 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
 
             if (name.equals("PaletteEntry")) {
                 String s = (String)Box.getAttribute(child, "index");
-                int index = new Integer(s).intValue();
+                int index = Integer.parseInt(s);
                 s = (String)Box.getAttribute(child, "red");
-                red[index] = (byte)(new Integer(s).intValue());
+                red[index] = (byte)Integer.parseInt(s);
                 s = (String)Box.getAttribute(child, "green");
-                green[index] = (byte)(new Integer(s).intValue());
+                green[index] = (byte)Integer.parseInt(s);
                 s = (String)Box.getAttribute(child, "blue");
-                blue[index] = (byte)(new Integer(s).intValue());
+                blue[index] = (byte)Integer.parseInt(s);
 
                 byte t = (byte)255;
                 s = (String)Box.getAttribute(child, "alpha");
                 if(s != null) {
-                    t = (byte)(new Integer(s).intValue());
+                    t = (byte)Integer.parseInt(s);
                 }
 
                 if(alpha != null) {
@@ -843,14 +843,14 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
 
             if (name.equals("HorizontalPixelSize")) {
                 String s = (String)Box.getAttribute(child, "value");
-                hRes = new Float(s).floatValue();
+                hRes = Float.parseFloat(s);
                 hRes = 1000 / hRes;
                 gotH = true;
             }
 
             if (name.equals("VerticalPixelSize")) {
                 String s = (String)Box.getAttribute(child, "value");
-                vRes = new Float(s).floatValue();
+                vRes = Float.parseFloat(s);
                 vRes = 1000 / vRes;
                 gotV = true;
             }

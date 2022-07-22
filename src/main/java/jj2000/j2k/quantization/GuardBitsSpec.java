@@ -90,7 +90,7 @@ public class GuardBitsSpec extends ModuleSpec{
 
 
 	if(values==null){
-            setDefault(new Integer(defaultValue));
+            setDefault(Integer.valueOf(defaultValue));
             return;
 	    //throw new IllegalArgumentException("Qguard_bits option not "+
             //                                 "specified");
@@ -126,7 +126,7 @@ public class GuardBitsSpec extends ModuleSpec{
 		break;
 	    default: // Step size value
 		try{
-		    value = new Integer(word);
+		    value = Integer.valueOf(word);
 		}
 		catch(NumberFormatException e){
 		    throw new IllegalArgumentException("Bad parameter for "+
@@ -188,7 +188,7 @@ public class GuardBitsSpec extends ModuleSpec{
             // If some tile-component have received no specification, it takes
             // the default value
             if(ndefspec!=0){
-                setDefault(new Integer(defaultValue));
+                setDefault(Integer.valueOf(defaultValue));
             }
             else{
                 // All tile-component have been specified, takes the first

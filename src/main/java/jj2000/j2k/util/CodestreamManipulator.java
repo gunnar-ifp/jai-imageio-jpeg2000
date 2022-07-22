@@ -242,7 +242,7 @@ public class CodestreamManipulator{
             // Read SOT marker
             fi.readUnsignedShort(); // Skip SOT
             pos = fi.getPos();
-            markPos.addElement(new Integer(fi.getPos()));
+            markPos.addElement(Integer.valueOf(fi.getPos()));
             fi.readInt();           // Skip Lsot and Isot
             length = fi.readInt();  // Read Psot
             fi.readUnsignedShort(); // Skip TPsot & TNsot
@@ -281,7 +281,7 @@ public class CodestreamManipulator{
                                         fi.readUnsignedByte());
                     i++;
                     if(marker == Markers.SOP){
-                        markPos.addElement(new Integer(fi.getPos()));
+                        markPos.addElement(Integer.valueOf(fi.getPos()));
                         ppt[t]++;
                         sop++;
 			fi.skipBytes(4);
@@ -289,14 +289,14 @@ public class CodestreamManipulator{
                     }
 
                     if(marker == Markers.EPH){
-                        markPos.addElement(new Integer(fi.getPos()));
+                        markPos.addElement(Integer.valueOf(fi.getPos()));
                         eph++;
                     }
                 }
                 i++;
             }
         }
-        markPos.addElement(new Integer(fi.getPos()+2));
+        markPos.addElement(Integer.valueOf(fi.getPos()+2));
         positions = new Integer[markPos.size()];
         markPos.copyInto(positions);
     }

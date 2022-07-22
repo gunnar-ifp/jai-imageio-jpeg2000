@@ -862,11 +862,11 @@ public class HeaderDecoder implements ProgressionType, Markers,
         // Fill qsss, gbs
         if(mainh){
             decSpec.qsss.setDefault(qParms);
-            decSpec.gbs.setDefault(new Integer(guardBits));
+            decSpec.gbs.setDefault(Integer.valueOf(guardBits));
         }
         else{
             decSpec.qsss.setTileDef(tileIdx,qParms);
-            decSpec.gbs.setTileDef(tileIdx,new Integer(guardBits));
+            decSpec.gbs.setTileDef(tileIdx,Integer.valueOf(guardBits));
         }
 
         // Check marker length
@@ -1055,11 +1055,11 @@ public class HeaderDecoder implements ProgressionType, Markers,
         // Fill qsss, gbs
         if(mainh){
             decSpec.qsss.setCompDef(cComp,qParms);
-            decSpec.gbs.setCompDef(cComp,new Integer(guardBits));
+            decSpec.gbs.setCompDef(cComp,Integer.valueOf(guardBits));
         }
         else{
             decSpec.qsss.setTileCompVal(tileIdx,cComp,qParms);
-            decSpec.gbs.setTileCompVal(tileIdx,cComp,new Integer(guardBits));
+            decSpec.gbs.setTileCompVal(tileIdx,cComp,Integer.valueOf(guardBits));
         }
 
         // Check marker length
@@ -1114,27 +1114,27 @@ public class HeaderDecoder implements ProgressionType, Markers,
 
             if( (cstyle&SCOX_USE_SOP) != 0 ){
                 // SOP markers are used
-                decSpec.sops.setDefault(new Boolean("true"));
+                decSpec.sops.setDefault(Boolean.TRUE);
                 sopUsed = true;
                 // Remove flag
                 cstyle &= ~(SCOX_USE_SOP);
             } else {
                 // SOP markers are not used
-                decSpec.sops.setDefault(new Boolean("false"));
+                decSpec.sops.setDefault(Boolean.FALSE);
             }
         } else {
             hi.cod.put("t"+tileIdx,ms);
 
             if( (cstyle&SCOX_USE_SOP) != 0 ){
                 // SOP markers are used
-                decSpec.sops.setTileDef(tileIdx, new Boolean("true"));
+                decSpec.sops.setTileDef(tileIdx, Boolean.TRUE);
                 sopUsed = true;
                 // Remove flag
                 cstyle &= ~(SCOX_USE_SOP);
             }
             else {
                 // SOP markers are not used
-                decSpec.sops.setTileDef(tileIdx, new Boolean("false"));
+                decSpec.sops.setTileDef(tileIdx, Boolean.FALSE);
             }
         }
 
@@ -1142,24 +1142,24 @@ public class HeaderDecoder implements ProgressionType, Markers,
         if (mainh) {
             if( (cstyle&SCOX_USE_EPH) != 0 ){
                 // EPH markers are used
-                decSpec.ephs.setDefault(new Boolean("true"));
+                decSpec.ephs.setDefault(Boolean.TRUE);
                 ephUsed = true;
                 // Remove flag
                 cstyle &= ~(SCOX_USE_EPH);
             } else {
                 // EPH markers are not used
-                decSpec.ephs.setDefault(new Boolean("false"));
+                decSpec.ephs.setDefault(Boolean.FALSE);
             }
         } else {
             if( (cstyle&SCOX_USE_EPH) != 0 ){
                 // EPH markers are used
-                decSpec.ephs.setTileDef(tileIdx, new Boolean("true"));
+                decSpec.ephs.setTileDef(tileIdx, Boolean.TRUE);
                 ephUsed = true;
                 // Remove flag
                 cstyle &= ~(SCOX_USE_EPH);
             } else {
                 // EPH markers are not used
-                decSpec.ephs.setTileDef(tileIdx, new Boolean("false"));
+                decSpec.ephs.setTileDef(tileIdx, Boolean.FALSE);
             }
         }
 
@@ -1234,7 +1234,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         // Read the code-blocks dimensions
         cblk = new Integer[2];
         ms.spcod_cw = ehs.readUnsignedByte();
-        cblk[0] = new Integer(1<<(ms.spcod_cw+2));
+        cblk[0] = Integer.valueOf(1<<(ms.spcod_cw+2));
         if ( cblk[0].intValue() < StdEntropyCoderOptions.MIN_CB_DIM ||
              cblk[0].intValue() > StdEntropyCoderOptions.MAX_CB_DIM  ) {
             errMsg = "Non-valid code-block width in SPcod field, "+
@@ -1242,7 +1242,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
             throw new CorruptedCodestreamException(errMsg);
         }
         ms.spcod_ch = ehs.readUnsignedByte();
-        cblk[1] = new Integer(1<<(ms.spcod_ch+2));
+        cblk[1] = Integer.valueOf(1<<(ms.spcod_ch+2));
         if ( cblk[1].intValue() < StdEntropyCoderOptions.MIN_CB_DIM ||
              cblk[1].intValue() > StdEntropyCoderOptions.MAX_CB_DIM ) {
             errMsg = "Non-valid code-block height in SPcod field, "+
@@ -1295,18 +1295,18 @@ public class HeaderDecoder implements ProgressionType, Markers,
         int val = PRECINCT_PARTITION_DEF_SIZE;
         if ( !precinctPartitionIsUsed ) {
             Integer w, h;
-            w = new Integer(1<<(val & 0x000F));
+            w = Integer.valueOf(1<<(val & 0x000F));
             v[0].addElement(w);
-            h = new Integer(1<<(((val & 0x00F0)>>4)));
+            h = Integer.valueOf(1<<(((val & 0x00F0)>>4)));
             v[1].addElement(h);
         } else {
             ms.spcod_ps = new int[mrl+1];
             for (int rl=mrl ;rl>=0 ;rl--) {
                 Integer w, h;
                 val = ms.spcod_ps[mrl-rl] = ehs.readUnsignedByte();
-                w = new Integer(1<<(val & 0x000F));
+                w = Integer.valueOf(1<<(val & 0x000F));
                 v[0].insertElementAt(w,0);
-                h = new Integer(1<<(((val & 0x00F0)>>4)));
+                h = Integer.valueOf(1<<(((val & 0x00F0)>>4)));
                 v[1].insertElementAt(h,0);
             }
         }
@@ -1323,19 +1323,19 @@ public class HeaderDecoder implements ProgressionType, Markers,
         // Store specifications in decSpec
         if(mainh){
             decSpec.wfs.setDefault(hvfilters);
-            decSpec.dls.setDefault(new Integer(mrl));
-            decSpec.ecopts.setDefault(new Integer(ecOptions));
-            decSpec.cts.setDefault(new Integer(ms.sgcod_mct));
-            decSpec.nls.setDefault(new Integer(ms.sgcod_nl));
-            decSpec.pos.setDefault(new Integer(ms.sgcod_po));
+            decSpec.dls.setDefault(Integer.valueOf(mrl));
+            decSpec.ecopts.setDefault(Integer.valueOf(ecOptions));
+            decSpec.cts.setDefault(Integer.valueOf(ms.sgcod_mct));
+            decSpec.nls.setDefault(Integer.valueOf(ms.sgcod_nl));
+            decSpec.pos.setDefault(Integer.valueOf(ms.sgcod_po));
         }
         else{
             decSpec.wfs.setTileDef(tileIdx, hvfilters);
-            decSpec.dls.setTileDef(tileIdx,new Integer(mrl));
-            decSpec.ecopts.setTileDef(tileIdx,new Integer(ecOptions));
-            decSpec.cts.setTileDef(tileIdx,new Integer(ms.sgcod_mct));
-            decSpec.nls.setTileDef(tileIdx,new Integer(ms.sgcod_nl));
-            decSpec.pos.setTileDef(tileIdx,new Integer(ms.sgcod_po));
+            decSpec.dls.setTileDef(tileIdx,Integer.valueOf(mrl));
+            decSpec.ecopts.setTileDef(tileIdx,Integer.valueOf(ecOptions));
+            decSpec.cts.setTileDef(tileIdx,Integer.valueOf(ms.sgcod_mct));
+            decSpec.nls.setTileDef(tileIdx,Integer.valueOf(ms.sgcod_nl));
+            decSpec.pos.setTileDef(tileIdx,Integer.valueOf(ms.sgcod_po));
         }
     }
 
@@ -1397,7 +1397,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         // Read the code-blocks dimensions
         cblk = new Integer[2];
         ms.spcoc_cw = ehs.readUnsignedByte();
-        cblk[0] = new Integer(1<<(ms.spcoc_cw+2));
+        cblk[0] = Integer.valueOf(1<<(ms.spcoc_cw+2));
         if ( cblk[0].intValue() < StdEntropyCoderOptions.MIN_CB_DIM ||
              cblk[0].intValue() > StdEntropyCoderOptions.MAX_CB_DIM  ) {
             errMsg = "Non-valid code-block width in SPcod field, "+
@@ -1405,7 +1405,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
             throw new CorruptedCodestreamException(errMsg);
         }
         ms.spcoc_ch = ehs.readUnsignedByte();
-        cblk[1] = new Integer(1<<(ms.spcoc_ch+2));
+        cblk[1] = Integer.valueOf(1<<(ms.spcoc_ch+2));
         if ( cblk[1].intValue() < StdEntropyCoderOptions.MIN_CB_DIM ||
              cblk[1].intValue() > StdEntropyCoderOptions.MAX_CB_DIM ) {
             errMsg = "Non-valid code-block height in SPcod field, "+
@@ -1458,18 +1458,18 @@ public class HeaderDecoder implements ProgressionType, Markers,
         int val = PRECINCT_PARTITION_DEF_SIZE;
         if ( !precinctPartitionIsUsed ) {
             Integer w, h;
-            w = new Integer(1<<(val & 0x000F));
+            w = Integer.valueOf(1<<(val & 0x000F));
             v[0].addElement(w);
-            h = new Integer(1<<(((val & 0x00F0)>>4)));
+            h = Integer.valueOf(1<<(((val & 0x00F0)>>4)));
             v[1].addElement(h);
         } else {
             ms.spcoc_ps = new int[mrl+1];
             for ( int rl=mrl ; rl>=0 ; rl-- ) {
                 Integer w, h;
                 val = ms.spcoc_ps[rl] = ehs.readUnsignedByte();
-                w = new Integer(1<<(val & 0x000F));
+                w = Integer.valueOf(1<<(val & 0x000F));
                 v[0].insertElementAt(w,0);
-                h = new Integer(1<<(((val & 0x00F0)>>4)));
+                h = Integer.valueOf(1<<(((val & 0x00F0)>>4)));
                 v[1].insertElementAt(h,0);
             }
         }
@@ -1486,14 +1486,14 @@ public class HeaderDecoder implements ProgressionType, Markers,
         if(mainh){
             hi.coc.put("main_c"+cComp,ms);
             decSpec.wfs.setCompDef(cComp,hvfilters);
-            decSpec.dls.setCompDef(cComp,new Integer(mrl));
-            decSpec.ecopts.setCompDef(cComp,new Integer(ecOptions));
+            decSpec.dls.setCompDef(cComp,Integer.valueOf(mrl));
+            decSpec.ecopts.setCompDef(cComp,Integer.valueOf(ecOptions));
         } else {
             hi.coc.put("t"+tileIdx+"_c"+cComp,ms);
             decSpec.wfs.setTileCompVal(tileIdx,cComp,hvfilters);
-            decSpec.dls.setTileCompVal(tileIdx,cComp,new Integer(mrl));
+            decSpec.dls.setTileCompVal(tileIdx,cComp,Integer.valueOf(mrl));
             decSpec.ecopts.setTileCompVal(tileIdx,cComp,
-                                          new Integer(ecOptions));
+                                          Integer.valueOf(ecOptions));
         }
     }
 
@@ -1756,10 +1756,10 @@ public class HeaderDecoder implements ProgressionType, Markers,
 
         if(mainh) {
             hi.rgn.put("main_c"+comp,ms);
-            decSpec.rois.setCompDef(comp, new Integer(ms.sprgn));
+            decSpec.rois.setCompDef(comp, Integer.valueOf(ms.sprgn));
         } else {
             hi.rgn.put("t"+tileIdx+"_c"+comp,ms);
-            decSpec.rois.setTileCompVal(tileIdx,comp,new Integer(ms.sprgn));
+            decSpec.rois.setTileCompVal(tileIdx,comp,Integer.valueOf(ms.sprgn));
         }
 
         // Check marker length
@@ -1785,7 +1785,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         if(pPMMarkerData==null) {
             pPMMarkerData = new byte[nPPMMarkSeg][];
             tileOfTileParts = new Vector();
-            decSpec.pphs.setDefault(new Boolean(true));
+            decSpec.pphs.setDefault(Boolean.TRUE);
         }
 
         // Lppm (marker length)
@@ -1848,7 +1848,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         // Check marker length
         checkMarkerLength(ehs,"PPT marker");
 
-        decSpec.pphs.setTileDef(tile, new Boolean(true));
+        decSpec.pphs.setTileDef(tile, Boolean.TRUE);
     }
 
     /** 
@@ -2628,7 +2628,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
      * */
     public void setTileOfTileParts(int tile) {
         if(nPPMMarkSeg!=0) {
-            tileOfTileParts.addElement(new Integer(tile));
+            tileOfTileParts.addElement(Integer.valueOf(tile));
         }
     }
 

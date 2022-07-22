@@ -241,7 +241,7 @@ public class ModuleSpec implements Cloneable {
                 tmpVal = tileCompVal.get(tmpKey);
                 i1 = tmpKey.indexOf('t');
                 i2 = tmpKey.indexOf('c');
-                btIdx = (new Integer(tmpKey.substring(i1+1,i2))).intValue();
+                btIdx = Integer.parseInt(tmpKey.substring(i1+1,i2));
                 bx = btIdx%bnT.x;
                 by = btIdx/bnT.x;
                 ay = bx;

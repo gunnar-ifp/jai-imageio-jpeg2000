@@ -138,18 +138,18 @@ public class ComponentMappingBox extends Box {
 
         for (int i = 0; i < components.length; i++) {
             IIOMetadataNode child = new IIOMetadataNode("Component");
-	    Short obj = new Short(components[i]);
-            child.setUserObject(new Short(components[i]));
+	    Short obj = Short.valueOf(components[i]);
+            child.setUserObject(Short.valueOf(components[i]));
 	    child.setNodeValue("" + components[i]);
             node.appendChild(child);
 
             child = new IIOMetadataNode("ComponentType");
-            child.setUserObject(new Byte(type[i]));
+            child.setUserObject(Byte.valueOf(type[i]));
 	    child.setNodeValue("" + type[i]);
             node.appendChild(child);
 
             child = new IIOMetadataNode("ComponentAssociation");
-            child.setUserObject(new Byte(map[i]));
+            child.setUserObject(Byte.valueOf(map[i]));
 	    child.setNodeValue("" + map[i]);
             node.appendChild(child);
         }

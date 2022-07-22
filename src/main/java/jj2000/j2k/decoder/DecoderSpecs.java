@@ -182,6 +182,6 @@ public class DecoderSpecs implements Cloneable {
         ephs = new ModuleSpec(nt,nc,ModuleSpec.SPEC_TYPE_TILE);
         pphs = new ModuleSpec(nt,nc,ModuleSpec.SPEC_TYPE_TILE);
         iccs = new ModuleSpec(nt,nc,ModuleSpec.SPEC_TYPE_TILE);
-        pphs.setDefault(new Boolean(false));
+        pphs.setDefault(Boolean.valueOf(false));
     }
 }

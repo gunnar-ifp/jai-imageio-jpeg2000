@@ -208,12 +208,12 @@ public class PaletteBox extends Box {
         setDefaultAttributes(node);
 
         IIOMetadataNode child = new IIOMetadataNode("NumberEntries");
-        child.setUserObject(new Integer(numEntries));
+        child.setUserObject(Integer.valueOf(numEntries));
 	child.setNodeValue("" + numEntries);
         node.appendChild(child);
 
         child = new IIOMetadataNode("NumberColors");
-        child.setUserObject(new Integer(numComps));
+        child.setUserObject(Integer.valueOf(numComps));
 	child.setNodeValue("" + numComps);
         node.appendChild(child);
 

@@ -448,7 +448,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
                         if(tlmOffsets[tileIndex] == null) {
                             tlmOffsets[tileIndex] = new ArrayList();
                         }
-                        tlmOffsets[tileIndex].add(new Long(tilePos));
+                        tlmOffsets[tileIndex].add(Long.valueOf(tilePos));
 
                         long tileLength = 0L;
                         switch(SP) {
@@ -1059,7 +1059,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
 
                         // Store packet's head length
                         hlen = in.getPos()-start;
-                        pktHL.addElement(new Integer(hlen));
+                        pktHL.addElement(Integer.valueOf(hlen));
 
                         // Reads packet's body
                         status = pktDec.readPktBody(l,r,c,p,cbI[c][r],nBytes);
@@ -1198,7 +1198,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
 
                         // Store packet's head length
                         hlen = in.getPos()-start;
-                        pktHL.addElement(new Integer(hlen));
+                        pktHL.addElement(Integer.valueOf(hlen));
 
                         // Reads packet's body
                         status = pktDec.readPktBody(l,r,c,p,cbI[c][r],nBytes);
@@ -1406,7 +1406,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
 
                             // Store packet's head length
                             hlen = in.getPos()-start;
-                            pktHL.addElement(new Integer(hlen));
+                            pktHL.addElement(Integer.valueOf(hlen));
 
 
                             // Reads packet's body
@@ -1613,7 +1613,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
 
                             // Store packet's head length
                             hlen = in.getPos()-start;
-                            pktHL.addElement(new Integer(hlen));
+                            pktHL.addElement(Integer.valueOf(hlen));
 
                             // Reads packet's body
                             status = pktDec.readPktBody(l,r,c,nextPrec[c][r],
@@ -1833,7 +1833,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
 
                             // Store packet's head length
                             hlen = in.getPos()-start;
-                            pktHL.addElement(new Integer(hlen));
+                            pktHL.addElement(Integer.valueOf(hlen));
 
                             // Reads packet's body
                             status = pktDec.readPktBody(l,r,c,nextPrec[c][r],

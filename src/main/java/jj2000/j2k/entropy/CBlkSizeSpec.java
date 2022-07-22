@@ -148,7 +148,7 @@ public class CBlkSizeSpec extends ModuleSpec {
                 Integer dim[] = new Integer[2];
                 // Get code-block's width
                 try {
-                    dim[0] = new Integer(word);
+                    dim[0] = Integer.valueOf(word);
                     // Check that width is not >
                     // StdEntropyCoderOptions.MAX_CB_DIM
                     if( dim[0].intValue()>StdEntropyCoderOptions.MAX_CB_DIM ){
@@ -190,7 +190,7 @@ public class CBlkSizeSpec extends ModuleSpec {
                 }
                 // Get the code-block's height
                 try {
-                    dim[1] = new Integer(word);
+                    dim[1] = Integer.valueOf(word);
                     // Check that height is not >
                     // StdEntropyCoderOptions.MAX_CB_DIM
                     if ( dim[1].intValue()>StdEntropyCoderOptions.MAX_CB_DIM ){
