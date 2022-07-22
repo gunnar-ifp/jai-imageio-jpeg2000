@@ -337,8 +337,8 @@ public class EBCOTRateAllocator extends PostCompRateAllocator {
                     // Calculate the maximum number of precincts for each
                     // resolution level taking into account tile specific
                     // options.
-                    double twoppx = (double)wp.getPrecinctPartition().getPPX(t,c,r);
-                    double twoppy = (double)wp.getPrecinctPartition().getPPY(t,c,r);
+                    double twoppx = wp.getPrecinctPartition().getPPX(t,c,r);
+                    double twoppy = wp.getPrecinctPartition().getPPY(t,c,r);
                     numPrec[t][c][r] = new Point();
                     if (trx1>trx0) {
                         numPrec[t][c][r].x = (int)Math.ceil((trx1-cb0x)/twoppx)
@@ -348,7 +348,7 @@ public class EBCOTRateAllocator extends PostCompRateAllocator {
                     }
                     if (try1>try0) {
                         numPrec[t][c][r].y = (int)Math.ceil((try1-cb0y)/twoppy)
-                            - (int)Math.floor((try0-cb0y)/(double)twoppy);
+                            - (int)Math.floor((try0-cb0y)/twoppy);
                     } else {
                         numPrec[t][c][r].y = 0;
                     }
@@ -551,7 +551,7 @@ public class EBCOTRateAllocator extends PostCompRateAllocator {
                 nextbytes = 1;
             }
             loopnlyrs = lyrSpec.getExtraLayers(i)+1;
-            ls = Math.exp(Math.log((double)nextbytes/basebytes)/loopnlyrs);
+            ls = Math.exp(Math.log(nextbytes/basebytes)/loopnlyrs);
             layers[n].optimize = true;
             for (l = 0; l < loopnlyrs; l++) {
                 newbytes = (int)basebytes - lastbytes - ho;
@@ -1761,7 +1761,7 @@ public class EBCOTRateAllocator extends PostCompRateAllocator {
                     ephUsed = ((String)wp.getEPH().getTileDef(t)).equalsIgnoreCase("true");
 
                     // Get LL subband
-                    sb = (SubbandAn) src.getAnSubbandTree(t,c);
+                    sb = src.getAnSubbandTree(t,c);
                     numLvls = sb.resLvl + 1;
                     sb = (SubbandAn) sb.getSubbandByIdx(0,0);
                     //loop on resolution levels

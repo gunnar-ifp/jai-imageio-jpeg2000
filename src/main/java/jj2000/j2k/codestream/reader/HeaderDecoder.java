@@ -2361,7 +2361,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
 	this.hi = hi;
         this.j2krparam = j2krparam;
         mainHeadOff = ehs.getPos();
-        if( ((short)ehs.readShort()) != Markers.SOC ) {
+        if( (ehs.readShort()) != Markers.SOC ) {
             throw new CorruptedCodestreamException("SOC marker segment not "+
                                                    " found at the "+
                                                    "beginning of the "+

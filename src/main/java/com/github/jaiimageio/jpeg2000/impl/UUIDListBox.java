@@ -91,7 +91,7 @@ public class UUIDListBox extends Box {
             Node child = children.item(i);
 
             if ("NumberUUID".equals(child.getNodeName())) {
-                num = (short)Box.getShortElementValue(child);
+                num = Box.getShortElementValue(child);
                 uuids = new byte[num][];
             }
 

@@ -740,7 +740,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
                                                "least, one component in "+
                                                "tile: "+ctX+"x"+ctY);
         }
-        int tx0 = (int)Math.max(px+ctX*ntW,ax);
+        int tx0 = Math.max(px+ctX*ntW,ax);
         int tcx0 = (int)Math.ceil(tx0/(double)getCompSubsX(c));
         return (int)Math.ceil(tcx0/(double)(1<<dl));
     }
@@ -762,7 +762,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
                                                "least, one component in "+
                                                "tile: "+ctX+"x"+ctY);
         }
-        int ty0 = (int)Math.max(py+ctY*ntH,ay);
+        int ty0 = Math.max(py+ctY*ntH,ay);
         int tcy0 = (int)Math.ceil(ty0/(double)getCompSubsY(c));
         return (int)Math.ceil(tcy0/(double)(1<<dl));
     }

@@ -433,11 +433,11 @@ public class InvCompTransf extends ImgDataAdapter
 
             // Fill in buffer blocks (to be read only)
             // Returned blocks may have different size and position
-            block0 = (DataBlkInt)src.getInternCompData(block0, 0);
+            block0 = src.getInternCompData(block0, 0);
             data0 = (int[]) block0.getData();
-            block1 = (DataBlkInt)src.getInternCompData(block1, 1);
+            block1 = src.getInternCompData(block1, 1);
             data1 = (int[]) block1.getData();
-            block2 = (DataBlkInt)src.getInternCompData(block2, 2);
+            block2 = src.getInternCompData(block2, 2);
             data2 = (int[]) block2.getData();
 
             // Set the progressiveness of the output data
@@ -580,11 +580,11 @@ public class InvCompTransf extends ImgDataAdapter
 
             // Fill in buffer blocks (to be read only)
             // Returned blocks may have different size and position
-            block0 = (DataBlkFloat)src.getInternCompData(block0, 0);
+            block0 = src.getInternCompData(block0, 0);
             data0  = (float[]) block0.getData();
-            block2 = (DataBlkFloat)src.getInternCompData(block2, 1);
+            block2 = src.getInternCompData(block2, 1);
             data2 = (float[]) block2.getData();
-            block1 = (DataBlkFloat)src.getInternCompData(block1, 2);
+            block1 = src.getInternCompData(block1, 2);
             data1 = (float[]) block1.getData();
 
             // Set the progressiveness of the output data

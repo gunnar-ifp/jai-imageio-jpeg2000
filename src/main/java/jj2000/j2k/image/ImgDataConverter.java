@@ -303,7 +303,7 @@ public class ImgDataConverter extends ImgDataAdapter implements BlkImgDataSrc {
 		for (i=h-1, k=w*h-1, kSrc =
                          srcBlk.offset+(h-1)*srcBlk.scanw+w-1; i>=0; i--) {
 		    for (kmin = k-w; k>kmin; k--, kSrc--) {
-			farr[k]=((float)(srcIArr[kSrc]));
+			farr[k]=((srcIArr[kSrc]));
 		    }
 		    // Jump to geggining of next line in source
 		    kSrc -= srcBlk.scanw - w;
@@ -328,7 +328,7 @@ public class ImgDataConverter extends ImgDataAdapter implements BlkImgDataSrc {
 
 		// Cast data from source to blk
 		if(fp!=0){
-		    mult=(float)(1<<fp);
+		    mult=1<<fp;
 		    for (i=h-1, k=w*h-1, kSrc =
                              srcBlk.offset+(h-1)*srcBlk.scanw+w-1; i>=0; i--) {
 			for (kmin = k-w; k>kmin; k--, kSrc--) {

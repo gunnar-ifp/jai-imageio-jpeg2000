@@ -508,7 +508,7 @@ public class StdQuantizer extends Quantizer {
         // able to represent 2**31)
         return (-1f-((float)(ems&QSTEP_MAX_MANTISSA)) /
                 ((float)(1<<QSTEP_MANTISSA_BITS))) /
-            (float)(-1<<((ems>>QSTEP_MANTISSA_BITS)&QSTEP_MAX_EXPONENT));
+            (-1<<((ems>>QSTEP_MANTISSA_BITS)&QSTEP_MAX_EXPONENT));
     }
 
     /**

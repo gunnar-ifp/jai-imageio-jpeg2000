@@ -278,7 +278,7 @@ public class ImgReaderPGM extends ImgReader {
                 in.read(buf,0,blk.w);
                 for (k = (i-blk.uly)*blk.w+blk.w-1, j = blk.w-1;
                      j >= 0; j--, k--) {
-                    barr[k] = (((int)buf[j])&0xFF)-DC_OFFSET;
+                    barr[k] = ((buf[j])&0xFF)-DC_OFFSET;
                 }
             }
         }

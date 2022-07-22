@@ -303,7 +303,7 @@ public class ISRandomAccessIO implements RandomAccessIO {
     @Override
     public int read() throws IOException {
         if (pos < len) { // common, fast case
-            return 0xFF & (int)buf[pos++];
+            return 0xFF & buf[pos++];
         }
         // general case
         while (!complete && pos >= len) {
@@ -314,7 +314,7 @@ public class ISRandomAccessIO implements RandomAccessIO {
         } else if (pos > len) {
             throw new IOException("Position beyond EOF");
         }
-        return 0xFF & (int)buf[pos++];
+        return 0xFF & buf[pos++];
     }
 
     /**
@@ -485,12 +485,12 @@ public class ISRandomAccessIO implements RandomAccessIO {
     public long readUnsignedInt() throws IOException {
         if (pos+3 < len) { // common, fast case
             return (0xFFFFFFFFL
-                    & (long)((buf[pos++]<<24) | ((0xFF & buf[pos++])<<16)
+                    & ((buf[pos++]<<24) | ((0xFF & buf[pos++])<<16)
                              | ((0xFF & buf[pos++])<<8) | (0xFF & buf[pos++])));
         }
         // general case
         return (0xFFFFFFFFL
-                & (long)((read()<<24) | (read()<<16) | (read()<<8) | read()));
+                & ((read()<<24) | (read()<<16) | (read()<<8) | read()));
     }
 
     /**
@@ -514,7 +514,7 @@ public class ISRandomAccessIO implements RandomAccessIO {
                     | ((long)(0xFF&buf[pos++])<<24)
                     | ((long)(0xFF&buf[pos++])<<16)
                     | ((long)(0xFF&buf[pos++])<<8)
-                    | (long)(0xFF&buf[pos++]));
+                    | 0xFF&buf[pos++]);
         }
         // general case
         return (((long)read()<<56)
@@ -524,7 +524,7 @@ public class ISRandomAccessIO implements RandomAccessIO {
                 | ((long)read()<<24)
                 | ((long)read()<<16)
                 | ((long)read()<<8)
-                | (long)read());
+                | read());
     }
 
     /**
@@ -572,7 +572,7 @@ public class ISRandomAccessIO implements RandomAccessIO {
                                            | ((long)(0xFF&buf[pos++])<<24)
                                            | ((long)(0xFF&buf[pos++])<<16)
                                            | ((long)(0xFF&buf[pos++])<<8)
-                                           | (long)(0xFF&buf[pos++]));
+                                           | 0xFF&buf[pos++]);
         }
         // general case
         return Double.longBitsToDouble(((long)read()<<56)
@@ -582,7 +582,7 @@ public class ISRandomAccessIO implements RandomAccessIO {
                                        | ((long)read()<<24)
                                        | ((long)read()<<16)
                                        | ((long)read()<<8)
-                                       | (long)read());
+                                       | read());
     }
 
     /**

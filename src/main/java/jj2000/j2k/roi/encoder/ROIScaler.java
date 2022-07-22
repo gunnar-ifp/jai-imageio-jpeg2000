@@ -578,7 +578,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
         if(sbInMask) {
             // Scale the wmse so that instead of scaling the coefficients, the
             // wmse is scaled.
-            cblk.wmseScaling *= (float)(1<<(maxBits<<1));
+            cblk.wmseScaling *= 1<<(maxBits<<1);
             cblk.nROIcoeff = w*h;
             return cblk;
         }
@@ -600,7 +600,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
                 i -= wrap;
             }
             if(nroicoeff!=0) { // Include the subband
-                cblk.wmseScaling *= (float)(1<<(maxBits<<1));
+                cblk.wmseScaling *= 1<<(maxBits<<1);
                 cblk.nROIcoeff = w*h;
             }
             return cblk;

@@ -746,7 +746,7 @@ public class ForwWTFull extends ForwardWT {
 
         else {
             //Perform the 2D wavelet decomposition of the current subband
-            wavelet2DDecomposition(band, (SubbandAn)subband, c);
+            wavelet2DDecomposition(band, subband, c);
 
             //Perform the decomposition of the four resulting subbands
             waveletTreeDecomposition(band, (SubbandAn)subband.getHH(), c);

@@ -405,13 +405,13 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions {
 
         // Are SOP markers used ?
 	if (mh) {
-            if( ((String)wp.getSOP().getDefault().toString())
+            if( wp.getSOP().getDefault().toString()
                  .equalsIgnoreCase("true") ) {
                 tmp |= SCOX_USE_SOP;
             }
         }
         else {
-            if ( ((String)wp.getSOP().getTileDef(tileIdx).toString())
+            if ( wp.getSOP().getTileDef(tileIdx).toString()
                  .equalsIgnoreCase("true") ) {
                 tmp |= SCOX_USE_SOP;
             }
@@ -419,13 +419,13 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions {
 
         // Are EPH markers used ?
         if(mh){
-            if ( ((String)wp.getEPH().getDefault().toString())
+            if ( wp.getEPH().getDefault().toString()
                  .equalsIgnoreCase("true") ) {
                 tmp |= SCOX_USE_EPH;
             }
         }
         else{
-            if ( ((String)wp.getEPH().getTileDef(tileIdx).toString())
+            if ( wp.getEPH().getTileDef(tileIdx).toString()
                  .equalsIgnoreCase("true") ) {
                 tmp |= SCOX_USE_EPH;
             }

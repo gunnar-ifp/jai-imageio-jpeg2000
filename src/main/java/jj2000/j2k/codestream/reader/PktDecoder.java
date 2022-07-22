@@ -308,8 +308,8 @@ public class PktDecoder implements StdEntropyCoderOptions{
 
                 // Calculate the maximum number of precincts for each
                 // resolution level taking into account tile specific options.
-                double twoppx = (double)getPPX(tIdx,c,r);
-                double twoppy = (double)getPPY(tIdx,c,r);
+                double twoppx = getPPX(tIdx,c,r);
+                double twoppy = getPPY(tIdx,c,r);
                 numPrec[c][r] = new Point();
                 if (trx1>trx0) {
                     numPrec[c][r].x = (int)Math.ceil((trx1-cb0x)/twoppx)
@@ -338,7 +338,7 @@ public class PktDecoder implements StdEntropyCoderOptions{
                 ppinfo[c][r] = new PrecInfo[maxPrec];
                 fillPrecInfo(c,r,mdl[c]);
 
-                root = (SubbandSyn)src.getSynSubbandTree(tIdx,c);
+                root = src.getSynSubbandTree(tIdx,c);
                 for(int s=mins; s<maxs; s++){
                     sb = (SubbandSyn)root.getSubbandByIdx(r,s);
                     nBlk = sb.numCb;
@@ -408,8 +408,8 @@ public class PktDecoder implements StdEntropyCoderOptions{
         int cb0x = src.getCbULX();
         int cb0y = src.getCbULY();
 
-        double twoppx = (double)getPPX(tIdx,c,r);
-        double twoppy = (double)getPPY(tIdx,c,r);
+        double twoppx = getPPX(tIdx,c,r);
+        double twoppy = getPPY(tIdx,c,r);
         int twoppx2 = (int)(twoppx/2);
         int twoppy2 = (int)(twoppy/2);
 

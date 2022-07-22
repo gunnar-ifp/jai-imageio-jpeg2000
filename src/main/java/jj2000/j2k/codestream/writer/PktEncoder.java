@@ -371,8 +371,8 @@ public class PktEncoder {
         int cb0x = infoSrc.getCbULX();
         int cb0y = infoSrc.getCbULY();
 
-        double twoppx = (double)wp.getPrecinctPartition().getPPX(t,c,r);
-        double twoppy = (double)wp.getPrecinctPartition().getPPY(t,c,r);
+        double twoppx = wp.getPrecinctPartition().getPPX(t,c,r);
+        double twoppy = wp.getPrecinctPartition().getPPY(t,c,r);
         int twoppx2 = (int)(twoppx/2);
         int twoppy2 = (int)(twoppy/2);
 

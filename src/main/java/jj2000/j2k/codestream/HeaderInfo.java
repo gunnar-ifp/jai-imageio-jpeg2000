@@ -709,33 +709,33 @@ public class HeaderInfo implements Markers,ProgressionType,FilterTypes,
         String str = ""+siz;
         // COD
         if(cod.get("main")!=null) {
-            str += ""+(COD)cod.get("main");
+            str += ""+cod.get("main");
         }
         // COCs
         for(int c=0; c<nc; c++) {
             if(coc.get("main_c"+c)!=null) {
-                str += ""+(COC)coc.get("main_c"+c);
+                str += ""+coc.get("main_c"+c);
             }
         }
         // QCD
         if(qcd.get("main")!=null) {
-            str += ""+(QCD)qcd.get("main");
+            str += ""+qcd.get("main");
         }
         // QCCs
         for(int c=0; c<nc; c++) {
             if(qcc.get("main_c"+c)!=null) {
-                str += ""+(QCC)qcc.get("main_c"+c);
+                str += ""+qcc.get("main_c"+c);
             }
         }
         // RGN
         for(int c=0; c<nc; c++) {
             if(rgn.get("main_c"+c)!=null) {
-                str += ""+(RGN)rgn.get("main_c"+c);
+                str += ""+rgn.get("main_c"+c);
             }
         }
         // POC
         if(poc.get("main")!=null) {
-            str += ""+(POC)poc.get("main");
+            str += ""+poc.get("main");
         }
         // CRG
         if(crg!=null) {
@@ -744,7 +744,7 @@ public class HeaderInfo implements Markers,ProgressionType,FilterTypes,
         // COM
         for(int i=0; i<ncom; i++) {
             if(com.get("main_"+i)!=null) {
-                str += ""+(COM)com.get("main_"+i);
+                str += ""+com.get("main_"+i);
             }
         }
         return str;
@@ -763,37 +763,37 @@ public class HeaderInfo implements Markers,ProgressionType,FilterTypes,
         // SOT
         for(int i=0; i<ntp; i++) {
             str += "Tile-part "+i+", tile "+t+":\n";
-            str += ""+(SOT)sot.get("t"+t+"_tp"+i);
+            str += ""+sot.get("t"+t+"_tp"+i);
         }
         // COD
         if(cod.get("t"+t)!=null) {
-            str += ""+(COD)cod.get("t"+t);
+            str += ""+cod.get("t"+t);
         }
         // COCs
         for(int c=0; c<nc; c++) {
             if(coc.get("t"+t+"_c"+c)!=null) {
-                str += ""+(COC)coc.get("t"+t+"_c"+c);
+                str += ""+coc.get("t"+t+"_c"+c);
             }
         }
         // QCD
         if(qcd.get("t"+t)!=null) {
-            str += ""+(QCD)qcd.get("t"+t);
+            str += ""+qcd.get("t"+t);
         }
         // QCCs
         for(int c=0; c<nc; c++) {
             if(qcc.get("t"+t+"_c"+c)!=null) {
-                str += ""+(QCC)qcc.get("t"+t+"_c"+c);
+                str += ""+qcc.get("t"+t+"_c"+c);
             }
         }
         // RGN
         for(int c=0; c<nc; c++) {
             if(rgn.get("t"+t+"_c"+c)!=null) {
-                str += ""+(RGN)rgn.get("t"+t+"_c"+c);
+                str += ""+rgn.get("t"+t+"_c"+c);
             }
         }
         // POC
         if(poc.get("t"+t)!=null) {
-            str += ""+(POC)poc.get("t"+t);
+            str += ""+poc.get("t"+t);
         }
         return str;
     }
@@ -811,33 +811,33 @@ public class HeaderInfo implements Markers,ProgressionType,FilterTypes,
         String str = "";
         // COD
         if(cod.get("t"+t)!=null) {
-            str += ""+(COD)cod.get("t"+t);
+            str += ""+cod.get("t"+t);
         }
         // COCs
         for(int c=0; c<nc; c++) {
             if(coc.get("t"+t+"_c"+c)!=null) {
-                str += ""+(COC)coc.get("t"+t+"_c"+c);
+                str += ""+coc.get("t"+t+"_c"+c);
             }
         }
         // QCD
         if(qcd.get("t"+t)!=null) {
-            str += ""+(QCD)qcd.get("t"+t);
+            str += ""+qcd.get("t"+t);
         }
         // QCCs
         for(int c=0; c<nc; c++) {
             if(qcc.get("t"+t+"_c"+c)!=null) {
-                str += ""+(QCC)qcc.get("t"+t+"_c"+c);
+                str += ""+qcc.get("t"+t+"_c"+c);
             }
         }
         // RGN
         for(int c=0; c<nc; c++) {
             if(rgn.get("t"+t+"_c"+c)!=null) {
-                str += ""+(RGN)rgn.get("t"+t+"_c"+c);
+                str += ""+rgn.get("t"+t+"_c"+c);
             }
         }
         // POC
         if(poc.get("t"+t)!=null) {
-            str += ""+(POC)poc.get("t"+t);
+            str += ""+poc.get("t"+t);
         }
         return str;
     }

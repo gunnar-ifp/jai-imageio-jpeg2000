@@ -215,9 +215,9 @@ public class ColorSpecificationBox extends Box {
 
         data = new byte[len];
 
-        data[0] = (byte)method;
-        data[1] = (byte)precedence;
-        data[2] = (byte)approximation;
+        data[0] = method;
+        data[1] = precedence;
+        data[2] = approximation;
 
         copyInt(data, 3, ecs);
 

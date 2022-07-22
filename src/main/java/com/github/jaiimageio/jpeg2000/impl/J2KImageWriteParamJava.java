@@ -909,7 +909,7 @@ public class J2KImageWriteParamJava extends ImageWriteParam {
         filters = new AnWTFilterSpec(numTiles,
                                      numComponents,
                                      ModuleSpec.SPEC_TYPE_TILE_COMP,
-                                     (QuantTypeSpec)quantizationType,
+                                     quantizationType,
                                      this,
                                      values);
         setComponentTransformation(""+enableCT);
@@ -947,7 +947,7 @@ public class J2KImageWriteParamJava extends ImageWriteParam {
             new ForwCompTransfSpec(numTiles,
                                    numComponents,
                                    ModuleSpec.SPEC_TYPE_TILE,
-                                   (AnWTFilterSpec)filters,
+                                   filters,
                                    this,
                                    values);
     }

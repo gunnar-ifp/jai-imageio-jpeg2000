@@ -319,12 +319,10 @@ public class BEBufferedRandomAccessFile extends BufferedRandomAccessFile
      * */
     @Override
     public final long readUnsignedInt() throws IOException, EOFException{
-	return (long)(
-		      (read()<<24)|
-		      (read()<<16)|
-		      (read()<<8)|
-		      read()
-		      );
+	return (read()<<24)|
+      (read()<<16)|
+      (read()<<8)|
+      read();
     }
 
     /**
@@ -349,7 +347,7 @@ public class BEBufferedRandomAccessFile extends BufferedRandomAccessFile
 		((long)read()<<24)|
 		((long)read()<<16)|
 		((long)read()<<8)|
-		((long)read())
+		(read())
 		);
     }
 
@@ -399,7 +397,7 @@ public class BEBufferedRandomAccessFile extends BufferedRandomAccessFile
 				       ((long)read()<<24)|
 				       ((long)read()<<16)|
 				       ((long)read()<<8)|
-				       ((long)read())
+				       (read())
 				       );
     }
 

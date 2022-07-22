@@ -178,7 +178,7 @@ public class FileFormatReader implements FileFormatBoxes{
                in.readInt() != 0x0d0a870a){ // Not a JP2 file
                 in.seek(pos);
 
-                marker = (short)in.readShort();
+                marker = in.readShort();
                 if(marker != Markers.SOC) //Standard syntax marker found
                     throw new Error("File is neither valid JP2 file nor "+
                                     "valid JPEG 2000 codestream");
@@ -208,7 +208,7 @@ public class FileFormatReader implements FileFormatBoxes{
                 } else if(length == 1) {
                     longLength = in.readLong();
                     throw new IOException("File too long.");
-                } else longLength = (long) 0;
+                } else longLength = 0;
 
                 pos = in.getPos();
                 length -= 8;
@@ -510,7 +510,7 @@ public class FileFormatReader implements FileFormatBoxes{
         compSize = new byte[numComp];
 
         for (int i = 0; i < numComp; i++) {
-            compSize[i] = (byte)in.readByte();
+            compSize[i] = in.readByte();
         }
 
         lut = new byte[numComp][lutSize];
@@ -595,13 +595,13 @@ public class FileFormatReader implements FileFormatBoxes{
      */
     public void readColourSpecificationBox(int length)throws IOException {
         // read METHOD field
-        byte method = (byte)in.readByte();
+        byte method = in.readByte();
 
         // read PREC field
-        byte prec = (byte)in.readByte();
+        byte prec = in.readByte();
 
         // read APPROX field
-        byte approx = (byte)in.readByte();
+        byte approx = in.readByte();
 
         if (method == 2) {
             byte[] data = new byte[length - 3];

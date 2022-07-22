@@ -866,12 +866,12 @@ public class StdEntropyCoder extends EntropyCoder
             deltaMSE = val*val;
             FS_LOSSLESS[i] =
                 (int) Math.floor(deltaMSE *
-                                 ((double)(1<<MSE_LKP_FRAC_BITS)) + 0.5);
+                                 (1<<MSE_LKP_FRAC_BITS) + 0.5);
             val -= 1.5;
             deltaMSE -= val*val;
             FS_LOSSY[i] =
                 (int) Math.floor(deltaMSE *
-                                 ((double)(1<<MSE_LKP_FRAC_BITS)) + 0.5);
+                                 (1<<MSE_LKP_FRAC_BITS) + 0.5);
         }
 
         // fm tables
@@ -880,12 +880,12 @@ public class StdEntropyCoder extends EntropyCoder
             deltaMSE = (val-1.0)*(val-1.0);
             FM_LOSSLESS[i] =
                 (int) Math.floor(deltaMSE *
-                                 ((double)(1<<MSE_LKP_FRAC_BITS)) + 0.5);
+                                 (1<<MSE_LKP_FRAC_BITS) + 0.5);
             val -= (i<(1<<(MSE_LKP_BITS-1))) ? 0.5 : 1.5;
             deltaMSE -= val*val;
             FM_LOSSY[i] =
                 (int) Math.floor(deltaMSE *
-                                 ((double)(1<<MSE_LKP_FRAC_BITS)) + 0.5);
+                                 (1<<MSE_LKP_FRAC_BITS) + 0.5);
         }
     }
 

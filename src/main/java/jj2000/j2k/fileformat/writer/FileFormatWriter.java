@@ -208,7 +208,7 @@ public class FileFormatWriter implements FileFormatBoxes {
         String name = node.getNodeName();
         if (name.startsWith("JPEG2000")) {
             stream.writeInt(computeLength(node));
-            stream.writeInt(Box.getTypeInt((String)Box.getTypeByName(name)));
+            stream.writeInt(Box.getTypeInt(Box.getTypeByName(name)));
             otherLength += 8;
         }
 

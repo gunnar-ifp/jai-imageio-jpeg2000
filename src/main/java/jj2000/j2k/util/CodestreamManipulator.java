@@ -314,7 +314,7 @@ public class CodestreamManipulator{
 
         // Buffer main header
         fi.seek(0);
-        length = ((Integer)positions[0]).intValue()-2;
+        length = positions[0].intValue()-2;
         mainHeader = new byte[length];
         fi.readFully(mainHeader,0,length);
         markIndex = 0;

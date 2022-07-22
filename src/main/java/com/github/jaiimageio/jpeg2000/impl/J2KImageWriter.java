@@ -288,10 +288,10 @@ public class J2KImageWriter extends ImageWriter {
         boolean[] imsigned = new boolean[ncomp];
         if (bands != null) {
             for (int i=0; i<ncomp; i++)
-                imsigned[i] = ((RenderedImageSrc)imgsrc).isOrigSigned(bands[i]);
+                imsigned[i] = imgsrc.isOrigSigned(bands[i]);
         } else {
             for (int i=0; i<ncomp; i++)
-                imsigned[i] = ((RenderedImageSrc)imgsrc).isOrigSigned(i);
+                imsigned[i] = imgsrc.isOrigSigned(i);
         }
 
         // Gets the tile dimensions

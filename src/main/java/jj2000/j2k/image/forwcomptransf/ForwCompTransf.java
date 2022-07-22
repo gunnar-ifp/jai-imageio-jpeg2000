@@ -717,7 +717,7 @@ public class ForwCompTransf extends ImgDataAdapter
             k0 = indb.offset+(h-1)*indb.scanw+w-1;
             for (i=h-1; i>=0; i--) {
                 for (mink = k-w; k > mink; k--, k0--) {
-                    outdata[k] = (float) indata[k0];
+                    outdata[k] = indata[k0];
                 }
                 // Jump to beggining of next line in input
                 k0 += indb.w - w;

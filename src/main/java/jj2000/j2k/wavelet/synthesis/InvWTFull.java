@@ -552,7 +552,7 @@ public class InvWTFull extends InverseWT {
                 waveletTreeReconstruction(img,(SubbandSyn)sb.getHH(),c);
 
                 //Perform the 2D wavelet decomposition of the current subband
-                wavelet2DReconstruction(img,(SubbandSyn)sb,c);
+                wavelet2DReconstruction(img,sb,c);
             }
         }
     }

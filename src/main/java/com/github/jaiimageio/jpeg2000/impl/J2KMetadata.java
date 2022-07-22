@@ -805,7 +805,7 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
 
             if (name.equals("BitsPerSample")) {
                 String s = (String)Box.getAttribute(child, "value");
-                bits = (byte[])Box.parseByteArray(s).clone();
+                bits = Box.parseByteArray(s).clone();
             } else if(name.equals("SampleFormat")) {
                 String s = (String)Box.getAttribute(child, "value");
                 isSigned = s.equals("SignedIntegral");
