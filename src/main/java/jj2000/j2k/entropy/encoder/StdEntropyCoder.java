@@ -94,17 +94,6 @@ import jj2000.j2k.wavelet.analysis.CBlkWTData;
  * <p>This implementation buffers the symbols and calls the MQ coder only once
  * per stripe and per coding pass, to reduce the method call overhead.
  *
- * <p>This implementation also provides some timing features. They can be
- * enabled by setting the 'DO_TIMING' constant of this class to true and
- * recompiling. The timing uses the 'System.currentTimeMillis()' Java API
- * call, which returns wall clock time, not the actual CPU time used. The
- * timing results will be printed on the message output. Since the times
- * reported are wall clock times and not CPU usage times they can not be added
- * to find the total used time (i.e. some time might be counted in several
- * places). When timing is disabled ('DO_TIMING' is false) there is no penalty
- * if the compiler performs some basic optimizations. Even if not the penalty
- * should be negligeable.
- *
  * <p>The source module must implement the CBlkQuantDataSrcEnc interface and
  * code-block's data is received in a CBlkWTData instance. This modules sends
  * code-block's information in a CBlkRateDistStats instance.
@@ -115,20 +104,6 @@ import jj2000.j2k.wavelet.analysis.CBlkWTData;
  * */
 public class StdEntropyCoder extends EntropyCoder
     implements StdEntropyCoderOptions {
-
-    /** Whether to collect timing information or not: false. Used as a compile
-     * time directive.
-     * 
-     * WARNING: This does not currently work in OpenJDK 11, 
-     * also uncomment corresponding UNCOMMENT block inline.
-     */
-    private final static boolean DO_TIMING = false;
-
-    /** The cumulative wall time for the entropy coding engine, for each
-     * component. In the single-threaded implementation it is the total time,
-     * in the multi-threaded implementation it is the time spent managing the
-     * compressor threads only. */
-    private long time[];
 
     /** The Java system property name for the number of threads to use:
      jj2000.j2k.entropy.encoder.StdEntropyCoder.nthreads */
@@ -579,10 +554,6 @@ public class StdEntropyCoder extends EntropyCoder
         // Should be private, but some buggy JDK 1.1 compilers complain
         int tType;
 
-        /** The cumulative wall time for this compressor, for each
-         * component. */
-        private long time[];
-
         /**
          * Creates a new compressor object with the given index.
          *
@@ -590,7 +561,6 @@ public class StdEntropyCoder extends EntropyCoder
          * */
         Compressor(int idx) {
             this.idx = idx;
-            if (DO_TIMING) time = new long[src.getNumComps()];
         }
 
         /**
@@ -604,38 +574,16 @@ public class StdEntropyCoder extends EntropyCoder
         public void run() {
 	    // Start the code-block compression
             try {
-                long stime = 0L;
-                if (DO_TIMING) stime = System.currentTimeMillis();
                 compressCodeBlock(c,ccb,srcblkT[idx],mqT[idx],boutT[idx],
                                   outT[idx],stateT[idx],distbufT[idx],
                                   ratebufT[idx],istermbufT[idx],
                                   symbufT[idx],ctxtbufT[idx],options,
                                   rev,lcType,tType);
-                if (DO_TIMING) time[c] += System.currentTimeMillis()-stime;
             }
             finally {
                 // Join the queue of completed compression, even if exceptions
                 // occurred.
                 completedComps[c].push(this);
-            }
-        }
-
-        /**
-         * Returns the wall time spent by this compressor for component 'c'
-         * since the last call to this method (or the creation of this
-         * compressor if not yet called). If DO_TIMING is false 0 is returned.
-         *
-         * @return The wall time in milliseconds spent by this compressor
-         * since the last call to this method.
-         * */
-        synchronized long getTiming(int c) {
-            if (DO_TIMING) {
-                long t = time[c];
-                time[c] = 0L;
-                return t;
-            }
-            else {
-                return 0L;
             }
         }
 
@@ -959,17 +907,6 @@ public class StdEntropyCoder extends EntropyCoder
                                                THREADS_PROP_NAME);
         }
 
-        // If we do timing create necessary structures
-         /* UNCOMMENT AT COMPILE TIME
-        if (DO_TIMING) {
-            time = new long[src.getNumComps()];
-            // If we are timing make sure that 'finalize' gets called.
-            System.runFinalizersOnExit(true);
-            // NOTE: deprecated method runFinalizersOnExit removed in JDK 11+
-            // use OpenJDK 8 to test
-        }
-        */
-
         // If using multithreaded implementation get necessasry objects
         if (nt > 0) {
             FacilityManager.getMsgLogger().
@@ -1032,64 +969,6 @@ public class StdEntropyCoder extends EntropyCoder
     }
 
     /**
-     * Prints the timing information, if collected, and calls 'finalize' on
-     * the super class.
-     * */
-    @Override
-    public void finalize() throws Throwable {
-        if (DO_TIMING) {
-            int c;
-            StringBuffer sb;
-
-            if (tPool == null) { // Single threaded implementation
-                sb = new StringBuffer("StdEntropyCoder compression wall "+
-                                      "clock time:");
-                for (c=0; c<time.length; c++) {
-                    sb.append("\n  component ");
-                    sb.append(c);
-                    sb.append(": ");
-                    sb.append(time[c]);
-                    sb.append(" ms");
-                }
-                FacilityManager.getMsgLogger().
-                    printmsg(MsgLogger.INFO,sb.toString());
-            }
-            else { // Multithreaded implementation
-                Compressor compr;
-                MsgLogger msglog = FacilityManager.getMsgLogger();
-
-                sb = new StringBuffer("StdEntropyCoder manager thread "+
-                                      "wall clock time:");
-                for (c=0; c<time.length; c++) {
-                    sb.append("\n  component ");
-                    sb.append(c);
-                    sb.append(": ");
-                    sb.append(time[c]);
-                    sb.append(" ms");
-                }
-                Enumeration enumVar = idleComps.elements();
-                sb.append("\nStdEntropyCoder compressor threads wall clock "+
-                          "time:");
-                while (enumVar.hasMoreElements()) {
-                    compr = (Compressor)(enumVar.nextElement());
-                    for (c=0; c<time.length; c++) {
-                        sb.append("\n  compressor ");
-                        sb.append(compr.getIdx());
-                        sb.append(", component ");
-                        sb.append(c);
-                        sb.append(": ");
-                        sb.append(compr.getTiming(c));
-                        sb.append(" ms");
-                    }
-                }
-                FacilityManager.getMsgLogger().
-                    printmsg(MsgLogger.INFO,sb.toString());
-            }
-        }
-        super.finalize();
-    }
-
-    /**
      * Returns the code-block width for the specified tile and component.
      *
      * @param t The tile index
@@ -1149,12 +1028,10 @@ public class StdEntropyCoder extends EntropyCoder
      * */
     @Override
     public CBlkRateDistStats getNextCodeBlock(int c, CBlkRateDistStats ccb) {
-        long stime = 0L;     // Start time for timed sections
         if (tPool == null) { // Use single threaded implementation
             // Get code-block data from source
             srcblkT[0] = src.getNextInternCodeBlock(c,srcblkT[0]);
 
-            if (DO_TIMING) stime = System.currentTimeMillis();
             if (srcblkT[0] == null) { // We got all code-blocks
                 return null;
             }
@@ -1172,7 +1049,6 @@ public class StdEntropyCoder extends EntropyCoder
                               istermbufT[0],symbufT[0],ctxtbufT[0],
                               opts[tIdx][c],isReversible(tIdx,c),
                               lenCalc[tIdx][c],tType[tIdx][c]);
-            if (DO_TIMING) time[c] += System.currentTimeMillis()-stime;
             // Return result
             return ccb;
         }
@@ -1180,16 +1056,13 @@ public class StdEntropyCoder extends EntropyCoder
             int cIdx;           // Compressor idx
             Compressor compr;   // Compressor
 
-            if (DO_TIMING) stime = System.currentTimeMillis();
             // Give data to all free compressors, using the current component
             while (!finishedTileComponent[c] && !idleComps.empty()) {
                 // Get an idle compressor
                 compr = (Compressor) idleComps.pop();
                 cIdx = compr.getIdx();
                 // Get data for the compressor and wake it up
-                if (DO_TIMING) time[c] += System.currentTimeMillis()-stime;
                 srcblkT[cIdx] = src.getNextInternCodeBlock(c,srcblkT[cIdx]);
-                if (DO_TIMING) stime = System.currentTimeMillis();
                 if (srcblkT[cIdx] != null) {
                     // Initialize thread local variables
                     if((opts[tIdx][c]&OPT_BYPASS) != 0 && boutT[cIdx] == null){
@@ -1222,13 +1095,7 @@ public class StdEntropyCoder extends EntropyCoder
                     // If no compressor is done, wait until one is
                     if (completedComps[c].empty()) {
                         try {
-                            if (DO_TIMING) {
-                                time[c] += System.currentTimeMillis()-stime;
-                            }
                             completedComps[c].wait();
-                            if (DO_TIMING) {
-                                stime = System.currentTimeMillis();
-                            }
                         } catch (InterruptedException e) {
                         }
                     }
@@ -1241,15 +1108,12 @@ public class StdEntropyCoder extends EntropyCoder
                     // Check targets error condition
                     tPool.checkTargetErrors();
                     // Get the result of compression and return that.
-                    if (DO_TIMING) time[c] += System.currentTimeMillis()-stime;
                     return compr.ccb;
                 }
             }
             else {
                 // Check targets error condition
                 tPool.checkTargetErrors();
-                // Printing timing info if necessary
-                if (DO_TIMING) time[c] += System.currentTimeMillis()-stime;
                 // Nothing is running => no more code-blocks
                 return null;
             }

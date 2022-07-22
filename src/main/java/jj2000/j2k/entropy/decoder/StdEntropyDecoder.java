@@ -80,19 +80,6 @@ import jj2000.j2k.wavelet.synthesis.SubbandSyn;
 public class StdEntropyDecoder extends EntropyDecoder
     implements StdEntropyCoderOptions {
 
-    /** Whether to collect timing information or not: false. Used as a compile
-     * time directive.
-     * 
-     * WARNING: This does not currently work in OpenJDK 11, 
-     * also uncomment corresponding UNCOMMENT block inline 
-     * before recompiling!
-     */
-    private final static boolean DO_TIMING = false;
-
-    /** The cumulative wall time for the entropy coding engine, for each
-     * component. */
-    private long time[];
-
     /** The bit based input for arithmetic coding bypass (i.e. raw) coding */
     private ByteToBitInput bin;
 
@@ -636,31 +623,6 @@ public class StdEntropyDecoder extends EntropyDecoder
     }
 
     /**
-     * Prints the timing information, if collected, and calls 'finalize' on
-     * the super class.
-     * */
-    @Override
-    public void finalize() throws Throwable {
-        if (DO_TIMING) {
-            int c;
-            StringBuffer sb;
-
-            sb = new StringBuffer("StdEntropyDecoder decompression wall "+
-                                  "clock time:");
-            for (c=0; c<time.length; c++) {
-                sb.append("\n  component ");
-                sb.append(c);
-                sb.append(": ");
-                sb.append(time[c]);
-                sb.append(" ms");
-            }
-            FacilityManager.getMsgLogger().
-                printmsg(MsgLogger.INFO,sb.toString());
-        }
-        super.finalize();
-    }
-
-    /**
      * Returns the specified code-block in the current tile for the specified
      * component, as a copy (see below).
      *
@@ -706,7 +668,6 @@ public class StdEntropyDecoder extends EntropyDecoder
     @Override
     public DataBlk getCodeBlock(int c, int m, int n, SubbandSyn sb,
                                 DataBlk cblk) {
-        long stime = 0L;  // Start time for timed sections
         int zc_lut[];     // The ZC lookup table to use
         int out_data[];   // The outupt data buffer
         int npasses;      // The number of coding passes to perform
@@ -720,7 +681,6 @@ public class StdEntropyDecoder extends EntropyDecoder
 
         // Get the code-block to decode
         srcblk = src.getCodeBlock(c,m,n,sb,1,-1,srcblk);
-        if (DO_TIMING) stime = System.currentTimeMillis();
 
         // Retrieve options from decSpec
         options = ((Integer)decSpec.ecopts.
@@ -900,8 +860,6 @@ public class StdEntropyDecoder extends EntropyDecoder
 
             conceal(cblk,curbp);
         }
-
-        if (DO_TIMING) time[c] += System.currentTimeMillis()-stime;
 
         // Return decoded block
         return cblk;

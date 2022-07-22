@@ -46,6 +46,8 @@ package jj2000.j2k.entropy.encoder;
 import java.awt.Point;
 import java.io.IOException;
 
+import com.github.jaiimageio.jpeg2000.impl.J2KImageWriteParamJava;
+
 import jj2000.j2k.codestream.Markers;
 import jj2000.j2k.codestream.PrecInfo;
 import jj2000.j2k.codestream.ProgressionType;
@@ -55,11 +57,8 @@ import jj2000.j2k.codestream.writer.PktEncoder;
 import jj2000.j2k.entropy.Progression;
 import jj2000.j2k.util.FacilityManager;
 import jj2000.j2k.util.MathUtil;
-import jj2000.j2k.util.MsgLogger;
 import jj2000.j2k.util.ProgressWatch;
 import jj2000.j2k.wavelet.analysis.SubbandAn;
-
-import com.github.jaiimageio.jpeg2000.impl.J2KImageWriteParamJava;
 /**
  * This implements the EBCOT post compression rate allocation algorithm. This
  * algorithm finds the most suitable truncation points for the set of
@@ -68,17 +67,6 @@ import com.github.jaiimageio.jpeg2000.impl.J2KImageWriteParamJava;
  * components, and then running the rate-allocation on the whole image at
  * once, for each layer.
  *
- * <P>This implementation also provides some timing features. They can be
- * enabled by setting the 'DO_TIMING' constant of this class to true and
- * recompiling. The timing uses the 'System.currentTimeMillis()' Java API
- * call, which returns wall clock time, not the actual CPU time used. The
- * timing results will be printed on the message output. Since the times
- * reported are wall clock times and not CPU usage times they can not be added
- * to find the total used time (i.e. some time might be counted in several
- * places). When timing is disabled ('DO_TIMING' is false) there is no penalty
- * if the compiler performs some basic optimizations. Even if not the penalty
- * should be negligeable.
- *
  * @see PostCompRateAllocator
  *
  * @see CodedCBlkDataSrcEnc
@@ -86,23 +74,6 @@ import com.github.jaiimageio.jpeg2000.impl.J2KImageWriteParamJava;
  * @see jj2000.j2k.codestream.writer.CodestreamWriter
  * */
 public class EBCOTRateAllocator extends PostCompRateAllocator {
-
-    /** Whether to collect timing information or not: false. Used as a compile
-     * time directive.
-     * 
-     * WARNING: This does not currently work in OpenJDK 11, 
-     * also uncomment corresponding UNCOMMENT block inline.
-     */
-    private final static boolean DO_TIMING = false;
-
-    /** The wall time for the initialization. */
-    private long initTime;
-
-    /** The wall time for the building of layers. */
-    private long buildTime;
-
-    /** The wall time for the writing of layers. */
-    private long writeTime;
 
     /**
      * 5D Array containing all the coded code-blocks:
@@ -223,24 +194,6 @@ public class EBCOTRateAllocator extends PostCompRateAllocator {
         int i;
         SubbandAn sb, sb2;
         Point ncblks = null;
-
-        // If we do timing create necessary structures
-        /* UNCOMMENT AT COMPILE TIME
-        if (DO_TIMING) {
-            // If we are timing make sure that 'finalize' gets called.
-            System.runFinalizersOnExit(true);
-            // NOTE: deprecated method runFinalizersOnExit removed in JDK 11+
-            // use OpenJDK 8 to test
-
-            // The System.runFinalizersOnExit() method is deprecated in Java
-            // 1.2 since it can cause a deadlock in some cases. However, here
-            // we use it only for profiling purposes and is disabled in
-            // production code.
-            initTime = 0L;
-            buildTime = 0L;
-            writeTime = 0L;
-        }
-        */
 
         // Save the layer specs
         lyrSpec = lyrs;
@@ -391,31 +344,6 @@ public class EBCOTRateAllocator extends PostCompRateAllocator {
     }
 
     /**
-     * Prints the timing information, if collected, and calls 'finalize' on
-     * the super class.
-     * */
-    @Override
-    public void finalize() throws Throwable {
-        if (DO_TIMING) {
-            StringBuffer sb;
-
-            sb = new StringBuffer("EBCOTRateAllocator wall clock times:\n");
-            sb.append("  initialization: ");
-            sb.append(initTime);
-            sb.append(" ms\n");
-            sb.append("  layer building: ");
-            sb.append(buildTime);
-            sb.append(" ms\n");
-            sb.append("  final writing:  ");
-            sb.append(writeTime);
-            sb.append(" ms");
-            FacilityManager.getMsgLogger().
-                printmsg(MsgLogger.INFO,sb.toString());
-        }
-        super.finalize();
-    }
-
-    /**
      * Runs the rate allocation algorithm and writes the data to the bit
      * stream writer object provided to the constructor.
      * */
@@ -448,13 +376,9 @@ public class EBCOTRateAllocator extends PostCompRateAllocator {
         int numLvls;
         int avgPktLen;
 
-        long stime = 0L;
-
         // Start by getting all the code-blocks, we need this in order to have
         // an idea of the total encoded bitrate.
         getAllCodeBlocks();
-
-        if (DO_TIMING) stime = System.currentTimeMillis();
 
         // Now get the total encoded length
         totenclength = RDSlopesRates[0]; // all the encoded data
@@ -621,8 +545,6 @@ public class EBCOTRateAllocator extends PostCompRateAllocator {
                             "default progression type has been defined.");
 	    }
 	} // End loop on tiles
-
-        if (DO_TIMING) initTime += System.currentTimeMillis()-stime;
     }
 
     /**
@@ -644,8 +566,6 @@ public class EBCOTRateAllocator extends PostCompRateAllocator {
         Point ncblks = null;
         int last_sidx;
         float fslope;
-
-        long stime = 0L;
 
         maxSlope = 0f;
         minSlope = Float.MAX_VALUE;
@@ -688,8 +608,6 @@ public class EBCOTRateAllocator extends PostCompRateAllocator {
 
                 //Get next coded code-block coordinates
                 while ( (ccb = src.getNextCodeBlock(c,ccb)) != null) {
-                    if (DO_TIMING) stime = System.currentTimeMillis();
-
                     if(pw!=null) {
                         nEncCblk++;
                         pw.updateProgressWatch(nEncCblk,null);
@@ -724,8 +642,6 @@ public class EBCOTRateAllocator extends PostCompRateAllocator {
                     //Fills code-blocks array
                     cblks[t][c][r][s][(ccb.m*ncblks.x)+ccb.n] = ccb;
                     ccb = null;
-
-                    if(DO_TIMING) initTime += System.currentTimeMillis()-stime;
                 }
             }
 
@@ -760,10 +676,6 @@ public class EBCOTRateAllocator extends PostCompRateAllocator {
         int nc = src.getNumComps();
         int nt = src.getNumTiles();
         int mrl;
-
-        long stime = 0L;
-
-        if (DO_TIMING) stime = System.currentTimeMillis();
 
         // Start with the maximum slope
         rdThreshold = maxSlope;
@@ -850,11 +762,7 @@ public class EBCOTRateAllocator extends PostCompRateAllocator {
             layers[l].actualBytes = actualBytes;
         } // end loop on layers
 
-        if (DO_TIMING) buildTime += System.currentTimeMillis()-stime;
-
         // The bit-stream was not yet generated (only simulated).
-
-        if (DO_TIMING) stime = System.currentTimeMillis();
 
         // +--------------------------------------------------+
         // | Write tiles according to their Progression order |
@@ -915,8 +823,6 @@ public class EBCOTRateAllocator extends PostCompRateAllocator {
                     }
             } // End loop on progression
         } // End loop on tiles
-
-        if (DO_TIMING) writeTime += System.currentTimeMillis()-stime;
     }
 
     /** 
