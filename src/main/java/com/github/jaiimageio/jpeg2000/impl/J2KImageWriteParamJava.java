@@ -81,7 +81,7 @@ import com.github.jaiimageio.jpeg2000.J2KImageWriteParam;
  * These parameters are marked as <code>Yes</code> in the column <code>
  * TC_SPEC</code> in the following parameter table.
  * They must be provided according to the pattern:
- * [&lt;tile-component idx>] &lt;param&gt; (repeated as many time as needed),
+ * [&lt;tile-component idx&gt;] &lt;param&gt; (repeated as many time as needed),
  * where &lt;tile-component idx&gt; respect the following policy according to
  * the degree of priority:
  * <table>
@@ -91,7 +91,7 @@ import com.github.jaiimageio.jpeg2000.J2KImageWriteParam;
  * <tr><td>(4) &lt;void&gt; : Default specification.</td></tr>
  * </table>
  * <p>Where the priorities of the specifications are:
- * (1) > (2) > (3) > (4), (">" means "overrides")
+ * (1) &gt; (2) &gt; (3) &gt; (4), ("&gt;" means "overrides")
  *  &lt;idx&gt;: "," separates indexes, "-" separates bounds of indexes list.
  *  (for example, 0,2-4 means indexes 0,2,3 and  4).
  *

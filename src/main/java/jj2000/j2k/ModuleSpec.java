@@ -497,7 +497,7 @@ public class ModuleSpec implements Cloneable {
      * component indexes set for an option. Such an argument must
      * follow the following policy:<br>
      *
-     * <tt>t\<indexes set\></tt> or <tt>c\<indexes set\></tt> where
+     * <tt>t&lt;indexes set&gt;</tt> or <tt>c&lt;indexes set&gt;</tt> where
      * tile or component indexes are separated by commas or a
      * dashes.
      *

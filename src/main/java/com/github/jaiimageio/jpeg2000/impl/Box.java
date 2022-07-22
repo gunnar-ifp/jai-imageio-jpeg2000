@@ -581,7 +581,7 @@ public class Box {
             ios.write(data, 0, length);
     }
 
-    /** Reads a box from the <code>ImageInputStream</code. at the provided
+    /** Reads a box from the <code>ImageInputStream</code>. at the provided
      *  position.
      */
     public void read(ImageInputStream iis, int pos) throws IOException {

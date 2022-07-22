@@ -408,7 +408,7 @@ public class FileFormatReader implements FileFormatBoxes{
      *
      * @param length The length of the JP2Header box
      *
-     * @param longLength The length of the JP2Header box if greater than 1<<32
+     * @param longLength The length of the JP2Header box if greater than 1&lt;&lt;32
      *
      * @return false if the Contiguous codestream box was not found or invalid
      * else true

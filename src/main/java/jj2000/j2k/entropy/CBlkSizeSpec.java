@@ -310,13 +310,13 @@ public class CBlkSizeSpec extends ModuleSpec {
      * can take the following values :<br>
      *
      * <ul>
-     * <li>SPEC_DEF -> Default value is returned. t and c values are
+     * <li>SPEC_DEF -&gt; Default value is returned. t and c values are
      * ignored</li>
-     * <li>SPEC_COMP_DEF -> Component default value is returned. t value is
+     * <li>SPEC_COMP_DEF -&gt; Component default value is returned. t value is
      * ignored</li>
-     * <li>SPEC_TILE_DEF -> Tile default value is returned. c value is
+     * <li>SPEC_TILE_DEF -&gt; Tile default value is returned. c value is
      * ignored</li>
-     * <li>SPEC_TILE_COMP -> Tile/Component value is returned.</li>
+     * <li>SPEC_TILE_COMP -&gt; Tile/Component value is returned.</li>
      * </ul>
      *
      * @param type The type of the value we want to be returned
@@ -359,13 +359,13 @@ public class CBlkSizeSpec extends ModuleSpec {
      * can take the following values :
      *
      * <ul>
-     * <li>SPEC_DEF -> Default value is returned. t and c values are
+     * <li>SPEC_DEF -&gt; Default value is returned. t and c values are
      * ignored</li>
-     * <li>SPEC_COMP_DEF -> Component default value is returned. t value is
+     * <li>SPEC_COMP_DEF -&gt; Component default value is returned. t value is
      * ignored</li>
-     * <li>SPEC_TILE_DEF -> Tile default value is returned. c value is
+     * <li>SPEC_TILE_DEF -&gt; Tile default value is returned. c value is
      * ignored</li>
-     * <li>SPEC_TILE_COMP -> Tile/Component value is returned.</li>
+     * <li>SPEC_TILE_COMP -&gt; Tile/Component value is returned.</li>
      * </ul>
      *
      * @param type The type of the value we want to be returned

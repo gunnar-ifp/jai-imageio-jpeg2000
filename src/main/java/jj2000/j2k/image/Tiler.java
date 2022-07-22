@@ -146,10 +146,10 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      * reference grid).
      *
      * @param px The horizontal tiling origin, in the canvas system, on the
-     * reference grid. It must satisfy 'px<=ax'.
+     * reference grid. It must satisfy 'px&lt;=ax'.
      *
      * @param py The vertical tiling origin, in the canvas system, on the
-     * reference grid. It must satisfy 'py<=ay'.
+     * reference grid. It must satisfy 'py&lt;=ay'.
      *
      * @param nw The nominal tile width, on the reference grid. If 0 then
      * there is no tiling in that direction.
