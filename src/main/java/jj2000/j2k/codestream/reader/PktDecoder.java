@@ -47,6 +47,7 @@ import java.awt.Point;
 import java.io.ByteArrayInputStream;
 import java.io.EOFException;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Vector;
 
 import jj2000.j2k.codestream.CBlkCoordInfo;
@@ -55,7 +56,6 @@ import jj2000.j2k.codestream.PrecInfo;
 import jj2000.j2k.decoder.DecoderSpecs;
 import jj2000.j2k.entropy.StdEntropyCoderOptions;
 import jj2000.j2k.io.RandomAccessIO;
-import jj2000.j2k.util.ArrayUtil;
 import jj2000.j2k.util.MathUtil;
 import jj2000.j2k.wavelet.synthesis.SubbandSyn;
 
@@ -347,7 +347,7 @@ public class PktDecoder implements StdEntropyCoderOptions{
                     lblock[c][r][s] = new int[nBlk.y][nBlk.x];
 
                     for(int i=nBlk.y-1;i>=0;i--) {
-                        ArrayUtil.intArraySet(lblock[c][r][s][i],INIT_LBLOCK);
+                        Arrays.fill(lblock[c][r][s][i],INIT_LBLOCK);
                     }
                 } // loop on subbands
             } // End loop on resolution levels

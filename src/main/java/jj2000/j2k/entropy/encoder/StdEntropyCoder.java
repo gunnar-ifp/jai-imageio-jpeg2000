@@ -43,7 +43,7 @@
  * */
 package jj2000.j2k.entropy.encoder;
 import java.awt.Point;
-import java.util.Enumeration;
+import java.util.Arrays;
 import java.util.Stack;
 
 import jj2000.j2k.ModuleSpec;
@@ -52,7 +52,6 @@ import jj2000.j2k.entropy.CBlkSizeSpec;
 import jj2000.j2k.entropy.PrecinctSizeSpec;
 import jj2000.j2k.entropy.StdEntropyCoderOptions;
 import jj2000.j2k.quantization.quantizer.CBlkQuantDataSrcEnc;
-import jj2000.j2k.util.ArrayUtil;
 import jj2000.j2k.util.FacilityManager;
 import jj2000.j2k.util.MsgLogger;
 import jj2000.j2k.util.ThreadPool;
@@ -1254,7 +1253,7 @@ public class StdEntropyCoder extends EntropyCoder
         lmb = (lmb < 0) ? 0:lmb;
 
         // Reset state
-        ArrayUtil.intArraySet(state,0);
+        Arrays.fill(state,0);
 
         // Find the most significant bit-plane
         skipbp = calcSkipMSBP(srcblk,lmb);

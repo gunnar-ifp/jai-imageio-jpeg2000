@@ -43,7 +43,7 @@
  * */
 package jj2000.j2k.codestream.writer;
 
-import jj2000.j2k.util.ArrayUtil;
+import java.util.Arrays;
 
 /**
  * This class implements a buffer for writing bits, with the required bit
@@ -95,7 +95,7 @@ public class BitOutputBuffer {
         // Reinit pointers
         curbyte = 0;
         avbits = 8;
-        ArrayUtil.byteArraySet(buf,(byte)0);
+        Arrays.fill(buf,(byte)0);
     }
 
     /**

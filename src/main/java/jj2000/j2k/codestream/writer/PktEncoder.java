@@ -45,17 +45,17 @@
 
 package jj2000.j2k.codestream.writer;
 import java.awt.Point;
+import java.util.Arrays;
 import java.util.Vector;
+
+import com.github.jaiimageio.jpeg2000.impl.J2KImageWriteParamJava;
 
 import jj2000.j2k.codestream.CBlkCoordInfo;
 import jj2000.j2k.codestream.PrecInfo;
 import jj2000.j2k.entropy.encoder.CBlkRateDistStats;
 import jj2000.j2k.entropy.encoder.CodedCBlkDataSrcEnc;
-import jj2000.j2k.util.ArrayUtil;
 import jj2000.j2k.util.MathUtil;
 import jj2000.j2k.wavelet.analysis.SubbandAn;
-
-import com.github.jaiimageio.jpeg2000.impl.J2KImageWriteParamJava;
 /**
  * This class builds packets and keeps the state information of packet
  * interdependencies. It also supports saving the state and reverting
@@ -308,10 +308,10 @@ public class PktEncoder {
                         numcb = sb.numCb.x*sb.numCb.y;
 
                         lblock[t][c][r][s] = new int[numcb];
-                        ArrayUtil.intArraySet(lblock[t][c][r][s],INIT_LBLOCK);
+                        Arrays.fill(lblock[t][c][r][s],INIT_LBLOCK);
 
                         prevtIdxs[t][c][r][s] = new int[numcb];
-                        ArrayUtil.intArraySet(prevtIdxs[t][c][r][s],-1);
+                        Arrays.fill(prevtIdxs[t][c][r][s],-1);
                     }
                 }
             }
@@ -1272,9 +1272,9 @@ public class PktEncoder {
                     maxsbi = (r==0) ? 1 : 4;
                     for (int s=minsbi; s<maxsbi; s++) {
                         // Reset 'prevtIdxs'
-                        ArrayUtil.intArraySet(prevtIdxs_t_c_r[s],-1);
+                        Arrays.fill(prevtIdxs_t_c_r[s],-1);
                         // Reset 'lblock'
-                        ArrayUtil.intArraySet(lblock_t_c[r][s],INIT_LBLOCK);
+                        Arrays.fill(lblock_t_c[r][s],INIT_LBLOCK);
                     } // End loop on subbands
 
                     // Loop on precincts

@@ -46,7 +46,7 @@
  */
 package jj2000.j2k.codestream.writer;
 
-import jj2000.j2k.util.ArrayUtil;
+import java.util.Arrays;
 
 /**
  * This class implements the tag tree encoder. A tag tree codes a 2D
@@ -139,7 +139,7 @@ public class TagTreeEncoder {
         init(w,h);
         // Set values to max
         for (k = treeV.length-1; k >= 0; k--) {
-            ArrayUtil.intArraySet(treeV[k],Integer.MAX_VALUE);
+            Arrays.fill(treeV[k],Integer.MAX_VALUE);
         }
     }
 
@@ -510,8 +510,8 @@ public class TagTreeEncoder {
         // Set all values to Integer.MAX_VALUE
         // and states to 0
         for (k = lvls-1; k >= 0; k--) {
-            ArrayUtil.intArraySet(treeV[k],Integer.MAX_VALUE);
-            ArrayUtil.intArraySet(treeS[k],0);
+            Arrays.fill(treeV[k],Integer.MAX_VALUE);
+            Arrays.fill(treeS[k],0);
         }
         // Invalidate saved tree
         saved = false;
@@ -535,7 +535,7 @@ public class TagTreeEncoder {
         recalcTreeV();
         // Set all states to 0
         for (k = lvls-1; k >= 0; k--) {
-            ArrayUtil.intArraySet(treeS[k],0);
+            Arrays.fill(treeS[k],0);
         }
         // Invalidate saved tree
         saved = false;

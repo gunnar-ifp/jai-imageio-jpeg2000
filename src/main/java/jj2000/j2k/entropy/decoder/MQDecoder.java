@@ -47,7 +47,7 @@
  */
 package jj2000.j2k.entropy.decoder;
 
-import jj2000.j2k.util.ArrayUtil;
+import java.util.Arrays;
 
 /**
  * This class implements the MQ arithmetic decoder. It is implemented using
@@ -679,7 +679,7 @@ public class MQDecoder {
      */
     public final void resetCtxts(){
         System.arraycopy(initStates,0,I,0,I.length);
-        ArrayUtil.intArraySet(mPS,0);
+        Arrays.fill(mPS,0);
     }
 
     /**

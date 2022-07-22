@@ -45,8 +45,9 @@
  * */
 package jj2000.j2k.entropy.encoder;
 
+import java.util.Arrays;
+
 import jj2000.j2k.entropy.StdEntropyCoderOptions;
-import jj2000.j2k.util.ArrayUtil;
 
 /**
  * This class implements the MQ arithmetic coder. When initialized a specific
@@ -1047,7 +1048,7 @@ public class MQCoder {
      * */
     public final void resetCtxts(){
         System.arraycopy(initStates,0,I,0,I.length);
-        ArrayUtil.intArraySet(mPS,0);
+        Arrays.fill(mPS,0);
     }
 
     /**

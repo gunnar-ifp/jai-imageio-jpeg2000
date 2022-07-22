@@ -47,6 +47,7 @@ import java.io.ByteArrayInputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Vector;
 
 import javax.imageio.stream.ImageInputStream;
@@ -65,7 +66,6 @@ import jj2000.j2k.entropy.StdEntropyCoderOptions;
 import jj2000.j2k.entropy.decoder.DecLyrdCBlk;
 import jj2000.j2k.io.RandomAccessIO;
 import jj2000.j2k.quantization.dequantizer.StdDequantizerParams;
-import jj2000.j2k.util.ArrayUtil;
 import jj2000.j2k.util.FacilityManager;
 import jj2000.j2k.util.MathUtil;
 import jj2000.j2k.util.MsgLogger;
@@ -2463,7 +2463,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
             ccb.tsLengths = new int[nts];
         } else if (nts>1 &&
                    (options & (OPT_BYPASS|OPT_TERM_PASS)) == OPT_BYPASS) {
-            ArrayUtil.intArraySet(ccb.tsLengths,0);
+            Arrays.fill(ccb.tsLengths,0);
         }
 
         // Fill ccb with compressed data

@@ -50,8 +50,7 @@ package jj2000.j2k.codestream.reader;
 
 import java.io.EOFException;
 import java.io.IOException;
-
-import jj2000.j2k.util.ArrayUtil;
+import java.util.Arrays;
 
 /**
  * This class implements the tag tree decoder. A tag tree codes a 2D
@@ -137,7 +136,7 @@ public class TagTreeDecoder {
         for (i=0; i<lvls; i++) {
             treeV[i] = new int[h*w];
             // Initialize to infinite value
-            ArrayUtil.intArraySet(treeV[i],Integer.MAX_VALUE);
+            Arrays.fill(treeV[i],Integer.MAX_VALUE);
 
             // (no need to initialize to 0 since it's the default)
             treeS[i] = new int[h*w];

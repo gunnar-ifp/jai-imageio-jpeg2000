@@ -42,11 +42,12 @@
  * Copyright (c) 1999/2000 JJ2000 Partners.
  * */
 package jj2000.j2k.entropy.decoder;
+import java.util.Arrays;
+
 import jj2000.j2k.decoder.DecoderSpecs;
 import jj2000.j2k.entropy.StdEntropyCoderOptions;
 import jj2000.j2k.image.DataBlk;
 import jj2000.j2k.image.DataBlkInt;
-import jj2000.j2k.util.ArrayUtil;
 import jj2000.j2k.util.FacilityManager;
 import jj2000.j2k.util.MsgLogger;
 import jj2000.j2k.wavelet.Subband;
@@ -687,7 +688,7 @@ public class StdEntropyDecoder extends EntropyDecoder
                    getTileCompVal(tIdx,c)).intValue();
 
         // Reset state
-        ArrayUtil.intArraySet(state,0);
+        Arrays.fill(state, 0);
 
         // Initialize output code-block
         if (cblk==null) {
@@ -707,7 +708,7 @@ public class StdEntropyDecoder extends EntropyDecoder
             cblk.setData(out_data);
         } else {
             // Set data values to 0
-            ArrayUtil.intArraySet(out_data,0);
+            Arrays.fill(out_data,0);
 	}
 
         if (srcblk.nl <= 0 || srcblk.nTrunc <= 0) {
