@@ -56,6 +56,11 @@ package jj2000.j2k.util;
 public class StringFormatException extends IllegalArgumentException {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = -1603143177940018199L;
+
+    /**
      * Creates the exception with an empty messgage.
      *
      *

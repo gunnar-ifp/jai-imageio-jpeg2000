@@ -57,6 +57,11 @@ package jj2000.j2k;
 public class NoNextElementException extends RuntimeException {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = 7199033090111766493L;
+
+    /**
      * Constructs a new <tt>NoNextElementException</tt> exception with no
      * detail message.
      *
