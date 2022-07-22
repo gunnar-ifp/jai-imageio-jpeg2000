@@ -289,7 +289,7 @@ public abstract class PostCompRateAllocator extends ImgDataAdapter {
         ratepending = false;
         islayer = false;
         r = 0; // to keep compiler happy
-        while (stok.ttype != stok.TT_EOF) {
+        while (stok.ttype != StreamTokenizer.TT_EOF) {
             switch(stok.ttype) {
             case StreamTokenizer.TT_NUMBER:
                 if (islayer) { // layer parameter
@@ -337,7 +337,7 @@ public abstract class PostCompRateAllocator extends ImgDataAdapter {
                     throw new Error("An IOException has ocurred where it "+
                                     "should never occur");
                 }
-                if (stok.ttype != stok.TT_EOF) {
+                if (stok.ttype != StreamTokenizer.TT_EOF) {
                     throw new
                         IllegalArgumentException("'sl' argument of "+
                                                  "'-Alayers' option must be "+

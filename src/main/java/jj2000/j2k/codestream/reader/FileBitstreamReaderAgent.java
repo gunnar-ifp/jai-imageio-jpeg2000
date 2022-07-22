@@ -933,7 +933,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
         // found)
         do {
             hd.extractTilePartMarkSeg(in.readShort(),in,tile,tilePart);
-        } while ((hd.getNumFoundMarkSeg() & hd.SOD_FOUND)==0);
+        } while ((hd.getNumFoundMarkSeg() & HeaderDecoder.SOD_FOUND)==0);
 
         // Read each marker segment previously found
         hd.readFoundTilePartMarkSeg(tile,tilePart);

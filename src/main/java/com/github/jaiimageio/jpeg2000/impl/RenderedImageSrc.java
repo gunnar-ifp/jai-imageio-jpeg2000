@@ -53,6 +53,8 @@ import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
 
+import javax.imageio.ImageWriteParam;
+
 import jj2000.j2k.JJ2KExceptionHandler;
 import jj2000.j2k.image.BlkImgDataSrc;
 import jj2000.j2k.image.DataBlk;
@@ -215,7 +217,7 @@ public class RenderedImageSrc implements BlkImgDataSrc {
             tileXOffset = param.getTileGridXOffset();
             tileYOffset = param.getTileGridYOffset();
         } catch(IllegalStateException e) {
-            param.setTilingMode(param.MODE_EXPLICIT);
+            param.setTilingMode(ImageWriteParam.MODE_EXPLICIT);
             if (inputIsRaster) {
                 param.setTiling(raster.getWidth(), raster.getHeight(),
                                 raster.getMinX(), raster.getMinY());
