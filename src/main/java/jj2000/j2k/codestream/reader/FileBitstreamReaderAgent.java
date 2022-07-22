@@ -51,7 +51,9 @@ import java.util.Arrays;
 import java.util.Vector;
 
 import javax.imageio.stream.ImageInputStream;
-import javax.imageio.stream.MemoryCacheImageInputStream;
+import javax.imageio.stream.ImageInputStreamImpl;
+
+import com.github.jaiimageio.jpeg2000.impl.J2KImageReadParamJava;
 
 import jj2000.j2k.JJ2KExceptionHandler;
 import jj2000.j2k.NoNextElementException;
@@ -70,8 +72,6 @@ import jj2000.j2k.util.FacilityManager;
 import jj2000.j2k.util.MathUtil;
 import jj2000.j2k.util.MsgLogger;
 import jj2000.j2k.wavelet.synthesis.SubbandSyn;
-
-import com.github.jaiimageio.jpeg2000.impl.J2KImageReadParamJava;
 
 /**
  * This class reads the bit stream (with the help of HeaderDecoder for tile
@@ -425,9 +425,15 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
                 }
 
                 // Create a stream.
-                ByteArrayInputStream bais =
-                    new ByteArrayInputStream(tlmSegments[itlm]);
-                ImageInputStream iis = new MemoryCacheImageInputStream(bais);
+                final ByteArrayInputStream bais = new ByteArrayInputStream(tlmSegments[itlm]);
+                final ImageInputStream iis = new ImageInputStreamImpl() {
+                    @Override public int read(byte[] b, int off, int len) {
+                        return bais.read(b, off, len);
+                    }
+                    @Override public int read() {
+                        return bais.read();
+                    }
+                };
 
                 try {
                     int Stlm = iis.read();
@@ -466,6 +472,8 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
                     }
                 } catch(IOException e) {
                     // XXX?
+                } finally {
+                    iis.close();
                 }
             }
 
