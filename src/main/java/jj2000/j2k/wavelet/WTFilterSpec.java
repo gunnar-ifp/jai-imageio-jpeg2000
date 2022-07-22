@@ -96,9 +96,6 @@ public abstract class WTFilterSpec {
      *
      * @param nc The number of components
      *
-     * @param nt The number of tiles
-     *
-     *
      * */
     protected WTFilterSpec(int nc) {
         specValType = new byte[nc];
