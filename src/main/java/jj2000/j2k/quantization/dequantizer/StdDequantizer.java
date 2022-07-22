@@ -260,7 +260,9 @@ public class StdDequantizer extends Dequantizer {
 	    params = (StdDequantizerParams)qsss.getTileCompVal(tIdx,c);
         int G = ((Integer)gbs.getTileCompVal(tIdx,c)).intValue();
 
-        outdtype = cblk.getDataType();
+        if ( cblk!=null ) {
+            outdtype = cblk.getDataType();
+        }
 
         if (reversible && outdtype!=DataBlk.TYPE_INT) {
             throw new IllegalArgumentException("Reversible quantizations "+
