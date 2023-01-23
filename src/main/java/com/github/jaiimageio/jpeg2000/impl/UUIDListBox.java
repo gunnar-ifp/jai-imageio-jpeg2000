@@ -91,7 +91,7 @@ public class UUIDListBox extends Box {
             Node child = children.item(i);
 
             if ("NumberUUID".equals(child.getNodeName())) {
-                num = (short)Box.getShortElementValue(child);
+                num = Box.getShortElementValue(child);
                 uuids = new byte[num][];
             }
 
@@ -107,6 +107,7 @@ public class UUIDListBox extends Box {
     }
 
     /** Parses the data elements from the provided content data array. */
+    @Override
     protected void parse(byte[] data) {
         num = (short)(((data[0] & 0xFF) << 8) | (data[1] & 0xFF));
 
@@ -123,12 +124,13 @@ public class UUIDListBox extends Box {
      *  box.  The format of this node is defined in the XML dtd and xsd
      *  for the JP2 image file.
      */
+    @Override
     public IIOMetadataNode getNativeNode() {
         IIOMetadataNode node = new IIOMetadataNode(Box.getName(getType()));
         setDefaultAttributes(node);
 
         IIOMetadataNode child = new IIOMetadataNode("NumberUUID");
-        child.setUserObject(new Short(num));
+        child.setUserObject(Short.valueOf(num));
 	child.setNodeValue("" + num);
         node.appendChild(child);
 
@@ -142,6 +144,7 @@ public class UUIDListBox extends Box {
         return node;
     }
 
+    @Override
     protected void compose() {
         if (data != null)
             return;

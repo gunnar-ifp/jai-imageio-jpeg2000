@@ -60,6 +60,11 @@ import java.io.IOException;
 public class CorruptedCodestreamException extends IOException {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = -5273081182631363170L;
+
+    /**
      * Constructs a new <tt>CorruptedCodestreamException</tt> exception
      * with no detail message.
      *

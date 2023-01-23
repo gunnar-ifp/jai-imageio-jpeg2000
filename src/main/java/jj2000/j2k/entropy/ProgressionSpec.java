@@ -177,7 +177,7 @@ public class ProgressionSpec extends ModuleSpec {
 		// is determined by the value of needInteger.
 		if(needInteger){ // Progression bound info
 		    try{
-			tmp = (new Integer(word)).intValue();
+			tmp = Integer.parseInt(word);
 		    }
 		    catch(NumberFormatException e){
 			// Progression has missing parameters

@@ -137,8 +137,6 @@ public class FileCodestreamWriter extends CodestreamWriter
      * @param mb The maximum number of bytes that can be written to the bit
      * stream.
      *
-     * @param encSpec The encoder's specifications
-     *
      * @exception IOException If an error occurs while trying to open the file
      * for writing or while writing the magic number.
      * */
@@ -183,6 +181,7 @@ public class FileCodestreamWriter extends CodestreamWriter
      *
      * @return The number of bytes remaining available in the bit stream.
      * */
+    @Override
     public final int getMaxAvailableBytes() {
         return maxBytes-ndata;
     }
@@ -192,6 +191,7 @@ public class FileCodestreamWriter extends CodestreamWriter
      *
      * @return the current length of the bit stream
      * */
+    @Override
     public int getLength() {
         if (getMaxAvailableBytes() >= 0) {
             return ndata;
@@ -240,6 +240,7 @@ public class FileCodestreamWriter extends CodestreamWriter
      *
      * @see #commitBitstreamHeader
      * */
+    @Override
     public int writePacketHead(byte head[],int hlen,boolean sim,
 			       boolean sop, boolean eph) throws IOException{
         int len = hlen
@@ -315,6 +316,7 @@ public class FileCodestreamWriter extends CodestreamWriter
      *
      * @see #commitBitstreamHeader
      * */
+    @Override
     public int writePacketBody(byte body[],int blen,boolean sim,
                                boolean roiInPkt, int roiLen)
         throws IOException{
@@ -351,6 +353,7 @@ public class FileCodestreamWriter extends CodestreamWriter
      * @exception IOException If an error occurs while closing the underlying
      * stream.
      * */
+    @Override
     public void close() throws IOException {
 
 	// Write the EOC marker and close the codestream.
@@ -367,6 +370,7 @@ public class FileCodestreamWriter extends CodestreamWriter
      *
      * @return End of last ROI packet
      * */
+    @Override
     public int getOffLastROIPkt(){
         return offLastROIPkt;
     }
@@ -380,6 +384,7 @@ public class FileCodestreamWriter extends CodestreamWriter
      *
      * @exception IOException If an I/O error occurs while writing the data.
      * */
+    @Override
     public void commitBitstreamHeader(HeaderEncoder he) throws IOException {
         // Actualize ndata
         ndata += he.getLength();

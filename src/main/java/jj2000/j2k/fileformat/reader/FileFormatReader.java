@@ -146,8 +146,6 @@ public class FileFormatReader implements FileFormatBoxes{
      * and if so finds the first codestream in the file. Currently, the
      * information in the codestream is not used
      *
-     * @param in The RandomAccessIO from which to read the file format
-     *
      * @exception java.io.IOException If an I/O error ocurred.
      *
      * @exception java.io.EOFException If end of file is reached
@@ -178,14 +176,14 @@ public class FileFormatReader implements FileFormatBoxes{
                in.readInt() != 0x0d0a870a){ // Not a JP2 file
                 in.seek(pos);
 
-                marker = (short)in.readShort();
+                marker = in.readShort();
                 if(marker != Markers.SOC) //Standard syntax marker found
                     throw new Error("File is neither valid JP2 file nor "+
                                     "valid JPEG 2000 codestream");
                 in.seek(pos);
                 if(codeStreamPos == null)
                     codeStreamPos = new Vector();
-                codeStreamPos.addElement(new Integer(pos));
+                codeStreamPos.addElement(Integer.valueOf(pos));
                 return;
             }
 
@@ -208,7 +206,7 @@ public class FileFormatReader implements FileFormatBoxes{
                 } else if(length == 1) {
                     longLength = in.readLong();
                     throw new IOException("File too long.");
-                } else longLength = (long) 0;
+                } else longLength = 0;
 
                 pos = in.getPos();
                 length -= 8;
@@ -350,12 +348,7 @@ public class FileFormatReader implements FileFormatBoxes{
     /**
      * This method reads the JP2Header box
      *
-     * @param pos The position in the file
-     *
      * @param length The length of the JP2Header box
-     *
-     * @param long length The length of the JP2Header box if greater than
-     * 1<<32
      *
      * @return false if the JP2Header box was not found or invalid else true
      *
@@ -413,11 +406,9 @@ public class FileFormatReader implements FileFormatBoxes{
      * This method skips the Contiguous codestream box and adds position
      * of contiguous codestream to a vector
      *
-     * @param pos The position in the file
-     *
      * @param length The length of the JP2Header box
      *
-     * @param long length The length of the JP2Header box if greater than 1<<32
+     * @param longLength The length of the JP2Header box if greater than 1&lt;&lt;32
      *
      * @return false if the Contiguous codestream box was not found or invalid
      * else true
@@ -435,12 +426,12 @@ public class FileFormatReader implements FileFormatBoxes{
 
         if(codeStreamPos == null)
             codeStreamPos = new Vector();
-        codeStreamPos.addElement(new Integer(ccpos));
+        codeStreamPos.addElement(Integer.valueOf(ccpos));
 
         // Add new codestream length to length vector
         if(codeStreamLength == null)
             codeStreamLength = new Vector();
-        codeStreamLength.addElement(new Integer(length));
+        codeStreamLength.addElement(Integer.valueOf(length));
 
         return true;
     }
@@ -510,7 +501,7 @@ public class FileFormatReader implements FileFormatBoxes{
         compSize = new byte[numComp];
 
         for (int i = 0; i < numComp; i++) {
-            compSize[i] = (byte)in.readByte();
+            compSize[i] = in.readByte();
         }
 
         lut = new byte[numComp][lutSize];
@@ -595,13 +586,13 @@ public class FileFormatReader implements FileFormatBoxes{
      */
     public void readColourSpecificationBox(int length)throws IOException {
         // read METHOD field
-        byte method = (byte)in.readByte();
+        byte method = in.readByte();
 
         // read PREC field
-        byte prec = (byte)in.readByte();
+        byte prec = in.readByte();
 
         // read APPROX field
-        byte approx = (byte)in.readByte();
+        byte approx = in.readByte();
 
         if (method == 2) {
             byte[] data = new byte[length - 3];

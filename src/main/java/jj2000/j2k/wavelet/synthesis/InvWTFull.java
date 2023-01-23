@@ -175,6 +175,7 @@ public class InvWTFull extends InverseWT {
      *
      * @return true is the wavelet transform is reversible, false if not.
      * */
+    @Override
     public boolean isReversible(int t,int c) {
         if (reversible[t] == null) {
             // Reversibility not yet calculated for this tile
@@ -207,6 +208,7 @@ public class InvWTFull extends InverseWT {
      * @return The number of bits corresponding to the nominal range of the
      * data.
      * */
+    @Override
     public int getNomRangeBits(int c) {
         return src.getNomRangeBits(c);
     }
@@ -229,6 +231,7 @@ public class InvWTFull extends InverseWT {
      * @return The position of the fixed-point, which is the same as the
      * number of fractional bits. For floating-point data 0 is returned.
      * */
+    @Override
     public int getFixedPoint(int c) {
         return src.getFixedPoint(c);
     }
@@ -259,6 +262,7 @@ public class InvWTFull extends InverseWT {
      *
      * @see #getInternCompData
      * */
+    @Override
     public final DataBlk getInternCompData(DataBlk blk, int c) {
         int tIdx = getTileIdx();
         if(src.getSynSubbandTree(tIdx,c).getHorWFilter()==null) {
@@ -339,6 +343,7 @@ public class InvWTFull extends InverseWT {
      *
      * @see #getCompData
      * */
+    @Override
     public DataBlk getCompData(DataBlk blk, int c) {
         int j;
         Object src_data,dst_data;
@@ -547,7 +552,7 @@ public class InvWTFull extends InverseWT {
                 waveletTreeReconstruction(img,(SubbandSyn)sb.getHH(),c);
 
                 //Perform the 2D wavelet decomposition of the current subband
-                wavelet2DReconstruction(img,(SubbandSyn)sb,c);
+                wavelet2DReconstruction(img,sb,c);
             }
         }
     }
@@ -562,6 +567,7 @@ public class InvWTFull extends InverseWT {
      *
      * @see WaveletTransform#WT_IMPL_FULL
      * */
+    @Override
     public int getImplementationType(int c) {
         return WaveletTransform.WT_IMPL_FULL;
     }
@@ -575,6 +581,7 @@ public class InvWTFull extends InverseWT {
      *
      * @param y The vertical index of the new tile.
      * */
+    @Override
     public void setTile(int x,int y) {
         int i;
 
@@ -624,6 +631,7 @@ public class InvWTFull extends InverseWT {
      * columns). An 'NoNextElementException' is thrown if the current tile is
      * the last one (i.e. there is no next tile).
      * */
+    @Override
     public void nextTile() {
         int i;
 

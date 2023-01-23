@@ -93,6 +93,7 @@ public abstract class ImgDataAdapter implements ImgData {
      *
      * @return The total current tile's width in pixels.
      * */
+    @Override
     public int getTileWidth() {
         return imgdatasrc.getTileWidth();
     }
@@ -106,16 +107,19 @@ public abstract class ImgDataAdapter implements ImgData {
      *
      * @return The total current tile's height in pixels.
      * */
+    @Override
     public int getTileHeight() {
         return imgdatasrc.getTileHeight();
     }
 
     /** Returns the nominal tiles width */
+    @Override
     public int getNomTileWidth() {
         return imgdatasrc.getNomTileWidth();
     }
 
     /** Returns the nominal tiles height */
+    @Override
     public int getNomTileHeight() {
         return imgdatasrc.getNomTileHeight();
     }
@@ -128,6 +132,7 @@ public abstract class ImgDataAdapter implements ImgData {
      *
      * @return The total image's width in pixels.
      * */
+    @Override
     public int getImgWidth() {
         return imgdatasrc.getImgWidth();
     }
@@ -140,6 +145,7 @@ public abstract class ImgDataAdapter implements ImgData {
      *
      * @return The total image's height in pixels.
      * */
+    @Override
     public int getImgHeight() {
         return imgdatasrc.getImgHeight();
     }
@@ -151,6 +157,7 @@ public abstract class ImgDataAdapter implements ImgData {
      *
      * @return The number of components in the image.
      * */
+    @Override
     public int getNumComps() {
         return imgdatasrc.getNumComps();
     }
@@ -169,6 +176,7 @@ public abstract class ImgDataAdapter implements ImgData {
      *
      * @see ImgData
      * */
+    @Override
     public int getCompSubsX(int c) {
         return imgdatasrc.getCompSubsX(c);
     }
@@ -187,6 +195,7 @@ public abstract class ImgDataAdapter implements ImgData {
      *
      * @see ImgData
      * */
+    @Override
     public int getCompSubsY(int c) {
         return imgdatasrc.getCompSubsY(c);
     }
@@ -203,6 +212,7 @@ public abstract class ImgDataAdapter implements ImgData {
      *
      * @return The width in pixels of component <tt>c</tt> in tile<tt>t</tt>.
      * */
+    @Override
     public int getTileCompWidth(int t,int c) {
         return imgdatasrc.getTileCompWidth(t,c);
     }
@@ -219,6 +229,7 @@ public abstract class ImgDataAdapter implements ImgData {
      * @return The height in pixels of component <tt>c</tt> in tile
      * <tt>t</tt>.
      * */
+    @Override
     public int getTileCompHeight(int t,int c) {
         return imgdatasrc.getTileCompHeight(t,c);
     }
@@ -234,6 +245,7 @@ public abstract class ImgDataAdapter implements ImgData {
      * @return The width in pixels of component <tt>c</tt> in the overall
      * image.
      * */
+    @Override
     public int getCompImgWidth(int c) {
         return imgdatasrc.getCompImgWidth(c);
     }
@@ -249,6 +261,7 @@ public abstract class ImgDataAdapter implements ImgData {
      * @return The height in pixels of component <tt>c</tt> in the overall
      * image.
      * */
+    @Override
     public int getCompImgHeight(int c) {
         return imgdatasrc.getCompImgHeight(c);
     }
@@ -269,6 +282,7 @@ public abstract class ImgDataAdapter implements ImgData {
      * @return The number of bits corresponding to the nominal range of the
      * image data (in the image domain).
      * */
+    @Override
     public int getNomRangeBits(int c) {
         return imgdatasrc.getNomRangeBits(c);
     }
@@ -284,6 +298,7 @@ public abstract class ImgDataAdapter implements ImgData {
      *
      * @param y The vertical index of the new tile.
      * */
+    @Override
     public void setTile(int x, int y) {
         imgdatasrc.setTile(x,y);
 	tIdx = getTileIdx();
@@ -297,6 +312,7 @@ public abstract class ImgDataAdapter implements ImgData {
      * <p>This default implementation just advances to the next tile in the
      * source.</p>
      * */
+    @Override
     public void nextTile() {
         imgdatasrc.nextTile();
 	tIdx = getTileIdx();
@@ -313,6 +329,7 @@ public abstract class ImgDataAdapter implements ImgData {
      *
      * @return The current tile's indexes (vertical and horizontal indexes).
      * */
+    @Override
     public Point getTile(Point co) {
         return imgdatasrc.getTile(co);
     }
@@ -325,6 +342,7 @@ public abstract class ImgDataAdapter implements ImgData {
      * 
      * @return The current tile's index (starts at 0).
      * */
+    @Override
     public int getTileIdx() {
         return imgdatasrc.getTileIdx();
     }
@@ -337,6 +355,7 @@ public abstract class ImgDataAdapter implements ImgData {
      *
      * @param c The component index.
      * */
+    @Override
     public int getCompULX(int c) {
         return imgdatasrc.getCompULX(c);
     }
@@ -349,16 +368,19 @@ public abstract class ImgDataAdapter implements ImgData {
      *
      * @param c The component index.
      * */
+    @Override
     public int getCompULY(int c) {
         return imgdatasrc.getCompULY(c);
     }
 
     /** Returns the horizontal tile partition offset in the reference grid */
+    @Override
     public int getTilePartULX() {
         return imgdatasrc.getTilePartULX();
     }
 
     /** Returns the vertical tile offset in the reference grid */
+    @Override
     public int getTilePartULY() {
         return imgdatasrc.getTilePartULY();
     }
@@ -372,6 +394,7 @@ public abstract class ImgDataAdapter implements ImgData {
      * @return The horizontal coordinate of the image origin in the canvas
      * system, on the reference grid.
      * */
+    @Override
     public int getImgULX() {
         return imgdatasrc.getImgULX();
     }
@@ -385,6 +408,7 @@ public abstract class ImgDataAdapter implements ImgData {
      * @return The vertical coordinate of the image origin in the canvas
      * system, on the reference grid.
      * */
+    @Override
     public int getImgULY() {
         return imgdatasrc.getImgULY();
     }
@@ -400,6 +424,7 @@ public abstract class ImgDataAdapter implements ImgData {
      * @return The number of tiles in the horizontal (Point.x) and vertical
      * (Point.y) directions.
      * */
+    @Override
     public Point getNumTiles(Point co) {
         return imgdatasrc.getNumTiles(co);
     }
@@ -411,6 +436,7 @@ public abstract class ImgDataAdapter implements ImgData {
      *
      * @return The total number of tiles in the image.
      * */
+    @Override
     public int getNumTiles() {
         return imgdatasrc.getNumTiles();
     }

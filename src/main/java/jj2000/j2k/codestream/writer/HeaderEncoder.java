@@ -161,7 +161,7 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions {
      *
      * @param tiler The tiler module.
      *
-     * @param encSpec The encoder specifications
+     * @param wp The encoder specifications
      *
      * @param roiSc The ROI scaler module.
      *
@@ -405,13 +405,13 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions {
 
         // Are SOP markers used ?
 	if (mh) {
-            if( ((String)wp.getSOP().getDefault().toString())
+            if( wp.getSOP().getDefault().toString()
                  .equalsIgnoreCase("true") ) {
                 tmp |= SCOX_USE_SOP;
             }
         }
         else {
-            if ( ((String)wp.getSOP().getTileDef(tileIdx).toString())
+            if ( wp.getSOP().getTileDef(tileIdx).toString()
                  .equalsIgnoreCase("true") ) {
                 tmp |= SCOX_USE_SOP;
             }
@@ -419,13 +419,13 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions {
 
         // Are EPH markers used ?
         if(mh){
-            if ( ((String)wp.getEPH().getDefault().toString())
+            if ( wp.getEPH().getDefault().toString()
                  .equalsIgnoreCase("true") ) {
                 tmp |= SCOX_USE_EPH;
             }
         }
         else{
-            if ( ((String)wp.getEPH().getTileDef(tileIdx).toString())
+            if ( wp.getEPH().getTileDef(tileIdx).toString()
                  .equalsIgnoreCase("true") ) {
                 tmp |= SCOX_USE_EPH;
             }
@@ -1693,7 +1693,7 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions {
      * (if needed)</li> <li>RGN (if needed)</li> <li>POC (if needed)</li>
      * <li>SOD</li> </ol>
      *
-     * @param length The length of the current tile-part.
+     * @param tileLength The length of the current tile-part.
      *
      * @param tileIdx Index of the tile to write
      * */

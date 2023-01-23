@@ -102,7 +102,7 @@ public class DataBlkInt extends DataBlk {
      * Creates a DataBlkInt which is the copy of the DataBlkInt
      * given as paramter.
      *
-     * @param DataBlkInt the object to be copied.
+     * @param src the object to be copied.
      *
      *
      * */
@@ -130,6 +130,7 @@ public class DataBlkInt extends DataBlk {
      *
      *
      * */
+    @Override
     public final int getDataType() {
         return TYPE_INT;
     }
@@ -144,6 +145,7 @@ public class DataBlkInt extends DataBlk {
      *
      *
      */
+    @Override
     public final Object getData() {
         return data;
     }
@@ -170,6 +172,7 @@ public class DataBlkInt extends DataBlk {
      *
      *
      * */
+    @Override
     public final void setData(Object arr) {
         data = (int[]) arr;
     }
@@ -190,6 +193,7 @@ public class DataBlkInt extends DataBlk {
     /**
      * Returns a string of informations about the DataBlkInt.
      * */
+    @Override
     public String toString(){
         String str = super.toString();
         if(data!=null) {

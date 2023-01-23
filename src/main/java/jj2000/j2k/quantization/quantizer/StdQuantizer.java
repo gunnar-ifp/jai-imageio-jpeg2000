@@ -138,7 +138,7 @@ public class StdQuantizer extends Quantizer {
      *
      * @param src The source of wavelet transform coefficients.
      *
-     * @param encSpec The encoder specifications
+     * @param wp The encoder specifications
      * */
     public StdQuantizer(CBlkWTDataSrc src,J2KImageWriteParamJava wp){
 	super(src);
@@ -166,6 +166,7 @@ public class StdQuantizer extends Quantizer {
      *
      * @return The number of guard bits
      * */
+    @Override
     public int getNumGuardBits(int t,int c){
         return ((Integer)gbs.getTileCompVal(t,c)).intValue();
     }
@@ -181,6 +182,7 @@ public class StdQuantizer extends Quantizer {
      *
      * @return True if the quantized data is reversible, false if not.
      * */
+    @Override
     public boolean isReversible(int t,int c){
 	return qts.isReversible(t,c);
     }
@@ -196,6 +198,7 @@ public class StdQuantizer extends Quantizer {
      * @return True if derived
      *
      */
+    @Override
     public boolean isDerived(int t,int c){
 	return qts.isDerived(t,c);
     }
@@ -234,6 +237,7 @@ public class StdQuantizer extends Quantizer {
      *
      * @see CBlkWTData
      * */
+    @Override
     public CBlkWTData getNextCodeBlock(int c,CBlkWTData cblk) {
         return getNextInternCodeBlock(c,cblk);
     }
@@ -272,6 +276,7 @@ public class StdQuantizer extends Quantizer {
      *
      * @see CBlkWTData
      * */
+    @Override
     public final CBlkWTData getNextInternCodeBlock(int c, CBlkWTData cblk) {
         // NOTE: this method is declared final since getNextCodeBlock() relies
         // on this particular implementation
@@ -430,6 +435,7 @@ public class StdQuantizer extends Quantizer {
      *
      * @see SubbandAn#stepWMSE
      * */
+    @Override
     protected void calcSbParams(SubbandAn sb,int c){
 	float baseStep;
 
@@ -502,7 +508,7 @@ public class StdQuantizer extends Quantizer {
         // able to represent 2**31)
         return (-1f-((float)(ems&QSTEP_MAX_MANTISSA)) /
                 ((float)(1<<QSTEP_MANTISSA_BITS))) /
-            (float)(-1<<((ems>>QSTEP_MANTISSA_BITS)&QSTEP_MAX_EXPONENT));
+            (-1<<((ems>>QSTEP_MANTISSA_BITS)&QSTEP_MAX_EXPONENT));
     }
 
     /**
@@ -514,6 +520,7 @@ public class StdQuantizer extends Quantizer {
      * @return The maximum number of magnitude bits in all subbands of the
      * current tile.
      * */
+    @Override
     public int getMaxMagBits(int c){
         Subband sb = getAnSubbandTree(tIdx,c);
         if(isReversible(tIdx,c)){

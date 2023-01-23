@@ -252,6 +252,7 @@ public class BitOutputBuffer {
      *
      * @return Information about the object.
      * */
+    @Override
     public String toString() {
         return "bits written = "+(curbyte*8+(8-avbits))+
             ", curbyte = "+curbyte+", avbits = "+avbits;

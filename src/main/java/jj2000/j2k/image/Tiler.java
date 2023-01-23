@@ -146,10 +146,10 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      * reference grid).
      *
      * @param px The horizontal tiling origin, in the canvas system, on the
-     * reference grid. It must satisfy 'px<=ax'.
+     * reference grid. It must satisfy 'px&lt;=ax'.
      *
      * @param py The vertical tiling origin, in the canvas system, on the
-     * reference grid. It must satisfy 'py<=ay'.
+     * reference grid. It must satisfy 'py&lt;=ay'.
      *
      * @param nw The nominal tile width, on the reference grid. If 0 then
      * there is no tiling in that direction.
@@ -224,6 +224,7 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      *
      * @return The total current tile width in pixels.
      * */
+    @Override
     public final int getTileWidth() {
         return tileW;
     }
@@ -234,6 +235,7 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      *
      * @return The total current tile height in pixels.
      * */
+    @Override
     public final int getTileHeight() {
         return tileH;
     }
@@ -247,6 +249,7 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      *
      * @return The width of specified tile-component.
      * */
+    @Override
     public final int getTileCompWidth(int t,int c) {
         if(t!=getTileIdx()) {
             throw new Error("Asking the width of a tile-component which is "+
@@ -265,6 +268,7 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      *
      * @return The height of specified tile-component.
      * */
+    @Override
     public final int getTileCompHeight(int t,int c) {
         if(t!=getTileIdx()) {
             throw new Error("Asking the width of a tile-component which is "+
@@ -288,6 +292,7 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      * @return The position of the fixed-point, which is the same as the
      * number of fractional bits. For floating-point data 0 is returned.
      * */
+    @Override
     public int getFixedPoint(int c) {
         return src.getFixedPoint(c);
     }
@@ -331,6 +336,7 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      *
      * @see #getCompData
      * */
+    @Override
     public final DataBlk getInternCompData(DataBlk blk,int c) {
         // Check that block is inside tile
         if (blk.ulx<0 || blk.uly<0 || blk.w>compW[c] || blk.h>compH[c]) {
@@ -386,6 +392,7 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      *
      * @see #getInternCompData
      * */
+    @Override
     public final DataBlk getCompData(DataBlk blk,int c) {
         // Check that block is inside tile
         if (blk.ulx<0 || blk.uly<0 || blk.w>compW[c] || blk.h>compH[c]) {
@@ -412,6 +419,7 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      *
      * @param y The vertical index of the new tile.
      * */
+    @Override
     public final void setTile(int x,int y) {
         src.setTile(x, y);
 
@@ -454,6 +462,7 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      * columns). An NoNextElementException is thrown if the current tile is
      * the last one (i.e. there is no next tile).
      * */
+    @Override
     public final void nextTile() {
         if (tx==ntX-1 && ty==ntY-1) { // Already at last tile
             throw new NoNextElementException();
@@ -472,6 +481,7 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      *
      * @return The current tile's horizontal and vertical indexes..
      * */
+    @Override
     public final Point getTile(Point co) {
         if (co != null) {
             co.x = tx;
@@ -488,6 +498,7 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      *
      * @return The current tile's index (starts at 0).
      * */
+    @Override
     public final int getTileIdx() {
         return ty*ntX+tx;
     }
@@ -498,6 +509,7 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      *
      * @param c The component index.
      * */
+    @Override
     public final int getCompULX(int c) {
         return tcx0[c];
     }
@@ -508,16 +520,19 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      *
      * @param c The component index.
      * */
+    @Override
     public final int getCompULY(int c) {
         return tcy0[c];
     }
 
     /** Returns the horizontal tile partition offset in the reference grid */
+    @Override
     public int getTilePartULX() {
         return xt0siz;
     }
 
     /** Returns the vertical tile partition offset in the reference grid */
+    @Override
     public int getTilePartULY() {
         return yt0siz;
     }
@@ -529,6 +544,7 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      * @return The horizontal coordinate of the image origin in the canvas
      * system, on the reference grid.
      * */
+    @Override
     public final int getImgULX() {
         return x0siz;
     }
@@ -540,6 +556,7 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      * @return The vertical coordinate of the image origin in the canvas
      * system, on the reference grid.
      * */
+    @Override
     public final int getImgULY() {
         return y0siz;
     }
@@ -553,6 +570,7 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      * @return The number of tiles in the horizontal (Point.x) and vertical
      * (Point.y) directions.
      * */
+    @Override
     public final Point getNumTiles(Point co) {
         if (co != null) {
             co.x = ntX;
@@ -568,6 +586,7 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      *
      * @return The total number of tiles in the image.
      * */
+    @Override
     public final int getNumTiles() {
         return ntX*ntY;
     }
@@ -577,6 +596,7 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      *
      * @return The nominal tile width, in the reference grid.
      * */
+    @Override
     public final int getNomTileWidth() {
         return xtsiz;
     }
@@ -586,6 +606,7 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      *
      * @return The nominal tile width, in the reference grid.
      * */
+    @Override
     public final int getNomTileHeight() {
         return ytsiz;
     }
@@ -617,6 +638,7 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      *
      * @return Tiler's infos in a string
      * */
+    @Override
     public String toString() {
 	return "Tiler: source= "+src+
 	    "\n"+getNumTiles()+" tile(s), nominal width="+xtsiz+

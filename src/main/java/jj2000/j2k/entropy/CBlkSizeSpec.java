@@ -93,10 +93,6 @@ public class CBlkSizeSpec extends ModuleSpec {
      *
      * @param type the type of the specification module i.e. tile specific,
      * component specific or both.
-     *
-     * @param imgsrc The image source (used to get the image size)
-     *
-     * @param pl The ParameterList instance
      * */
     public CBlkSizeSpec(int nt, int nc, byte type, J2KImageWriteParamJava wp, String values) {
         super(nt, nc, type);
@@ -152,7 +148,7 @@ public class CBlkSizeSpec extends ModuleSpec {
                 Integer dim[] = new Integer[2];
                 // Get code-block's width
                 try {
-                    dim[0] = new Integer(word);
+                    dim[0] = Integer.valueOf(word);
                     // Check that width is not >
                     // StdEntropyCoderOptions.MAX_CB_DIM
                     if( dim[0].intValue()>StdEntropyCoderOptions.MAX_CB_DIM ){
@@ -194,7 +190,7 @@ public class CBlkSizeSpec extends ModuleSpec {
                 }
                 // Get the code-block's height
                 try {
-                    dim[1] = new Integer(word);
+                    dim[1] = Integer.valueOf(word);
                     // Check that height is not >
                     // StdEntropyCoderOptions.MAX_CB_DIM
                     if ( dim[1].intValue()>StdEntropyCoderOptions.MAX_CB_DIM ){
@@ -314,13 +310,13 @@ public class CBlkSizeSpec extends ModuleSpec {
      * can take the following values :<br>
      *
      * <ul>
-     * <li>SPEC_DEF -> Default value is returned. t and c values are
+     * <li>SPEC_DEF -&gt; Default value is returned. t and c values are
      * ignored</li>
-     * <li>SPEC_COMP_DEF -> Component default value is returned. t value is
+     * <li>SPEC_COMP_DEF -&gt; Component default value is returned. t value is
      * ignored</li>
-     * <li>SPEC_TILE_DEF -> Tile default value is returned. c value is
+     * <li>SPEC_TILE_DEF -&gt; Tile default value is returned. c value is
      * ignored</li>
-     * <li>SPEC_TILE_COMP -> Tile/Component value is returned.</li>
+     * <li>SPEC_TILE_COMP -&gt; Tile/Component value is returned.</li>
      * </ul>
      *
      * @param type The type of the value we want to be returned
@@ -363,13 +359,13 @@ public class CBlkSizeSpec extends ModuleSpec {
      * can take the following values :
      *
      * <ul>
-     * <li>SPEC_DEF -> Default value is returned. t and c values are
+     * <li>SPEC_DEF -&gt; Default value is returned. t and c values are
      * ignored</li>
-     * <li>SPEC_COMP_DEF -> Component default value is returned. t value is
+     * <li>SPEC_COMP_DEF -&gt; Component default value is returned. t value is
      * ignored</li>
-     * <li>SPEC_TILE_DEF -> Tile default value is returned. c value is
+     * <li>SPEC_TILE_DEF -&gt; Tile default value is returned. c value is
      * ignored</li>
-     * <li>SPEC_TILE_COMP -> Tile/Component value is returned.</li>
+     * <li>SPEC_TILE_COMP -&gt; Tile/Component value is returned.</li>
      * </ul>
      *
      * @param type The type of the value we want to be returned
@@ -403,6 +399,7 @@ public class CBlkSizeSpec extends ModuleSpec {
      *
      * @param value Default value
      * */
+    @Override
     public void setDefault(Object value){
         super.setDefault(value);
 
@@ -414,10 +411,11 @@ public class CBlkSizeSpec extends ModuleSpec {
      * Sets default value for specified tile and specValType tag if allowed by
      * its priority.
      *
-     * @param c Tile index.
+     * @param t Tile index.
      *
      * @param value Tile's default value
      *  */
+    @Override
     public void setTileDef(int t, Object value){
         super.setTileDef(t, value);
 
@@ -433,6 +431,7 @@ public class CBlkSizeSpec extends ModuleSpec {
      *
      * @param value Component's default value
      *  */
+    @Override
     public void setCompDef(int c, Object value){
         super.setCompDef(c, value);
 
@@ -449,6 +448,7 @@ public class CBlkSizeSpec extends ModuleSpec {
      *
      * @param value Tile-component's value
      *  */
+    @Override
     public void setTileCompVal(int t,int c, Object value){
         super.setTileCompVal(t, c, value);
 

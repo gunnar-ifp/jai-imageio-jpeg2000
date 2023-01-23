@@ -259,6 +259,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
      * Returns the vertical code-block partition origin. Allowable values are
      * 0 and 1, nothing else.
      * */
+    @Override
     public final int getCbULX() {
         return hd.getCbULX();
     }
@@ -267,6 +268,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
      * Returns the vertical code-block partition origin. Allowable values are
      * 0 and 1, nothing else.
      * */
+    @Override
     public int getCbULY() {
         return hd.getCbULY();
     }
@@ -276,6 +278,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
      *
      * @return The number of components in the image.
      * */
+    @Override
     public final int getNumComps() {
         return nc;
     }
@@ -292,6 +295,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
      *
      * @see jj2000.j2k.image.ImgData
      * */
+    @Override
     public final int getCompSubsX(int c) {
         return hd.getCompSubsX(c);
     }
@@ -308,6 +312,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
      *
      * @see jj2000.j2k.image.ImgData
      * */
+    @Override
     public int getCompSubsY(int c) {
         return hd.getCompSubsY(c);
     }
@@ -332,6 +337,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
      *
      * @return The current tile's width in pixels.
      * */
+    @Override
     public int getTileWidth(int rl){
 	// The minumum number of decomposition levels between all the
 	// components
@@ -375,6 +381,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
      *
      * @return The total current tile's height in pixels.
      * */
+    @Override
     public int getTileHeight(int rl){
 	// The minumum number of decomposition levels between all the
 	// components
@@ -418,6 +425,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
      *
      * @return The total image's width in pixels.
      * */
+    @Override
     public int getImgWidth(int rl){
 	// The minimum number of decomposition levels of each
 	// tile-component
@@ -452,6 +460,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
      *
      * @return The total image's height in pixels.
      * */
+    @Override
     public int getImgHeight(int rl){
 	int mindl = decSpec.dls.getMin();
         if(rl>mindl){
@@ -485,6 +494,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
      * @return The horizontal coordinate of the image origin in the canvas
      * system, on the reference grid.
      * */
+    @Override
     public int getImgULX(int rl){
 	int mindl = decSpec.dls.getMin();
         if(rl>mindl){
@@ -518,6 +528,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
      * @return The vertical coordinate of the image origin in the canvas
      * system, on the reference grid.
      * */
+    @Override
     public int getImgULY(int rl){
 	int mindl = decSpec.dls.getMin();
         if(rl>mindl){
@@ -544,6 +555,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
      * @return The width in pixels of component <tt>c</tt> in tile <tt>t</tt>
      * for resolution level <tt>rl</tt>.
      * */
+    @Override
     public final int getTileCompWidth(int t,int c,int rl) {
         int tIdx = getTileIdx();
         if(t!=tIdx) {
@@ -573,6 +585,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
      * @return The height in pixels of component <tt>c</tt> in the current
      * tile.
      * */
+    @Override
     public final int getTileCompHeight(int t,int c,int rl) {
         int tIdx = getTileIdx();
         if(t!=tIdx) {
@@ -612,6 +625,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
      * @return The width in pixels of component <tt>c</tt> in the overall
      * image.
      * */
+    @Override
     public final int getCompImgWidth(int c,int rl){
 	// indexation (0 is hi-res)
         // Calculate image starting x at component hi-res grid
@@ -645,6 +659,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
      * @return The height in pixels of component <tt>c</tt> in the overall
      * image.
      * */
+    @Override
     public final int getCompImgHeight(int c,int rl){
 	// indexation (0 is hi-res)
         // Calculate image starting x at component hi-res grid
@@ -665,6 +680,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
      *
      * @param y The vertical indexes of the new tile.
      * */
+    @Override
     public abstract void setTile(int x, int y);
 
     /**
@@ -672,6 +688,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
      * columns). An NoNextElementException is thrown if the current tile is
      * the last one (i.e. there is no next tile).
      * */
+    @Override
     public abstract void nextTile();
 
     /**
@@ -683,6 +700,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
      *
      * @return The current tile's indexes (vertical and horizontal indexes).
      * */
+    @Override
     public final Point getTile(Point co) {
         if (co != null) {
             co.x = ctX;
@@ -700,6 +718,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
      *
      * @return The current tile's index (starts at 0).
      * */
+    @Override
     public final int getTileIdx() {
         return ctY*ntX+ctX;
     }
@@ -712,6 +731,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
      *  
      * @param rl The resolution level index.
      * */
+    @Override
     public final int getResULX(int c,int rl) {
         int dl = mdl[c]-rl;
         if(dl<0){
@@ -720,7 +740,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
                                                "least, one component in "+
                                                "tile: "+ctX+"x"+ctY);
         }
-        int tx0 = (int)Math.max(px+ctX*ntW,ax);
+        int tx0 = Math.max(px+ctX*ntW,ax);
         int tcx0 = (int)Math.ceil(tx0/(double)getCompSubsX(c));
         return (int)Math.ceil(tcx0/(double)(1<<dl));
     }
@@ -733,6 +753,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
      *
      * @param rl The resolution level index.
      * */
+    @Override
     public final int getResULY(int c,int rl) {
         int dl = mdl[c]-rl;
         if(dl<0){
@@ -741,7 +762,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
                                                "least, one component in "+
                                                "tile: "+ctX+"x"+ctY);
         }
-        int ty0 = (int)Math.max(py+ctY*ntH,ay);
+        int ty0 = Math.max(py+ctY*ntH,ay);
         int tcy0 = (int)Math.ceil(ty0/(double)getCompSubsY(c));
         return (int)Math.ceil(tcy0/(double)(1<<dl));
     }
@@ -755,6 +776,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
      * @return The number of tiles in the horizontal (Point.x) and vertical
      * (Point.y) directions.
      * */
+    @Override
     public final Point getNumTiles(Point co) {
         if (co != null) {
             co.x = ntX;
@@ -771,6 +793,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
      *
      * @return The total number of tiles in the image.
      * */
+    @Override
     public final int getNumTiles() {
         return ntX*ntY;
     }
@@ -792,6 +815,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
      *
      * @return The root of the tree structure.
      * */
+    @Override
     public final SubbandSyn getSynSubbandTree(int t,int c) {
         if(t!=getTileIdx()) {
             throw new IllegalArgumentException("Can not request subband"+
@@ -1066,21 +1090,25 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
     }
 
     /** Returns the horizontal offset of tile partition */
+    @Override
     public int getTilePartULX() {
         return hd.getTilingOrigin(null).x;
     }
 
     /** Returns the vertical offset of tile partition */
+    @Override
     public int getTilePartULY() {
         return hd.getTilingOrigin(null).y;
     }
 
     /** Returns the nominal tile width */
+    @Override
     public int getNomTileWidth() {
         return hd.getNomTileWidth();
     }
 
     /** Returns the nominal tile height */
+    @Override
     public int getNomTileHeight() {
         return hd.getNomTileHeight();
     }

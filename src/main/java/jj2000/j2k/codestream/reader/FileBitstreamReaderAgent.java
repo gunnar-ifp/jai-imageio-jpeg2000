@@ -448,7 +448,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
                         if(tlmOffsets[tileIndex] == null) {
                             tlmOffsets[tileIndex] = new ArrayList();
                         }
-                        tlmOffsets[tileIndex].add(new Long(tilePos));
+                        tlmOffsets[tileIndex].add(Long.valueOf(tilePos));
 
                         long tileLength = 0L;
                         switch(SP) {
@@ -933,7 +933,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
         // found)
         do {
             hd.extractTilePartMarkSeg(in.readShort(),in,tile,tilePart);
-        } while ((hd.getNumFoundMarkSeg() & hd.SOD_FOUND)==0);
+        } while ((hd.getNumFoundMarkSeg() & HeaderDecoder.SOD_FOUND)==0);
 
         // Read each marker segment previously found
         hd.readFoundTilePartMarkSeg(tile,tilePart);
@@ -1059,7 +1059,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
 
                         // Store packet's head length
                         hlen = in.getPos()-start;
-                        pktHL.addElement(new Integer(hlen));
+                        pktHL.addElement(Integer.valueOf(hlen));
 
                         // Reads packet's body
                         status = pktDec.readPktBody(l,r,c,p,cbI[c][r],nBytes);
@@ -1198,7 +1198,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
 
                         // Store packet's head length
                         hlen = in.getPos()-start;
-                        pktHL.addElement(new Integer(hlen));
+                        pktHL.addElement(Integer.valueOf(hlen));
 
                         // Reads packet's body
                         status = pktDec.readPktBody(l,r,c,p,cbI[c][r],nBytes);
@@ -1406,7 +1406,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
 
                             // Store packet's head length
                             hlen = in.getPos()-start;
-                            pktHL.addElement(new Integer(hlen));
+                            pktHL.addElement(Integer.valueOf(hlen));
 
 
                             // Reads packet's body
@@ -1613,7 +1613,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
 
                             // Store packet's head length
                             hlen = in.getPos()-start;
-                            pktHL.addElement(new Integer(hlen));
+                            pktHL.addElement(Integer.valueOf(hlen));
 
                             // Reads packet's body
                             status = pktDec.readPktBody(l,r,c,nextPrec[c][r],
@@ -1833,7 +1833,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
 
                             // Store packet's head length
                             hlen = in.getPos()-start;
-                            pktHL.addElement(new Integer(hlen));
+                            pktHL.addElement(Integer.valueOf(hlen));
 
                             // Reads packet's body
                             status = pktDec.readPktBody(l,r,c,nextPrec[c][r],
@@ -2185,6 +2185,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
      *
      * @param y The vertical indexes of the new tile.
      * */
+    @Override
     public void setTile(int x,int y) {
 
         int i;          // counter
@@ -2262,6 +2263,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
      * then columns). An NoNextElementException is thrown if the
      * current tile is the last one (i.e. there is no next tile).
      * */
+    @Override
     public void nextTile(){
         if (ctX == ntX-1 && ctY == ntY-1) { // Already at last tile
             throw new NoNextElementException();
@@ -2323,6 +2325,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
      * @return The compressed code-block, with a certain number of layers
      * determined by the available data and 'nl'.
      * */
+    @Override
     public DecLyrdCBlk getCodeBlock(int c,int m,int n,SubbandSyn sb,int fl,
                                     int nl,DecLyrdCBlk ccb) {
 

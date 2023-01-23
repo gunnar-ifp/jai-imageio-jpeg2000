@@ -76,6 +76,7 @@ public class CBlkCoordInfo extends CoordInfo {
      *
      * @return String with code-block's information
      * */
+    @Override
     public String toString() {
         return super.toString() + ", idx="+idx;
     }

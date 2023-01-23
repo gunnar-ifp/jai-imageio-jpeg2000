@@ -212,7 +212,7 @@ public class ByteInputBuffer {
      * */
     public int readChecked() throws IOException {
         if (pos < count) {
-            return (int)buf[pos++] & 0xFF;
+            return buf[pos++] & 0xFF;
         } else {
             throw new EOFException();
         }
@@ -232,7 +232,7 @@ public class ByteInputBuffer {
      * */
     public int read() {
         if (pos < count) {
-            return (int)buf[pos++] & 0xFF;
+            return buf[pos++] & 0xFF;
         } else {
             return -1;
         }

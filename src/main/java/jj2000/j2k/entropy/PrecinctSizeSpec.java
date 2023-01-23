@@ -138,9 +138,9 @@ public class PrecinctSizeSpec extends ModuleSpec {
         // Markers.PRECINCT_PARTITION_DEF_SIZE
         Vector tmpv[] = new Vector[2];
         tmpv[0] = new Vector(); // ppx
-        tmpv[0].addElement(new Integer(Markers.PRECINCT_PARTITION_DEF_SIZE));
+        tmpv[0].addElement(Integer.valueOf(Markers.PRECINCT_PARTITION_DEF_SIZE));
         tmpv[1] = new Vector(); // ppy
-        tmpv[1].addElement(new Integer(Markers.PRECINCT_PARTITION_DEF_SIZE));
+        tmpv[1].addElement(Integer.valueOf(Markers.PRECINCT_PARTITION_DEF_SIZE));
         setDefault(tmpv);
 
         if ( param==null ) {
@@ -212,7 +212,7 @@ public class PrecinctSizeSpec extends ModuleSpec {
                     // Now get the precinct dimensions
                     try {
                         // Get precinct width
-                        w = new Integer(word);
+                        w = Integer.valueOf(word);
 
                         // Get next word in argument list
                         try {
@@ -225,7 +225,7 @@ public class PrecinctSizeSpec extends ModuleSpec {
 
                         }
                         // Get precinct height
-                        h = new Integer(word);
+                        h = Integer.valueOf(word);
                         if (w.intValue() != (1<<MathUtil.log2(w.intValue()))
                             || h.intValue() !=
                             (1<<MathUtil.log2(h.intValue())) ) {

@@ -98,7 +98,7 @@ import com.github.jaiimageio.jpeg2000.J2KImageWriteParam;
  * The encoding process may re-tile image, clip, subsample, and select bands
  * using the parameters specified in the <code>ImageWriteParam</code>.
  *
- * @see com.sun.media.imageio.plugins.J2KImageWriteParam
+ * @see J2KImageWriteParam
  */
 public class J2KImageWriter extends ImageWriter {
     /** Wrapper for the protected method <code>processImageProgress</code>
@@ -125,6 +125,7 @@ public class J2KImageWriter extends ImageWriter {
         super(originator);
     }
 
+    @Override
     public void setOutput(Object output) {
         super.setOutput(output); // validates output
         if (output != null) {
@@ -135,24 +136,29 @@ public class J2KImageWriter extends ImageWriter {
             this.stream = null;
     }
 
+    @Override
     public ImageWriteParam getDefaultWriteParam() {
         return new J2KImageWriteParam();
     }
 
+    @Override
     public IIOMetadata getDefaultStreamMetadata(ImageWriteParam param) {
         return null;
     }
 
+    @Override
     public IIOMetadata getDefaultImageMetadata(ImageTypeSpecifier imageType,
                                                ImageWriteParam param) {
         return new J2KMetadata(imageType, param, this);
     }
 
+    @Override
     public IIOMetadata convertStreamMetadata(IIOMetadata inData,
                                              ImageWriteParam param) {
         return null;
     }
 
+    @Override
     public IIOMetadata convertImageMetadata(IIOMetadata inData,
                                             ImageTypeSpecifier imageType,
                                             ImageWriteParam param) {
@@ -194,10 +200,12 @@ public class J2KImageWriter extends ImageWriter {
         return null;
     }
 
+    @Override
     public boolean canWriteRasters() {
         return true;
     }
 
+    @Override
     public void write(IIOMetadata streamMetadata,
                       IIOImage image,
                       ImageWriteParam param) throws IOException {
@@ -280,10 +288,10 @@ public class J2KImageWriter extends ImageWriter {
         boolean[] imsigned = new boolean[ncomp];
         if (bands != null) {
             for (int i=0; i<ncomp; i++)
-                imsigned[i] = ((RenderedImageSrc)imgsrc).isOrigSigned(bands[i]);
+                imsigned[i] = imgsrc.isOrigSigned(bands[i]);
         } else {
             for (int i=0; i<ncomp; i++)
-                imsigned[i] = ((RenderedImageSrc)imgsrc).isOrigSigned(i);
+                imsigned[i] = imgsrc.isOrigSigned(i);
         }
 
         // Gets the tile dimensions
@@ -481,10 +489,12 @@ public class J2KImageWriter extends ImageWriter {
         processImageComplete();
     }
 
+    @Override
     public synchronized void abort() {
         super.abort();
     }
 
+    @Override
     public void reset() {
         // reset local Java structures
         super.reset();

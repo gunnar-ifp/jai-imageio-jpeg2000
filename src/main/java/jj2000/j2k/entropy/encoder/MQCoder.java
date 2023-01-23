@@ -60,10 +60,10 @@ import jj2000.j2k.util.ArrayUtil;
  *
  * 1) Merging Qe and mPS and doubling the lookup tables
  *
- * Merge the mPS into Qe, as the sign bit (if Qe>=0 the sense of MPS is 0, if
- * Qe<0 the sense is 1), and double the lookup tables. The first half of the
- * lookup tables correspond to Qe>=0 (i.e. the sense of MPS is 0) and the
- * second half to Qe<0 (i.e. the sense of MPS is 1). The nLPS lookup table is
+ * Merge the mPS into Qe, as the sign bit (if Qe&gt;=0 the sense of MPS is 0, if
+ * Qe&lt;0 the sense is 1), and double the lookup tables. The first half of the
+ * lookup tables correspond to Qe&gt;=0 (i.e. the sense of MPS is 0) and the
+ * second half to Qe&lt;0 (i.e. the sense of MPS is 1). The nLPS lookup table is
  * modified to incorporate the changes in the sense of MPS, by making it jump
  * from the first to the second half and vice-versa, when a change is
  * specified by the swicthLM lookup table. See JPEG book, section 13.2, page
@@ -72,7 +72,7 @@ import jj2000.j2k.util.ArrayUtil;
  * There is NO speed improvement in doing this, actually there is a slight
  * decrease, probably due to the fact that often Q has to be negated. Also the
  * fact that a brach of the type "if (bit==mPS[li])" is replaced by two
- * simpler braches of the type "if (bit==0)" and "if (q<0)" may contribute to
+ * simpler braches of the type "if (bit==0)" and "if (q&lt;0)" may contribute to
  * that.
  *
  * 2) Removing cT
@@ -82,7 +82,7 @@ import jj2000.j2k.util.ArrayUtil;
  * whenever a renormalization shift occurs, which is equivalent to decreasing
  * cT. When the flag bit reaches the sign bit (leftmost bit), which is
  * equivalenet to cT==0, the byteOut() procedure is called. This test can be
- * done efficiently with "c<0" since C is a signed quantity. Care must be
+ * done efficiently with "c&lt;0" since C is a signed quantity. Care must be
  * taken in byteOut() to reset the bit in order to not interfere with other
  * bits in the C register. See JPEG book, page 228.
  *
@@ -113,8 +113,8 @@ import jj2000.j2k.util.ArrayUtil;
  *
  * 5) Simplifying test on A register
  *
- * Since A is always less than or equal to 0xFFFF, the test "(a & 0x8000)==0"
- * can be replaced by the simplete test "a < 0x8000". This test is simpler in
+ * Since A is always less than or equal to 0xFFFF, the test "(a &amp; 0x8000)==0"
+ * can be replaced by the simplete test "a &lt; 0x8000". This test is simpler in
  * Java since it involves only 1 operation (although the original test can be
  * converted to only one operation by  smart Just-In-Time compilers)
  *
@@ -361,7 +361,7 @@ public class MQCoder {
      * 'ctxt', 'n' times, using the MQ-coder speedup mode if possible.
      *
      * <P>If the symbol 'bit' is the current more probable symbol (MPS) and
-     * qe[ctxt]<=0x4000, and (A-0x8000)>=qe[ctxt], speedup mode will be
+     * qe[ctxt]&lt;=0x4000, and (A-0x8000)&gt;=qe[ctxt], speedup mode will be
      * used. Otherwise the normal mode will be used. The speedup mode can
      * significantly improve the speed of arithmetic coding when several MPS
      * symbols, with a high probability distribution, must be coded with the

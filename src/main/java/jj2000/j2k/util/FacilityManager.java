@@ -145,8 +145,7 @@ public class FacilityManager {
      * @see #registerProgressWatch(Thread, ProgressWatch)
      * */
     public static ProgressWatch getProgressWatch() {
-        ProgressWatch pw = (ProgressWatch)
-            watchProgList.get(Thread.currentThread());
+        ProgressWatch pw = watchProgList.get(Thread.currentThread());
         return (pw==null) ? defWatchProg : pw;
     }
 
@@ -212,7 +211,7 @@ public class FacilityManager {
 	 * */
     public static MsgLogger getMsgLogger() {
         MsgLogger ml =
-            (MsgLogger) loggerList.get(Thread.currentThread());
+            loggerList.get(Thread.currentThread());
         return (ml == null) ? defMsgLogger : ml;
     }
 
@@ -229,7 +228,7 @@ public class FacilityManager {
 	 */
     public static MsgLogger getMsgLogger(Thread t) {
         MsgLogger ml =
-            (MsgLogger) loggerList.get(t);
+            loggerList.get(t);
         return (ml == null) ? defMsgLogger : ml;
     }
 }

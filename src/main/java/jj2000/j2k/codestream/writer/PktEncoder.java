@@ -245,12 +245,10 @@ public class PktEncoder {
      * @param infoSrc The source of information to construct the
      * object.
      *
-     * @param encSpec The parameters for the encoding
+     * @param wp The parameters for the encoding
      *
-     * @param maxNumPrec Maximum number of precinct in each tile, component
+     * @param numPrec Maximum number of precinct in each tile, component
      * and resolution level.
-     *
-     * @param pl ParameterList instance that holds command line options
      * */
     public PktEncoder(CodedCBlkDataSrcEnc infoSrc, J2KImageWriteParamJava wp,
                       Point[][][] numPrec) {
@@ -371,8 +369,8 @@ public class PktEncoder {
         int cb0x = infoSrc.getCbULX();
         int cb0y = infoSrc.getCbULY();
 
-        double twoppx = (double)wp.getPrecinctPartition().getPPX(t,c,r);
-        double twoppy = (double)wp.getPrecinctPartition().getPPY(t,c,r);
+        double twoppx = wp.getPrecinctPartition().getPPX(t,c,r);
+        double twoppy = wp.getPrecinctPartition().getPPY(t,c,r);
         int twoppx2 = (int)(twoppx/2);
         int twoppy2 = (int)(twoppy/2);
 

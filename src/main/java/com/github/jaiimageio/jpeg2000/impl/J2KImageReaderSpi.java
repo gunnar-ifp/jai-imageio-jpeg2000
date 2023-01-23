@@ -84,6 +84,7 @@ public class J2KImageReaderSpi extends ImageReaderSpi {
               null, null);
     }
 
+    @Override
     public void onRegistration(ServiceRegistry registry,
                                Class category) {
         if (registered) {
@@ -110,12 +111,14 @@ public class J2KImageReaderSpi extends ImageReaderSpi {
         }
     }
 
+    @Override
     public String getDescription(Locale locale) {
 	String desc = PackageUtil.getSpecificationTitle() + 
 	    " JPEG 2000 Image Reader";
 	return desc;
     }
 
+    @Override
     public boolean canDecodeInput(Object source) throws IOException {
         if (!(source instanceof ImageInputStream)) {
             return false;
@@ -157,6 +160,7 @@ public class J2KImageReaderSpi extends ImageReaderSpi {
         return true;
     }
 
+    @Override
     public ImageReader createReaderInstance(Object extension)
         throws IIOException {
         return new J2KImageReader(this);

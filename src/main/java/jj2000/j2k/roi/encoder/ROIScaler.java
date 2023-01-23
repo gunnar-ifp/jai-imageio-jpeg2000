@@ -157,7 +157,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
      *
      * @param uba Flag indicating whether block aligning is used.
      *
-     * @param encSpec The encoder specifications for addition of roi specs
+     * @param wp The encoder specifications for addition of roi specs
      * */
     public ROIScaler(Quantizer src,
                      ROIMaskGenerator mg,
@@ -188,6 +188,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
      *
      * @return True if the quantized data is reversible, false if not.
      * */
+    @Override
     public boolean isReversible(int t,int c){
 	return src.isReversible(t,c);
     }
@@ -206,6 +207,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
      *
      * @see Subband
      * */
+    @Override
     public SubbandAn getAnSubbandTree(int t,int c) {
         return src.getAnSubbandTree(t,c);
     }
@@ -214,6 +216,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
      * Returns the horizontal offset of the code-block partition. Allowable
      * values are 0 and 1, nothing else.
      * */
+    @Override
     public int getCbULX() {
         return src.getCbULX();
     }
@@ -222,6 +225,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
      * Returns the vertical offset of the code-block partition. Allowable
      * values are 0 and 1, nothing else.
      * */
+    @Override
     public int getCbULY() {
         return src.getCbULY();
     }
@@ -236,9 +240,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
      *
      * @param src The source of data to scale
      *
-     * @param pl The parameter list (or options).
-     *
-     * @param encSpec The encoder specifications for addition of roi specs
+     * @param wp The parameter list (or options).
      *
      * @exception IllegalArgumentException If an error occurs while parsing
      * the options in 'pl'
@@ -342,14 +344,10 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
 	    case 'R': // Rectangular ROI to be read
 		nrOfROIs++;
 		try{
-		    word = stok.nextToken();
-		    ulx = (new Integer(word)).intValue();
-		    word = stok.nextToken();
-		    uly = (new Integer(word)).intValue();
-		    word = stok.nextToken();
-		    w = (new Integer(word)).intValue();
-		    word = stok.nextToken();
-		    h = (new Integer(word)).intValue();
+		    ulx = Integer.parseInt(word = stok.nextToken());
+		    uly = Integer.parseInt(word = stok.nextToken());
+		    w   = Integer.parseInt(word = stok.nextToken());
+		    h   = Integer.parseInt(word = stok.nextToken());
 		}
 		catch(NumberFormatException e){
 		    throw new IllegalArgumentException("Bad parameter for "+
@@ -381,12 +379,9 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
 		nrOfROIs++;
 
 		try{
-		    word = stok.nextToken();
-		    x = (new Integer(word)).intValue();
-		    word = stok.nextToken();
-		    y = (new Integer(word)).intValue();
-		    word = stok.nextToken();
-		    rad = (new Integer(word)).intValue();
+		    x   = Integer.parseInt(word = stok.nextToken());
+		    y   = Integer.parseInt(word = stok.nextToken());
+		    rad = Integer.parseInt(word = stok.nextToken());
 		}
 		catch(NumberFormatException e){
 		    throw new IllegalArgumentException("Bad parameter for "+
@@ -483,6 +478,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
      *
      * @see CBlkWTData
      * */
+    @Override
     public CBlkWTData getNextCodeBlock(int n, CBlkWTData cblk) {
         return getNextInternCodeBlock(n,cblk);
     }
@@ -507,6 +503,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
      *
      * @see CBlkWTData
      * */
+    @Override
     public CBlkWTData getNextInternCodeBlock(int c, CBlkWTData cblk){
         int mi,i,j,k,wrap;
         int ulx, uly, w, h;
@@ -572,7 +569,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
         if(sbInMask) {
             // Scale the wmse so that instead of scaling the coefficients, the
             // wmse is scaled.
-            cblk.wmseScaling *= (float)(1<<(maxBits<<1));
+            cblk.wmseScaling *= 1<<(maxBits<<1);
             cblk.nROIcoeff = w*h;
             return cblk;
         }
@@ -594,7 +591,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
                 i -= wrap;
             }
             if(nroicoeff!=0) { // Include the subband
-                cblk.wmseScaling *= (float)(1<<(maxBits<<1));
+                cblk.wmseScaling *= 1<<(maxBits<<1);
                 cblk.nROIcoeff = w*h;
             }
             return cblk;
@@ -692,6 +689,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
      *
      * @param y The vertical index of the new tile.
      * */
+    @Override
     public void setTile(int x, int y) {
         super.setTile(x,y);
         if(roi)
@@ -703,6 +701,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
      * columns). An NoNextElementException is thrown if the current tile is
      * the last one (i.e. there is no next tile).
      * */
+    @Override
     public void nextTile() {
         super.nextTile();
         if(roi)
@@ -730,7 +729,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc {
             for (int c=nc-1; c>=0; c--) {
 		tmp = src.getMaxMagBits(c);
                 maxMagBits[t][c] = tmp;
-		rois.setTileCompVal(t,c,new Integer(tmp));
+		rois.setTileCompVal(t,c,Integer.valueOf(tmp));
             }
             if( t<nt-1 ) src.nextTile();
         }

@@ -153,6 +153,7 @@ public abstract class AnWTFilterFloat extends AnWTFilter {
      *
      *
      * */
+    @Override
     public void analyze_lpf(Object inSig, int inOff, int inLen, int inStep,
                     Object lowSig, int lowOff, int lowStep,
                     Object highSig, int highOff, int highStep) {
@@ -247,6 +248,7 @@ public abstract class AnWTFilterFloat extends AnWTFilter {
      *
      *
      * */
+    @Override
     public void analyze_hpf(Object inSig, int inOff, int inLen, int inStep,
                     Object lowSig, int lowOff, int lowStep,
                     Object highSig, int highOff, int highStep) {
@@ -267,6 +269,7 @@ public abstract class AnWTFilterFloat extends AnWTFilter {
      *
      *
      * */
+    @Override
     public int getDataType() {
         return DataBlk.TYPE_FLOAT;
     }

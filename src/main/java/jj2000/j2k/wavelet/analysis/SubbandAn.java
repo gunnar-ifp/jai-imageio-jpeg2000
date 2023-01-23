@@ -188,6 +188,7 @@ public class SubbandAn extends Subband {
      *
      *
      * */
+    @Override
     public Subband getParent() {
         return parent;
     }
@@ -199,6 +200,7 @@ public class SubbandAn extends Subband {
      *
      *
      * */
+    @Override
     public Subband getLL() {
         return subb_LL;
     }
@@ -211,6 +213,7 @@ public class SubbandAn extends Subband {
      *
      *
      * */
+    @Override
     public Subband getHL() {
         return subb_HL;
     }
@@ -223,6 +226,7 @@ public class SubbandAn extends Subband {
      *
      *
      * */
+    @Override
     public Subband getLH() {
         return subb_LH;
     }
@@ -234,6 +238,7 @@ public class SubbandAn extends Subband {
      *
      *
      * */
+    @Override
     public Subband getHH() {
         return subb_HH;
     }
@@ -259,6 +264,7 @@ public class SubbandAn extends Subband {
      *
      *
      * */
+    @Override
     protected Subband split(WaveletFilter hfilter, WaveletFilter vfilter) {
         // Test that this is a node
         if (isNode) {
@@ -470,6 +476,7 @@ public class SubbandAn extends Subband {
      *
      *
      */
+    @Override
     public WaveletFilter getHorWFilter(){
         return hFilter;
     }
@@ -482,6 +489,7 @@ public class SubbandAn extends Subband {
      *
      *
      */
+    @Override
     public WaveletFilter getVerWFilter(){
         return hFilter;
     }

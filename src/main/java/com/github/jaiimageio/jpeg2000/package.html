@@ -6,37 +6,37 @@ Copyright (c) 2005 Sun Microsystems, Inc. All  Rights Reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions
-are met: 
+are met:
 
-- Redistribution of source code must retain the above copyright 
+- Redistribution of source code must retain the above copyright
   notice, this  list of conditions and the following disclaimer.
 
 - Redistribution in binary form must reproduce the above copyright
-  notice, this list of conditions and the following disclaimer in 
+  notice, this list of conditions and the following disclaimer in
   the documentation and/or other materials provided with the
   distribution.
 
-Neither the name of Sun Microsystems, Inc. or the names of 
-contributors may be used to endorse or promote products derived 
+Neither the name of Sun Microsystems, Inc. or the names of
+contributors may be used to endorse or promote products derived
 from this software without specific prior written permission.
 
-This software is provided "AS IS," without a warranty of any 
-kind. ALL EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND 
-WARRANTIES, INCLUDING ANY IMPLIED WARRANTY OF MERCHANTABILITY, 
+This software is provided "AS IS," without a warranty of any
+kind. ALL EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND
+WARRANTIES, INCLUDING ANY IMPLIED WARRANTY OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE OR NON-INFRINGEMENT, ARE HEREBY
-EXCLUDED. SUN MIDROSYSTEMS, INC. ("SUN") AND ITS LICENSORS SHALL 
-NOT BE LIABLE FOR ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF 
+EXCLUDED. SUN MIDROSYSTEMS, INC. ("SUN") AND ITS LICENSORS SHALL
+NOT BE LIABLE FOR ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF
 USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
-DERIVATIVES. IN NO EVENT WILL SUN OR ITS LICENSORS BE LIABLE FOR 
+DERIVATIVES. IN NO EVENT WILL SUN OR ITS LICENSORS BE LIABLE FOR
 ANY LOST REVENUE, PROFIT OR DATA, OR FOR DIRECT, INDIRECT, SPECIAL,
 CONSEQUENTIAL, INCIDENTAL OR PUNITIVE DAMAGES, HOWEVER CAUSED AND
 REGARDLESS OF THE THEORY OF LIABILITY, ARISING OUT OF THE USE OF OR
 INABILITY TO USE THIS SOFTWARE, EVEN IF SUN HAS BEEN ADVISED OF THE
-POSSIBILITY OF SUCH DAMAGES. 
+POSSIBILITY OF SUCH DAMAGES.
 
-You acknowledge that this software is not designed or intended for 
-use in the design, construction, operation or maintenance of any 
-nuclear facility. 
+You acknowledge that this software is not designed or intended for
+use in the design, construction, operation or maintenance of any
+nuclear facility.
 
 $Revision: 1.1 $
 $Date: 2005/02/11 05:01:16 $
@@ -54,7 +54,7 @@ The DTD for the native image metadata format is as follows:
 
 <p>
 <pre>
-&lt;!DOCTYPE "com_sun_media_imageio_plugins_jpeg2000_image_1.0" [ 
+&lt;!DOCTYPE "com_sun_media_imageio_plugins_jpeg2000_image_1.0" [
 
   &lt;!ELEMENT com_sun_media_imageio_plugins_jpeg2000_image_1.0 (JPEG2000SignatureBox,
                                               JPEG2000FileTypeBox,
@@ -702,17 +702,17 @@ Standard Metadata Attribute        JP2 Box Element
     /ColorSpaceType
 	&#64;name			   if UnknownColorSpace in header box is 0
 				   then if EnumeratedColorSpace in
-					color specification box is 16 --> RGB
+					color specification box is 16 --&gt; RGB
 				        if EnumeratedColorSpace in
-                                        color specification box is 17 -->GRAY
+                                        color specification box is 17 --&gt;GRAY
     /NumChannels
 	&#64;value			   if palette box exists
-					the component number in palette box 
+					the component number in palette box
 				   else
 					the component number in header box
     /Palette			   if palette box exits
 	/PaletteEntry
-	    &#64;index		   
+	    &#64;index
 	    &#64;red		   lut[index][0]
 	    &#64;green		   lut[index][1]
 	    &#64;blue		   lut[index][2]
@@ -723,16 +723,16 @@ Standard Metadata Attribute        JP2 Box Element
 
 /Data
     /SampleFormat
-	&#64;value			   if the palette box exists, -->"Index"
-				   else if bit depth in header box or 
+	&#64;value			   if the palette box exists, --&gt;"Index"
+				   else if bit depth in header box or
 					bits per component box has the sign bit
-					     --> "SignedIntegral"
-					else --> "UnsignedIntegral"
+					     --&gt; "SignedIntegral"
+					else --&gt; "UnsignedIntegral"
     /BitsPerSample
 	&#64;value			   derive from the bit depth of header box
 				   or bits per component box
     /PlanarConfiguration
-	&#64;value			   --> "TileInterleaved"
+	&#64;value			   --&gt; "TileInterleaved"
 
 /Dimension
     /PixelAspectRatio
@@ -740,22 +740,22 @@ Standard Metadata Attribute        JP2 Box Element
 				   resolution in the capture resolution box
     /HorizontalPhysicalPixelSpacing
 	&#64;value			   derived from the horizontal resolution
-				   (in pixel-per-meter) in the capture 
+				   (in pixel-per-meter) in the capture
 				   resolution box
-    /VerticalPhysicalPixelSpacing 
-        &#64;value                     derived from the vertical resolution         
+    /VerticalPhysicalPixelSpacing
+        &#64;value                     derived from the vertical resolution
                                    (in pixel-per-meter) in the capture i
 				   resolution box
 /Transparency
     /Alpha
-	&#64;value			   --> "none" if no channel definition box or
+	&#64;value			   --&gt; "none" if no channel definition box or
 					no alpha channel is defined in channel
 					definition box
-				   --> "nonpremultiplied" if no premultiplied
-					channel is defined in the channel 
+				   --&gt; "nonpremultiplied" if no premultiplied
+					channel is defined in the channel
 					definition box
-				   --> "premultiplied" if any premultiplied
-					channel(s) defined in the channel 
+				   --&gt; "premultiplied" if any premultiplied
+					channel(s) defined in the channel
 					definition box
 /Text
     /TextEntry

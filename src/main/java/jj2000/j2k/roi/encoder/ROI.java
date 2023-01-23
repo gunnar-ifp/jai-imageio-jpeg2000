@@ -106,9 +106,9 @@ public class ROI{
      *
      * @param comp The component the ROI belongs to
      *
-     * @param x x-coordinate of upper left corner of ROI
+     * @param ulx x-coordinate of upper left corner of ROI
      *
-     * @param y y-coordinate of upper left corner of ROI
+     * @param uly y-coordinate of upper left corner of ROI
      *
      * @param w width of ROI
      *
@@ -133,7 +133,7 @@ public class ROI{
      *
      * @param y y-coordinate of center of ROI
      *
-     * @param w radius of ROI
+     * @param rad radius of ROI
      */
     public ROI(int comp, int x, int y, int rad){
         arbShape = false;
@@ -146,6 +146,7 @@ public class ROI{
     /**
      * This function prints all relevant data for the ROI
      */
+    @Override
     public String toString(){
         if(arbShape) {
             return "ROI with arbitrary shape, PGM file= "+maskPGM;

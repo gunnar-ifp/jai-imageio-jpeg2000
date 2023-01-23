@@ -182,10 +182,12 @@ public class ColorSpecificationBox extends Box {
      *  box.  The format of this node is defined in the XML dtd and xsd
      *  for the JP2 image file.
      */
+    @Override
     public IIOMetadataNode getNativeNode() {
         return getNativeNodeForSimpleBox();
     }
 
+    @Override
     protected void parse(byte[] data) {
         method = data[0];
         precedence = data[1];
@@ -200,6 +202,7 @@ public class ColorSpecificationBox extends Box {
 
     }
 
+    @Override
     protected void compose() {
         if (data != null)
             return;
@@ -212,9 +215,9 @@ public class ColorSpecificationBox extends Box {
 
         data = new byte[len];
 
-        data[0] = (byte)method;
-        data[1] = (byte)precedence;
-        data[2] = (byte)approximation;
+        data[0] = method;
+        data[1] = precedence;
+        data[2] = approximation;
 
         copyInt(data, 3, ecs);
 

@@ -117,6 +117,7 @@ public class ROIDeScaler extends MultiResImgDataAdapter
      *
      * @return The root of the tree structure.
      * */
+    @Override
     public SubbandSyn getSynSubbandTree(int t,int c) {
         return src.getSynSubbandTree(t,c);
     }
@@ -125,6 +126,7 @@ public class ROIDeScaler extends MultiResImgDataAdapter
      * Returns the horizontal code-block partition origin. Allowable values
      * are 0 and 1, nothing else.
      * */
+    @Override
     public int getCbULX() {
         return src.getCbULX();
     }
@@ -133,6 +135,7 @@ public class ROIDeScaler extends MultiResImgDataAdapter
      * Returns the vertical code-block partition origin. Allowable values are
      * 0 and 1, nothing else.
      * */
+    @Override
     public int getCbULY() {
         return src.getCbULY();
     }
@@ -197,6 +200,7 @@ public class ROIDeScaler extends MultiResImgDataAdapter
      *
      * @see DataBlk
      * */
+    @Override
     public DataBlk getCodeBlock(int c, int m, int n, SubbandSyn sb,
                                   DataBlk cblk){
         return getInternCodeBlock(c,m,n,sb,cblk);
@@ -243,6 +247,7 @@ public class ROIDeScaler extends MultiResImgDataAdapter
      *
      * @see DataBlk
      * */
+    @Override
     public DataBlk getInternCodeBlock(int c, int m, int n, SubbandSyn sb,
                                         DataBlk cblk){
         int mi,i,j,k,wrap;
@@ -303,7 +308,7 @@ public class ROIDeScaler extends MultiResImgDataAdapter
      *
      * @param src The source of data that is to be descaled
      *
-     * @param pl The parameter list (or options).
+     * @param j2krparam The parameter list (or options).
      *
      * @param decSpec The decoding specifications
      *

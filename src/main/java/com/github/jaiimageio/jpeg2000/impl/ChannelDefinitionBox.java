@@ -184,6 +184,7 @@ public class ChannelDefinitionBox extends Box {
     }
 
     /** Parse the channel definitions from the content data array. */
+    @Override
     protected void parse(byte[] data) {
         num = (short)((data[0] << 8) | data[1]);
         channels = new short[num];
@@ -220,12 +221,13 @@ public class ChannelDefinitionBox extends Box {
      *  box.  The format of this node is defined in the XML dtd and xsd
      *  for the JP2 image file.
      */
+    @Override
     public IIOMetadataNode getNativeNode() {
         IIOMetadataNode node = new IIOMetadataNode(Box.getName(getType()));
         setDefaultAttributes(node);
 
         IIOMetadataNode child = new IIOMetadataNode("NumberOfDefinition");
-        child.setUserObject(new Short(num));
+        child.setUserObject(Short.valueOf(num));
         child.setNodeValue("" + num);
 	node.appendChild(child);
 
@@ -234,17 +236,17 @@ public class ChannelDefinitionBox extends Box {
 
         for (int i = 0; i < num; i++) {
             IIOMetadataNode child1 = new IIOMetadataNode("ChannelNumber");
-            child1.setUserObject(new Short(channels[i]));
+            child1.setUserObject(Short.valueOf(channels[i]));
 	    child1.setNodeValue("" + channels[i]);
             child.appendChild(child1);
 
             child1 = new IIOMetadataNode("ChannelType");
-            child1.setUserObject(new Short(types[i]));
+            child1.setUserObject(Short.valueOf(types[i]));
 	    child1.setNodeValue("" + types[i]);
             child.appendChild(child1);
 
             child1 = new IIOMetadataNode("Association");
-            child1.setUserObject(new Short(associations[i]));
+            child1.setUserObject(Short.valueOf(associations[i]));
 	    child1.setNodeValue("" + associations[i]);
             child.appendChild(child1);
         }
@@ -252,6 +254,7 @@ public class ChannelDefinitionBox extends Box {
         return node;
     }
 
+    @Override
     protected void compose() {
         if (data != null)
             return;

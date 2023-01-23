@@ -994,8 +994,8 @@ public class J2KReadState {
         if (sampleModel != null)
             return sampleModel;
 
-        int realWidth = (int) Math.min(tileWidth, width);
-        int realHeight = (int) Math.min(tileHeight, height);
+        int realWidth = Math.min(tileWidth, width);
+        int realHeight = Math.min(tileHeight, height);
 
         if (nComp == 1 && (maxDepth == 1 || maxDepth == 2 || maxDepth == 4))
             sampleModel =

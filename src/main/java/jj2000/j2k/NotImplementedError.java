@@ -66,6 +66,11 @@ package jj2000.j2k;
 public class NotImplementedError extends Error {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = -415875025583798659L;
+
+    /**
      * Constructs a new <tt>NotImplementedError</tt> exception with
      * the default detail message. The message is:
      *

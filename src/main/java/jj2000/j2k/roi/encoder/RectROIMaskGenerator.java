@@ -94,8 +94,6 @@ public class RectROIMaskGenerator extends ROIMaskGenerator{
      *
      * @param ROIs The ROI info.
      *
-     * @param maxShift The flag indicating use of Maxshift method.
-     *
      * @param nrc number of components.
      * */
     public RectROIMaskGenerator(ROI[] ROIs, int nrc){
@@ -131,6 +129,7 @@ public class RectROIMaskGenerator extends ROIMaskGenerator{
      *
      * @return Whether or not a mask was needed for this tile
      * */
+    @Override
     public boolean getROIMask(DataBlkInt db, Subband sb, int magbits, int c){
         int x = db.ulx;
         int y = db.uly;
@@ -217,6 +216,7 @@ public class RectROIMaskGenerator extends ROIMaskGenerator{
     /**
      * This function returns the relevant data of the mask generator
      * */
+    @Override
     public String toString(){
         return("Fast rectangular ROI mask generator");
     }
@@ -230,6 +230,7 @@ public class RectROIMaskGenerator extends ROIMaskGenerator{
      *
      * @param n component number
      * */
+    @Override
     public void makeMask(Subband sb, int magbits, int n){
         int nr = nrROIs[n];
         int r;

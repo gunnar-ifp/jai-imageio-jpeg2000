@@ -96,6 +96,7 @@ public abstract class ImgReader implements BlkImgDataSrc {
      *
      * @return The total image width in pixels.
      * */
+    @Override
     public int getTileWidth() {
         return w;
     }
@@ -106,16 +107,19 @@ public abstract class ImgReader implements BlkImgDataSrc {
      * width of the image. The value of <tt>h</tt> is returned.
      *
      * @return The total image height in pixels.  */
+    @Override
     public int getTileHeight() {
         return h;
     }
 
     /** Returns the nominal tiles width */
+    @Override
     public int getNomTileWidth() {
         return w;
     }
 
     /** Returns the nominal tiles height */
+    @Override
     public int getNomTileHeight() {
         return h;
     }
@@ -127,6 +131,7 @@ public abstract class ImgReader implements BlkImgDataSrc {
      *
      * @return The total image's width in pixels.
      * */
+    @Override
     public int getImgWidth() {
         return w;
     }
@@ -138,6 +143,7 @@ public abstract class ImgReader implements BlkImgDataSrc {
      *
      * @return The total image's height in pixels.
      * */
+    @Override
     public int getImgHeight() {
         return h;
     }
@@ -148,6 +154,7 @@ public abstract class ImgReader implements BlkImgDataSrc {
      *
      * @return The number of components in the image.
      * */
+    @Override
     public int getNumComps() {
         return nc;
     }
@@ -164,6 +171,7 @@ public abstract class ImgReader implements BlkImgDataSrc {
      *
      * @see jj2000.j2k.image.ImgData
      * */
+    @Override
     public int getCompSubsX(int c) {
         return 1;
     }
@@ -180,6 +188,7 @@ public abstract class ImgReader implements BlkImgDataSrc {
      *
      * @see jj2000.j2k.image.ImgData
      * */
+    @Override
     public int getCompSubsY(int c) {
         return 1;
     }
@@ -196,6 +205,7 @@ public abstract class ImgReader implements BlkImgDataSrc {
      *
      * @return The width in pixels of component <tt>c</tt> in tile<tt>t</tt>.
      * */
+    @Override
     public int getTileCompWidth(int t,int c) {
         if(t!=0) {
             throw new Error("Asking a tile-component width for a tile index"+
@@ -217,6 +227,7 @@ public abstract class ImgReader implements BlkImgDataSrc {
      * @return The height in pixels of component <tt>c</tt> in tile
      * <tt>t</tt>.
      * */
+    @Override
     public int getTileCompHeight(int t,int c) {
         if(t!=0) {
             throw new Error("Asking a tile-component width for a tile index"+
@@ -235,6 +246,7 @@ public abstract class ImgReader implements BlkImgDataSrc {
      * @return The width in pixels of component <tt>c</tt> in the overall
      * image.
      * */
+    @Override
     public int getCompImgWidth(int c) {
         return w;
     }
@@ -249,6 +261,7 @@ public abstract class ImgReader implements BlkImgDataSrc {
      * @return The height in pixels of component <tt>c</tt> in the overall
      * image.
      * */
+    @Override
     public int getCompImgHeight(int c) {
         return h;
     }
@@ -263,6 +276,7 @@ public abstract class ImgReader implements BlkImgDataSrc {
      *
      * @param y The vertical coordinate of the new tile.
      * */
+    @Override
     public void setTile(int x, int y) {
         if (x!=0 || y != 0) {
             throw new IllegalArgumentException();
@@ -275,6 +289,7 @@ public abstract class ImgReader implements BlkImgDataSrc {
      * last one (i.e. there is no next tile). This default implementation
      * assumes no tiling, so NoNextElementException() is always thrown.
      * */
+    @Override
     public void nextTile() {
         throw new NoNextElementException();
     }
@@ -288,6 +303,7 @@ public abstract class ImgReader implements BlkImgDataSrc {
      *
      * @return The current tile's coordinates.
      * */
+    @Override
     public Point getTile(Point co) {
         if (co != null) {
             co.x = 0;
@@ -306,6 +322,7 @@ public abstract class ImgReader implements BlkImgDataSrc {
      *
      * @return The current tile's index (starts at 0).
      * */
+    @Override
     public int getTileIdx() {
         return 0;
     }
@@ -316,6 +333,7 @@ public abstract class ImgReader implements BlkImgDataSrc {
      *
      * @param c The component index.
      * */
+    @Override
     public int getCompULX(int c) {
         return 0;
     }
@@ -326,16 +344,19 @@ public abstract class ImgReader implements BlkImgDataSrc {
      *
      * @param c The component index.
      * */
+    @Override
     public int getCompULY(int c) {
         return 0;
     }
 
     /** Returns the horizontal tile partition offset in the reference grid */
+    @Override
     public int getTilePartULX() {
         return 0;
     }
 
     /** Returns the vertical tile partition offset in the reference grid */
+    @Override
     public int getTilePartULY() {
         return 0;
     }
@@ -347,6 +368,7 @@ public abstract class ImgReader implements BlkImgDataSrc {
      * @return The horizontal coordinate of the image origin in the canvas
      * system, on the reference grid.
      * */
+    @Override
     public int getImgULX() {
         return 0;
     }
@@ -358,6 +380,7 @@ public abstract class ImgReader implements BlkImgDataSrc {
      * @return The vertical coordinate of the image origin in the canvas
      * system, on the reference grid.
      * */
+    @Override
     public int getImgULY() {
         return 0;
     }
@@ -373,6 +396,7 @@ public abstract class ImgReader implements BlkImgDataSrc {
      * @return The number of tiles in the horizontal (Point.x) and vertical
      * (Point.y) directions.
      * */
+    @Override
     public Point getNumTiles(Point co) {
         if (co != null) {
             co.x = 1;
@@ -390,6 +414,7 @@ public abstract class ImgReader implements BlkImgDataSrc {
      *
      * @return The total number of tiles in the image.
      * */
+    @Override
     public int getNumTiles() {
         return 1;
     }

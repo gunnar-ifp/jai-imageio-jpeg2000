@@ -93,7 +93,7 @@ public class QuantStepSizeSpec extends ModuleSpec {
 
 	if(values==null){
             // XXX: setDefault
-            setDefault(new Float(defaultValue));
+            setDefault(Float.valueOf(defaultValue));
 	    //throw new IllegalArgumentException("Qstep option not specified");
 	}
         specified = values;
@@ -132,7 +132,7 @@ public class QuantStepSizeSpec extends ModuleSpec {
 		break;
 	    default: // Step size value
 		try{
-		    value = new Float(word);
+		    value = Float.valueOf(word);
 		}
 		catch(NumberFormatException e){
 		    throw new IllegalArgumentException("Bad parameter for "+
@@ -194,7 +194,7 @@ public class QuantStepSizeSpec extends ModuleSpec {
             // If some tile-component have received no specification, it takes
             // the default value
             if(ndefspec!=0){
-                setDefault(new Float(defaultValue));
+                setDefault(Float.valueOf(defaultValue));
             }
             else{
                 // All tile-component have been specified, takes the first

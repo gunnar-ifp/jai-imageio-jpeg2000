@@ -130,7 +130,7 @@ public class FileFormatWriter implements FileFormatBoxes {
      * The constructor of the FileFormatWriter. It receives all the
      * information necessary about a codestream to generate a legal JP2 file
      *
-     * @param filename The name of the file that is to be made a JP2 file
+     * @param file The file that is to be made a JP2 file
      *
      * @param height The height of the image
      *
@@ -208,7 +208,7 @@ public class FileFormatWriter implements FileFormatBoxes {
         String name = node.getNodeName();
         if (name.startsWith("JPEG2000")) {
             stream.writeInt(computeLength(node));
-            stream.writeInt(Box.getTypeInt((String)Box.getTypeByName(name)));
+            stream.writeInt(Box.getTypeInt(Box.getTypeByName(name)));
             otherLength += 8;
         }
 
@@ -225,7 +225,7 @@ public class FileFormatWriter implements FileFormatBoxes {
 
     private void writeBox(IIOMetadataNode node) throws IOException {
         int type = Box.getTypeInt((String)Box.getAttribute(node, "Type"));
-        int length = new Integer((String)Box.getAttribute(node, "Length")).intValue();
+        int length = Integer.parseInt((String)Box.getAttribute(node, "Length"));
         Box box = Box.createBox(type, node);
         otherLength += length;
         stream.writeInt(length);
@@ -242,7 +242,7 @@ public class FileFormatWriter implements FileFormatBoxes {
             String name = node.getNodeName();
 
             if (format.isLeaf(name))
-                length += new Integer((String)Box.getAttribute(node, "Length")).intValue();
+                length += Integer.parseInt((String)Box.getAttribute(node, "Length"));
             else
                 length += computeLength(node);
 
@@ -253,8 +253,6 @@ public class FileFormatWriter implements FileFormatBoxes {
 
     /**
      * This method writes the Contiguous codestream box
-     *
-     * @param cs The contiguous codestream
      *
      * @exception java.io.IOException If an I/O error ocurred.
      * */

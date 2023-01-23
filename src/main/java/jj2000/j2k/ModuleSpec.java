@@ -158,6 +158,7 @@ public class ModuleSpec implements Cloneable {
         }
     }
 
+    @Override
     protected Object clone() {
         ModuleSpec ms;
         try {
@@ -197,7 +198,7 @@ public class ModuleSpec implements Cloneable {
      * Rotate the ModuleSpec instance by 90 degrees (this modifies only tile
      * and tile-component specifications).
      *
-     * @param nT Number of tiles along horizontal and vertical axis after
+     * @param anT Number of tiles along horizontal and vertical axis after
      * rotation. 
      * */
     public void rotate90(Point anT) {
@@ -240,7 +241,7 @@ public class ModuleSpec implements Cloneable {
                 tmpVal = tileCompVal.get(tmpKey);
                 i1 = tmpKey.indexOf('t');
                 i2 = tmpKey.indexOf('c');
-                btIdx = (new Integer(tmpKey.substring(i1+1,i2))).intValue();
+                btIdx = Integer.parseInt(tmpKey.substring(i1+1,i2));
                 bx = btIdx%bnT.x;
                 by = btIdx/bnT.x;
                 ay = bx;
@@ -317,7 +318,7 @@ public class ModuleSpec implements Cloneable {
      * Sets default value for specified tile and specValType tag if
      * allowed by its priority.
      *
-     * @param c Tile index.
+     * @param t Tile index.
      * */
     public void setTileDef(int t, Object value){
         if ( specType == SPEC_TYPE_COMP ) {
@@ -496,7 +497,7 @@ public class ModuleSpec implements Cloneable {
      * component indexes set for an option. Such an argument must
      * follow the following policy:<br>
      *
-     * <tt>t\<indexes set\></tt> or <tt>c\<indexes set\></tt> where
+     * <tt>t&lt;indexes set&gt;</tt> or <tt>c&lt;indexes set&gt;</tt> where
      * tile or component indexes are separated by commas or a
      * dashes.
      *

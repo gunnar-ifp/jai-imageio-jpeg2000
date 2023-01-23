@@ -88,6 +88,7 @@ public class PrecCoordInfo extends CoordInfo {
      *
      * @return String with precinct's information
      * */
+    @Override
     public String toString() {
         return super.toString() + ", xref="+xref+", yref="+yref;
     }

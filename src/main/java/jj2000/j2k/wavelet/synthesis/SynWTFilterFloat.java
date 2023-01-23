@@ -161,6 +161,7 @@ public abstract class SynWTFilterFloat extends SynWTFilter {
      *
      *
      * */
+    @Override
     public
         void synthetize_lpf(Object lowSig, int lowOff, int lowLen, int lowStep,
                         Object highSig, int highOff, int highLen, int highStep,
@@ -265,6 +266,7 @@ public abstract class SynWTFilterFloat extends SynWTFilter {
      *
      *
      * */
+    @Override
     public
         void synthetize_hpf(Object lowSig, int lowOff, int lowLen, int lowStep,
                         Object highSig, int highOff, int highLen, int highStep,
@@ -286,6 +288,7 @@ public abstract class SynWTFilterFloat extends SynWTFilter {
      *
      *
      * */
+    @Override
     public int getDataType() {
         return DataBlk.TYPE_FLOAT;
     }

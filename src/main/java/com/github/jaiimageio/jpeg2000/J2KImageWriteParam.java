@@ -61,6 +61,7 @@ import javax.imageio.ImageWriteParam;
  *
  * <p><table border=1>
  * <caption><b>JPEG 2000 Plugin Decoding Parameters</b></caption>
+ * <table>
  * <tr><th>Parameter Name</th> <th>Description</th></tr>
  * <tr>
  *    <td>numDecompositionLevels</td>

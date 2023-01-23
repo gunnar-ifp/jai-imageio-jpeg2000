@@ -202,17 +202,18 @@ public class PaletteBox extends Box {
      *  The format of this node is defined in the XML dtd and xsd
      *  for the JP2 image file.
      */
+    @Override
     public IIOMetadataNode getNativeNode() {
         IIOMetadataNode node = new IIOMetadataNode(Box.getName(getType()));
         setDefaultAttributes(node);
 
         IIOMetadataNode child = new IIOMetadataNode("NumberEntries");
-        child.setUserObject(new Integer(numEntries));
+        child.setUserObject(Integer.valueOf(numEntries));
 	child.setNodeValue("" + numEntries);
         node.appendChild(child);
 
         child = new IIOMetadataNode("NumberColors");
-        child.setUserObject(new Integer(numComps));
+        child.setUserObject(Integer.valueOf(numComps));
 	child.setNodeValue("" + numComps);
         node.appendChild(child);
 
@@ -237,6 +238,7 @@ public class PaletteBox extends Box {
         return node;
     }
 
+    @Override
     protected void parse(byte[] data) {
         if (data == null)
             return;
@@ -252,6 +254,7 @@ public class PaletteBox extends Box {
                 lut[j][i] = data[k++];
     }
 
+    @Override
     protected void compose() {
         if (data != null)
             return;

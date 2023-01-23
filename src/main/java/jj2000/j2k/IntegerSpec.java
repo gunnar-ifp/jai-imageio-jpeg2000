@@ -91,8 +91,6 @@ public class IntegerSpec extends ModuleSpec{
      *
      * @param type The allowed specifications type
      *
-     * @param optName The name of the option to process
-     *
      * */
     public IntegerSpec(int nt, int nc, byte type, J2KImageWriteParamJava wp, String values,
                          String defaultValue) {
@@ -100,7 +98,7 @@ public class IntegerSpec extends ModuleSpec{
 
         if(values==null){ // No parameter specified
             try{
-                setDefault(new Integer(defaultValue));
+                setDefault(Integer.valueOf(defaultValue));
             }
             catch(NumberFormatException e){
                     throw new IllegalArgumentException("Non recognized value"+
@@ -140,7 +138,7 @@ public class IntegerSpec extends ModuleSpec{
  		break;
             default:
                 try{
-                    value = new Integer(word);
+                    value = Integer.valueOf(word);
                 }
                 catch(NumberFormatException e){
                     throw new IllegalArgumentException("Non recognized value"+
@@ -195,7 +193,7 @@ public class IntegerSpec extends ModuleSpec{
             // the default value
             if(ndefspec!=0){
                 try{
-                    setDefault(new Integer(defaultValue));
+                    setDefault(Integer.valueOf(defaultValue));
                 }
                 catch(NumberFormatException e){
                     throw new IllegalArgumentException("Non recognized value"+

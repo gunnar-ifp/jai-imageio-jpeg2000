@@ -142,6 +142,7 @@ public class ImgReaderPGM extends ImgReader {
      *
      * @exception IOException If an I/O error occurs.
      * */
+    @Override
     public void close() throws IOException {
         in.close();
         in = null;
@@ -163,6 +164,7 @@ public class ImgReaderPGM extends ImgReader {
      * data. Fro floating-point data this value is not applicable and the
      * return value is undefined.
      * */
+    @Override
     public int getNomRangeBits(int c) {
         // Check component index
         if (c != 0)
@@ -182,6 +184,7 @@ public class ImgReaderPGM extends ImgReader {
      * @return The position of the fixed-point (i.e. the number of fractional
      * bits). Always 0 for this ImgReader.
      * */
+    @Override
     public int getFixedPoint(int c) {
         // Check component index
         if (c != 0)
@@ -232,6 +235,7 @@ public class ImgReaderPGM extends ImgReader {
      *
      * @see JJ2KExceptionHandler
      * */
+    @Override
     public final DataBlk getInternCompData(DataBlk blk, int c) {
         int k,j,i,mi;
         int barr[];
@@ -274,7 +278,7 @@ public class ImgReaderPGM extends ImgReader {
                 in.read(buf,0,blk.w);
                 for (k = (i-blk.uly)*blk.w+blk.w-1, j = blk.w-1;
                      j >= 0; j--, k--) {
-                    barr[k] = (((int)buf[j])&0xFF)-DC_OFFSET;
+                    barr[k] = ((buf[j])&0xFF)-DC_OFFSET;
                 }
             }
         }
@@ -334,6 +338,7 @@ public class ImgReaderPGM extends ImgReader {
      *
      * @see JJ2KExceptionHandler
      * */
+    @Override
     public DataBlk getCompData(DataBlk blk, int c) {
         return getInternCompData(blk,c);
     }
@@ -437,6 +442,7 @@ public class ImgReaderPGM extends ImgReader {
      *
      * @return always false, since PGM data is always unsigned.
      * */
+    @Override
     public boolean isOrigSigned(int c) {
         // Check component index
         if (c != 0)
@@ -451,6 +457,7 @@ public class ImgReaderPGM extends ImgReader {
      *
      * @return A string of information about the object.  
      * */
+    @Override
     public String toString() {
         return "ImgReaderPGM: WxH = " + w + "x" + h + ", Component = 0" +
             "\nUnderlying RandomAccessIO:\n" + in.toString();

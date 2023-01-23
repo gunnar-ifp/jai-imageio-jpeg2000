@@ -158,6 +158,7 @@ public class ResolutionBox extends Box {
     }
 
     /** Parse the data elements from the provided content data array. */
+    @Override
     protected void parse(byte[] data) {
         numV = (short)(((data[0] & 0xFF) << 8) | (data[1] & 0xFF));
         denomV = (short)(((data[2] & 0xFF) << 8) | (data[3] & 0xFF));
@@ -173,43 +174,45 @@ public class ResolutionBox extends Box {
      *  box.  The format of this node is defined in the XML dtd and xsd
      *  for the JP2 image file.
      */
+    @Override
     public IIOMetadataNode getNativeNode() {
         IIOMetadataNode node = new IIOMetadataNode(Box.getName(getType()));
         setDefaultAttributes(node);
 
         IIOMetadataNode child = new IIOMetadataNode("VerticalResolutionNumerator");
-        child.setUserObject(new Short(numV));
+        child.setUserObject(Short.valueOf(numV));
 	child.setNodeValue("" + numV);
         node.appendChild(child);
 
         child = new IIOMetadataNode("VerticalResolutionDenominator");
-        child.setUserObject(new Short(denomV));
+        child.setUserObject(Short.valueOf(denomV));
 	child.setNodeValue("" + denomV);
         node.appendChild(child);
 
         child = new IIOMetadataNode("HorizontalResolutionNumerator");
-        child.setUserObject(new Short(numH));
+        child.setUserObject(Short.valueOf(numH));
 	child.setNodeValue("" + numH);
         node.appendChild(child);
 
         child = new IIOMetadataNode("HorizontalResolutionDenominator");
-        child.setUserObject(new Short(denomH));
+        child.setUserObject(Short.valueOf(denomH));
 	child.setNodeValue("" + denomH);
         node.appendChild(child);
 
         child = new IIOMetadataNode("VerticalResolutionExponent");
-        child.setUserObject(new Byte(expV));
+        child.setUserObject(Byte.valueOf(expV));
 	child.setNodeValue("" + expV);
         node.appendChild(child);
 
         child = new IIOMetadataNode("HorizontalResolutionExponent");
-        child.setUserObject(new Byte(expH));
+        child.setUserObject(Byte.valueOf(expH));
 	child.setNodeValue("" + expH);
         node.appendChild(child);
 
         return node;
     }
 
+    @Override
     protected void compose() {
         if (data != null)
             return;

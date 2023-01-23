@@ -143,6 +143,7 @@ public class HeaderBox extends Box {
     }
 
     /** Parse the data elements from the byte array of the content. */
+    @Override
     protected void parse(byte[] data) {
         height = ((data[0] & 0xFF) << 24) |
                  ((data[1] & 0xFF) << 16) |
@@ -198,10 +199,12 @@ public class HeaderBox extends Box {
      *  The format of this node is defined in the XML dtd and xsd
      *  for the JP2 image file.
      */
+    @Override
     public IIOMetadataNode getNativeNode() {
         return getNativeNodeForSimpleBox();
     }
 
+    @Override
     protected void compose() {
         if (data != null)
             return;

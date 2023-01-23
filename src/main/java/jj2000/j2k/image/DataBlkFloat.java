@@ -102,7 +102,7 @@ public class DataBlkFloat extends DataBlk {
      * Creates a DataBlkFloat which is the copy of the DataBlkFloat
      * given as paramter.
      *
-     * @param DataBlkFloat the object to be copied.
+     * @param src the object to be copied.
      *
      *
      * */
@@ -130,6 +130,7 @@ public class DataBlkFloat extends DataBlk {
      *
      *
      * */
+    @Override
     public final int getDataType() {
         return TYPE_FLOAT;
     }
@@ -144,6 +145,7 @@ public class DataBlkFloat extends DataBlk {
      *
      *
      */
+    @Override
     public final Object getData() {
         return data;
     }
@@ -170,6 +172,7 @@ public class DataBlkFloat extends DataBlk {
      *
      *
      * */
+    @Override
     public final void setData(Object arr) {
         data = (float[]) arr;
     }
@@ -189,6 +192,7 @@ public class DataBlkFloat extends DataBlk {
     /**
      * Returns a string of informations about the DataBlkInt.
      * */
+    @Override
     public String toString() {
         String str = super.toString();
         if(data!=null) {

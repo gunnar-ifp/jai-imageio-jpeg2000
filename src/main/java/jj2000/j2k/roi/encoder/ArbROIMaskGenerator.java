@@ -119,6 +119,7 @@ public class ArbROIMaskGenerator extends ROIMaskGenerator{
      *
      * @return Whether or not a mask was needed for this tile
      **/
+    @Override
     public boolean getROIMask(DataBlkInt db, Subband sb, int magbits, int c){
         int x = db.ulx;
         int y = db.uly;
@@ -157,6 +158,7 @@ public class ArbROIMaskGenerator extends ROIMaskGenerator{
     /**
      * This function returns the relevant data of the mask generator
      * */
+    @Override
     public String toString(){
         return("Fast rectangular ROI mask generator");
     }
@@ -173,6 +175,7 @@ public class ArbROIMaskGenerator extends ROIMaskGenerator{
      *
      * @param c component number
      */
+    @Override
     public void makeMask(Subband sb, int magbits, int c){
         int mask[]; // local copy
         ROI rois[] = this.rois;  // local copy

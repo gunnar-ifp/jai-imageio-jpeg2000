@@ -110,13 +110,10 @@ public class StdDequantizer extends Dequantizer {
      *
      * @param src From where to obtain the quantized data.
      *
-     * @param rb The number of "range bits" (bitdepth) for each component
+     * @param utrb The number of "range bits" (bitdepth) for each component
      * (must be the "range bits" of the un-transformed components). For a
      * definition of "range bits" see the getNomRangeBits() method.
-     *
-     * @param qts The quantizer type spec
-     *
-     * @param qsss The dequantizer step sizes spec
+     * @param decSpec The dequantizer step sizes spec
      *
      * @see Dequantizer#getNomRangeBits
      *
@@ -155,6 +152,7 @@ public class StdDequantizer extends Dequantizer {
      * the number of fractional bits. For floating-point data 0 is
      * returned.
      * */
+    @Override
     public int getFixedPoint(int c){
         return 0;
     }
@@ -198,6 +196,7 @@ public class StdDequantizer extends Dequantizer {
      *
      * @see DataBlk
      * */
+    @Override
     public final DataBlk getCodeBlock(int c, int m, int n, SubbandSyn sb,
                                         DataBlk cblk) {
         return getInternCodeBlock(c,m,n,sb,cblk);
@@ -241,6 +240,7 @@ public class StdDequantizer extends Dequantizer {
      *
      * @see DataBlk
      * */
+    @Override
     public final
         DataBlk getInternCodeBlock(int c, int m, int n, SubbandSyn sb,
                                      DataBlk cblk) {
@@ -346,8 +346,8 @@ public class StdDequantizer extends Dequantizer {
                 // code-block width.
                 for (j=outiarr.length-1; j>=0; j--) {
                     temp = outiarr[j]; // input array is same as output one
-                    outiarr[j] = (int)(((float)((temp >= 0) ? temp :
-                                                -(temp&0x7FFFFFFF)))*step);
+                    outiarr[j] = (int)(((temp >= 0) ? temp :
+                                                -(temp&0x7FFFFFFF))*step);
                 }
                 break;
             case DataBlk.TYPE_FLOAT:
@@ -359,8 +359,8 @@ public class StdDequantizer extends Dequantizer {
                          jmin = w*(h-1); j>=0; jmin -= w) {
                     for (; j>=jmin; k--, j--) {
                         temp = inarr[k];
-                        outfarr[j] = ((float)((temp >= 0) ? temp :
-                                              -(temp&0x7FFFFFFF)))*step;
+                        outfarr[j] = ((temp >= 0) ? temp :
+                                              -(temp&0x7FFFFFFF))*step;
                     }
                     // Jump to beggining of previous line in input
                     k -= inblk.scanw - w;

@@ -135,10 +135,12 @@ public class FileTypeBox extends Box {
      *  The format of this node is defined in the XML dtd and xsd
      *  for the JP2 image file.
      */
+    @Override
     public IIOMetadataNode getNativeNode() {
         return getNativeNodeForSimpleBox();
     }
 
+    @Override
     protected void parse(byte[] data) {
         if (data == null)
             return;
@@ -159,6 +161,7 @@ public class FileTypeBox extends Box {
         }
     }
 
+    @Override
     protected void compose() {
         if (data != null)
             return;

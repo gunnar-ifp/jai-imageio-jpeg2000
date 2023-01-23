@@ -73,17 +73,10 @@ public class SubbandRectROIMask extends SubbandROIMask{
      * sb. Each Subband contains the boundaries of each ROI.
      *
      * @param sb The subband corresponding to this Subband Mask
-     *
      * @param ulxs The upper left x coordinates of the ROIs
-     *
      * @param ulys The upper left y coordinates of the ROIs
-     *
      * @param lrxs The lower right x coordinates of the ROIs
-     *
      * @param lrys The lower right y coordinates of the ROIs
-     *
-     * @param lrys The lower right y coordinates of the ROIs
-     *
      * @param nr Number of ROIs that affect this tile
      * */
     public SubbandRectROIMask(Subband sb, int[] ulxs, int[] ulys, int[] lrxs,

@@ -165,6 +165,7 @@ public class InvCompTransf extends ImgDataAdapter
      *
      * @return A descriptive string
      * */
+    @Override
     public String toString() {
         switch(transfType){
         case INV_RCT:
@@ -218,7 +219,8 @@ public class InvCompTransf extends ImgDataAdapter
      * @return The value of the fixed point position of the source since the
      * color transform does not affect it.
      * */
-     public int getFixedPoint(int c) {
+     @Override
+    public int getFixedPoint(int c) {
          return src.getFixedPoint(c);
      }
 
@@ -304,6 +306,7 @@ public class InvCompTransf extends ImgDataAdapter
      *
      * @return The bitdepth of un-transformed component 'c'.
      * */
+    @Override
     public int getNomRangeBits(int c) {
         return utdepth[c];
     }
@@ -326,6 +329,7 @@ public class InvCompTransf extends ImgDataAdapter
      *
      * @see BlkImgDataSrc#getCompData
      * */
+    @Override
     public DataBlk getCompData(DataBlk blk, int c){
         // If requesting a component whose index is greater than 3 or there is
         // no transform return a copy of data (getInternCompData returns the
@@ -354,6 +358,7 @@ public class InvCompTransf extends ImgDataAdapter
      *
      * @return The requested DataBlk
      * */
+    @Override
     public DataBlk getInternCompData(DataBlk blk, int c){
         // if specified in the command line that no component transform should
         // be made, return original data
@@ -428,11 +433,11 @@ public class InvCompTransf extends ImgDataAdapter
 
             // Fill in buffer blocks (to be read only)
             // Returned blocks may have different size and position
-            block0 = (DataBlkInt)src.getInternCompData(block0, 0);
+            block0 = src.getInternCompData(block0, 0);
             data0 = (int[]) block0.getData();
-            block1 = (DataBlkInt)src.getInternCompData(block1, 1);
+            block1 = src.getInternCompData(block1, 1);
             data1 = (int[]) block1.getData();
-            block2 = (DataBlkInt)src.getInternCompData(block2, 2);
+            block2 = src.getInternCompData(block2, 2);
             data2 = (int[]) block2.getData();
 
             // Set the progressiveness of the output data
@@ -575,11 +580,11 @@ public class InvCompTransf extends ImgDataAdapter
 
             // Fill in buffer blocks (to be read only)
             // Returned blocks may have different size and position
-            block0 = (DataBlkFloat)src.getInternCompData(block0, 0);
+            block0 = src.getInternCompData(block0, 0);
             data0  = (float[]) block0.getData();
-            block2 = (DataBlkFloat)src.getInternCompData(block2, 1);
+            block2 = src.getInternCompData(block2, 1);
             data2 = (float[]) block2.getData();
-            block1 = (DataBlkFloat)src.getInternCompData(block1, 2);
+            block1 = src.getInternCompData(block1, 2);
             data1 = (float[]) block1.getData();
 
             // Set the progressiveness of the output data
@@ -644,6 +649,7 @@ public class InvCompTransf extends ImgDataAdapter
      * @param y The vertical index of the new tile.
      *
      * */
+    @Override
     public void setTile(int x, int y) {
         src.setTile(x,y);
 	tIdx = getTileIdx(); // index of the current tile
@@ -683,6 +689,7 @@ public class InvCompTransf extends ImgDataAdapter
      * transformation variables.
      *
      * */
+    @Override
     public void nextTile() {
         src.nextTile();
 	tIdx = getTileIdx(); // index of the current tile

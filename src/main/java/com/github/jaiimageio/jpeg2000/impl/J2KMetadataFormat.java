@@ -312,6 +312,7 @@ public class J2KMetadataFormat extends IIOMetadataFormatImpl {
         return (String)parents.get(elementName);
     }
 
+    @Override
     public boolean canNodeAppear(String elementName,
                                  ImageTypeSpecifier imageType) {
         ColorModel cm = imageType.getColorModel();

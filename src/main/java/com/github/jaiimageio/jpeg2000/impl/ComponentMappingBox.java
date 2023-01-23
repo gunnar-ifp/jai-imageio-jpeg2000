@@ -112,6 +112,7 @@ public class ComponentMappingBox extends Box {
     }
 
     /** Parse the component mapping from the provided content data array. */
+    @Override
     protected void parse(byte[] data) {
         int len = data.length / 4;
         components = new short[len];
@@ -130,24 +131,25 @@ public class ComponentMappingBox extends Box {
      *  box.  The format of this node is defined in the XML dtd and xsd
      *  for the JP2 image file.
      */
+    @Override
     public IIOMetadataNode getNativeNode() {
         IIOMetadataNode node = new IIOMetadataNode(Box.getName(getType()));
         setDefaultAttributes(node);
 
         for (int i = 0; i < components.length; i++) {
             IIOMetadataNode child = new IIOMetadataNode("Component");
-	    Short obj = new Short(components[i]);
-            child.setUserObject(new Short(components[i]));
+	    Short obj = Short.valueOf(components[i]);
+            child.setUserObject(Short.valueOf(components[i]));
 	    child.setNodeValue("" + components[i]);
             node.appendChild(child);
 
             child = new IIOMetadataNode("ComponentType");
-            child.setUserObject(new Byte(type[i]));
+            child.setUserObject(Byte.valueOf(type[i]));
 	    child.setNodeValue("" + type[i]);
             node.appendChild(child);
 
             child = new IIOMetadataNode("ComponentAssociation");
-            child.setUserObject(new Byte(map[i]));
+            child.setUserObject(Byte.valueOf(map[i]));
 	    child.setNodeValue("" + map[i]);
             node.appendChild(child);
         }
@@ -167,6 +169,7 @@ public class ComponentMappingBox extends Box {
         return map;
     }
 
+    @Override
     protected void compose() {
         if (data != null)
             return;

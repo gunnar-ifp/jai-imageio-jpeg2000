@@ -116,6 +116,7 @@ public abstract class EntropyDecoder extends MultiResImgDataAdapter
      * @return The root of the tree structure.
      * */
 
+    @Override
     public SubbandSyn getSynSubbandTree(int t,int c) {
         return src.getSynSubbandTree(t,c);
     }
@@ -124,6 +125,7 @@ public abstract class EntropyDecoder extends MultiResImgDataAdapter
      * Returns the horizontal code-block partition origin. Allowable values
      * are 0 and 1, nothing else.
      * */
+    @Override
     public int getCbULX() {
         return src.getCbULX();
     }
@@ -132,6 +134,7 @@ public abstract class EntropyDecoder extends MultiResImgDataAdapter
      * Returns the vertical code-block partition origin. Allowable values are
      * 0 and 1, nothing else.
      * */
+    @Override
     public int getCbULY() {
         return src.getCbULY();
     }

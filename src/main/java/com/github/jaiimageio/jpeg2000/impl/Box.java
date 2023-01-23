@@ -77,40 +77,40 @@ public class Box {
     // Initializes the hash table "names".
     static {
         //children for the root
-        names.put(new Integer(0x6A502020), "JPEG2000SignatureBox");
-        names.put(new Integer(0x66747970), "JPEG2000FileTypeBox");
+        names.put(Integer.valueOf(0x6A502020), "JPEG2000SignatureBox");
+        names.put(Integer.valueOf(0x66747970), "JPEG2000FileTypeBox");
 
         // children for the boxes other than
         //JPEG2000SignatureBox/JPEG2000FileTypeBox
-        names.put(new Integer(0x6A703269),
+        names.put(Integer.valueOf(0x6A703269),
                               "JPEG2000IntellectualPropertyRightsBox");
-        names.put(new Integer(0x786D6C20), "JPEG2000XMLBox");
-        names.put(new Integer(0x75756964), "JPEG2000UUIDBox");
-        names.put(new Integer(0x75696E66), "JPEG2000UUIDInfoBox");
+        names.put(Integer.valueOf(0x786D6C20), "JPEG2000XMLBox");
+        names.put(Integer.valueOf(0x75756964), "JPEG2000UUIDBox");
+        names.put(Integer.valueOf(0x75696E66), "JPEG2000UUIDInfoBox");
 
         // Children of HeadCStream
-        names.put(new Integer(0x6a703268), "JPEG2000HeaderSuperBox");
-        names.put(new Integer(0x6a703263), "JPEG2000CodeStreamBox");
+        names.put(Integer.valueOf(0x6a703268), "JPEG2000HeaderSuperBox");
+        names.put(Integer.valueOf(0x6a703263), "JPEG2000CodeStreamBox");
 
         // Children of JPEG2000HeaderSuperBox
-        names.put(new Integer(0x69686472), "JPEG2000HeaderBox");
+        names.put(Integer.valueOf(0x69686472), "JPEG2000HeaderBox");
 
         // Optional boxes in JPEG2000HeaderSuperBox
-        names.put(new Integer(0x62706363), "JPEG2000BitsPerComponentBox");
-        names.put(new Integer(0x636f6c72), "JPEG2000ColorSpecificationBox");
-        names.put(new Integer(0x70636c72), "JPEG2000PaletteBox");
-        names.put(new Integer(0x636d6170), "JPEG2000ComponentMappingBox");
-        names.put(new Integer(0x63646566), "JPEG2000ChannelDefinitionBox");
-        names.put(new Integer(0x72657320), "JPEG2000ResolutionBox");
+        names.put(Integer.valueOf(0x62706363), "JPEG2000BitsPerComponentBox");
+        names.put(Integer.valueOf(0x636f6c72), "JPEG2000ColorSpecificationBox");
+        names.put(Integer.valueOf(0x70636c72), "JPEG2000PaletteBox");
+        names.put(Integer.valueOf(0x636d6170), "JPEG2000ComponentMappingBox");
+        names.put(Integer.valueOf(0x63646566), "JPEG2000ChannelDefinitionBox");
+        names.put(Integer.valueOf(0x72657320), "JPEG2000ResolutionBox");
 
         // Children of JPEG2000ResolutionBox
-        names.put(new Integer(0x72657363), "JPEG2000CaptureResolutionBox");
-        names.put(new Integer(0x72657364),
+        names.put(Integer.valueOf(0x72657363), "JPEG2000CaptureResolutionBox");
+        names.put(Integer.valueOf(0x72657364),
                               "JPEG2000DefaultDisplayResolutionBox");
 
         // Children of JPEG2000UUIDInfoBox
-        names.put(new Integer(0x756c7374), "JPEG2000UUIDListBox");
-        names.put(new Integer(0x75726c20), "JPEG2000DataEntryURLBox");
+        names.put(Integer.valueOf(0x756c7374), "JPEG2000UUIDListBox");
+        names.put(Integer.valueOf(0x75726c20), "JPEG2000DataEntryURLBox");
     }
 
     /** A Hashtable contains the class names for each type of the boxes.
@@ -122,33 +122,33 @@ public class Box {
     // Initializes the hash table "boxClasses".
     static {
         //children for the root
-        boxClasses.put(new Integer(0x6A502020), SignatureBox.class);
-        boxClasses.put(new Integer(0x66747970), FileTypeBox.class);
+        boxClasses.put(Integer.valueOf(0x6A502020), SignatureBox.class);
+        boxClasses.put(Integer.valueOf(0x66747970), FileTypeBox.class);
 
         // children for the boxes other than
         //JPEG2000SignatureBox/JPEG2000FileTypeBox
-        boxClasses.put(new Integer(0x6A703269), Box.class);
-        boxClasses.put(new Integer(0x786D6C20), XMLBox.class);
-        boxClasses.put(new Integer(0x75756964), UUIDBox.class);
+        boxClasses.put(Integer.valueOf(0x6A703269), Box.class);
+        boxClasses.put(Integer.valueOf(0x786D6C20), XMLBox.class);
+        boxClasses.put(Integer.valueOf(0x75756964), UUIDBox.class);
 
         // Children of JPEG2000HeaderSuperBox
-        boxClasses.put(new Integer(0x69686472), HeaderBox.class);
+        boxClasses.put(Integer.valueOf(0x69686472), HeaderBox.class);
 
         // Optional boxes in JPEG2000HeaderSuperBox
-        boxClasses.put(new Integer(0x62706363), BitsPerComponentBox.class);
-        boxClasses.put(new Integer(0x636f6c72), ColorSpecificationBox.class);
-        boxClasses.put(new Integer(0x70636c72), PaletteBox.class);
-        boxClasses.put(new Integer(0x636d6170), ComponentMappingBox.class);
-        boxClasses.put(new Integer(0x63646566), ChannelDefinitionBox.class);
-        boxClasses.put(new Integer(0x72657320), ResolutionBox.class);
+        boxClasses.put(Integer.valueOf(0x62706363), BitsPerComponentBox.class);
+        boxClasses.put(Integer.valueOf(0x636f6c72), ColorSpecificationBox.class);
+        boxClasses.put(Integer.valueOf(0x70636c72), PaletteBox.class);
+        boxClasses.put(Integer.valueOf(0x636d6170), ComponentMappingBox.class);
+        boxClasses.put(Integer.valueOf(0x63646566), ChannelDefinitionBox.class);
+        boxClasses.put(Integer.valueOf(0x72657320), ResolutionBox.class);
 
         // Children of JPEG2000ResolutionBox
-        boxClasses.put(new Integer(0x72657363), ResolutionBox.class);
-        boxClasses.put(new Integer(0x72657364), ResolutionBox.class);
+        boxClasses.put(Integer.valueOf(0x72657363), ResolutionBox.class);
+        boxClasses.put(Integer.valueOf(0x72657364), ResolutionBox.class);
 
         // Children of JPEG2000UUIDInfoBox
-        boxClasses.put(new Integer(0x756c7374), UUIDListBox.class);
-        boxClasses.put(new Integer(0x75726c20), DataEntryURLBox.class);
+        boxClasses.put(Integer.valueOf(0x756c7374), UUIDListBox.class);
+        boxClasses.put(Integer.valueOf(0x75726c20), DataEntryURLBox.class);
     }
 
     /** Returns the XML tag name defined in JP2 XML xsd/dtd for the box
@@ -156,7 +156,7 @@ public class Box {
      * not known, the string <code>"unknown"</code> is returned.
      */
     public static String getName(int type) {
-        String name = (String)names.get(new Integer(type));
+        String name = (String)names.get(Integer.valueOf(type));
         return name == null ? "unknown" : name;
     }
 
@@ -165,7 +165,7 @@ public class Box {
     public static Class getBoxClass(int type) {
         if (type == 0x6a703268 || type == 0x72657320)
             return null;
-        return (Class)boxClasses.get(new Integer(type));
+        return (Class)boxClasses.get(Integer.valueOf(type));
     }
 
     /** Returns the type String based on the provided name. */
@@ -184,7 +184,7 @@ public class Box {
      */
     public static Box createBox(int type,
                                 Node node) throws IIOInvalidTreeException {
-        Class boxClass = (Class)boxClasses.get(new Integer(type));
+        Class boxClass = (Class)boxClasses.get(Integer.valueOf(type));
 
         try {
             // gets the constructor with <code>Node</code parameter
@@ -229,7 +229,7 @@ public class Box {
         byte[] buf = new byte[count];
         int i = 0;
         while(token.hasMoreElements()) {
-            buf[i++] = new Byte(token.nextToken()).byteValue();
+            buf[i++] = Byte.parseByte(token.nextToken());
         }
         return buf;
     }
@@ -245,7 +245,7 @@ public class Box {
         int[] buf = new int[count];
         int i = 0;
         while(token.hasMoreElements()) {
-            buf[i++] = new Integer(token.nextToken()).intValue();
+            buf[i++] = Integer.valueOf(token.nextToken()).intValue();
         }
         return buf;
     }
@@ -273,7 +273,7 @@ public class Box {
 
 	String value = node.getNodeValue();
 	if (value != null)
-	    return new Byte(value).byteValue();
+	    return Byte.parseByte(value);
 	return (byte)0;
     }
 
@@ -287,7 +287,7 @@ public class Box {
 
 	String value = node.getNodeValue();
 	if (value != null)
-	    return new Integer(value).intValue();
+	    return Integer.valueOf(value).intValue();
 	return 0;
     }
 
@@ -300,7 +300,7 @@ public class Box {
         }
         String value = node.getNodeValue();
 	if (value != null)
-	    return new Short(value).shortValue();
+	    return Short.parseShort(value);
 	return (short)0;
     }
 
@@ -429,16 +429,16 @@ public class Box {
 
         String value = (String)Box.getAttribute(node, "Type");
         type = getTypeInt(value);
-        if (value == null || names.get(new Integer(type)) == null)
+        if (value == null || names.get(Integer.valueOf(type)) == null)
             throw new IIOInvalidTreeException("Type is not defined", node);
 
         value = (String)Box.getAttribute(node, "Length");
         if (value != null)
-            length = new Integer(value).intValue();
+            length = Integer.valueOf(value).intValue();
 
         value = (String)Box.getAttribute(node, "ExtraLength");
         if (value != null)
-            extraLength = new Long(value).longValue();
+            extraLength = Long.valueOf(value).longValue();
 
         for (int i = 0; i < children.getLength(); i++) {
             Node child = children.item(i);
@@ -581,7 +581,7 @@ public class Box {
             ios.write(data, 0, length);
     }
 
-    /** Reads a box from the <code>ImageInputStream</code. at the provided
+    /** Reads a box from the <code>ImageInputStream</code>. at the provided
      *  position.
      */
     public void read(ImageInputStream iis, int pos) throws IOException {
