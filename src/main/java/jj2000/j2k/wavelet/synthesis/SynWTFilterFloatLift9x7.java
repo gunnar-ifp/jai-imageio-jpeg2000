@@ -96,7 +96,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat
      *
      * <P>
      * The coefficients of the second lifting step are [-GAMMA 1 -GAMMA].
-     * 
+     *
      * <P>
      * The coefficients of the third lifting step are [-BETA 1 -BETA].
      *
@@ -258,7 +258,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat
      *
      * <P>
      * The coefficients of the second lifting step are [-GAMMA 1 -GAMMA].
-     * 
+     *
      * <P>
      * The coefficients of the third lifting step are [-BETA 1 -BETA].
      *
@@ -423,7 +423,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat
 
         //Handle head boundary effect if input signal has even length
         if ((outLen % 2 == 1) && (outLen > 1)) {
-            //Use symmetric extension 
+            //Use symmetric extension
             outSig[ik] -= 2 * ALPHA * outSig[ik - outStep];
         }
     }

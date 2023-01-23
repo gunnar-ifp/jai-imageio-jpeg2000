@@ -24,7 +24,7 @@ public class ConverterTest
 
         for (String type : ImageIO.getWriterFormatNames()) {
             if (type.equalsIgnoreCase("jpg") || type.equalsIgnoreCase("jpeg")) {
-                // Avoid issue #6 on OpenJDK8/Debian 
+                // Avoid issue #6 on OpenJDK8/Debian
                 continue;
             }
 

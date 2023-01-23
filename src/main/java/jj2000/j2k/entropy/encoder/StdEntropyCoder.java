@@ -1107,7 +1107,7 @@ public class StdEntropyCoder extends EntropyCoder
      * Returns the code-block width for the specified tile and component.
      *
      * @param t The tile index
-     * 
+     *
      * @param c the component index
      *
      * @return The code-block width for the specified tile and component

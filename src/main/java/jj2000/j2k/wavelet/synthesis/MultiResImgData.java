@@ -220,7 +220,7 @@ public interface MultiResImgData
      * given resolution level.
      *
      * @param t The tile index.
-     * 
+     *
      * @param c The index of the component, from 0 to N-1.
      *
      * @param rl The resolution level, from 0 to L.
@@ -380,7 +380,7 @@ public interface MultiResImgData
 
     /**
      * Returns the specified synthesis subband tree
-     * 
+     *
      * @param t Tile index.
      *
      * @param c Component index.

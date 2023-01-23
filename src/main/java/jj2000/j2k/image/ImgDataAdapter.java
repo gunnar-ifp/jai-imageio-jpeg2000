@@ -412,7 +412,7 @@ public abstract class ImgDataAdapter implements ImgData
      * <p>
      * This default implementation returns the value of the source.
      * </p>
-     * 
+     *
      * @return The current tile's index (starts at 0).
      */
     @Override

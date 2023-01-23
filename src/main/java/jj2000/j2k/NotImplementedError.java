@@ -69,7 +69,7 @@ public class NotImplementedError extends Error
 {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -415875025583798659L;
 

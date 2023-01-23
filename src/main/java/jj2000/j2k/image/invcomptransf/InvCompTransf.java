@@ -534,7 +534,7 @@ public class InvCompTransf extends ImgDataAdapter
     private DataBlk invICT(DataBlk blk, int c)
     {
         if (c >= 3 && c < getNumComps()) {
-            // Requesting a component whose index is greater than 3            
+            // Requesting a component whose index is greater than 3
             int k, k0, k1, k2, mink, i;
             int w = blk.w; //width of output block
             int h = blk.h; //height of ouput block

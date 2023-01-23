@@ -1646,7 +1646,7 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions
             markSegLen = 2 + 2 + str.length();
             hbuf.writeShort(markSegLen);
 
-            // Rcom 
+            // Rcom
             hbuf.writeShort(1); // General use (IS 8859-15:1999(Latin) values)
 
             byte[] chars = str.getBytes();
@@ -1668,7 +1668,7 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions
                 markSegLen = 2 + 2 + str.length();
                 hbuf.writeShort(markSegLen);
 
-                // Rcom 
+                // Rcom
                 hbuf.writeShort(1); // General use (IS 8859-15:1999(Latin)
                 // values)
 

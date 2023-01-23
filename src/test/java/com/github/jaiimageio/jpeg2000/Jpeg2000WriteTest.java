@@ -21,7 +21,7 @@ import com.github.jaiimageio.jpeg2000.J2KImageWriteParam;
 
 /**
  * Test JPEG2000 writing
- * 
+ *
  */
 public class Jpeg2000WriteTest
 {

@@ -455,7 +455,7 @@ public class ImgReaderPGM extends ImgReader
 
     /**
      * Returns an int read from the header of the PGM file.
-     * 
+     *
      * @return One int read from the header of the PGM file.
      *
      * @exception IOException If an I/O error occurs.

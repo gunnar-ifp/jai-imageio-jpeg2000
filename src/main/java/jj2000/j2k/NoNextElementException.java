@@ -58,7 +58,7 @@ public class NoNextElementException extends RuntimeException
 {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 7199033090111766493L;
 

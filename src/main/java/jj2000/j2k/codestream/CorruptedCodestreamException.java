@@ -61,7 +61,7 @@ public class CorruptedCodestreamException extends IOException
 {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -5273081182631363170L;
 

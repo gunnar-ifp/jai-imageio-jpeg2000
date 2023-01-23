@@ -57,7 +57,7 @@ public class StringFormatException extends IllegalArgumentException
 {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -1603143177940018199L;
 

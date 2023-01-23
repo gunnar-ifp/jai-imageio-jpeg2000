@@ -646,7 +646,7 @@ public int[] getDefRep(){
 	}
 
 throw new IllegalArgumentException("No representative for "+
-                               "default value");
+                           "default value");
 }
 */
     /**

@@ -583,7 +583,7 @@ public abstract class InvWTAdapter implements InvWT
 
     /**
      * Returns the specified synthesis subband tree
-     * 
+     *
      * @param t Tile index.
      *
      * @param c Component index.

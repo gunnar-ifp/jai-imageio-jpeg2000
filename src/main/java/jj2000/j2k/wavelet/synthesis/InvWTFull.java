@@ -296,7 +296,7 @@ public class InvWTFull extends InverseWT
             dtype = src.getSynSubbandTree(tIdx, c).getHorWFilter().getDataType();
         }
 
-        //If the source image has not been decomposed 
+        //If the source image has not been decomposed
         if (reconstructedComps[c] == null) {
             //Allocate component data buffer
             switch (dtype) {
@@ -471,7 +471,7 @@ public class InvWTFull extends InverseWT
             }
         }
 
-        //Perform the vertical reconstruction 
+        //Perform the vertical reconstruction
         offset = (uly - db.uly) * db.w + ulx - db.ulx;
         switch (sb.getVerWFilter().getDataType()) {
             case DataBlk.TYPE_INT:

@@ -674,7 +674,7 @@ public class PktEncoder
         int cblen;
         int prednbits, nbits, deltabits;
         TagTreeEncoder cur_ttIncl, cur_ttMaxBP; // inclusion and bit-depth tag
-        // trees 
+        // trees
         int cur_prevtIdxs[]; // last encoded truncation points
         CBlkRateDistStats cur_cbs[];
         int cur_tIndx[]; // truncation points to encode
@@ -1333,7 +1333,7 @@ public class PktEncoder
 
     /**
      * Returns information about a given precinct
-     * 
+     *
      * @param t Tile index.
      *
      * @param c Component index.

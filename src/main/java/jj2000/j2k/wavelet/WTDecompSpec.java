@@ -1,17 +1,17 @@
-/* 
+/*
  * $RCSfile: WTDecompSpec.java,v $
  * $Revision: 1.1 $
  * $Date: 2005/02/11 05:02:27 $
  * $State: Exp $
  *
  * Class:                   WTDecompSpec
- * 
+ *
  * Description:             <short description of class>
- * 
- * 
- * 
+ *
+ *
+ *
  * COPYRIGHT:
- * 
+ *
  * This software module was originally developed by Raphaël Grosbois and
  * Diego Santa Cruz (Swiss Federal Institute of Technology-EPFL); Joel
  * Askelöf (Ericsson Radio Systems AB); and Bertrand Berthelot, David
@@ -38,11 +38,11 @@
  * using this software module for non JPEG 2000 Standard conforming
  * products. This copyright notice must be included in all copies or
  * derivative works of this software module.
- * 
+ *
  * Copyright (c) 1999/2000 JJ2000 Partners.
- * 
- * 
- * 
+ *
+ *
+ *
  */
 
 

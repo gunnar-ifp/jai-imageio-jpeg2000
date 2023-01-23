@@ -111,7 +111,7 @@ public class PktDecoder implements StdEntropyCoderOptions
     /**
      * Array containing the coordinates, width, height, indexes, ... of the
      * precincts in the current tile:
-     * 
+     *
      * <ul>
      * <li>1st dim: component index.</li>
      * <li>2nd dim: resolution level index.</li>
@@ -145,7 +145,7 @@ public class PktDecoder implements StdEntropyCoderOptions
 
     /**
      * Tag tree used to read bit-depth information in packet's head:
-     * 
+     *
      * <ul>
      * <li>1st dim: component index.</li>
      * <li>2nd dim: resolution level index.</li>
@@ -249,7 +249,7 @@ public class PktDecoder implements StdEntropyCoderOptions
 
     /**
      * Re-initialize the PktDecoder instance at the beginning of a new tile.
-     * 
+     *
      * @param nc The number of components in this tile
      *
      * @param mdl The maximum number of decomposition level in each component
@@ -992,7 +992,7 @@ public class PktDecoder implements StdEntropyCoderOptions
                         // Code-block length
 
                         // -- Compute the number of bit to read to obtain
-                        // code-block length.  
+                        // code-block length.
                         // numBits = betaLamda + log2(totnewtp);
 
                         // The length is signalled for each segment in

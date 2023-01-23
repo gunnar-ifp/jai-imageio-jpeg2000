@@ -698,7 +698,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
                                                  targetRes);
                 }
         }
-        
+
         // Verify reduction in resolution level
         int mdl = decSpec.dls.getMin();
         if(targetRes>mdl) {

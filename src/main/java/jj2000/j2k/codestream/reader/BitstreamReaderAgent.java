@@ -803,9 +803,9 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
     /**
      * Returns the horizontal coordinate of the upper-left corner of the
      * specified resolution in the given component of the current tile.
-     * 
+     *
      * @param c The component index.
-     * 
+     *
      * @param rl The resolution level index.
      */
     @Override

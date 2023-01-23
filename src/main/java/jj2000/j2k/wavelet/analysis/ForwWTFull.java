@@ -401,7 +401,7 @@ public class ForwWTFull extends ForwardWT
         SubbandAn sb;
         intData = (filters.getWTDataType(tIdx, c) == DataBlk.TYPE_INT);
 
-        //If the source image has not been decomposed 
+        //If the source image has not been decomposed
         if (decomposedComps[c] == null) {
             int k, w, h;
             DataBlk bufblk;

@@ -380,7 +380,7 @@ public class FileFormatReader implements FileFormatBoxes
 
     /**
      * This method reads the Image Header box
-     * 
+     *
      * @param length The length of the JP2Header box
      *
      * @return false if the JP2Header box was not found or invalid else true

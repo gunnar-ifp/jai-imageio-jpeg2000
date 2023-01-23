@@ -727,7 +727,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
      *
      * @param comIdx Occurence of this COM marker in eith main or tile-part
      * header
-     * 
+     *
      * @exception IOException If an I/O error occurs while reading from the
      * encoded header stream
      */
@@ -776,7 +776,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
      * Reads a QCD marker segment and realigns the codestream at the point
      * where the next marker should be found. QCD is a functional marker
      * segment that describes the quantization default.
-     * 
+     *
      * @param ehs The encoded stream.
      *
      * @param mainh Flag indicating whether or not this marker segment is read
@@ -960,7 +960,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
      * Reads a QCC marker segment and realigns the codestream at the point
      * where the next marker should be found. QCC is a functional marker
      * segment that describes the quantization of one component.
-     * 
+     *
      * @param ehs The encoded stream.
      *
      * @param mainh Flag indicating whether or not this marker segment is read
@@ -1374,7 +1374,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
 
         // Fill the filter spec
         // If this is the main header, set the default value, if it is the
-        // tile header, set default for this tile 
+        // tile header, set default for this tile
         SynWTFilter[][] hvfilters = new SynWTFilter[2][];
         hvfilters[0] = hfilters;
         hvfilters[1] = vfilters;
@@ -1541,7 +1541,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
 
         // Fill the filter spec
         // If this is the main header, set the default value, if it is the
-        // tile header, set default for this tile 
+        // tile header, set default for this tile
         SynWTFilter[][] hvfilters = new SynWTFilter[2][];
         hvfilters[0] = hfilters;
         hvfilters[1] = vfilters;
@@ -1845,7 +1845,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
                 comp);
         }
 
-        // Read type of RGN.(Srgn) 
+        // Read type of RGN.(Srgn)
         ms.srgn = ehs.readUnsignedByte();
 
         // Check that we can handle it.
@@ -1907,7 +1907,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         // Zppm (index of PPM marker)
         indx = ehs.readUnsignedByte();
 
-        // Read Nppm and Ippm data 
+        // Read Nppm and Ippm data
         pPMMarkerData[indx] = new byte[remSegLen];
         ehs.read(pPMMarkerData[indx], 0, remSegLen);
 
@@ -2144,11 +2144,11 @@ public class HeaderDecoder implements ProgressionType, Markers,
      * buffered in an element of byte arrays accessible thanks to a hashTable.
      * If a marker segment is not recognized, it prints a warning and skip it
      * according to its length.
-     * 
+     *
      * @param marker The marker to process
-     * 
+     *
      * @param ehs The encoded header stream
-     * 
+     *
      * @param tileIdx The index of the current tile
      *
      * @param tilePartIdx The index of the current tile part
@@ -2367,7 +2367,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
      * tile-part header.
      *
      * @param tileIdx The index of the current tile
-     * 
+     *
      * @param tpIdx Index of the current tile-part
      */
     public void readFoundTilePartMarkSeg(int tileIdx, int tpIdx)
@@ -2441,7 +2441,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
 
     /**
      * Return the DecoderSpecs instance filled when reading the headers
-     * 
+     *
      * @return The DecoderSpecs of the decoder
      */
     public DecoderSpecs getDecoderSpecs()
@@ -2546,7 +2546,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
      **/
 /*
 public BlkImgDataSrc createColorSpaceMapper(BlkImgDataSrc src,
-                                    ColorSpace csMap)
+                                ColorSpace csMap)
 throws IOException, ICCProfileException, ColorSpaceException {
 return ColorSpaceMapper.createInstance(src,csMap);
 }
@@ -2566,7 +2566,7 @@ return ColorSpaceMapper.createInstance(src,csMap);
      **/
 /*
  public BlkImgDataSrc createChannelDefinitionMapper(BlkImgDataSrc src,
-                                            ColorSpace csMap)
+                                        ColorSpace csMap)
  throws IOException, ColorSpaceException {
  return ChannelDefinitionMapper.createInstance(src,csMap);
  }
@@ -2586,7 +2586,7 @@ return ColorSpaceMapper.createInstance(src,csMap);
      **/
 /*
 public BlkImgDataSrc createPalettizedColorSpaceMapper(BlkImgDataSrc src,
-                                              ColorSpace csMap)
+                                          ColorSpace csMap)
 throws IOException, ColorSpaceException {
 return PalettizedColorSpaceMapper.createInstance(src, csMap); }
 */
@@ -2607,7 +2607,7 @@ return PalettizedColorSpaceMapper.createInstance(src, csMap); }
 
 /*
 public BlkImgDataSrc createResampler(BlkImgDataSrc src,
-                             ColorSpace csMap)
+                         ColorSpace csMap)
 throws IOException, ColorSpaceException {
 return Resampler.createInstance(src, csMap); }
 */

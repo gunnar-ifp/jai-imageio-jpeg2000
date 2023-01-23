@@ -107,10 +107,10 @@ public class FacilityManager
      * ProgressWatch registered.
      * <p>
      * To unregister, use {@link #unregisterProgressWatch(Thread)}
-     * 
+     *
      * @param t The thread to associate with progress watcher
      * @param pw The ProgressWatch to associate with thread
-     * 
+     *
      */
     public static void registerProgressWatch(Thread t, ProgressWatch pw)
     {
@@ -130,7 +130,7 @@ public class FacilityManager
      * Unregister the ProgressWatch previously registered for the given thread.
      * <p>
      * If t is null, the default progress watch is unregistered.
-     * 
+     *
      * @see #registerProgressWatch(Thread, ProgressWatch)
      * @param t
      * Thread to unregister progress watch for, or <code>null</code>
@@ -151,7 +151,7 @@ public class FacilityManager
      * Return the ProgressWatch instance registered with the current
      * thread (the thread that calls this method). If the current
      * thread has no registered ProgressWatch, then the default one is used.
-     * 
+     *
      * @see #registerProgressWatch(Thread, ProgressWatch)
      */
     public static ProgressWatch getProgressWatch()
@@ -168,7 +168,7 @@ public class FacilityManager
      * overriden. If the Thread is <code>null</code>, then the given message
      * logger will be set as the default for threads that have no MsgLogger
      * registered.
-     * 
+     *
      * @see #unregisterMsgLogger(Thread)
      * @param t
      * The thread to associate a MsgLogger for
@@ -194,9 +194,9 @@ public class FacilityManager
      * <p>
      * If the Thread is <code>null</code>, then the default logger is reset to a
      * {@link StreamMsgLogger} using {@link System#out} and {@link System#err}.
-     * 
+     *
      * @see #registerMsgLogger(Thread, MsgLogger)
-     * 
+     *
      * @param t
      * The thread to remove the MsgLogger for, or <code>null</code>
      * to reset the default message logger.

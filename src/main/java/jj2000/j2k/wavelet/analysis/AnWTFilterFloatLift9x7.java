@@ -88,7 +88,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat
     };
 
     /** The value of the first lifting step coefficient */
-    public final static float ALPHA = -1.586134342059924f; // Table F.4 
+    public final static float ALPHA = -1.586134342059924f; // Table F.4
 
     /** The value of the second lifting step coefficient */
     public final static float BETA = -0.052980118572961f; // Table F.4

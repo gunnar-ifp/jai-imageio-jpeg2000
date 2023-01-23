@@ -832,7 +832,7 @@ public class EBCOTRateAllocator extends PostCompRateAllocator
                         throw new Error("Unsupported bit stream progression type");
                 } // switch on progression
 
-                // Update next first layer index 
+                // Update next first layer index
                 for (int c = cs; c < ce; c++)
                     for (int r = rs; r < re; r++) {
                         if (r > mrlc[c]) continue;
@@ -1084,7 +1084,7 @@ public class EBCOTRateAllocator extends PostCompRateAllocator
         int minx = tx1; // Horiz. offset of the second precinct in the
         // reference grid
         int miny = ty1; // Vert. offset of the second precinct in the
-        // reference grid. 
+        // reference grid.
         int maxx = tx0; // Max. horiz. offset of precincts in the ref. grid
         int maxy = ty0; // Max. vert. offset of precincts in the ref. grid
         for (int c = cs; c < ce; c++) {
@@ -1271,7 +1271,7 @@ public class EBCOTRateAllocator extends PostCompRateAllocator
         int minx = tx1; // Horiz. offset of the second precinct in the
         // reference grid
         int miny = ty1; // Vert. offset of the second precinct in the
-        // reference grid. 
+        // reference grid.
         int maxx = tx0; // Max. horiz. offset of precincts in the ref. grid
         int maxy = ty0; // Max. vert. offset of precincts in the ref. grid
         for (int c = cs; c < ce; c++) {
@@ -1368,7 +1368,7 @@ public class EBCOTRateAllocator extends PostCompRateAllocator
 
                         } // Layers
                         nextPrec[c][r]++;
-                    } // Resolution levels                    
+                    } // Resolution levels
                     if (px != pxend) {
                         x = minx + px * gcd_x;
                     }
@@ -1461,7 +1461,7 @@ public class EBCOTRateAllocator extends PostCompRateAllocator
         int minx = tx1; // Horiz. offset of the second precinct in the
         // reference grid
         int miny = ty1; // Vert. offset of the second precinct in the
-        // reference grid. 
+        // reference grid.
         int maxx = tx0; // Max. horiz. offset of precincts in the ref. grid
         int maxy = ty0; // Max. vert. offset of precincts in the ref. grid
         for (int c = cs; c < ce; c++) {
