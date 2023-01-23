@@ -131,6 +131,7 @@ public class FileFormatReader implements FileFormatBoxes
     /** ICC profile */
     private ICC_Profile profile;
 
+
     /**
      * The constructor of the FileFormatReader
      *
@@ -306,6 +307,7 @@ public class FileFormatReader implements FileFormatBoxes
         return;
     }
 
+
     /**
      * This method reads the File Type box
      *
@@ -352,6 +354,7 @@ public class FileFormatReader implements FileFormatBoxes
         return true;
     }
 
+
     /**
      * This method reads the JP2Header box
      *
@@ -373,6 +376,7 @@ public class FileFormatReader implements FileFormatBoxes
         // Here the JP2Header data (DBox) would be read if we were to use it
         return true;
     }
+
 
     /**
      * This method reads the Image Header box
@@ -412,6 +416,7 @@ public class FileFormatReader implements FileFormatBoxes
         return true;
     }
 
+
     /**
      * This method skips the Contiguous codestream box and adds position
      * of contiguous codestream to a vector
@@ -447,6 +452,7 @@ public class FileFormatReader implements FileFormatBoxes
         return true;
     }
 
+
     /**
      * This method reads the contents of the Intellectual property box
      */
@@ -458,6 +464,7 @@ public class FileFormatReader implements FileFormatBoxes
             metadata.addNode(new Box(length + 8, 0x6A703269, data));
         }
     }
+
 
     /**
      * This method reads the contents of the XML box
@@ -471,6 +478,7 @@ public class FileFormatReader implements FileFormatBoxes
         }
     }
 
+
     /**
      * This method reads the contents of the XML box
      */
@@ -482,6 +490,7 @@ public class FileFormatReader implements FileFormatBoxes
             metadata.addNode(new DataEntryURLBox(data));
         }
     }
+
 
     /**
      * This method reads the contents of the Intellectual property box
@@ -495,6 +504,7 @@ public class FileFormatReader implements FileFormatBoxes
         }
     }
 
+
     /**
      * This method reads the contents of the UUID List box
      */
@@ -506,6 +516,7 @@ public class FileFormatReader implements FileFormatBoxes
             metadata.addNode(new UUIDListBox(data));
         }
     }
+
 
     /** This method reads the content of the palette box */
     public void readPaletteBox(int length) throws IOException
@@ -546,6 +557,7 @@ public class FileFormatReader implements FileFormatBoxes
         }
     }
 
+
     /**
      * Read the component mapping channel.
      */
@@ -567,6 +579,7 @@ public class FileFormatReader implements FileFormatBoxes
             metadata.addNode(new ComponentMappingBox(comps, type, maps));
         }
     }
+
 
     /**
      * This method reads the Channel Definition box
@@ -591,6 +604,7 @@ public class FileFormatReader implements FileFormatBoxes
         }
     }
 
+
     /**
      * Read the bits per component.
      */
@@ -603,6 +617,7 @@ public class FileFormatReader implements FileFormatBoxes
             metadata.addNode(new BitsPerComponentBox(bitDepths));
         }
     }
+
 
     /**
      * Read the color specifications.
@@ -633,6 +648,7 @@ public class FileFormatReader implements FileFormatBoxes
         }
     }
 
+
     /**
      * Read the resolution.
      */
@@ -644,6 +660,7 @@ public class FileFormatReader implements FileFormatBoxes
             metadata.addNode(new ResolutionBox(type, data));
         }
     }
+
 
     /**
      * This method creates and returns an array of positions to contiguous
@@ -660,6 +677,7 @@ public class FileFormatReader implements FileFormatBoxes
         return pos;
     }
 
+
     /**
      * This method returns the position of the first contiguous codestreams in
      * the file
@@ -671,6 +689,7 @@ public class FileFormatReader implements FileFormatBoxes
         return ((Integer)(codeStreamPos.elementAt(0))).intValue();
     }
 
+
     /**
      * This method returns the length of the first contiguous codestreams in
      * the file
@@ -681,6 +700,7 @@ public class FileFormatReader implements FileFormatBoxes
     {
         return ((Integer)(codeStreamLength.elementAt(0))).intValue();
     }
+
 
     /**
      * Returns the color model created from the palette box.

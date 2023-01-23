@@ -97,6 +97,7 @@ public class TagTreeDecoder
      */
     protected int treeS[][];
 
+
     /**
      * Creates a tag tree decoder with 'w' elements along the
      * horizontal dimension and 'h' elements along the vertical
@@ -154,6 +155,7 @@ public class TagTreeDecoder
         }
     }
 
+
     /**
      * Returns the number of leafs along the horizontal direction.
      *
@@ -166,6 +168,7 @@ public class TagTreeDecoder
         return w;
     }
 
+
     /**
      * Returns the number of leafs along the vertical direction.
      *
@@ -177,6 +180,7 @@ public class TagTreeDecoder
     {
         return h;
     }
+
 
     /**
      * Decodes information for the specified element of the tree,
@@ -260,6 +264,7 @@ public class TagTreeDecoder
             }
         }
     }
+
 
     /**
      * Returns the current value of the specified element in the tag

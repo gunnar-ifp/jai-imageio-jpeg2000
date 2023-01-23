@@ -94,6 +94,7 @@ public abstract class InverseWT extends InvWTAdapter
         super(src, decSpec);
     }
 
+
     /**
      * Creates an InverseWT object that works on the data type of the source,
      * with the special additional parameters from the parameter

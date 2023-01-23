@@ -271,9 +271,11 @@ public class J2KMetadataFormatResources extends ListResourceBundle
             "The extra length of the data entry URL box.  Optional.  Set when Length = 1" },
     };
 
+
     public J2KMetadataFormatResources()
     {
     }
+
 
     @Override
     protected Object[][] getContents()

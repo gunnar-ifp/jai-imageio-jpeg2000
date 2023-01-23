@@ -119,6 +119,7 @@ public class SubbandSyn extends Subband
     /** The number of magnitude bits */
     public int magbits = 0;
 
+
     /**
      * Creates a SubbandSyn element with all the default values. The
      * dimensions are (0,0) and the upper left corner is (0,0).
@@ -128,6 +129,7 @@ public class SubbandSyn extends Subband
     public SubbandSyn()
     {
     }
+
 
     /**
      * Creates the top-level node and the entire subband tree, with
@@ -168,6 +170,7 @@ public class SubbandSyn extends Subband
         super(w, h, ulcx, ulcy, lvls, hfilters, vfilters);
     }
 
+
     /**
      * Returns the parent of this subband. The parent of a subband is
      * the subband from which this one was obtained by
@@ -183,6 +186,7 @@ public class SubbandSyn extends Subband
         return parent;
     }
 
+
     /**
      * Returns the LL child subband of this subband.
      *
@@ -195,6 +199,7 @@ public class SubbandSyn extends Subband
     {
         return subb_LL;
     }
+
 
     /**
      * Returns the HL (horizontal high-pass) child subband of this
@@ -210,6 +215,7 @@ public class SubbandSyn extends Subband
         return subb_HL;
     }
 
+
     /**
      * Returns the LH (vertical high-pass) child subband of this
      * subband.
@@ -224,6 +230,7 @@ public class SubbandSyn extends Subband
         return subb_LH;
     }
 
+
     /**
      * Returns the HH child subband of this subband.
      *
@@ -236,6 +243,7 @@ public class SubbandSyn extends Subband
     {
         return subb_HH;
     }
+
 
     /**
      * Splits the current subband in its four subbands. It changes the
@@ -291,6 +299,7 @@ public class SubbandSyn extends Subband
         return subb_LL;
     }
 
+
     /**
      * This function returns the horizontal wavelet filter relevant to this
      * subband
@@ -304,6 +313,7 @@ public class SubbandSyn extends Subband
     {
         return hFilter;
     }
+
 
     /**
      * This function returns the vertical wavelet filter relevant to this

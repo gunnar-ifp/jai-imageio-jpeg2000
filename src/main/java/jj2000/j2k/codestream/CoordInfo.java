@@ -67,6 +67,7 @@ public abstract class CoordInfo
     /** Object's height */
     public int h;
 
+
     /**
      * Constructor. Creates a CoordInfo object.
      *
@@ -86,10 +87,12 @@ public abstract class CoordInfo
         this.h = h;
     }
 
+
     /** Empty contructor */
     public CoordInfo()
     {
     }
+
 
     /**
      * Returns object's information in a String

@@ -188,6 +188,7 @@ public abstract class Subband
     /** The nominal code-block height */
     public int nomCBlkH;
 
+
     /**
      * Returns the parent of this subband. The parent of a subband is the
      * subband from which this one was obtained by decomposition. The root
@@ -197,12 +198,14 @@ public abstract class Subband
      */
     public abstract Subband getParent();
 
+
     /**
      * Returns the LL child subband of this subband.
      *
      * @return The LL child subband, or null if there are no childs.
      */
     public abstract Subband getLL();
+
 
     /**
      * Returns the HL (horizontal high-pass) child subband of this subband.
@@ -211,6 +214,7 @@ public abstract class Subband
      */
     public abstract Subband getHL();
 
+
     /**
      * Returns the LH (vertical high-pass) child subband of this subband.
      *
@@ -218,12 +222,14 @@ public abstract class Subband
      */
     public abstract Subband getLH();
 
+
     /**
      * Returns the HH child subband of this subband.
      *
      * @return The HH child subband, or null if there are no childs.
      */
     public abstract Subband getHH();
+
 
     /**
      * Splits the current subband in its four subbands. This creates the four
@@ -239,6 +245,7 @@ public abstract class Subband
      */
     protected abstract Subband split(WaveletFilter hfilter,
         WaveletFilter vfilter);
+
 
     /**
      * Initializes the childs of this node with the correct values. The sizes
@@ -308,6 +315,7 @@ public abstract class Subband
         subb_HH.sbandIdx = (sbandIdx << 2) + 3;
     }
 
+
     /**
      * Creates a Subband element with all the default values. The dimensions
      * are (0,0), the upper left corner is (0,0) and the upper-left corner
@@ -316,6 +324,7 @@ public abstract class Subband
     public Subband()
     {
     }
+
 
     /**
      * Creates the top-level node and the entire subband tree, with the
@@ -376,6 +385,7 @@ public abstract class Subband
             cur = cur.split(hfilters[hi], vfilters[vi]);
         }
     }
+
 
     /**
      * Returns the next subband in the same resolution level, following the
@@ -443,6 +453,7 @@ public abstract class Subband
         }
     }
 
+
     /**
      * Returns the first leaf subband element in the next higher resolution
      * level.
@@ -473,6 +484,7 @@ public abstract class Subband
         }
         return sb;
     }
+
 
     /**
      * Returns a subband element in the tree, given its resolution level and
@@ -513,6 +525,7 @@ public abstract class Subband
         }
 
     }
+
 
     /**
      * Returns a reference to the Subband element to which the specified point
@@ -563,6 +576,7 @@ public abstract class Subband
         return cur;
     }
 
+
     /**
      * Returns subband informations in a string.
      *
@@ -581,6 +595,7 @@ public abstract class Subband
         return string;
     }
 
+
     /**
      * This function returns the horizontal wavelet filter relevant to this
      * subband
@@ -588,6 +603,7 @@ public abstract class Subband
      * @return The horizontal wavelet filter
      */
     public abstract WaveletFilter getHorWFilter();
+
 
     /**
      * This function returns the vertical wavelet filter relevant to this

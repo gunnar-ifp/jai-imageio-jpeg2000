@@ -63,6 +63,7 @@ public class UUIDListBox extends Box
     private short num;
     private byte[][] uuids;
 
+
     /**
      * Constructs a <code>UUIDListBox</code> from the provided uuid number
      * and uuids. The provided uuids should have a size of 16; otherwise,
@@ -76,6 +77,7 @@ public class UUIDListBox extends Box
         this.uuids = uuids;
     }
 
+
     /**
      * Constructs a <code>UUIDListBox</code> from the provided content
      * data array.
@@ -84,6 +86,7 @@ public class UUIDListBox extends Box
     {
         super(8 + data.length, 0x756c7374, data);
     }
+
 
     /**
      * Constructs a <code>UUIDListBox</code> based on the provided
@@ -114,6 +117,7 @@ public class UUIDListBox extends Box
         }
     }
 
+
     /** Parses the data elements from the provided content data array. */
     @Override
     protected void parse(byte[] data)
@@ -128,6 +132,7 @@ public class UUIDListBox extends Box
             pos += 16;
         }
     }
+
 
     /**
      * Creates an <code>IIOMetadataNode</code> from this UUID list
@@ -154,6 +159,7 @@ public class UUIDListBox extends Box
 
         return node;
     }
+
 
     @Override
     protected void compose()

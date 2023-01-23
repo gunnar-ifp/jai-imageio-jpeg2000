@@ -134,6 +134,7 @@ public class SubbandAn extends Subband
      */
     public float stepWMSE;
 
+
     /**
      * Creates a SubbandAn element with all the default values. The
      * dimensions are (0,0) and the upper left corner is (0,0).
@@ -143,6 +144,7 @@ public class SubbandAn extends Subband
     public SubbandAn()
     {
     }
+
 
     /**
      * Creates the top-level node and the entire subband tree, with
@@ -193,6 +195,7 @@ public class SubbandAn extends Subband
         calcL2Norms();
     }
 
+
     /**
      * Returns the parent of this subband. The parent of a subband is
      * the subband from which this one was obtained by
@@ -208,6 +211,7 @@ public class SubbandAn extends Subband
         return parent;
     }
 
+
     /**
      * Returns the LL child subband of this subband.
      *
@@ -220,6 +224,7 @@ public class SubbandAn extends Subband
     {
         return subb_LL;
     }
+
 
     /**
      * Returns the HL (horizontal high-pass) child subband of this
@@ -235,6 +240,7 @@ public class SubbandAn extends Subband
         return subb_HL;
     }
 
+
     /**
      * Returns the LH (vertical high-pass) child subband of this
      * subband.
@@ -249,6 +255,7 @@ public class SubbandAn extends Subband
         return subb_LH;
     }
 
+
     /**
      * Returns the HH child subband of this subband.
      *
@@ -261,6 +268,7 @@ public class SubbandAn extends Subband
     {
         return subb_HH;
     }
+
 
     /**
      * Splits the current subband in its four subbands. It changes the
@@ -315,6 +323,7 @@ public class SubbandAn extends Subband
         // Return reference to LL subband
         return subb_LL;
     }
+
 
     /**
      * Calculates the basis waveform of the first leaf for which the
@@ -388,6 +397,7 @@ public class SubbandAn extends Subband
             throw new Error("You have found a bug in JJ2000!");
         }
     }
+
 
     /**
      * Assigns the given L2-norm to the first leaf that does not have
@@ -487,6 +497,7 @@ public class SubbandAn extends Subband
         }
     }
 
+
     /**
      * This function returns the horizontal wavelet filter relevant to this
      * subband
@@ -500,6 +511,7 @@ public class SubbandAn extends Subband
     {
         return hFilter;
     }
+
 
     /**
      * This function returns the vertical wavelet filter relevant to this

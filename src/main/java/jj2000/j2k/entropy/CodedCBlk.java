@@ -70,6 +70,7 @@ public class CodedCBlk
     /** The compressed data */
     public byte data[];
 
+
     /**
      * Creates a new CodedCBlk object wit the default values and without
      * allocating any space for its members.
@@ -77,6 +78,7 @@ public class CodedCBlk
     public CodedCBlk()
     {
     }
+
 
     /**
      * Creates a new CodedCBlk object with the specified values.
@@ -98,6 +100,7 @@ public class CodedCBlk
         this.skipMSBP = skipMSBP;
         this.data = data;
     }
+
 
     /**
      * Returns the contents of the object in a string. The string contains the

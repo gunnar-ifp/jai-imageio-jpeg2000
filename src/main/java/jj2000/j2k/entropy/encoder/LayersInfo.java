@@ -111,6 +111,7 @@ public class LayersInfo
      */
     int extralyrs[] = new int[SZ_INIT];
 
+
     /**
      * Creates a new LayersInfo object. The overall target bitrate 'brate' is
      * always an extra optimization point, with no extra layers are after
@@ -130,6 +131,7 @@ public class LayersInfo
         totbrate = brate;
     }
 
+
     /**
      * Returns the overall target bitrate for the entire bit stream.
      *
@@ -141,6 +143,7 @@ public class LayersInfo
     {
         return totbrate;
     }
+
 
     /**
      * Returns the total number of layers, according to the layer
@@ -154,6 +157,7 @@ public class LayersInfo
     {
         return totlyrs;
     }
+
 
     /**
      * Returns the number of layers to optimize, or optimization points, as
@@ -169,6 +173,7 @@ public class LayersInfo
         return nopt + 1;
     }
 
+
     /**
      * Returns the target bitrate of the optmimization point 'n'.
      *
@@ -183,6 +188,7 @@ public class LayersInfo
         // overall target bitrate is counted as extra
         return (n < nopt) ? optbrate[n] : totbrate;
     }
+
 
     /**
      * Returns the number of extra layers to add after the optimization point
@@ -201,6 +207,7 @@ public class LayersInfo
         // overall target bitrate is counted as extra
         return (n < nopt) ? extralyrs[n] : 0;
     }
+
 
     /**
      * Adds a new optimization point, with target bitrate 'brate' and with

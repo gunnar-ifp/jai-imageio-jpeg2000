@@ -65,6 +65,7 @@ public class AnWTFilterSpec extends ModuleSpec
     /** The non-reversible default filter */
     private final static String NON_REV_FILTER_STR = "w9x7";
 
+
     /**
      * Constructs a new 'AnWTFilterSpec' for the specified number of
      * components and tiles.
@@ -338,6 +339,7 @@ pl.checkList(AnWTFilter.OPT_PREFIX,
         }
     }
 
+
     /**
      * Parse filters from the given word
      *
@@ -365,6 +367,7 @@ pl.checkList(AnWTFilter.OPT_PREFIX,
         }
     }
 
+
     /**
      * Returns the data type used by the filters in this object, as defined in
      * the 'DataBlk' interface for specified tile-component.
@@ -382,6 +385,7 @@ pl.checkList(AnWTFilter.OPT_PREFIX,
         AnWTFilter[][] an = (AnWTFilter[][])getSpec(t, c);
         return an[0][0].getDataType();
     }
+
 
     /**
      * Returns the horizontal analysis filters to be used in component 'n' and
@@ -408,6 +412,7 @@ pl.checkList(AnWTFilter.OPT_PREFIX,
         return an[0];
     }
 
+
     /**
      * Returns the vertical analysis filters to be used in component 'n' and
      * tile 't'.
@@ -432,6 +437,7 @@ pl.checkList(AnWTFilter.OPT_PREFIX,
         AnWTFilter[][] an = (AnWTFilter[][])getSpec(t, c);
         return an[1];
     }
+
 
     /** Debugging method */
     @Override
@@ -462,6 +468,7 @@ pl.checkList(AnWTFilter.OPT_PREFIX,
 
         return str;
     }
+
 
     /**
      * Check the reversibility of filters contained is the given

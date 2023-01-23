@@ -139,10 +139,12 @@ public class ModuleSpec implements Cloneable
     /** The specified value in string format */
     protected String specified;
 
+
     public ModuleSpec getCopy()
     {
         return (ModuleSpec)this.clone();
     }
+
 
     /**
      * Constructs a 'ModuleSpec' object, initializing all the components and
@@ -174,6 +176,7 @@ public class ModuleSpec implements Cloneable
                 break;
         }
     }
+
 
     @Override
     protected Object clone()
@@ -212,6 +215,7 @@ public class ModuleSpec implements Cloneable
         }
         return ms;
     }
+
 
     /**
      * Rotate the ModuleSpec instance by 90 degrees (this modifies only tile
@@ -273,6 +277,7 @@ public class ModuleSpec implements Cloneable
         }
     }
 
+
     /**
      * Sets default value for this module
      */
@@ -280,6 +285,7 @@ public class ModuleSpec implements Cloneable
     {
         def = value;
     }
+
 
     /**
      * Gets default value for this module.
@@ -290,6 +296,7 @@ public class ModuleSpec implements Cloneable
     {
         return def;
     }
+
 
     /**
      * Sets default value for specified component and specValType tag if
@@ -315,6 +322,7 @@ public class ModuleSpec implements Cloneable
         compDef[c] = value;
     }
 
+
     /**
      * Gets default value of the specified component. If no specification have
      * been entered for this component, returns default value.
@@ -336,6 +344,7 @@ public class ModuleSpec implements Cloneable
         }
         else return compDef[c];
     }
+
 
     /**
      * Sets default value for specified tile and specValType tag if
@@ -361,6 +370,7 @@ public class ModuleSpec implements Cloneable
         tileDef[t] = value;
     }
 
+
     /**
      * Gets default value of the specified tile. If no specification
      * has been entered, it returns the default value.
@@ -381,6 +391,7 @@ public class ModuleSpec implements Cloneable
         }
         else return tileDef[t];
     }
+
 
     /**
      * Sets value for specified tile-component.
@@ -410,6 +421,7 @@ public class ModuleSpec implements Cloneable
         tileCompVal.put("t" + t + "c" + c, value);
     }
 
+
     /**
      * Gets value of specified tile-component. This method calls getSpec but
      * has a public access.
@@ -431,6 +443,7 @@ public class ModuleSpec implements Cloneable
         }
         return getSpec(t, c);
     }
+
 
     /**
      * Gets value of specified tile-component without knowing if a
@@ -462,6 +475,7 @@ public class ModuleSpec implements Cloneable
         }
     }
 
+
     /**
      * Return the spec type of the given tile-component.
      *
@@ -473,6 +487,7 @@ public class ModuleSpec implements Cloneable
     {
         return specValType[t][c];
     }
+
 
     /**
      * Whether or not specifications have been entered for the given
@@ -489,6 +504,7 @@ public class ModuleSpec implements Cloneable
         else return true;
     }
 
+
     /**
      * Whether or not specifications have been entered for the given
      * tile.
@@ -503,6 +519,7 @@ public class ModuleSpec implements Cloneable
             return false;
         else return true;
     }
+
 
     /**
      * Whether or not a tile-component specification has been defined
@@ -520,6 +537,7 @@ public class ModuleSpec implements Cloneable
         else return true;
     }
 
+
     /**
      * This method is responsible of parsing tile indexes set and
      * component indexes set for an option. Such an argument must
@@ -532,8 +550,8 @@ public class ModuleSpec implements Cloneable
      * <p>
      * <u>Example:</u>
      * <ul>
-     * <li> <code>t0,3,4</code> means tiles with indexes 0, 3 and 4.
-     * <li> <code>t2-4</code> means tiles with indexes 2,3 and 4.
+     * <li><code>t0,3,4</code> means tiles with indexes 0, 3 and 4.
+     * <li><code>t2-4</code> means tiles with indexes 2,3 and 4.
      * </ul>
      *
      * It returns a boolean array skteching which tile or component are
@@ -628,7 +646,7 @@ public int[] getDefRep(){
 	}
 
 throw new IllegalArgumentException("No representative for "+
-                                   "default value");
+                               "default value");
 }
 */
     /**

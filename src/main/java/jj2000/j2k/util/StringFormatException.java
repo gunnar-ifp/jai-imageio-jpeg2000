@@ -61,6 +61,7 @@ public class StringFormatException extends IllegalArgumentException
      */
     private static final long serialVersionUID = -1603143177940018199L;
 
+
     /**
      * Creates the exception with an empty messgage.
      *
@@ -70,6 +71,7 @@ public class StringFormatException extends IllegalArgumentException
     {
         super();
     }
+
 
     /**
      * Creates the exception with the specified detail message.

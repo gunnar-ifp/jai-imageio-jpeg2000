@@ -101,6 +101,7 @@ public class CBlkInfo
     /** Index of the packet where each layer has been found */
     public int[] pktIdx;
 
+
     /**
      * Constructs a new instance with specified number of layers and
      * code-block coordinates. The number corresponds to the maximum
@@ -132,6 +133,7 @@ public class CBlkInfo
             pktIdx[i] = -1;
     }
 
+
     /**
      * Adds the number of new truncation for specified layer.
      *
@@ -148,6 +150,7 @@ public class CBlkInfo
             ctp += ntp[lIdx];
         }
     }
+
 
     /**
      * Object information in a string.

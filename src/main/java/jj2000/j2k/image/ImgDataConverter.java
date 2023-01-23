@@ -72,6 +72,7 @@ public class ImgDataConverter extends ImgDataAdapter implements BlkImgDataSrc
     /** The number of fraction bits in the casted ints */
     private int fp;
 
+
     /**
      * Constructs a new ImgDataConverter object that operates on the specified
      * source of image data.
@@ -89,6 +90,7 @@ public class ImgDataConverter extends ImgDataAdapter implements BlkImgDataSrc
         this.fp = fp;
     }
 
+
     /**
      * Constructs a new ImgDataConverter object that operates on the specified
      * source of image data.
@@ -103,6 +105,7 @@ public class ImgDataConverter extends ImgDataAdapter implements BlkImgDataSrc
         src = imgSrc;
         fp = 0;
     }
+
 
     /**
      * Returns the position of the fixed point in the specified
@@ -123,6 +126,7 @@ public class ImgDataConverter extends ImgDataAdapter implements BlkImgDataSrc
     {
         return fp;
     }
+
 
     /**
      * Returns, in the blk argument, a block of image data containing the
@@ -169,6 +173,7 @@ public class ImgDataConverter extends ImgDataAdapter implements BlkImgDataSrc
     {
         return getData(blk, c, false);
     }
+
 
     /**
      * Returns, in the blk argument, a block of image data containing the
@@ -222,6 +227,7 @@ public class ImgDataConverter extends ImgDataAdapter implements BlkImgDataSrc
     {
         return getData(blk, c, true);
     }
+
 
     /**
      * Implements the 'getInternCompData()' and the 'getCompData()'

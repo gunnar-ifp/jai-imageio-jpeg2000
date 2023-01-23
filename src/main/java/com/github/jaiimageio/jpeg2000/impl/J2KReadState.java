@@ -153,6 +153,7 @@ public class J2KReadState
      */
     private J2KImageReader reader;
 
+
     /**
      * Constructs <code>J2KReadState</code>.
      * 
@@ -181,6 +182,7 @@ public class J2KReadState
         initializeRead(0, param, metadata);
     }
 
+
     /**
      * Constructs <code>J2KReadState</code>.
      * 
@@ -204,20 +206,24 @@ public class J2KReadState
         initializeRead(0, param, null);
     }
 
+
     public int getWidth() throws IOException
     {
         return width;
     }
+
 
     public int getHeight() throws IOException
     {
         return height;
     }
 
+
     public HeaderDecoder getHeader()
     {
         return hd;
     }
+
 
     public Raster getTile(int tileX, int tileY,
         WritableRaster raster) throws IOException
@@ -346,10 +352,12 @@ public class J2KReadState
         return raster;
     }
 
+
     public Rectangle getDestinationRegion()
     {
         return destinationRegion;
     }
+
 
     public BufferedImage readBufferedImage() throws IOException
     {
@@ -391,6 +399,7 @@ public class J2KReadState
         return image;
     }
 
+
     public Raster readAsRaster() throws IOException
     {
         BufferedImage image = j2krparam.getDestination();
@@ -410,6 +419,7 @@ public class J2KReadState
         readSubsampledRaster(raster);
         return raster;
     }
+
 
     private void initializeRead(int imageIndex, J2KImageReadParamJava param,
         J2KMetadata metadata)
@@ -713,6 +723,7 @@ public class J2KReadState
         }
     }
 
+
     private Raster readSubsampledRaster(WritableRaster raster) throws IOException
     {
         if (raster == null)
@@ -991,6 +1002,7 @@ public class J2KReadState
         return raster;
     }
 
+
     public ImageTypeSpecifier getImageType()
         throws IOException
     {
@@ -1000,6 +1012,7 @@ public class J2KReadState
 
         return new ImageTypeSpecifier(colorModel, sampleModel);
     }
+
 
     public SampleModel getSampleModel()
     {
@@ -1038,6 +1051,7 @@ public class J2KReadState
             +maxDepth);
         return sampleModel;
     }
+
 
     public ColorModel getColorModel()
     {
@@ -1114,6 +1128,7 @@ public class J2KReadState
         return ImageUtil.createColorModel(null, sampleModel);
     }
 
+
     /**
      * Returns the bounding rectangle of the upper left tile at
      * the current resolution level.
@@ -1123,6 +1138,7 @@ public class J2KReadState
         return new Rectangle(tileXOffset, tileYOffset, tileWidth, tileHeight);
     }
 
+
     private int clip(int value, int min, int max)
     {
         if (value < min)
@@ -1131,6 +1147,7 @@ public class J2KReadState
             value = max;
         return value;
     }
+
 
     private void clipDestination(Rectangle dest)
     {

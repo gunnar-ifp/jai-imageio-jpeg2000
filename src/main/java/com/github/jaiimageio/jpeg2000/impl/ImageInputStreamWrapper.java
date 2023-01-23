@@ -51,7 +51,7 @@ import javax.imageio.stream.ImageInputStream;
 
 /**
  * This class is designed to wrap a <code>ImageInputStream</code> into
- *  a <code>InputStream</code>. The reason is that <code>ImageInputStream</code>
+ * a <code>InputStream</code>. The reason is that <code>ImageInputStream</code>
  * implements <code>DataInput</code> but doesn't extend
  * <code>InputStream</code>. However, the JJ2000 JPEG 2000 packages accepts
  * a <code>InputStream</code> when reads a JPEG 2000 image file.
@@ -61,6 +61,7 @@ public class ImageInputStreamWrapper extends InputStream
 
     /** The <code>ImageInputStream</code> to be wrapped. */
     private ImageInputStream src;
+
 
     /**
      * Constructs an <code>ImageInputStreamWrapper</code> from the provided
@@ -73,6 +74,7 @@ public class ImageInputStreamWrapper extends InputStream
         this.src = src;
     }
 
+
     // Override the methods defined in <code>InputStream</code>
     @Override
     public int read() throws IOException
@@ -80,11 +82,13 @@ public class ImageInputStreamWrapper extends InputStream
         return src.read();
     }
 
+
     @Override
     public void close() throws IOException
     {
         src.close();
     }
+
 
     @Override
     public synchronized void mark(int readlimit)
@@ -92,11 +96,13 @@ public class ImageInputStreamWrapper extends InputStream
         src.mark();
     }
 
+
     @Override
     public boolean markSupported()
     {
         return true;
     }
+
 
     @Override
     public int read(byte b[]) throws IOException
@@ -104,17 +110,20 @@ public class ImageInputStreamWrapper extends InputStream
         return src.read(b, 0, b.length);
     }
 
+
     @Override
     public int read(byte b[], int off, int len) throws IOException
     {
         return src.read(b, off, len);
     }
 
+
     @Override
     public synchronized void reset() throws IOException
     {
         src.reset();
     }
+
 
     @Override
     public long skip(long n) throws IOException

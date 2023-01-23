@@ -61,6 +61,7 @@ public class GuardBitsSpec extends ModuleSpec
 
     private String defaultValue = "2";
 
+
     /**
      * Constructs an empty 'GuardBitsSpec' with specified number of tile and
      * components. This constructor is called by the decoder.
@@ -76,6 +77,7 @@ public class GuardBitsSpec extends ModuleSpec
     {
         super(nt, nc, type);
     }
+
 
     /**
      * Constructs a new 'GuardBitsSpec' for the specified number of components

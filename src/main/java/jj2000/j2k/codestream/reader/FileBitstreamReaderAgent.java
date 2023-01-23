@@ -117,6 +117,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
     /** Offset of the first packet in each tile-part in each tile */
     private int[][] firstPackOff;
 
+
     /**
      * Returns the number of tile-part found for a given tile
      *
@@ -218,6 +219,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
      */
     private CBlkInfo[][][][][] cbI;
 
+
     /** Gets the reference to the CBlkInfo array */
     public CBlkInfo[][][][][] getCBlkInfo()
     {
@@ -229,6 +231,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
 
     /** Whether or not to use only first progression order */
     private boolean usePOCQuit = false;
+
 
     /**
      * Reads all tiles headers and keep offset of their first
@@ -366,6 +369,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
     // - length of tilePartPositions[i] is totTileParts[i].
     long[][] tilePartPositions = null;
 
+
     //
     // Initialize the tilePartPositions positions array if a TLM marker
     // segment is present in the main header. If no such marker segment
@@ -449,6 +453,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
                         return bais.read(b, off, len);
                     }
 
+
                     @Override
                     public int read()
                     {
@@ -530,6 +535,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
     int numtp = 0;
     int maxTP = nt; // If maximum 1 tile part per tile specified
     int lastPos = 0, maxPos = 0;
+
 
     /**
      * Read all tile-part headers of the requested tile. All tile-part
@@ -752,6 +758,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
         }
     }
 
+
     /**
      * Allocates output bit-rate for each tile in parsing mode: The allocator
      * simulates the truncation of a virtual layer-resolution progressive
@@ -781,6 +788,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
         }
         nBytes[0] = rem;
     }
+
 
     /**
      * Reads SOT marker segment of the tile-part header and calls related
@@ -989,6 +997,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
 
     }
 
+
     /**
      * Reads packets of the current tile according to the
      * layer-resolution-component-position progressiveness.
@@ -1120,6 +1129,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
         }
         return false; // Decoding rate was not reached
     }
+
 
     /**
      * Reads packets of the current tile according to the
@@ -1477,6 +1487,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
         return false; // Decoding rate was not reached
     }
 
+
     /**
      * Reads packets of the current tile according to the
      * position-component-resolution-layer progressiveness.
@@ -1682,6 +1693,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
         }
         return false; // Decoding rate was not reached
     }
+
 
     /**
      * Reads packets of the current tile according to the
@@ -1901,6 +1913,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
         }
         return false; // Decoding rate was not reached
     }
+
 
     /**
      * Finish initialization of members for specified tile, reads packets head
@@ -2211,6 +2224,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
         nBytes[t] = oldNBytes;
     }
 
+
     /**
      * Changes the current tile, given the new indexes. An
      * IllegalArgumentException is thrown if the indexes do not correspond to
@@ -2312,6 +2326,7 @@ public class FileBitstreamReaderAgent extends BitstreamReaderAgent
             setTile(0, ctY + 1);
         }
     }
+
 
     /**
      * Returns the specified coded code-block, for the specified component, in

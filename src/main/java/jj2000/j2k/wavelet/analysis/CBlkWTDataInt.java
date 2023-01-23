@@ -66,6 +66,7 @@ public class CBlkWTDataInt extends CBlkWTData
     /** The array where the data is stored */
     public int[] data;
 
+
     /**
      * Returns the data type of this object, always DataBlk.TYPE_INT.
      *
@@ -79,6 +80,7 @@ public class CBlkWTDataInt extends CBlkWTData
     {
         return DataBlk.TYPE_INT;
     }
+
 
     /**
      * Returns the array containing the data, or null if there is no
@@ -96,6 +98,7 @@ public class CBlkWTDataInt extends CBlkWTData
         return data;
     }
 
+
     /**
      * Returns the array containing the data, or null if there is no
      * data array.
@@ -108,6 +111,7 @@ public class CBlkWTDataInt extends CBlkWTData
     {
         return data;
     }
+
 
     /**
      * Sets the data array to the specified one. The provided array
@@ -124,6 +128,7 @@ public class CBlkWTDataInt extends CBlkWTData
     {
         data = (int[])arr;
     }
+
 
     /**
      * Sets the data array to the specified one. The size of the array

@@ -81,6 +81,7 @@ public class Progression implements ProgressionType
     /** The index of the last layer. */
     public int lye;
 
+
     /**
      * Constructor.
      *
@@ -109,6 +110,7 @@ public class Progression implements ProgressionType
         this.re = re;
         this.lye = lye;
     }
+
 
     @Override
     public String toString()

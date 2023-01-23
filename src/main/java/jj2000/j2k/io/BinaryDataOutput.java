@@ -90,6 +90,7 @@ public interface BinaryDataOutput
      */
     public void writeByte(int v) throws IOException;
 
+
     /**
      * Should write the short value of <code>v</code> (i.e., 16 least
      * significant bits) to the output. Prior to writing, the output
@@ -111,6 +112,7 @@ public interface BinaryDataOutput
      */
     public void writeShort(int v) throws IOException;
 
+
     /**
      * Should write the int value of <code>v</code> (i.e., the 32 bits) to
      * the output. Prior to writing, the output should be realigned at
@@ -124,6 +126,7 @@ public interface BinaryDataOutput
      *
      */
     public void writeInt(int v) throws IOException;
+
 
     /**
      * Should write the long value of <code>v</code> (i.e., the 64 bits)
@@ -139,6 +142,7 @@ public interface BinaryDataOutput
      */
     public void writeLong(long v) throws IOException;
 
+
     /**
      * Should write the IEEE float value <code>v</code> (i.e., 32 bits) to
      * the output. Prior to writing, the output should be realigned at
@@ -153,6 +157,7 @@ public interface BinaryDataOutput
      */
     public void writeFloat(float v) throws IOException;
 
+
     /**
      * Should write the IEEE double value <code>v</code> (i.e., 64 bits)
      * to the output. Prior to writing, the output should be realigned
@@ -166,6 +171,7 @@ public interface BinaryDataOutput
      *
      */
     public void writeDouble(double v) throws IOException;
+
 
     /**
      * Returns the endianness (i.e., byte ordering) of the implementing
@@ -182,6 +188,7 @@ public interface BinaryDataOutput
      *
      */
     public int getByteOrdering();
+
 
     /**
      * Any data that has been buffered must be written, and the stream should

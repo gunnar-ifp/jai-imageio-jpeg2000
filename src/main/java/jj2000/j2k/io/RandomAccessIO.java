@@ -70,6 +70,7 @@ public interface RandomAccessIO
      */
     public void close() throws IOException;
 
+
     /**
      * Returns the current position in the stream, which is the position from
      * where the next byte of data would be read. The first byte in the stream
@@ -81,6 +82,7 @@ public interface RandomAccessIO
      */
     public int getPos() throws IOException;
 
+
     /**
      * Returns the current length of the stream, in bytes, taking into account
      * any buffering.
@@ -90,6 +92,7 @@ public interface RandomAccessIO
      * @exception IOException If an I/O error ocurred.
      */
     public int length() throws IOException;
+
 
     /**
      * Moves the current position for the next read or write operation to
@@ -107,6 +110,7 @@ public interface RandomAccessIO
      */
     public void seek(int off) throws IOException;
 
+
     /**
      * Reads a byte of data from the stream. Prior to reading, the stream is
      * realigned at the byte level.
@@ -118,6 +122,7 @@ public interface RandomAccessIO
      * @exception IOException If an I/O error ocurred.
      */
     public int read() throws EOFException, IOException;
+
 
     /**
      * Reads up to len bytes of data from this file into an array of
@@ -138,6 +143,7 @@ public interface RandomAccessIO
      * @exception IOException If an I/O error ocurred.
      */
     public void readFully(byte b[], int off, int len) throws IOException;
+
 
     /**
      * Writes a byte to the stream. Prior to writing, the stream is realigned

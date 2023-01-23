@@ -77,6 +77,7 @@ public class PrecinctSizeSpec extends ModuleSpec
      */
     private IntegerSpec dls;
 
+
     /**
      * Creates a new PrecinctSizeSpec object for the specified number of tiles
      * and components.
@@ -96,6 +97,7 @@ public class PrecinctSizeSpec extends ModuleSpec
         super(nt, nc, type);
         this.dls = dls;
     }
+
 
     /**
      * Creates a new PrecinctSizeSpec object for the specified number of tiles
@@ -334,6 +336,7 @@ if (values == null)
         } // while
     }
 
+
     /**
      * Returns the precinct partition width in component 'n' and tile 't' at
      * resolution level 'rl'. If the tile index is equal to -1 or if the
@@ -385,6 +388,7 @@ if (values == null)
             return ((Integer)v[0].elementAt(v[0].size() - 1)).intValue();
         }
     }
+
 
     /**
      * Returns the precinct partition height in component 'n' and tile 't' at

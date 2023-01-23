@@ -90,6 +90,7 @@ public class PrecInfo
     /** Number of code-blocks in each subband belonging to this precinct */
     public int[] nblk;
 
+
     /**
      * Class constructor.
      *
@@ -125,6 +126,7 @@ public class PrecInfo
             nblk = new int[4];
         }
     }
+
 
     /**
      * Returns PrecInfo object information in a String

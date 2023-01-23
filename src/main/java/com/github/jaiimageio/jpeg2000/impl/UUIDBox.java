@@ -60,6 +60,7 @@ public class UUIDBox extends Box
     /** Cache the element names for this box's xml definition */
     private static String[] elementNames = { "UUID", "Data" };
 
+
     /**
      * This method will be called by the getNativeNodeForSimpleBox of the
      * class Box to get the element names.
@@ -73,11 +74,13 @@ public class UUIDBox extends Box
     private byte[] uuid;
     private byte[] udata;
 
+
     /** Constructs a <code>UUIDBox</code> from its content data array. */
     public UUIDBox(byte[] data)
     {
         super(8 + data.length, 0x75756964, data);
     }
+
 
     /**
      * Constructs a <code>UUIDBox</code> based on the provided
@@ -102,6 +105,7 @@ public class UUIDBox extends Box
         }
     }
 
+
     /** Parses the data elements from the provided data array. */
     @Override
     protected void parse(byte[] data)
@@ -112,17 +116,20 @@ public class UUIDBox extends Box
         System.arraycopy(data, 16, udata, 0, udata.length);
     }
 
+
     /** Returns the UUID of this box. */
     public byte[] getUUID()
     {
         return uuid;
     }
 
+
     /** Returns the UUID data of this box. */
     public byte[] getData()
     {
         return udata;
     }
+
 
     /**
      * Creates an <code>IIOMetadataNode</code> from this UUID
@@ -134,6 +141,7 @@ public class UUIDBox extends Box
     {
         return getNativeNodeForSimpleBox();
     }
+
 
     @Override
     protected void compose()

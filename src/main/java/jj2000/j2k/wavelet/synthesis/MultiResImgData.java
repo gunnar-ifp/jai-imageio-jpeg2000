@@ -111,6 +111,7 @@ public interface MultiResImgData
      */
     public int getTileWidth(int rl);
 
+
     /**
      * Returns the overall height of the current tile in pixels, for the given
      * resolution level. This is the tile's height without accounting for any
@@ -123,11 +124,14 @@ public interface MultiResImgData
      */
     public int getTileHeight(int rl);
 
+
     /** Returns the nominal tiles width */
     public int getNomTileWidth();
 
+
     /** Returns the nominal tiles height */
     public int getNomTileHeight();
+
 
     /**
      * Returns the overall width of the image in pixels, for the given
@@ -142,6 +146,7 @@ public interface MultiResImgData
      */
     public int getImgWidth(int rl);
 
+
     /**
      * Returns the overall height of the image in pixels, for the given
      * resolution level. This is the image's height without accounting for any
@@ -155,12 +160,14 @@ public interface MultiResImgData
      */
     public int getImgHeight(int rl);
 
+
     /**
      * Returns the number of components in the image.
      *
      * @return The number of components in the image.
      */
     public int getNumComps();
+
 
     /**
      * Returns the component subsampling factor in the horizontal direction,
@@ -176,6 +183,7 @@ public interface MultiResImgData
      */
     public int getCompSubsX(int c);
 
+
     /**
      * Returns the component subsampling factor in the vertical direction, for
      * the specified component. This is, approximately, the ratio of
@@ -189,6 +197,7 @@ public interface MultiResImgData
      * @see jj2000.j2k.image.ImgData
      */
     public int getCompSubsY(int c);
+
 
     /**
      * Returns the width in pixels of the specified tile-component for the
@@ -205,6 +214,7 @@ public interface MultiResImgData
      */
     public int getTileCompWidth(int t, int c, int rl);
 
+
     /**
      * Returns the height in pixels of the specified tile-component for the
      * given resolution level.
@@ -220,6 +230,7 @@ public interface MultiResImgData
      */
     public int getTileCompHeight(int t, int c, int rl);
 
+
     /**
      * Returns the width in pixels of the specified component in the overall
      * image, for the given resolution level.
@@ -232,6 +243,7 @@ public interface MultiResImgData
      * image.
      */
     public int getCompImgWidth(int c, int rl);
+
 
     /**
      * Returns the height in pixels of the specified component in the overall
@@ -246,6 +258,7 @@ public interface MultiResImgData
      */
     public int getCompImgHeight(int n, int rl);
 
+
     /**
      * Changes the current tile, given the new indexes. An
      * IllegalArgumentException is thrown if the indexes do not correspond to
@@ -257,12 +270,14 @@ public interface MultiResImgData
      */
     public void setTile(int x, int y);
 
+
     /**
      * Advances to the next tile, in standard scan-line order (by rows then
      * columns). An NoNextElementException is thrown if the current tile is
      * the last one (i.e. there is no next tile).
      */
     public void nextTile();
+
 
     /**
      * Returns the indexes of the current tile. These are the horizontal and
@@ -275,6 +290,7 @@ public interface MultiResImgData
      */
     public Point getTile(Point co);
 
+
     /**
      * Returns the index of the current tile, relative to a standard scan-line
      * order.
@@ -282,6 +298,7 @@ public interface MultiResImgData
      * @return The current tile's index (starts at 0).
      */
     public int getTileIdx();
+
 
     /**
      * Returns the horizontal coordinate of the upper-left corner of the
@@ -293,6 +310,7 @@ public interface MultiResImgData
      */
     public int getResULX(int c, int rl);
 
+
     /**
      * Returns the vertical coordinate of the upper-left corner of the
      * specified resolution in the given component of the current tile.
@@ -302,6 +320,7 @@ public interface MultiResImgData
      * @param rl The resolution level index.
      */
     public int getResULY(int c, int rl);
+
 
     /**
      * Returns the horizontal coordinate of the image origin, the top-left
@@ -316,6 +335,7 @@ public interface MultiResImgData
      */
     public int getImgULX(int rl);
 
+
     /**
      * Returns the vertical coordinate of the image origin, the top-left
      * corner, in the canvas system, on the reference grid at the specified
@@ -329,11 +349,14 @@ public interface MultiResImgData
      */
     public int getImgULY(int rl);
 
+
     /** Returns the horizontal tile partition offset in the reference grid */
     public int getTilePartULX();
 
+
     /** Returns the vertical tile partition offset in the reference grid */
     public int getTilePartULY();
+
 
     /**
      * Returns the number of tiles in the horizontal and vertical directions.
@@ -346,12 +369,14 @@ public interface MultiResImgData
      */
     public Point getNumTiles(Point co);
 
+
     /**
      * Returns the total number of tiles in the image.
      *
      * @return The total number of tiles in the image.
      */
     public int getNumTiles();
+
 
     /**
      * Returns the specified synthesis subband tree

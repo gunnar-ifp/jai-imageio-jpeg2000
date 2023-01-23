@@ -62,6 +62,7 @@ public class ForwCompTransfSpec extends CompTransfSpec implements FilterTypes
 {
     private String defaultValue = null;
 
+
     /**
      * Constructs a new 'ForwCompTransfSpec' for the specified number of
      * components and tiles and the arguments of <code>optName</code>
@@ -344,6 +345,7 @@ public class ForwCompTransfSpec extends CompTransfSpec implements FilterTypes
             }
         }
     }
+
 
     /**
      * Get the filter type common to all component of a given tile. If the

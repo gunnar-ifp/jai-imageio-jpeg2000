@@ -58,6 +58,7 @@ public class StringSpec extends ModuleSpec
 
     private String specified;
 
+
     /**
      * Constructs an empty 'StringSpec' with specified number of
      * tile and components. This constructor is called by the decoder.
@@ -73,6 +74,7 @@ public class StringSpec extends ModuleSpec
     {
         super(nt, nc, type);
     }
+
 
     /**
      * Constructs a new 'StringSpec' for the specified number of
@@ -241,6 +243,7 @@ public class StringSpec extends ModuleSpec
             }
         }
     }
+
 
     public String getSpecified()
     {

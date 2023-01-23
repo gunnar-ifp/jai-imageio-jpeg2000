@@ -120,6 +120,7 @@ public class InvWTFull extends InverseWT
      */
     private boolean reversible[][];
 
+
     /**
      * Initializes this object with the given source of wavelet
      * coefficients. It initializes the resolution level for full resolutioin
@@ -140,6 +141,7 @@ public class InvWTFull extends InverseWT
         ndl = new int[nc];
         pw = FacilityManager.getProgressWatch();
     }
+
 
     /**
      * Returns the reversibility of the current subband. It computes
@@ -224,6 +226,7 @@ public class InvWTFull extends InverseWT
         return src.getNomRangeBits(c);
     }
 
+
     /**
      * Returns the position of the fixed point in the specified
      * component. This is the position of the least significant integral
@@ -248,6 +251,7 @@ public class InvWTFull extends InverseWT
     {
         return src.getFixedPoint(c);
     }
+
 
     /**
      * Returns a block of image data containing the specifed rectangular area,
@@ -329,6 +333,7 @@ public class InvWTFull extends InverseWT
         return blk;
     }
 
+
     /**
      * Returns a block of image data containing the specifed rectangular area,
      * in the specified component, as a copy (see below). The rectangular area
@@ -405,6 +410,7 @@ public class InvWTFull extends InverseWT
         blk.scanw = blk.w;
         return blk;
     }
+
 
     /**
      * Performs the 2D inverse wavelet transform on a subband of the image, on
@@ -513,6 +519,7 @@ public class InvWTFull extends InverseWT
         }
     }
 
+
     /**
      * Performs the inverse wavelet transform on the whole component. It
      * iteratively reconstructs the subbands from leaves up to the root
@@ -588,6 +595,7 @@ public class InvWTFull extends InverseWT
         }
     }
 
+
     /**
      * Returns the implementation type of this wavelet transform, WT_IMPL_FULL
      * (full-page based transform). All components return the same.
@@ -603,6 +611,7 @@ public class InvWTFull extends InverseWT
     {
         return WaveletTransform.WT_IMPL_FULL;
     }
+
 
     /**
      * Changes the current tile, given the new indexes. An
@@ -659,6 +668,7 @@ public class InvWTFull extends InverseWT
             pw.initProgressWatch(0, cblkToDecode, "Decoding tile " + tIdx + "...");
         }
     }
+
 
     /**
      * Advances to the next tile, in standard scan-line order (by rows then

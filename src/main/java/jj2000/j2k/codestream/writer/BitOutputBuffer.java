@@ -80,6 +80,7 @@ public class BitOutputBuffer
     /** The initial size for the buffer, 32 bytes. */
     public final static int SZ_INIT = 32;
 
+
     /**
      * Creates a new BitOutputBuffer width a buffer of length
      * 'SZ_INIT'.
@@ -88,6 +89,7 @@ public class BitOutputBuffer
     {
         buf = new byte[SZ_INIT];
     }
+
 
     /**
      * Resets the buffer. This rewinds the current position to the start of
@@ -103,6 +105,7 @@ public class BitOutputBuffer
         avbits = 8;
         Arrays.fill(buf, (byte)0);
     }
+
 
     /**
      * Writes a bit to the buffer at the current position. The value 'bit'
@@ -138,6 +141,7 @@ public class BitOutputBuffer
             }
         }
     }
+
 
     /**
      * Writes the n least significant bits of 'bits' to the buffer at the
@@ -208,6 +212,7 @@ public class BitOutputBuffer
         }
     }
 
+
     /**
      * Returns the current length of the buffer, in bytes.
      *
@@ -226,6 +231,7 @@ public class BitOutputBuffer
         }
     }
 
+
     /**
      * Returns the byte buffer. This is the internal byte buffer so it should
      * not be modified. Only the first N elements have valid data, where N is
@@ -240,6 +246,7 @@ public class BitOutputBuffer
     {
         return buf;
     }
+
 
     /**
      * Returns the byte buffer data in a new array. This is a copy of the
@@ -261,6 +268,7 @@ public class BitOutputBuffer
         System.arraycopy(buf, 0, data, 0, (avbits == 8) ? curbyte : curbyte + 1);
         return data;
     }
+
 
     /**
      * Prints information about this object for debugging purposes

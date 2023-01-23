@@ -80,6 +80,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat
     /** The value of the high-pass subband normalization factor */
     public final static float KH = 1.230174106f;
 
+
     /**
      * An implementation of the synthetize_lpf() method that works on int
      * data, for the inverse 9x7 wavelet transform using the lifting
@@ -240,6 +241,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat
             outSig[ik] -= 2 * ALPHA * outSig[ik - outStep];
         }
     }
+
 
     /**
      * An implementation of the synthetize_hpf() method that works on int
@@ -426,6 +428,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat
         }
     }
 
+
     /**
      * Returns the negative support of the low-pass analysis filter. That is
      * the number of taps of the filter in the negative direction.
@@ -437,6 +440,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat
     {
         return 4;
     }
+
 
     /**
      * Returns the positive support of the low-pass analysis filter. That is
@@ -451,6 +455,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat
         return 4;
     }
 
+
     /**
      * Returns the negative support of the high-pass analysis filter. That is
      * the number of taps of the filter in the negative direction.
@@ -464,6 +469,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat
         return 3;
     }
 
+
     /**
      * Returns the positive support of the high-pass analysis filter. That is
      * the number of taps of the filter in the negative direction.
@@ -476,6 +482,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat
     {
         return 3;
     }
+
 
     /**
      * Returns the negative support of the low-pass synthesis filter. That is
@@ -493,6 +500,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat
         return 3;
     }
 
+
     /**
      * Returns the positive support of the low-pass synthesis filter. That is
      * the number of taps of the filter in the negative direction.
@@ -508,6 +516,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat
     {
         return 3;
     }
+
 
     /**
      * Returns the negative support of the high-pass synthesis filter. That is
@@ -525,6 +534,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat
         return 4;
     }
 
+
     /**
      * Returns the positive support of the high-pass synthesis filter. That is
      * the number of taps of the filter in the negative direction.
@@ -541,6 +551,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat
         return 4;
     }
 
+
     /**
      * Returns the implementation type of this filter, as defined in this
      * class, such as WT_FILTER_INT_LIFT, WT_FILTER_FLOAT_LIFT,
@@ -554,6 +565,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat
         return WT_FILTER_FLOAT_LIFT;
     }
 
+
     /**
      * Returns the reversibility of the filter. A filter is considered
      * reversible if it is suitable for lossless coding.
@@ -566,6 +578,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat
     {
         return false;
     }
+
 
     /**
      * Returns true if the wavelet filter computes or uses the
@@ -615,6 +628,7 @@ public class SynWTFilterFloatLift9x7 extends SynWTFilterFloat
             else return false;
         }
     }
+
 
     /**
      * Returns a string of information about the synthesis wavelet filter

@@ -75,6 +75,7 @@ public class SynWTFilterSpec extends ModuleSpec
         super(nt, nc, type);
     }
 
+
     /**
      * Returns the data type used by the filters in this object, as defined in
      * the 'DataBlk' interface for specified tile-component.
@@ -93,6 +94,7 @@ public class SynWTFilterSpec extends ModuleSpec
         SynWTFilter[][] an = (SynWTFilter[][])getSpec(t, c);
         return an[0][0].getDataType();
     }
+
 
     /**
      * Returns the horizontal analysis filters to be used in component 'n' and
@@ -121,6 +123,7 @@ public class SynWTFilterSpec extends ModuleSpec
         return an[0];
     }
 
+
     /**
      * Returns the vertical analysis filters to be used in component 'n' and
      * tile 't'.
@@ -147,6 +150,7 @@ public class SynWTFilterSpec extends ModuleSpec
         SynWTFilter[][] an = (SynWTFilter[][])getSpec(t, c);
         return an[1];
     }
+
 
     /** Debugging method */
     @Override
@@ -177,6 +181,7 @@ public class SynWTFilterSpec extends ModuleSpec
 
         return str;
     }
+
 
     /**
      * Check the reversibility of filters contained is the given

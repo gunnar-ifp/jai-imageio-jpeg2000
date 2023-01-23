@@ -236,6 +236,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
     /** Actual decoding rate in bpp */
     protected float arate;
 
+
     /**
      * Initializes members of this class. This constructor takes a
      * HeaderDecoder object. This object must be initialized by the
@@ -279,6 +280,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
         nt = ntX * ntY;
     }
 
+
     /**
      * Returns the vertical code-block partition origin. Allowable values are
      * 0 and 1, nothing else.
@@ -288,6 +290,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
     {
         return hd.getCbULX();
     }
+
 
     /**
      * Returns the vertical code-block partition origin. Allowable values are
@@ -299,6 +302,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
         return hd.getCbULY();
     }
 
+
     /**
      * Returns the number of components in the image.
      *
@@ -309,6 +313,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
     {
         return nc;
     }
+
 
     /**
      * Returns the component subsampling factor in the horizontal direction,
@@ -328,6 +333,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
         return hd.getCompSubsX(c);
     }
 
+
     /**
      * Returns the component subsampling factor in the vertical direction, for
      * the specified component. This is, approximately, the ratio of
@@ -345,6 +351,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
     {
         return hd.getCompSubsY(c);
     }
+
 
     /**
      * Returns the overall width of the current tile in pixels for the given
@@ -392,6 +399,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
         // The difference at the rl resolution level is the width
         return (ntulx + dl - 1) / dl - (ctulx + dl - 1) / dl;
     }
+
 
     /**
      * Returns the overall height of the current tile in pixels, for the given
@@ -441,6 +449,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
         return (ntuly + dl - 1) / dl - (ctuly + dl - 1) / dl;
     }
 
+
     /**
      * Returns the overall width of the image in pixels, for the given (image)
      * resolution level. This is the image's width without accounting for any
@@ -479,6 +488,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
         return (ax + imgW + dl - 1) / dl - (ax + dl - 1) / dl;
     }
 
+
     /**
      * Returns the overall height of the image in pixels, for the given
      * resolution level. This is the image's height without accounting for any
@@ -514,6 +524,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
         int dl = 1 << mindl - rl;
         return (ay + imgH + dl - 1) / dl - (ay + dl - 1) / dl;
     }
+
 
     /**
      * Returns the horizontal coordinate of the image origin, the top-left
@@ -552,6 +563,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
         return (ax + dl - 1) / dl;
     }
 
+
     /**
      * Returns the vertical coordinate of the image origin, the top-left
      * corner, in the canvas system, on the reference grid at the specified
@@ -589,6 +601,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
         return (ay + dl - 1) / dl;
     }
 
+
     /**
      * Returns the width in pixels of the specified tile-component for the
      * given (tile-component) resolution level.
@@ -619,6 +632,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
         // The difference at the rl level is the width
         return (ntulx + dl - 1) / dl - (culx[c] + dl - 1) / dl;
     }
+
 
     /**
      * Returns the height in pixels of the specified tile-component for the
@@ -689,6 +703,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
         return (ex + dl - 1) / dl - (sx + dl - 1) / dl;
     }
 
+
     /**
      * Returns the height in pixels of the specified component in the overall
      * image, for the given (component) resolution level.
@@ -726,6 +741,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
         return (ey + dl - 1) / dl - (sy + dl - 1) / dl;
     }
 
+
     /**
      * Changes the current tile, given the new indexes. An
      * IllegalArgumentException is thrown if the indexes do not correspond to
@@ -738,6 +754,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
     @Override
     public abstract void setTile(int x, int y);
 
+
     /**
      * Advances to the next tile, in standard scan-line order (by rows then
      * columns). An NoNextElementException is thrown if the current tile is
@@ -745,6 +762,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
      */
     @Override
     public abstract void nextTile();
+
 
     /**
      * Returns the indexes of the current tile. These are the horizontal and
@@ -768,6 +786,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
         }
     }
 
+
     /**
      * Returns the index of the current tile, relative to a standard scan-line
      * order.
@@ -779,6 +798,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
     {
         return ctY * ntX + ctX;
     }
+
 
     /**
      * Returns the horizontal coordinate of the upper-left corner of the
@@ -803,6 +823,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
         return (int)Math.ceil(tcx0 / (double)(1 << dl));
     }
 
+
     /**
      * Returns the vertical coordinate of the upper-left corner of the
      * specified component in the given component of the current tile.
@@ -826,6 +847,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
         return (int)Math.ceil(tcy0 / (double)(1 << dl));
     }
 
+
     /**
      * Returns the number of tiles in the horizontal and vertical directions.
      *
@@ -848,6 +870,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
         }
     }
 
+
     /**
      * Returns the total number of tiles in the image.
      *
@@ -858,6 +881,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
     {
         return ntX * ntY;
     }
+
 
     /**
      * Returns the subband tree, for the specified tile-component. This method
@@ -955,6 +979,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
         return pinfo;
     }
 
+
     /**
      * Returns the precinct partition width for the specified tile-component
      * and (tile-component) resolution level.
@@ -973,6 +998,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
         return decSpec.pss.getPPX(t, c, rl);
     }
 
+
     /**
      * Returns the precinct partition height for the specified tile-component
      * and (tile-component) resolution level.
@@ -990,6 +1016,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
     {
         return decSpec.pss.getPPY(t, c, rl);
     }
+
 
     /**
      * Initialises subbands fields, such as code-blocks dimension and number
@@ -1109,6 +1136,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
         }
     }
 
+
     /**
      * Returns the image resolution level to reconstruct from the
      * codestream. This value cannot be computed before every main and tile
@@ -1121,6 +1149,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
         return targetRes;
     }
 
+
     /**
      * Return the target decoding rate in bits per pixel.
      *
@@ -1130,6 +1159,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
     {
         return trate;
     }
+
 
     /**
      * Return the actual decoding rate in bits per pixel.
@@ -1142,6 +1172,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
         return arate;
     }
 
+
     /**
      * Return the target number of read bytes.
      *
@@ -1151,6 +1182,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
     {
         return tnbytes;
     }
+
 
     /**
      * Return the actual number of read bytes.
@@ -1162,12 +1194,14 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
         return anbytes;
     }
 
+
     /** Returns the horizontal offset of tile partition */
     @Override
     public int getTilePartULX()
     {
         return hd.getTilingOrigin(null).x;
     }
+
 
     /** Returns the vertical offset of tile partition */
     @Override
@@ -1176,12 +1210,14 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec
         return hd.getTilingOrigin(null).y;
     }
 
+
     /** Returns the nominal tile width */
     @Override
     public int getNomTileWidth()
     {
         return hd.getNomTileWidth();
     }
+
 
     /** Returns the nominal tile height */
     @Override

@@ -95,6 +95,7 @@ public abstract class ForwardWT extends ImgDataAdapter
             "full" },
     };
 
+
     /**
      * Initializes this object for the specified number of tiles 'nt' and
      * components 'nc'.
@@ -105,6 +106,7 @@ public abstract class ForwardWT extends ImgDataAdapter
     {
         super(src);
     }
+
 
     /**
      * Returns the parameters that are used in this class and implementing
@@ -123,6 +125,7 @@ public abstract class ForwardWT extends ImgDataAdapter
     {
         return pinfo;
     }
+
 
     /**
      * Creates a ForwardWT object with the specified filters, and with other

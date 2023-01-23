@@ -223,6 +223,7 @@ public class RectROIMaskGenerator extends ROIMaskGenerator
         return true;
     }
 
+
     /**
      * This function returns the relevant data of the mask generator
      */
@@ -231,6 +232,7 @@ public class RectROIMaskGenerator extends ROIMaskGenerator
     {
         return ("Fast rectangular ROI mask generator");
     }
+
 
     /**
      * This function generates the ROI mask for the entire tile. The mask is

@@ -144,6 +144,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
      */
     private boolean inputIsRaster = false;
 
+
     /**
      * Creates <code>RenderedImageSrc</code> for encoding a <code>Raster</code>.
      *
@@ -175,6 +176,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
         setSampleModelAndMore();
         setTile(0, 0);
     }
+
 
     /**
      * Creates <code>RenderedImageSrc</code> for encoding a
@@ -209,6 +211,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
         getFromParam();
         setSampleModelAndMore();
     }
+
 
     private void getFromParam()
     {
@@ -271,6 +274,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
 
     }
 
+
     private void setSampleModelAndMore()
     {
         nc = sm.getNumBands();
@@ -316,11 +320,13 @@ public class RenderedImageSrc implements BlkImgDataSrc
         return tileXOffset;
     }
 
+
     @Override
     public int getTilePartULY()
     {
         return tileYOffset;
     }
+
 
     /**
      * Returns the width of the current tile in pixels.
@@ -337,6 +343,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
             width = maxX - x;
         return width;
     }
+
 
     /**
      * Returns the overall height of the current tile in pixels.
@@ -355,17 +362,20 @@ public class RenderedImageSrc implements BlkImgDataSrc
         return height;
     }
 
+
     @Override
     public int getNomTileWidth()
     {
         return tileWidth;
     }
 
+
     @Override
     public int getNomTileHeight()
     {
         return tileHeight;
     }
+
 
     /**
      * Returns the overall width of the image in pixels. This is the image's
@@ -380,6 +390,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
         return w;
     }
 
+
     /**
      * Returns the overall height of the image in pixels. This is the image's
      * height without accounting for any component subsampling or tiling. The
@@ -393,6 +404,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
         return h;
     }
 
+
     /**
      * Returns the number of components in the image. The value of <code>nc</code>
      * is returned.
@@ -405,15 +417,18 @@ public class RenderedImageSrc implements BlkImgDataSrc
         return nc;
     }
 
+
     public int getTileGridXOffset()
     {
         return param.getTileGridXOffset();
     }
 
+
     public int getTileGridYOffset()
     {
         return param.getTileGridYOffset();
     }
+
 
     @Override
     public int getTileCompHeight(int t, int c)
@@ -421,11 +436,13 @@ public class RenderedImageSrc implements BlkImgDataSrc
         return tileHeight;
     }
 
+
     @Override
     public int getTileCompWidth(int t, int c)
     {
         return tileWidth;
     }
+
 
     /**
      * Returns the component subsampling factor in the horizontal direction,
@@ -445,6 +462,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
         return 1;
     }
 
+
     /**
      * Returns the component subsampling factor in the vertical direction, for
      * the specified component. This is, approximately, the ratio of
@@ -463,6 +481,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
         return 1;
     }
 
+
     /**
      * Returns the width in pixels of the specified component in the current
      * tile. This default implementation assumes no tiling and no component
@@ -478,6 +497,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
     {
         return w;
     }
+
 
     /**
      * Returns the height in pixels of the specified component in the current
@@ -495,6 +515,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
         return h;
     }
 
+
     /**
      * Returns the width in pixels of the specified component in the overall
      * image. This default implementation assumes no component, or component,
@@ -511,6 +532,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
         return w;
     }
 
+
     /**
      * Returns the height in pixels of the specified component in the overall
      * image. This default implementation assumes no component, or component,
@@ -526,6 +548,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
     {
         return h;
     }
+
 
     /**
      * Changes the current tile, given the new coordinates.
@@ -546,6 +569,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
         aTile = null;
     }
 
+
     /**
      * Advances to the next tile, in standard scan-line order (by rows then
      * columns).
@@ -560,6 +584,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
         }
         setTile(co.x, co.y);
     }
+
 
     /**
      * Returns the coordinates of the current tile. This default
@@ -578,6 +603,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
         else return new Point(0, 0);
     }
 
+
     /**
      * Returns the index of the current tile, relative to a standard scan-line
      * order.
@@ -589,6 +615,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
     {
         return getNumXTiles() * co.y + co.x;
     }
+
 
     /**
      * Returns the horizontal and vertical offset of the upper-left corner of
@@ -617,6 +644,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
             co.y * tileHeight + tileYOffset);
     }
 
+
     /**
      * Returns the horizontal coordinate of the upper-left corner of the
      * active tile, with respect to the canvas origin, in the component
@@ -633,6 +661,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
     {
         return raster.getMinX();
     }
+
 
     /**
      * Returns the vertical coordinate of the upper-left corner of the active
@@ -651,6 +680,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
         return raster.getMinY();
     }
 
+
     /**
      * Returns the horizontal coordinate of the image origin, the top-left
      * corner, in the canvas system, on the reference grid.
@@ -664,6 +694,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
         return destinationRegion.x;
     }
 
+
     /**
      * Returns the vertical coordinate of the image origin, the top-left
      * corner, in the canvas system, on the reference grid.
@@ -676,6 +707,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
     {
         return destinationRegion.y;
     }
+
 
     /**
      * Returns the number of tiles in the horizontal and vertical
@@ -700,6 +732,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
         }
     }
 
+
     /**
      * Returns the total number of tiles in the image. This default
      * implementation assumes no tiling, so 1 is always returned.
@@ -711,6 +744,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
     {
         return getNumXTiles() * getNumYTiles();
     }
+
 
     /**
      * Returns the number of bits corresponding to the nominal range of the
@@ -736,6 +770,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
         // XXX: Should be component-dependent.
         return rb;
     }
+
 
     /**
      * Returns the position of the fixed point in the specified component
@@ -888,6 +923,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
         return blk;
     }
 
+
     /**
      * Returns, in the blk argument, a block of image data containing the
      * specifed rectangular area, in the specified component. The data is
@@ -977,6 +1013,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
         return blk;
     }
 
+
     /**
      * Returns true if the data read was originally signed in the specified
      * component, false if not. This method always returns false since PPM
@@ -1002,6 +1039,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
         return true;
     }
 
+
     private int getNumXTiles()
     {
         int x = destinationRegion.x;
@@ -1009,6 +1047,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
         int tw = tileWidth;
         return ToTile(x + destinationRegion.width - 1, tx, tw) - ToTile(x, tx, tw) + 1;
     }
+
 
     private int getNumYTiles()
     {
@@ -1018,6 +1057,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
         return ToTile(y + destinationRegion.height - 1, ty, th) - ToTile(y, ty, th) + 1;
     }
 
+
     private static int ToTile(int pos, int tileOffset, int tileSize)
     {
         pos -= tileOffset;
@@ -1026,6 +1066,7 @@ public class RenderedImageSrc implements BlkImgDataSrc
         }
         return pos / tileSize;
     }
+
 
     private Raster getTile(int tileX, int tileY)
     {
@@ -1110,10 +1151,12 @@ public class RenderedImageSrc implements BlkImgDataSrc
         }
     }
 
+
     private int mapToSourceX(int x)
     {
         return x * scaleX + xOffset;
     }
+
 
     private int mapToSourceY(int y)
     {

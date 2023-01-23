@@ -171,6 +171,7 @@ public class ThreadPool
         private Object lock;
         private boolean doNotifyAll;
 
+
         /**
          * Creates a ThreadPoolThread object, setting its name according to
          * the given 'idx', daemon type and the priority to the one of the
@@ -186,6 +187,7 @@ public class ThreadPool
             setDaemon(true);
             setPriority(poolPriority);
         }
+
 
         /**
          * The method that is run by the thread. This method first joins the
@@ -274,6 +276,7 @@ public class ThreadPool
             }
         }
 
+
         /**
          * Assigns a target to this thread, with an optional notify lock and a
          * notify mode. The another target is currently running the method
@@ -301,6 +304,7 @@ public class ThreadPool
             this.notify();
         }
     }
+
 
     /**
      * Creates a new thread pool of the given size, thread priority and pool
@@ -402,6 +406,7 @@ public class ThreadPool
         }
     }
 
+
     /**
      * Returns the size of the pool. That is the number of threads in this
      * pool (idle + busy).
@@ -413,6 +418,7 @@ public class ThreadPool
     {
         return idle.length;
     }
+
 
     /**
      * Runs the run method of the specified target in an idle thread of this
@@ -440,6 +446,7 @@ public class ThreadPool
     {
         return runTarget(t, l, false, false);
     }
+
 
     /**
      * Runs the run method of the specified target in an idle thread of this
@@ -471,6 +478,7 @@ public class ThreadPool
     {
         return runTarget(t, l, async, false);
     }
+
 
     /**
      * Runs the run method of the specified target in an idle thread of this
@@ -513,6 +521,7 @@ public class ThreadPool
         return true;
     }
 
+
     /**
      * Checks that no error or runtime exception in any target have occurred
      * so far. If an error or runtime exception has occurred in a target's run
@@ -531,6 +540,7 @@ public class ThreadPool
         // Check for RuntimeException
         if (targetRE != null) throw targetRE;
     }
+
 
     /**
      * Clears the current target error conditions, if any. Note that a thread
@@ -552,6 +562,7 @@ public class ThreadPool
         targetE = null;
         targetRE = null;
     }
+
 
     /**
      * Puts the thread 't' in the idle list. The thread 't' should be in fact
@@ -581,6 +592,7 @@ public class ThreadPool
             if (nidle == 1) idle.notify();
         }
     }
+
 
     /**
      * Returns and idle thread and removes it from the list of idle

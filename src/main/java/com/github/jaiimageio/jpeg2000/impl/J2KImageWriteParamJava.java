@@ -668,12 +668,14 @@ public class J2KImageWriteParamJava extends ImageWriteParam
     private int minX;
     private int minY;
 
+
     /** Constructor to set locales. */
     public J2KImageWriteParamJava(RenderedImage imgsrc, Locale locale)
     {
         super(locale);
         setDefaults(imgsrc);
     }
+
 
     /** Constructor to set locales. */
     public J2KImageWriteParamJava(IIOImage image, ImageWriteParam param)
@@ -734,6 +736,7 @@ public class J2KImageWriteParamJava extends ImageWriteParam
         setSuperProperties();
     }
 
+
     /**
      * Constructs a <code>J2KImageWriteParamJava</code> object with default
      * values for all parameters.
@@ -743,6 +746,7 @@ public class J2KImageWriteParamJava extends ImageWriteParam
         super();
         setDefaults(imgsrc);
     }
+
 
     /**
      * Constructs a <code>J2KImageWriteParamJava</code> object with default
@@ -754,6 +758,7 @@ public class J2KImageWriteParamJava extends ImageWriteParam
         setDefaults(raster);
     }
 
+
     private void setSuperProperties()
     {
         canOffsetTiles = true;
@@ -762,6 +767,7 @@ public class J2KImageWriteParamJava extends ImageWriteParam
         canWriteProgressive = true;
         tilingMode = MODE_EXPLICIT;
     }
+
 
     /** Set source */
     private void setDefaults(Raster raster)
@@ -782,6 +788,7 @@ public class J2KImageWriteParamJava extends ImageWriteParam
         }
         setDefaults();
     }
+
 
     /** Set source */
     private void setDefaults(RenderedImage imgsrc)
@@ -805,6 +812,7 @@ public class J2KImageWriteParamJava extends ImageWriteParam
         setDefaults();
     }
 
+
     private void setDefaults()
     {
         setROIs(null);
@@ -827,11 +835,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
         setEPH(null);
     }
 
+
     /** Sets <code>encodingRate</code> */
     public void setEncodingRate(double rate)
     {
         this.encodingRate = rate;
     }
+
 
     /** Gets <code>encodingRate</code> */
     public double getEncodingRate()
@@ -839,17 +849,20 @@ public class J2KImageWriteParamJava extends ImageWriteParam
         return encodingRate;
     }
 
+
     /** Sets <code>lossless</code> */
     public void setLossless(boolean lossless)
     {
         this.lossless = lossless;
     }
 
+
     /** Gets <code>encodingRate</code> */
     public boolean getLossless()
     {
         return lossless;
     }
+
 
     /** Sets <code>packetPerTilePart</code> */
     public void setPacketPerTilePart(int packetPerTilePart)
@@ -864,11 +877,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
         }
     }
 
+
     /** Gets <code>packetPerTilePart</code> */
     public int getPacketPerTilePart()
     {
         return packetPerTilePart;
     }
+
 
     /** Sets <code>packPacketHeaderInTile</code> */
     public void setPackPacketHeaderInTile(boolean packPacketHeaderInTile)
@@ -880,11 +895,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
         }
     }
 
+
     /** Gets <code>packPacketHeaderInTile</code> */
     public boolean getPackPacketHeaderInTile()
     {
         return packPacketHeaderInTile;
     }
+
 
     /** Sets <code>packPacketHeaderInMain</code> */
     public void setPackPacketHeaderInMain(boolean packPacketHeaderInMain)
@@ -896,11 +913,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
         }
     }
 
+
     /** Gets <code>packPacketHeaderInMain</code> */
     public boolean getPackPacketHeaderInMain()
     {
         return packPacketHeaderInMain;
     }
+
 
     /** Sets <code>alignROI</code> */
     public void setAlignROI(boolean align)
@@ -908,11 +927,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
         alignROI = align;
     }
 
+
     /** Gets <code>alignROI</code> */
     public boolean getAlignROI()
     {
         return alignROI;
     }
+
 
     /** Sets <code>ROIs</code> */
     public void setROIs(String values)
@@ -920,11 +941,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
         ROIs = new MaxShiftSpec(numTiles, numComponents, ModuleSpec.SPEC_TYPE_TILE_COMP, values);
     }
 
+
     /** Gets <code>ROIs</code> */
     public MaxShiftSpec getROIs()
     {
         return ROIs;
     }
+
 
     /** Sets <code>quantizationType</code> */
     public void setQuantizationType(String values)
@@ -933,11 +956,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
             ModuleSpec.SPEC_TYPE_TILE_COMP, this, values);
     }
 
+
     /** Gets <code>quantizationType</code> */
     public QuantTypeSpec getQuantizationType()
     {
         return quantizationType;
     }
+
 
     /** Sets <code>quantizationStep</code> */
     public void setQuantizationStep(String values)
@@ -949,11 +974,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
             values);
     }
 
+
     /** Gets <code>quantizationStep</code> */
     public QuantStepSizeSpec getQuantizationStep()
     {
         return quantizationStep;
     }
+
 
     /** Sets <code>guardBits</code> */
     public void setGuardBits(String values)
@@ -965,11 +992,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
             values);
     }
 
+
     /** Gets <code>guardBits</code> */
     public GuardBitsSpec getGuardBits()
     {
         return guardBits;
     }
+
 
     /** Sets <code>filters</code> */
     // NOTE This also sets quantizationType and componentTransformation.
@@ -988,11 +1017,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
         setComponentTransformation("" + enableCT);
     }
 
+
     /** Gets <code>filters</code> */
     public AnWTFilterSpec getFilters()
     {
         return filters;
     }
+
 
     /** Sets <code>decompositionLevel</code> */
     public void setDecompositionLevel(String values)
@@ -1010,11 +1041,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
         setPrecinctPartition(null);
     }
 
+
     /** Gets <code>decompositionLevel</code> */
     public IntegerSpec getDecompositionLevel()
     {
         return decompositionLevel;
     }
+
 
     /** Sets <code>componentTransformation</code> */
     // NOTE This requires filters having been set previously.
@@ -1028,11 +1061,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
             values);
     }
 
+
     /** Gets <code>componentTransformation</code> */
     public ForwCompTransfSpec getComponentTransformation()
     {
         return componentTransformation;
     }
+
 
     /** Sets <code>methodForMQLengthCalc</code> */
     public void setMethodForMQLengthCalc(String values)
@@ -1047,11 +1082,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
             values);
     }
 
+
     /** Gets <code>methodForMQLengthCalc</code> */
     public StringSpec getMethodForMQLengthCalc()
     {
         return methodForMQLengthCalc;
     }
+
 
     /** Sets <code>methodForMQTermination</code> */
     public void setMethodForMQTermination(String values)
@@ -1066,11 +1103,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
             values);
     }
 
+
     /** Gets <code>methodForMQTermination</code> */
     public StringSpec getMethodForMQTermination()
     {
         return methodForMQTermination;
     }
+
 
     /** Sets <code>codeSegSymbol</code> */
     public void setCodeSegSymbol(String values)
@@ -1085,11 +1124,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
             values);
     }
 
+
     /** Gets <code>codeSegSymbol</code> */
     public StringSpec getCodeSegSymbol()
     {
         return codeSegSymbol;
     }
+
 
     /** Sets <code>causalCXInfo</code> */
     public void setCausalCXInfo(String values)
@@ -1104,11 +1145,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
             values);
     }
 
+
     /** Gets <code>causalCXInfo</code> */
     public StringSpec getCausalCXInfo()
     {
         return causalCXInfo;
     }
+
 
     /** Sets <code>terminateOnByte</code> */
     public void setTerminateOnByte(String values)
@@ -1123,11 +1166,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
             values);
     }
 
+
     /** Gets <code>terminateOnByte</code> */
     public StringSpec getTerminateOnByte()
     {
         return terminateOnByte;
     }
+
 
     /** Sets <code>resetMQ</code> */
     public void setResetMQ(String values)
@@ -1142,11 +1187,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
             values);
     }
 
+
     /** Gets <code>resetMQ</code> */
     public StringSpec getResetMQ()
     {
         return resetMQ;
     }
+
 
     /** Sets <code>bypass</code> */
     public void setBypass(String values)
@@ -1161,11 +1208,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
             values);
     }
 
+
     /** Gets <code>bypass</code> */
     public StringSpec getBypass()
     {
         return bypass;
     }
+
 
     /** Sets <code>codeBlockSize</code> */
     public void setCodeBlockSize(String values)
@@ -1177,11 +1226,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
             values);
     }
 
+
     /** Gets <code>codeBlockSize</code> */
     public CBlkSizeSpec getCodeBlockSize()
     {
         return codeBlockSize;
     }
+
 
     /** Sets <code>precinctPartition</code> */
     public void setPrecinctPartition(String values)
@@ -1205,11 +1256,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
                 values);
     }
 
+
     /** Gets <code>precinctPartition</code> */
     public PrecinctSizeSpec getPrecinctPartition()
     {
         return precinctPartition;
     }
+
 
     /** Sets <code>SOP</code> */
     public void setSOP(String values)
@@ -1224,11 +1277,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
             values);
     }
 
+
     /** Gets <code>SOP</code> */
     public StringSpec getSOP()
     {
         return SOP;
     }
+
 
     /** Sets <code>EPH</code> */
     public void setEPH(String values)
@@ -1243,11 +1298,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
             values);
     }
 
+
     /** Gets <code>EPH</code> */
     public StringSpec getEPH()
     {
         return EPH;
     }
+
 
     /** Sets <code>progressionName</code> */
     public void setProgressionName(String values)
@@ -1255,11 +1312,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
         progressionName = values;
     }
 
+
     /** Gets <code>progressionType</code> */
     public String getProgressionName()
     {
         return progressionName;
     }
+
 
     /** Sets <code>progressionType</code> */
     public void setProgressionType(LayersInfo lyrs, String values)
@@ -1274,11 +1333,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
             values);
     }
 
+
     /** Gets <code>progressionType</code> */
     public ProgressionSpec getProgressionType()
     {
         return progressionType;
     }
+
 
     /** Sets the <code>startLevelROI</code> */
     public void setStartLevelROI(int value)
@@ -1286,11 +1347,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
         startLevelROI = value;
     }
 
+
     /** Gets <code>startLevel</code> */
     public int getStartLevelROI()
     {
         return startLevelROI;
     }
+
 
     /** Sets the <code>layers</code> */
     public void setLayers(String value)
@@ -1298,11 +1361,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
         layers = value;
     }
 
+
     /** Gets <code>layers</code> */
     public String getLayers()
     {
         return layers;
     }
+
 
     /** Sets <code>minX</code> */
     public void setMinX(int minX)
@@ -1310,11 +1375,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
         this.minX = minX;
     }
 
+
     /** Gets <code>minX</code> */
     public int getMinX()
     {
         return minX;
     }
+
 
     /** Sets <code>minY</code> */
     public void setMinY(int minY)
@@ -1322,11 +1389,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
         this.minY = minY;
     }
 
+
     /** Gets <code>minY</code> */
     public int getMinY()
     {
         return minY;
     }
+
 
     /** Gets the number of tiles */
     public int getNumTiles()
@@ -1370,11 +1439,13 @@ public class J2KImageWriteParamJava extends ImageWriteParam
         return numTiles;
     }
 
+
     /** Gets the number of components */
     public int getNumComponents()
     {
         return numComponents;
     }
+
 
     /**
      * Override the method setSourceBands in the super class. This method
@@ -1391,6 +1462,7 @@ public class J2KImageWriteParamJava extends ImageWriteParam
         }
     }
 
+
     /**
      * Override the method setTiling in the super class. This method
      * should be called before any tile-specific parameter setting method
@@ -1403,6 +1475,7 @@ public class J2KImageWriteParamJava extends ImageWriteParam
         getNumTiles();
         setDefaults();
     }
+
 
     /**
      * Override the method setSourceSubsampling in the super class. This

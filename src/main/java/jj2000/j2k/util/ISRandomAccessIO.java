@@ -116,6 +116,7 @@ public class ISRandomAccessIO implements RandomAccessIO
      * has been reached. */
     private boolean complete;
 
+
     /**
      * Creates a new RandomAccessIO wrapper for the given InputStream
      * 'is'. The internal cache buffer will have size 'size' and will
@@ -148,6 +149,7 @@ public class ISRandomAccessIO implements RandomAccessIO
         complete = false;
     }
 
+
     /**
      * Creates a new RandomAccessIO wrapper for the given InputStream
      * 'is'. The internal cache buffer size and increment is to to 256 kB. The
@@ -160,6 +162,7 @@ public class ISRandomAccessIO implements RandomAccessIO
     {
         this(is, 1 << 18, 1 << 18, Integer.MAX_VALUE);
     }
+
 
     /**
      * Grows the cache buffer by 'inc', upto a maximum of 'maxsize'. The
@@ -188,6 +191,7 @@ public class ISRandomAccessIO implements RandomAccessIO
         System.arraycopy(buf, 0, newbuf, 0, len);
         buf = newbuf;
     }
+
 
     /**
      * Reads data from the wrapped InputStream and places it in the cache
@@ -229,6 +233,7 @@ public class ISRandomAccessIO implements RandomAccessIO
         }
     }
 
+
     /**
      * Closes this object for reading as well as the wrapped InputStream, if
      * not already closed. The memory used by the cache is released.
@@ -246,6 +251,7 @@ public class ISRandomAccessIO implements RandomAccessIO
         }
     }
 
+
     /**
      * Returns the current position in the stream, which is the
      * position from where the next byte of data would be read. The first
@@ -258,6 +264,7 @@ public class ISRandomAccessIO implements RandomAccessIO
     {
         return pos;
     }
+
 
     /**
      * Moves the current position for the next read operation to
@@ -286,6 +293,7 @@ public class ISRandomAccessIO implements RandomAccessIO
         pos = off;
     }
 
+
     /**
      * Returns the length of the stream. This will cause all the data to be
      * read. This method will block until all the data is read, which can be
@@ -305,6 +313,7 @@ public class ISRandomAccessIO implements RandomAccessIO
         }
         return len;
     }
+
 
     /**
      * Reads a byte of data from the stream.
@@ -334,6 +343,7 @@ public class ISRandomAccessIO implements RandomAccessIO
         }
         return 0xFF & buf[pos++];
     }
+
 
     /**
      * Reads 'len' bytes of data from this file into an array of bytes. This
@@ -373,6 +383,7 @@ public class ISRandomAccessIO implements RandomAccessIO
         pos += n;
     }
 
+
     /**
      * Returns the endianess (i.e., byte ordering) of multi-byte I/O
      * operations. Always EndianType.BIG_ENDIAN since this class implements
@@ -388,6 +399,7 @@ public class ISRandomAccessIO implements RandomAccessIO
     {
         return EndianType.BIG_ENDIAN;
     }
+
 
     /**
      * Reads a signed byte (8 bit) from the input.
@@ -410,6 +422,7 @@ public class ISRandomAccessIO implements RandomAccessIO
         return (byte)read();
     }
 
+
     /**
      * Reads an unsigned byte (8 bit) from the input.
      *
@@ -430,6 +443,7 @@ public class ISRandomAccessIO implements RandomAccessIO
         // general case
         return read();
     }
+
 
     /**
      * Reads a signed short (16 bit) from the input.
@@ -452,6 +466,7 @@ public class ISRandomAccessIO implements RandomAccessIO
         return (short)((read() << 8) | read());
     }
 
+
     /**
      * Reads an unsigned short (16 bit) from the input.
      *
@@ -472,6 +487,7 @@ public class ISRandomAccessIO implements RandomAccessIO
         // general case
         return (read() << 8) | read();
     }
+
 
     /**
      * Reads a signed int (32 bit) from the input.
@@ -494,6 +510,7 @@ public class ISRandomAccessIO implements RandomAccessIO
         // general case
         return (read() << 24) | (read() << 16) | (read() << 8) | read();
     }
+
 
     /**
      * Reads a unsigned int (32 bit) from the input.
@@ -518,6 +535,7 @@ public class ISRandomAccessIO implements RandomAccessIO
         return (0xFFFFFFFFL
             & ((read() << 24) | (read() << 16) | (read() << 8) | read()));
     }
+
 
     /**
      * Reads a signed long (64 bit) from the input.
@@ -554,6 +572,7 @@ public class ISRandomAccessIO implements RandomAccessIO
             | read());
     }
 
+
     /**
      * Reads an IEEE single precision (i.e., 32 bit) floating-point number
      * from the input.
@@ -578,6 +597,7 @@ public class ISRandomAccessIO implements RandomAccessIO
         return Float.intBitsToFloat((read() << 24) | (read() << 16)
             | (read() << 8) | read());
     }
+
 
     /**
      * Reads an IEEE double precision (i.e., 64 bit) floating-point number
@@ -614,6 +634,7 @@ public class ISRandomAccessIO implements RandomAccessIO
             | read());
     }
 
+
     /**
      * Skips 'n' bytes from the input.
      *
@@ -638,6 +659,7 @@ public class ISRandomAccessIO implements RandomAccessIO
         return n;
     }
 
+
     /**
      * Does nothing since this class does not implement data output.
      */
@@ -645,6 +667,7 @@ public class ISRandomAccessIO implements RandomAccessIO
     public void flush()
     { /* no-op */
     }
+
 
     /**
      * Throws an IOException since this class does not implement data output.
@@ -655,6 +678,7 @@ public class ISRandomAccessIO implements RandomAccessIO
         throw new IOException("read-only");
     }
 
+
     /**
      * Throws an IOException since this class does not implement data output.
      */
@@ -663,6 +687,7 @@ public class ISRandomAccessIO implements RandomAccessIO
     {
         throw new IOException("read-only");
     }
+
 
     /**
      * Throws an IOException since this class does not implement data output.
@@ -673,6 +698,7 @@ public class ISRandomAccessIO implements RandomAccessIO
         throw new IOException("read-only");
     }
 
+
     /**
      * Throws an IOException since this class does not implement data output.
      */
@@ -681,6 +707,7 @@ public class ISRandomAccessIO implements RandomAccessIO
     {
         throw new IOException("read-only");
     }
+
 
     /**
      * Throws an IOException since this class does not implement data output.
@@ -691,6 +718,7 @@ public class ISRandomAccessIO implements RandomAccessIO
         throw new IOException("read-only");
     }
 
+
     /**
      * Throws an IOException since this class does not implement data output.
      */
@@ -699,6 +727,7 @@ public class ISRandomAccessIO implements RandomAccessIO
     {
         throw new IOException("read-only");
     }
+
 
     /**
      * Throws an IOException since this class does not implement data output.

@@ -78,6 +78,7 @@ public class MathUtil
         return y;
     }
 
+
     /**
      * Method that calculates the Least Common Multiple (LCM) of two strictly
      * positive integer numbers.
@@ -112,6 +113,7 @@ public class MathUtil
             x1 + " and " + x2);
     }
 
+
     /**
      * Method that calculates the Least Common Multiple (LCM) of several
      * positive integer numbers.
@@ -137,6 +139,7 @@ public class MathUtil
         }
         return tmp;
     }
+
 
     /**
      * Method that calculates the Greatest Common Divisor (GCD) of two
@@ -169,6 +172,7 @@ public class MathUtil
         }
         return a;
     }
+
 
     /**
      * Method that calculates the Greatest Common Divisor (GCD) of several

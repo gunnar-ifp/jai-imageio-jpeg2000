@@ -71,6 +71,7 @@ public class BitsPerComponentBox extends Box
         data = bitDepth;
     }
 
+
     /**
      * Constructs a <code>BitsPerComponentBox</code> based on the provide
      * <code>org.w3c.dom.Node</code>.
@@ -89,6 +90,7 @@ public class BitsPerComponentBox extends Box
             }
         }
     }
+
 
     /** Returns the bit depths for all the image components. */
     public byte[] getBitDepth()

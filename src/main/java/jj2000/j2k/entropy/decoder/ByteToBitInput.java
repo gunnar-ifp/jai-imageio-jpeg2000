@@ -66,6 +66,7 @@ class ByteToBitInput
      */
     int bpos = -1;
 
+
     /**
      * Instantiates a new 'ByteToBitInput' object that uses 'in' as the
      * underlying byte based input.
@@ -76,6 +77,7 @@ class ByteToBitInput
     {
         this.in = in;
     }
+
 
     /**
      * Reads from the bit stream one bit. If 'bpos' is -1 then a byte is read
@@ -98,6 +100,7 @@ class ByteToBitInput
         }
         return (bbuf >> bpos--) & 0x01;
     }
+
 
     /**
      * Checks for past errors in the decoding process by verifying the byte
@@ -143,6 +146,7 @@ class ByteToBitInput
         return false;
     }
 
+
     /**
      * Flushes (i.e. empties) the bit buffer, without loading any new
      * bytes. This realigns the input at the next byte boundary, if not
@@ -153,6 +157,7 @@ class ByteToBitInput
         bbuf = 0; // reset any bit stuffing state
         bpos = -1;
     }
+
 
     /**
      * Resets the underlying byte input to start a new segment. The bit buffer

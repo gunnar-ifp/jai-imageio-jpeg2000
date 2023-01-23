@@ -102,6 +102,7 @@ public class J2KMetadataFormat extends IIOMetadataFormatImpl
 
     private static J2KMetadataFormat instance;
 
+
     public static synchronized J2KMetadataFormat getInstance()
     {
         if (instance == null)
@@ -110,6 +111,7 @@ public class J2KMetadataFormat extends IIOMetadataFormatImpl
     }
 
     String resourceBaseName = this.getClass().getName() + "Resources";
+
 
     /**
      * Constructs <code>J2KMetadataFormat</code>. Calls the super
@@ -122,6 +124,7 @@ public class J2KMetadataFormat extends IIOMetadataFormatImpl
         setResourceBaseName(resourceBaseName);
         addElements();
     }
+
 
     /**
      * Adds the elements into this format object based on the XML
@@ -316,10 +319,12 @@ public class J2KMetadataFormat extends IIOMetadataFormatImpl
             CHILD_POLICY_EMPTY);
     }
 
+
     public String getParent(String elementName)
     {
         return (String)parents.get(elementName);
     }
+
 
     @Override
     public boolean canNodeAppear(String elementName,
@@ -338,6 +343,7 @@ public class J2KMetadataFormat extends IIOMetadataFormatImpl
         return false;
     }
 
+
     public boolean isLeaf(String name)
     {
         Set keys = parents.keySet();
@@ -349,6 +355,7 @@ public class J2KMetadataFormat extends IIOMetadataFormatImpl
 
         return true;
     }
+
 
     public boolean singleInstance(String name)
     {

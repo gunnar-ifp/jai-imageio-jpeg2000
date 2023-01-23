@@ -97,6 +97,7 @@ public interface CBlkWTDataSrc extends ForwWTDataProps
      */
     public int getFixedPoint(int n);
 
+
     /**
      * Return the data type of this CBlkWTDataSrc for the given
      * component in the current tile. Its value should be either
@@ -111,6 +112,7 @@ public interface CBlkWTDataSrc extends ForwWTDataProps
      *
      */
     public int getDataType(int t, int c);
+
 
     /**
      * Returns the next code-block in the current tile for the specified
@@ -154,6 +156,7 @@ public interface CBlkWTDataSrc extends ForwWTDataProps
      *
      */
     public abstract CBlkWTData getNextCodeBlock(int n, CBlkWTData cblk);
+
 
     /**
      * Returns the next code-block in the current tile for the specified

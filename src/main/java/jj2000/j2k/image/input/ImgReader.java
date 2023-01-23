@@ -88,6 +88,7 @@ public abstract class ImgReader implements BlkImgDataSrc
     /** The number of components in the image */
     protected int nc;
 
+
     /**
      * Closes the underlying file or network connection from where the
      * image data is being read.
@@ -95,6 +96,7 @@ public abstract class ImgReader implements BlkImgDataSrc
      * @exception IOException If an I/O error occurs.
      */
     public abstract void close() throws IOException;
+
 
     /**
      * Returns the width of the current tile in pixels, assuming there is
@@ -109,6 +111,7 @@ public abstract class ImgReader implements BlkImgDataSrc
         return w;
     }
 
+
     /**
      * Returns the overall height of the current tile in pixels, assuming
      * there is no-tiling. Since no-tiling is assumed this is the same as the
@@ -122,6 +125,7 @@ public abstract class ImgReader implements BlkImgDataSrc
         return h;
     }
 
+
     /** Returns the nominal tiles width */
     @Override
     public int getNomTileWidth()
@@ -129,12 +133,14 @@ public abstract class ImgReader implements BlkImgDataSrc
         return w;
     }
 
+
     /** Returns the nominal tiles height */
     @Override
     public int getNomTileHeight()
     {
         return h;
     }
+
 
     /**
      * Returns the overall width of the image in pixels. This is the image's
@@ -149,6 +155,7 @@ public abstract class ImgReader implements BlkImgDataSrc
         return w;
     }
 
+
     /**
      * Returns the overall height of the image in pixels. This is the image's
      * height without accounting for any component subsampling or tiling. The
@@ -162,6 +169,7 @@ public abstract class ImgReader implements BlkImgDataSrc
         return h;
     }
 
+
     /**
      * Returns the number of components in the image. The value of <code>nc</code>
      * is returned.
@@ -173,6 +181,7 @@ public abstract class ImgReader implements BlkImgDataSrc
     {
         return nc;
     }
+
 
     /**
      * Returns the component subsampling factor in the horizontal direction,
@@ -192,6 +201,7 @@ public abstract class ImgReader implements BlkImgDataSrc
         return 1;
     }
 
+
     /**
      * Returns the component subsampling factor in the vertical direction, for
      * the specified component. This is, approximately, the ratio of
@@ -209,6 +219,7 @@ public abstract class ImgReader implements BlkImgDataSrc
     {
         return 1;
     }
+
 
     /**
      * Returns the width in pixels of the specified tile-component. This
@@ -231,6 +242,7 @@ public abstract class ImgReader implements BlkImgDataSrc
         }
         return w;
     }
+
 
     /**
      * Returns the height in pixels of the specified tile-component. This
@@ -255,6 +267,7 @@ public abstract class ImgReader implements BlkImgDataSrc
         return h;
     }
 
+
     /**
      * Returns the width in pixels of the specified component in the overall
      * image. This default implementation assumes no component, or component,
@@ -271,6 +284,7 @@ public abstract class ImgReader implements BlkImgDataSrc
         return w;
     }
 
+
     /**
      * Returns the height in pixels of the specified component in the overall
      * image. This default implementation assumes no component, or component,
@@ -286,6 +300,7 @@ public abstract class ImgReader implements BlkImgDataSrc
     {
         return h;
     }
+
 
     /**
      * Changes the current tile, given the new coordinates. An
@@ -305,6 +320,7 @@ public abstract class ImgReader implements BlkImgDataSrc
         }
     }
 
+
     /**
      * Advances to the next tile, in standard scan-line order (by rows then
      * columns). A NoNextElementException is thrown if the current tile is the
@@ -316,6 +332,7 @@ public abstract class ImgReader implements BlkImgDataSrc
     {
         throw new NoNextElementException();
     }
+
 
     /**
      * Returns the coordinates of the current tile. This default
@@ -339,6 +356,7 @@ public abstract class ImgReader implements BlkImgDataSrc
         }
     }
 
+
     /**
      * Returns the index of the current tile, relative to a standard scan-line
      * order. This default implementations assumes no tiling, so 0 is always
@@ -352,6 +370,7 @@ public abstract class ImgReader implements BlkImgDataSrc
         return 0;
     }
 
+
     /**
      * Returns the horizontal coordinate of the upper-left corner of the
      * specified component in the current tile.
@@ -363,6 +382,7 @@ public abstract class ImgReader implements BlkImgDataSrc
     {
         return 0;
     }
+
 
     /**
      * Returns the vertical coordinate of the upper-left corner of the
@@ -376,6 +396,7 @@ public abstract class ImgReader implements BlkImgDataSrc
         return 0;
     }
 
+
     /** Returns the horizontal tile partition offset in the reference grid */
     @Override
     public int getTilePartULX()
@@ -383,12 +404,14 @@ public abstract class ImgReader implements BlkImgDataSrc
         return 0;
     }
 
+
     /** Returns the vertical tile partition offset in the reference grid */
     @Override
     public int getTilePartULY()
     {
         return 0;
     }
+
 
     /**
      * Returns the horizontal coordinate of the image origin, the top-left
@@ -403,6 +426,7 @@ public abstract class ImgReader implements BlkImgDataSrc
         return 0;
     }
 
+
     /**
      * Returns the vertical coordinate of the image origin, the top-left
      * corner, in the canvas system, on the reference grid.
@@ -415,6 +439,7 @@ public abstract class ImgReader implements BlkImgDataSrc
     {
         return 0;
     }
+
 
     /**
      * Returns the number of tiles in the horizontal and vertical
@@ -440,6 +465,7 @@ public abstract class ImgReader implements BlkImgDataSrc
         }
     }
 
+
     /**
      * Returns the total number of tiles in the image. This default
      * implementation assumes no tiling, so 1 is always returned.
@@ -451,6 +477,7 @@ public abstract class ImgReader implements BlkImgDataSrc
     {
         return 1;
     }
+
 
     /**
      * Returns true if the data read was originally signed in the specified

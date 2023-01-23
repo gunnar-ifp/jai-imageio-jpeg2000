@@ -115,6 +115,7 @@ public class StdDequantizerParams extends DequantizerParams
      */
     public float nStep[][];
 
+
     /**
      * Returns the type of the dequantizer for which the parameters are. The
      * types are defined in the Dequantizer class.

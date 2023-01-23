@@ -123,6 +123,7 @@ public class CodestreamManipulator
     /** Buffers containing the SOP marker segments */
     private byte[][][] sopMarkSeg;
 
+
     /**
      * Instantiates a codestream manipulator..
      *
@@ -153,6 +154,7 @@ public class CodestreamManipulator
         this.tempSop = tempSop;
         this.tempEph = tempEph;
     }
+
 
     /**
      * This method performs the actual manipulation of the codestream which is
@@ -203,6 +205,7 @@ public class CodestreamManipulator
 
         return addedHeaderBytes;
     }
+
 
     /**
      * This method parses the codestream for SOT, SOP and EPH markers and
@@ -310,6 +313,7 @@ public class CodestreamManipulator
         markPos.copyInto(positions);
     }
 
+
     /**
      * This method reads and buffers the tile headers, packet headers and
      * packet data.
@@ -381,6 +385,7 @@ public class CodestreamManipulator
             }
         }
     }
+
 
     /**
      * This method creates the tileparts from the buffered tile headers,
@@ -535,6 +540,7 @@ public class CodestreamManipulator
         }
         temp.close();
     }
+
 
     /**
      * This method writes the new codestream to the file.

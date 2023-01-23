@@ -54,6 +54,7 @@ public class CBlkCoordInfo extends CoordInfo
     /** The code-block horizontal and vertical indexes */
     public Point idx;
 
+
     /**
      * Constructor. Creates a CBlkCoordInfo object.
      */
@@ -61,6 +62,7 @@ public class CBlkCoordInfo extends CoordInfo
     {
         this.idx = new Point();
     }
+
 
     /**
      * Constructor. Creates a CBlkCoordInfo object width specified code-block
@@ -74,6 +76,7 @@ public class CBlkCoordInfo extends CoordInfo
     {
         this.idx = new Point(n, m);
     }
+
 
     /**
      * Returns code-block's information in a String

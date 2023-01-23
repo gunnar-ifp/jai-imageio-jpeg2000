@@ -55,6 +55,7 @@ public class PrecCoordInfo extends CoordInfo
     /** Vertical upper left coordinate on the reference grid */
     public int yref;
 
+
     /**
      * Constructor. Creates a PrecCoordInfo object.
      *
@@ -78,6 +79,7 @@ public class PrecCoordInfo extends CoordInfo
         this.yref = yref;
     }
 
+
     /**
      * Empty Constructor. Creates an empty PrecCoordInfo object.
      */
@@ -85,6 +87,7 @@ public class PrecCoordInfo extends CoordInfo
     {
         super();
     }
+
 
     /**
      * Returns precinct's information in a String

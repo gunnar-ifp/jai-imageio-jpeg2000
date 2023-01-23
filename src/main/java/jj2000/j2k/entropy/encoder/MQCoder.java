@@ -306,6 +306,7 @@ public class MQCoder
     /** The increase in length for the arrays to save states */
     final static int SAVED_INC = 4 * StdEntropyCoderOptions.NUM_PASSES;
 
+
     /**
      * Set the length calculation type to the specified type
      *
@@ -337,6 +338,7 @@ public class MQCoder
         this.ltype = ltype;
     }
 
+
     /**
      * Set termination type to the specified type
      *
@@ -353,6 +355,7 @@ public class MQCoder
 
         this.ttype = ttype;
     }
+
 
     /**
      * Instantiates a new MQ-coder, with the specified number of contexts and
@@ -391,6 +394,7 @@ public class MQCoder
 
         b = 0;
     }
+
 
     /**
      * This method performs the coding of the symbol 'bit', using context
@@ -547,6 +551,7 @@ public class MQCoder
             a = la; // save cached A register
         }
     }
+
 
     /**
      * This function performs the arithmetic encoding of several symbols
@@ -757,6 +762,7 @@ public class MQCoder
         }
     }
 
+
     /**
      * This function puts one byte of compressed bits in the out out stream.
      * the highest 8 bits of c are then put in b to be the next byte to
@@ -820,6 +826,7 @@ public class MQCoder
             nrOfWrittenBytes++;
         }
     }
+
 
     /**
      * This function flushes the remaining encoded bits and makes sure that
@@ -1061,6 +1068,7 @@ public class MQCoder
         return len;
     }
 
+
     /**
      * Returns the number of contexts in the arithmetic coder.
      *
@@ -1070,6 +1078,7 @@ public class MQCoder
     {
         return I.length;
     }
+
 
     /**
      * Resets a context to the original probability distribution, and sets its
@@ -1083,6 +1092,7 @@ public class MQCoder
         mPS[c] = 0;
     }
 
+
     /**
      * Resets all contexts to their original probability distribution and sets
      * all more probable symbols to 0.
@@ -1092,6 +1102,7 @@ public class MQCoder
         System.arraycopy(initStates, 0, I, 0, I.length);
         Arrays.fill(mPS, 0);
     }
+
 
     /**
      * Returns the number of bytes that are necessary from the compressed
@@ -1170,6 +1181,7 @@ public class MQCoder
         }
     }
 
+
     /**
      * Reinitializes the MQ coder and the underlying 'ByteOutputBuffer' buffer
      * as if a new object was instantaited. All the data in the
@@ -1195,6 +1207,7 @@ public class MQCoder
 
         nSaved = 0;
     }
+
 
     /**
      * Saves the current state of the MQ coder (just the registers, not the
@@ -1230,6 +1243,7 @@ public class MQCoder
         savedDelFF[nSaved] = delFF;
         nSaved++;
     }
+
 
     /**
      * Terminates the calculation of the required length for each coding

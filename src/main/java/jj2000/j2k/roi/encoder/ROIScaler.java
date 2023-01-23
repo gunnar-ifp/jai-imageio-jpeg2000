@@ -154,6 +154,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc
     /** The source of quantized wavelet transform coefficients */
     private Quantizer src;
 
+
     /**
      * Constructor of the ROI scaler, takes a Quantizer as source of data to
      * scale.
@@ -190,6 +191,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc
         }
     }
 
+
     /**
      * Since ROI scaling is always a reversible operation, it calls
      * isReversible() method of it source (the quantizer module).
@@ -205,6 +207,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc
     {
         return src.isReversible(t, c);
     }
+
 
     /**
      * Returns a reference to the subband tree structure representing the
@@ -226,6 +229,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc
         return src.getAnSubbandTree(t, c);
     }
 
+
     /**
      * Returns the horizontal offset of the code-block partition. Allowable
      * values are 0 and 1, nothing else.
@@ -236,6 +240,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc
         return src.getCbULX();
     }
 
+
     /**
      * Returns the vertical offset of the code-block partition. Allowable
      * values are 0 and 1, nothing else.
@@ -245,6 +250,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc
     {
         return src.getCbULY();
     }
+
 
     /**
      * Creates a ROIScaler object. The Quantizer is the source of data to
@@ -317,6 +323,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc
 
         return new ROIScaler(src, maskGen, true, sLev, useBlockAligned, wp);
     }
+
 
     /**
      * This function parses the values given for the ROIs with the argument
@@ -475,6 +482,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc
         return roiVector;
     }
 
+
     /**
      * This function gets a datablk from the entropy coder. The sample sin the
      * block, which consists of the quantized coefficients from the quantizer,
@@ -507,6 +515,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc
     {
         return getNextInternCodeBlock(n, cblk);
     }
+
 
     /**
      * This function gets a datablk from the entropy coder. The sample sin the
@@ -662,6 +671,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc
         return cblk;
     }
 
+
     /**
      * This function returns the ROI mask generator.
      *
@@ -671,6 +681,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc
     {
         return mg;
     }
+
 
     /**
      * This function returns the blockAligned flag
@@ -682,6 +693,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc
         return blockAligned;
     }
 
+
     /**
      * This function returns the flag indicating if any ROI functionality used
      *
@@ -691,6 +703,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc
     {
         return roi;
     }
+
 
     /**
      * Returns the parameters that are used in this class and
@@ -711,6 +724,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc
         return pinfo;
     }
 
+
     /**
      * Changes the current tile, given the new indexes. An
      * IllegalArgumentException is thrown if the indexes do not
@@ -728,6 +742,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc
             mg.tileChanged();
     }
 
+
     /**
      * Advances to the next tile, in standard scan-line order (by rows then
      * columns). An NoNextElementException is thrown if the current tile is
@@ -740,6 +755,7 @@ public class ROIScaler extends ImgDataAdapter implements CBlkQuantDataSrcEnc
         if (roi)
             mg.tileChanged();
     }
+
 
     /**
      * Calculates the maximum amount of magnitude bits for each

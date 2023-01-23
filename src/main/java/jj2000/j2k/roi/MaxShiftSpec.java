@@ -71,6 +71,7 @@ public class MaxShiftSpec extends ModuleSpec
         specified = values;
     }
 
+
     public String getSpecified()
     {
         return specified;

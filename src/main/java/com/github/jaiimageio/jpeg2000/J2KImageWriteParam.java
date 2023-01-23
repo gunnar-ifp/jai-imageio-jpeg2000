@@ -226,6 +226,7 @@ public class J2KImageWriteParam extends ImageWriteParam
      */
     private boolean writeCodeStreamOnly = false;
 
+
     /**
      * Constructor which sets the <code>Locale</code>.
      *
@@ -239,6 +240,7 @@ public class J2KImageWriteParam extends ImageWriteParam
         setDefaults();
     }
 
+
     /**
      * Constructs a <code>J2KImageWriteParam</code> object with default
      * values for all parameters.
@@ -248,6 +250,7 @@ public class J2KImageWriteParam extends ImageWriteParam
         super();
         setDefaults();
     }
+
 
     /** Set source */
     private void setDefaults()
@@ -261,6 +264,7 @@ public class J2KImageWriteParam extends ImageWriteParam
         canWriteProgressive = true;
         tilingMode = MODE_EXPLICIT;
     }
+
 
     /**
      * Sets <code>numDecompositionLevels</code>.
@@ -278,6 +282,7 @@ public class J2KImageWriteParam extends ImageWriteParam
         this.numDecompositionLevels = numDecompositionLevels;
     }
 
+
     /**
      * Gets <code>numDecompositionLevels</code>.
      *
@@ -288,6 +293,7 @@ public class J2KImageWriteParam extends ImageWriteParam
     {
         return numDecompositionLevels;
     }
+
 
     /**
      * Sets <code>encodingRate</code>.
@@ -308,6 +314,7 @@ public class J2KImageWriteParam extends ImageWriteParam
         }
     }
 
+
     /**
      * Gets <code>encodingRate</code>.
      *
@@ -318,6 +325,7 @@ public class J2KImageWriteParam extends ImageWriteParam
     {
         return encodingRate;
     }
+
 
     /**
      * Sets <code>lossless</code>.
@@ -330,6 +338,7 @@ public class J2KImageWriteParam extends ImageWriteParam
         this.lossless = lossless;
     }
 
+
     /**
      * Gets <code>lossless</code>.
      *
@@ -340,6 +349,7 @@ public class J2KImageWriteParam extends ImageWriteParam
     {
         return lossless;
     }
+
 
     /**
      * Sets <code>filter</code>.
@@ -353,6 +363,7 @@ public class J2KImageWriteParam extends ImageWriteParam
         filter = value;
     }
 
+
     /**
      * Gets <code>filters</code>.
      *
@@ -365,6 +376,7 @@ public class J2KImageWriteParam extends ImageWriteParam
         return filter;
     }
 
+
     /**
      * Sets <code>componentTransformation</code>.
      *
@@ -375,6 +387,7 @@ public class J2KImageWriteParam extends ImageWriteParam
     {
         componentTransformation = value;
     }
+
 
     /**
      * Gets <code>componentTransformation</code>.
@@ -387,6 +400,7 @@ public class J2KImageWriteParam extends ImageWriteParam
         return componentTransformation;
     }
 
+
     /**
      * Sets <code>codeBlockSize</code>.
      *
@@ -397,6 +411,7 @@ public class J2KImageWriteParam extends ImageWriteParam
     {
         codeBlockSize = value;
     }
+
 
     /**
      * Gets <code>codeBlockSize</code>.
@@ -409,6 +424,7 @@ public class J2KImageWriteParam extends ImageWriteParam
         return codeBlockSize;
     }
 
+
     /**
      * Sets <code>SOP</code>.
      *
@@ -419,6 +435,7 @@ public class J2KImageWriteParam extends ImageWriteParam
     {
         SOP = value;
     }
+
 
     /**
      * Gets <code>SOP</code>.
@@ -431,6 +448,7 @@ public class J2KImageWriteParam extends ImageWriteParam
         return SOP;
     }
 
+
     /**
      * Sets <code>EPH</code>.
      *
@@ -442,6 +460,7 @@ public class J2KImageWriteParam extends ImageWriteParam
         EPH = value;
     }
 
+
     /**
      * Gets <code>EPH</code>.
      *
@@ -452,6 +471,7 @@ public class J2KImageWriteParam extends ImageWriteParam
     {
         return EPH;
     }
+
 
     /**
      * Sets <code>progressionType</code>.
@@ -465,6 +485,7 @@ public class J2KImageWriteParam extends ImageWriteParam
         progressionType = value;
     }
 
+
     /**
      * Gets <code>progressionType</code>.
      *
@@ -477,6 +498,7 @@ public class J2KImageWriteParam extends ImageWriteParam
         return progressionType;
     }
 
+
     /**
      * Sets <code>writeCodeStreamOnly</code>.
      *
@@ -488,6 +510,7 @@ public class J2KImageWriteParam extends ImageWriteParam
     {
         writeCodeStreamOnly = value;
     }
+
 
     /**
      * Gets <code>writeCodeStreamOnly</code>.

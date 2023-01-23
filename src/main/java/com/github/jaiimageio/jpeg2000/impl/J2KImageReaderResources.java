@@ -49,9 +49,11 @@ public class J2KImageReaderResources
     static final Object[][] contents = {
     };
 
+
     public J2KImageReaderResources()
     {
     }
+
 
     public Object[][] getContents()
     {

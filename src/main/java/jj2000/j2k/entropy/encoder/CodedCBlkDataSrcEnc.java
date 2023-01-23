@@ -111,6 +111,7 @@ public interface CodedCBlkDataSrcEnc extends ForwWTDataProps
      */
     public CBlkRateDistStats getNextCodeBlock(int c, CBlkRateDistStats ccb);
 
+
     /**
      * Returns the width of a packet for the specified tile-
      * component and resolution level.
@@ -127,6 +128,7 @@ public interface CodedCBlkDataSrcEnc extends ForwWTDataProps
      */
     public int getPPX(int t, int c, int r);
 
+
     /**
      * Returns the height of a packet for the specified tile-
      * component and resolution level.
@@ -142,6 +144,7 @@ public interface CodedCBlkDataSrcEnc extends ForwWTDataProps
      *
      */
     public int getPPY(int t, int c, int r);
+
 
     /**
      * Returns true if the precinct partition is used for the

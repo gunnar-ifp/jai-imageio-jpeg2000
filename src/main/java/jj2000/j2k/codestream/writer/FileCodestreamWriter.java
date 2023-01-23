@@ -108,6 +108,7 @@ public class FileCodestreamWriter extends CodestreamWriter
     /** Length of last packets containing no ROI information */
     private int lenLastNoROI = 0;
 
+
     /**
      * Opens the file 'file' for writing the bit stream, using the 'he' header
      * encoder. The magic number is written to the bit stream. Normally, the
@@ -131,6 +132,7 @@ public class FileCodestreamWriter extends CodestreamWriter
         out = new BufferedOutputStream(new FileOutputStream(file), DEF_BUF_LEN);
         initSOP_EPHArrays();
     }
+
 
     /**
      * Opens the file named 'fname' for writing the bit stream, using the 'he'
@@ -157,6 +159,7 @@ public class FileCodestreamWriter extends CodestreamWriter
         initSOP_EPHArrays();
     }
 
+
     /**
      * Uses the output stream 'os' for writing the bit stream, using the 'he'
      * header encoder. The magic number is written to the bit
@@ -181,6 +184,7 @@ public class FileCodestreamWriter extends CodestreamWriter
         initSOP_EPHArrays();
     }
 
+
     /**
      * Returns the number of bytes remaining available in the bit stream. This
      * is the maximum allowed number of bytes minus the number of bytes that
@@ -195,6 +199,7 @@ public class FileCodestreamWriter extends CodestreamWriter
     {
         return maxBytes - ndata;
     }
+
 
     /**
      * Returns the current length of the entire bit stream.
@@ -211,6 +216,7 @@ public class FileCodestreamWriter extends CodestreamWriter
             return maxBytes;
         }
     }
+
 
     /**
      * Writes a packet head to the bit stream and returns the number of bytes
@@ -298,6 +304,7 @@ public class FileCodestreamWriter extends CodestreamWriter
         return len;
     }
 
+
     /**
      * Writes a packet body to the bit stream and returns the number of bytes
      * used by this body .If in simulation mode then no data is written to the
@@ -364,6 +371,7 @@ public class FileCodestreamWriter extends CodestreamWriter
         return len;
     }
 
+
     /**
      * Writes the EOC marker and closes the underlying stream.
      *
@@ -383,6 +391,7 @@ public class FileCodestreamWriter extends CodestreamWriter
         out.close();
     }
 
+
     /**
      * Gives the offset of the end of last packet containing ROI information
      *
@@ -393,6 +402,7 @@ public class FileCodestreamWriter extends CodestreamWriter
     {
         return offLastROIPkt;
     }
+
 
     /**
      * Writes the header data in the codestream and actualize ndata with the
@@ -415,6 +425,7 @@ public class FileCodestreamWriter extends CodestreamWriter
         // Deal with ROI information
         lenLastNoROI += he.getLength();
     }
+
 
     /**
      * Performs the initialisation of the arrays that are used to store the

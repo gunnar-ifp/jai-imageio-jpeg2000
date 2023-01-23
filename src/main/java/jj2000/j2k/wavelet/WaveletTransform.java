@@ -98,6 +98,7 @@ public interface WaveletTransform extends ImgData
      */
     public boolean isReversible(int t, int c);
 
+
     /**
      * Returns the implementation type of this wavelet transform
      * (WT_IMPL_LINE or WT_IMPL_FRAME) for the specified component,

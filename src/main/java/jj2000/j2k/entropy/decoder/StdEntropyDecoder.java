@@ -679,6 +679,7 @@ public class StdEntropyDecoder extends EntropyDecoder
         }
     }
 
+
     /**
      * Instantiates a new entropy decoder engine, with the specified source of
      * data, nominal block width and height.
@@ -716,6 +717,7 @@ public class StdEntropyDecoder extends EntropyDecoder
         state = new int[(decSpec.cblks.getMaxCBlkWidth() + 2) *
             ((decSpec.cblks.getMaxCBlkHeight() + 1) / 2 + 2)];
     }
+
 
     /**
      * Returns the specified code-block in the current tile for the specified
@@ -963,6 +965,7 @@ public class StdEntropyDecoder extends EntropyDecoder
         return cblk;
     }
 
+
     /**
      * Returns the specified code-block in the current tile for the specified
      * component (as a reference or copy).
@@ -1014,6 +1017,7 @@ public class StdEntropyDecoder extends EntropyDecoder
     {
         return getCodeBlock(c, m, n, sb, cblk);
     }
+
 
     /**
      * Performs the significance propagation pass on the specified data and
@@ -1344,6 +1348,7 @@ public class StdEntropyDecoder extends EntropyDecoder
         return error;
     }
 
+
     /**
      * Performs the significance propagation pass on the specified data and
      * bit-plane. It decodes all insignificant samples which have, at least, one
@@ -1658,6 +1663,7 @@ public class StdEntropyDecoder extends EntropyDecoder
         return error;
     }
 
+
     /**
      * Performs the magnitude refinement pass on the specified data and
      * bit-plane. It decodes the samples which are significant and which do not
@@ -1814,6 +1820,7 @@ public class StdEntropyDecoder extends EntropyDecoder
         return error;
     }
 
+
     /**
      * Performs the magnitude refinement pass on the specified data and
      * bit-plane. It decodes the samples which are significant and which do not
@@ -1958,6 +1965,7 @@ public class StdEntropyDecoder extends EntropyDecoder
         // Return error condition
         return error;
     }
+
 
     /**
      * Performs the cleanup pass on the specified data and bit-plane. It
@@ -2431,6 +2439,7 @@ public class StdEntropyDecoder extends EntropyDecoder
         // Return error condition
         return error;
     }
+
 
     /**
      * Conceals decoding errors detected in the last bit-plane. The

@@ -118,6 +118,7 @@ public abstract class AnWTFilter implements WaveletFilter
             null },
     };
 
+
     /**
      * Filters the input signal by this analysis filter, decomposing
      * it in a low-pass and a high-pass signal. This method performs
@@ -219,6 +220,7 @@ public abstract class AnWTFilter implements WaveletFilter
         Object lowSig, int lowOff, int lowStep,
         Object highSig, int highOff, int highStep);
 
+
     /**
      * Filters the input signal by this analysis filter, decomposing
      * it in a low-pass and a high-pass signal. This method performs
@@ -301,6 +303,7 @@ public abstract class AnWTFilter implements WaveletFilter
         Object lowSig, int lowOff, int lowStep,
         Object highSig, int highOff, int highStep);
 
+
     /**
      * Returns the time-reversed low-pass synthesis waveform of the
      * filter, which is the low-pass filter. This is the time-reversed
@@ -319,6 +322,7 @@ public abstract class AnWTFilter implements WaveletFilter
      *
      */
     public abstract float[] getLPSynthesisFilter();
+
 
     /**
      * Returns the time-reversed high-pass synthesis waveform of the
@@ -339,6 +343,7 @@ public abstract class AnWTFilter implements WaveletFilter
      *
      */
     public abstract float[] getHPSynthesisFilter();
+
 
     /**
      * Returns the equivalent low-pass synthesis waveform of a cascade
@@ -370,6 +375,7 @@ public abstract class AnWTFilter implements WaveletFilter
         return upsampleAndConvolve(in, getLPSynthesisFilter(), out);
     }
 
+
     /**
      * Returns the equivalent high-pass synthesis waveform of a
      * cascade of filters, given the syhthesis waveform of the
@@ -399,6 +405,7 @@ public abstract class AnWTFilter implements WaveletFilter
     {
         return upsampleAndConvolve(in, getHPSynthesisFilter(), out);
     }
+
 
     /**
      * Returns the signal resulting of upsampling (by 2) the input
@@ -470,6 +477,7 @@ public abstract class AnWTFilter implements WaveletFilter
         return out;
     }
 
+
     /**
      * Returns the type of filter used according to the FilterTypes
      * interface.
@@ -480,6 +488,7 @@ public abstract class AnWTFilter implements WaveletFilter
      *
      */
     public abstract int getFilterType();
+
 
     /**
      * Returns the parameters that are used in this class and

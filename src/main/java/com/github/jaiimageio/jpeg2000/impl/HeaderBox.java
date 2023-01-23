@@ -71,6 +71,7 @@ public class HeaderBox extends Box
         "UnknownColorspace",
         "IntellectualProperty" };
 
+
     /**
      * This method will be called by the getNativeNodeForSimpleBox of the
      * class Box to get the element names.
@@ -89,6 +90,7 @@ public class HeaderBox extends Box
     private byte unknownColor;
     private byte intelProp;
 
+
     /** Create an Image Header Box from the element values. */
     public HeaderBox(int height, int width, int numComp, int bitDepth,
         int compressionType, int unknownColor, int intelProp)
@@ -103,11 +105,13 @@ public class HeaderBox extends Box
         this.intelProp = (byte)intelProp;
     }
 
+
     /** Create an Image Header Box using the content data. */
     public HeaderBox(byte[] data)
     {
         super(8 + data.length, 0x69686472, data);
     }
+
 
     /** Constructs an Image Header Box from a Node. */
     public HeaderBox(Node node) throws IIOInvalidTreeException
@@ -149,6 +153,7 @@ public class HeaderBox extends Box
         }
     }
 
+
     /** Parse the data elements from the byte array of the content. */
     @Override
     protected void parse(byte[] data)
@@ -168,11 +173,13 @@ public class HeaderBox extends Box
         intelProp = data[13];
     }
 
+
     /** Returns the height of the image. */
     public int getHeight()
     {
         return height;
     }
+
 
     /** Returns the width of the image. */
     public int getWidth()
@@ -180,11 +187,13 @@ public class HeaderBox extends Box
         return width;
     }
 
+
     /** Returns the number of image components. */
     public short getNumComponents()
     {
         return numComp;
     }
+
 
     /** Returns the compression type. */
     public byte getCompressionType()
@@ -192,11 +201,13 @@ public class HeaderBox extends Box
         return compressionType;
     }
 
+
     /** Returns the bit depth for all the image components. */
     public byte getBitDepth()
     {
         return bitDepth;
     }
+
 
     /** Returns the <code>UnknowColorspace</code> flag. */
     public byte getUnknownColorspace()
@@ -204,11 +215,13 @@ public class HeaderBox extends Box
         return unknownColor;
     }
 
+
     /** Returns the <code>IntellectualProperty</code> flag. */
     public byte getIntellectualProperty()
     {
         return intelProp;
     }
+
 
     /**
      * Creates an <code>IIOMetadataNode</code> from this image header box.
@@ -220,6 +233,7 @@ public class HeaderBox extends Box
     {
         return getNativeNodeForSimpleBox();
     }
+
 
     @Override
     protected void compose()

@@ -65,6 +65,7 @@ public class FileTypeBox extends Box
         "MinorVersion",
         "CompatibilityList" };
 
+
     /**
      * This method will be called by the getNativeNodeForSimpleBox of the
      * class Box to get the element names.
@@ -79,6 +80,7 @@ public class FileTypeBox extends Box
     private int minorVersion;
     private int[] compatibility;
 
+
     /**
      * Constructs a <code>FileTypeBox</code> from the provided brand, minor
      * version and compatibility list.
@@ -91,6 +93,7 @@ public class FileTypeBox extends Box
         this.compatibility = comp;
     }
 
+
     /**
      * Constructs a <code>FileTypeBox</code> from the provided byte array.
      */
@@ -98,6 +101,7 @@ public class FileTypeBox extends Box
     {
         super(8 + data.length, 0x66747970, data);
     }
+
 
     /**
      * Constructs a <code>FileTypeBox</code> from
@@ -126,11 +130,13 @@ public class FileTypeBox extends Box
         }
     }
 
+
     /** Returns the brand of this file type box. */
     public int getBrand()
     {
         return brand;
     }
+
 
     /** Returns the minor version of this file type box. */
     public int getMinorVersion()
@@ -138,11 +144,13 @@ public class FileTypeBox extends Box
         return minorVersion;
     }
 
+
     /** Returns the compatibilty list of this file type box. */
     public int[] getCompatibilityList()
     {
         return compatibility;
     }
+
 
     /**
      * Creates an <code>IIOMetadataNode</code> from this file type box.
@@ -154,6 +162,7 @@ public class FileTypeBox extends Box
     {
         return getNativeNodeForSimpleBox();
     }
+
 
     @Override
     protected void parse(byte[] data)
@@ -176,6 +185,7 @@ public class FileTypeBox extends Box
                     (data[j + 3] & 0xFF);
         }
     }
+
 
     @Override
     protected void compose()

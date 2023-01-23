@@ -134,6 +134,7 @@ public class StdQuantizer extends Quantizer
     // new objects for code-block that is quantized.
     private CBlkWTDataFloat infblk;
 
+
     /**
      * Initializes the source of wavelet transform coefficients. The
      * constructor takes information on whether the quantizer is in
@@ -158,6 +159,7 @@ public class StdQuantizer extends Quantizer
         gbs = wp.getGuardBits();
     }
 
+
     /**
      * Returns the quantization type spec object associated to the quantizer.
      *
@@ -167,6 +169,7 @@ public class StdQuantizer extends Quantizer
     {
         return qts;
     }
+
 
     /**
      * Returns the number of guard bits used by this quantizer in the given
@@ -183,6 +186,7 @@ public class StdQuantizer extends Quantizer
     {
         return ((Integer)gbs.getTileCompVal(t, c)).intValue();
     }
+
 
     /**
      * Returns true if the quantized data is reversible, for the specified
@@ -201,6 +205,7 @@ public class StdQuantizer extends Quantizer
         return qts.isReversible(t, c);
     }
 
+
     /**
      * Returns true if given tile-component uses derived quantization step
      * sizes.
@@ -217,6 +222,7 @@ public class StdQuantizer extends Quantizer
     {
         return qts.isDerived(t, c);
     }
+
 
     /**
      * Returns the next code-block in the current tile for the specified
@@ -260,6 +266,7 @@ public class StdQuantizer extends Quantizer
     {
         return getNextInternCodeBlock(c, cblk);
     }
+
 
     /**
      * Returns the next code-block in the current tile for the specified
@@ -443,6 +450,7 @@ public class StdQuantizer extends Quantizer
         return cblk;
     }
 
+
     /**
      * Calculates the parameters of the SubbandAn objects that depend on the
      * Quantizer. The 'stepWMSE' field is calculated for each subband which is
@@ -488,6 +496,7 @@ public class StdQuantizer extends Quantizer
         }
     }
 
+
     /**
      * Converts the floating point value to its exponent-mantissa
      * representation. The mantissa occupies the 11 least significant bits
@@ -514,6 +523,7 @@ public class StdQuantizer extends Quantizer
             ((int)((-step * (-1 << exp) - 1f) * (1 << QSTEP_MANTISSA_BITS) + 0.5f));
     }
 
+
     /**
      * Converts the exponent-mantissa representation to its floating-point
      * value. The mantissa occupies the 11 least significant bits (bits 10-0),
@@ -533,6 +543,7 @@ public class StdQuantizer extends Quantizer
             ((float)(1 << QSTEP_MANTISSA_BITS))) /
             (-1 << ((ems >> QSTEP_MANTISSA_BITS) & QSTEP_MAX_EXPONENT));
     }
+
 
     /**
      * Returns the maximum number of magnitude bits in any subband of the
@@ -592,6 +603,7 @@ public class StdQuantizer extends Quantizer
 
         return max;
     }
+
 
     /**
      * Returns the maximum number of magnitude bits in any subband in the

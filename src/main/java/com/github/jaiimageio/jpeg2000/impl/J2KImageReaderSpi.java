@@ -64,6 +64,7 @@ public class J2KImageReaderSpi extends ImageReaderSpi
     private static String[] mimeTypes = { "image/jp2", "image/jpeg2000" };
     private boolean registered = false;
 
+
     public J2KImageReaderSpi()
     {
         super(PackageUtil.getVendor(),
@@ -82,6 +83,7 @@ public class J2KImageReaderSpi extends ImageReaderSpi
             "com.github.jaiimageio.jpeg2000.impl.J2KMetadataFormat",
             null, null);
     }
+
 
     @Override
     public void onRegistration(ServiceRegistry registry,
@@ -110,6 +112,7 @@ public class J2KImageReaderSpi extends ImageReaderSpi
         }
     }
 
+
     @Override
     public String getDescription(Locale locale)
     {
@@ -117,6 +120,7 @@ public class J2KImageReaderSpi extends ImageReaderSpi
             " JPEG 2000 Image Reader";
         return desc;
     }
+
 
     @Override
     public boolean canDecodeInput(Object source) throws IOException
@@ -160,6 +164,7 @@ public class J2KImageReaderSpi extends ImageReaderSpi
 
         return true;
     }
+
 
     @Override
     public ImageReader createReaderInstance(Object extension)

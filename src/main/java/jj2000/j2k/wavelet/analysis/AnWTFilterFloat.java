@@ -116,6 +116,7 @@ public abstract class AnWTFilterFloat extends AnWTFilter
         float lowSig[], int lowOff, int lowStep,
         float highSig[], int highOff, int highStep);
 
+
     /**
      * The general version of the analyze_lpf() method, it just calls the
      * specialized version. See the description of the analyze_lpf()
@@ -165,6 +166,7 @@ public abstract class AnWTFilterFloat extends AnWTFilter
             (float[])lowSig, lowOff, lowStep,
             (float[])highSig, highOff, highStep);
     }
+
 
     /**
      * A specific version of the analyze_hpf() method that works on int
@@ -260,6 +262,7 @@ public abstract class AnWTFilterFloat extends AnWTFilter
             (float[])lowSig, lowOff, lowStep,
             (float[])highSig, highOff, highStep);
     }
+
 
     /**
      * Returns the type of data on which this filter works, as defined

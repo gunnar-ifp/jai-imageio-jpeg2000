@@ -136,6 +136,7 @@ public class CBlkRateDistStats extends CodedCBlk
     /** Number of ROI coding passes */
     public int nROIcp = 0;
 
+
     /**
      * Creates a new CBlkRateDistStats object without allocating any space for
      * 'truncRates', 'truncSlopes', 'truncDists' and 'truncIdxs' or 'data'.
@@ -143,6 +144,7 @@ public class CBlkRateDistStats extends CodedCBlk
     public CBlkRateDistStats()
     {
     }
+
 
     /**
      * Creates a new CBlkRateDistStats object and initializes the valid
@@ -197,6 +199,7 @@ public class CBlkRateDistStats extends CodedCBlk
         super(m, n, skipMSBP, data);
         selectConvexHull(rates, dists, termp, np, inclast);
     }
+
 
     /**
      * Compute the rate-distorsion slopes and selects those that lie in a
@@ -345,6 +348,7 @@ public class CBlkRateDistStats extends CodedCBlk
             }
         }
     }
+
 
     /**
      * Returns the contents of the object in a string. This is used for

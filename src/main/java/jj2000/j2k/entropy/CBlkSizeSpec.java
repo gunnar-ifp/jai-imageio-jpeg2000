@@ -71,6 +71,7 @@ public class CBlkSizeSpec extends ModuleSpec
     /** The maximum code-block height */
     private int maxCBlkHeight = 0;
 
+
     /**
      * Creates a new CBlkSizeSpec object for the specified number of tiles and
      * components.
@@ -86,6 +87,7 @@ public class CBlkSizeSpec extends ModuleSpec
     {
         super(nt, nc, type);
     }
+
 
     /**
      * Creates a new CBlkSizeSpec object for the specified number of tiles and
@@ -281,6 +283,7 @@ public class CBlkSizeSpec extends ModuleSpec
         }
     }
 
+
     /**
      * Returns the maximum code-block's width
      *
@@ -290,6 +293,7 @@ public class CBlkSizeSpec extends ModuleSpec
         return maxCBlkWidth;
     }
 
+
     /**
      * Returns the maximum code-block's height
      *
@@ -298,6 +302,7 @@ public class CBlkSizeSpec extends ModuleSpec
     {
         return maxCBlkHeight;
     }
+
 
     /**
      * Returns the code-block width :
@@ -349,6 +354,7 @@ public class CBlkSizeSpec extends ModuleSpec
         return dim[0].intValue();
     }
 
+
     /**
      * Returns the code-block height:
      *
@@ -399,6 +405,7 @@ public class CBlkSizeSpec extends ModuleSpec
         return dim[1].intValue();
     }
 
+
     /**
      * Sets default value for this module
      *
@@ -412,6 +419,7 @@ public class CBlkSizeSpec extends ModuleSpec
         // Store the biggest code-block dimensions
         storeHighestDims((Integer[])value);
     }
+
 
     /**
      * Sets default value for specified tile and specValType tag if allowed by
@@ -430,6 +438,7 @@ public class CBlkSizeSpec extends ModuleSpec
         storeHighestDims((Integer[])value);
     }
 
+
     /**
      * Sets default value for specified component and specValType tag if
      * allowed by its priority.
@@ -446,6 +455,7 @@ public class CBlkSizeSpec extends ModuleSpec
         // Store the biggest code-block dimensions
         storeHighestDims((Integer[])value);
     }
+
 
     /**
      * Sets value for specified tile-component.
@@ -464,6 +474,7 @@ public class CBlkSizeSpec extends ModuleSpec
         // Store the biggest code-block dimensions
         storeHighestDims((Integer[])value);
     }
+
 
     /**
      * Stores the highest code-block width and height

@@ -118,6 +118,7 @@ public class ForwCompTransf extends ImgDataAdapter
     /** Block used to request component with index 2 */
     private DataBlkInt block2;
 
+
     /**
      * Constructs a new ForwCompTransf object that operates on the
      * specified source of image data.
@@ -154,6 +155,7 @@ public class ForwCompTransf extends ImgDataAdapter
             null },
     };
 
+
     /**
      * Returns the position of the fixed point in the specified
      * component. This is the position of the least significant integral
@@ -178,6 +180,7 @@ public class ForwCompTransf extends ImgDataAdapter
         return src.getFixedPoint(c);
     }
 
+
     /**
      * Returns the parameters that are used in this class and implementing
      * classes. It returns a 2D String array. Each of the 1D arrays is for a
@@ -195,6 +198,7 @@ public class ForwCompTransf extends ImgDataAdapter
     {
         return pinfo;
     }
+
 
     /**
      * Calculates the bitdepths of the transformed components, given the
@@ -264,6 +268,7 @@ public class ForwCompTransf extends ImgDataAdapter
         return tdepth;
     }
 
+
     /**
      * Initialize some variables used with RCT. It must be called, at least,
      * at the beginning of each new tile.
@@ -293,6 +298,7 @@ public class ForwCompTransf extends ImgDataAdapter
         }
         tdepth = calcMixedBitDepths(utd, FORW_RCT, null);
     }
+
 
     /**
      * Initialize some variables used with ICT. It must be called, at least,
@@ -324,6 +330,7 @@ public class ForwCompTransf extends ImgDataAdapter
         tdepth = calcMixedBitDepths(utd, FORW_ICT, null);
     }
 
+
     /**
      * Returns a string with a descriptive text of which forward component
      * transformation is used. This can be either "Forward RCT" or "Forward
@@ -346,6 +353,7 @@ public class ForwCompTransf extends ImgDataAdapter
                     " component transformation");
         }
     }
+
 
     /**
      * Returns the number of bits, referred to as the "range bits",
@@ -374,6 +382,7 @@ public class ForwCompTransf extends ImgDataAdapter
         }
     }
 
+
     /**
      * Returns true if this transform is reversible in current
      * tile. Reversible component transformations are those which operation
@@ -395,6 +404,7 @@ public class ForwCompTransf extends ImgDataAdapter
                     " component transformation");
         }
     }
+
 
     /**
      * Apply forward component transformation associated with the current
@@ -429,6 +439,7 @@ public class ForwCompTransf extends ImgDataAdapter
         }
     }
 
+
     /**
      * Apply the component transformation associated with the current tile. If
      * no component transformation has been requested by the user, data are
@@ -460,6 +471,7 @@ public class ForwCompTransf extends ImgDataAdapter
                     tIdx);
         }
     }
+
 
     /**
      * Apply forward component transformation to obtain requested component
@@ -594,6 +606,7 @@ public class ForwCompTransf extends ImgDataAdapter
         return blk;
 
     }
+
 
     /**
      * Apply forward irreversible component transformation to obtain requested
@@ -756,6 +769,7 @@ public class ForwCompTransf extends ImgDataAdapter
 
     }
 
+
     /**
      * Changes the current tile, given the new indexes. An
      * IllegalArgumentException is thrown if the indexes do not correspond to
@@ -793,6 +807,7 @@ public class ForwCompTransf extends ImgDataAdapter
                 " not recognized");
         }
     }
+
 
     /**
      * Advances to the next tile, in standard scan-line order (by rows then

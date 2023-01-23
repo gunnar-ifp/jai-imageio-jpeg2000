@@ -62,6 +62,7 @@ public class DataBlkInt extends DataBlk
     /** The array where the data is stored */
     public int[] data;
 
+
     /**
      * Creates a DataBlkInt with 0 dimensions and no data array
      * (i.e. data is null).
@@ -72,6 +73,7 @@ public class DataBlkInt extends DataBlk
     public DataBlkInt()
     {
     }
+
 
     /**
      * Creates a DataBlkInt with the specified dimensions and
@@ -101,6 +103,7 @@ public class DataBlkInt extends DataBlk
         data = new int[w * h];
     }
 
+
     /**
      * Copy constructor.
      * Creates a DataBlkInt which is the copy of the DataBlkInt
@@ -124,6 +127,7 @@ public class DataBlkInt extends DataBlk
                 this.data, i * this.scanw, this.w);
     }
 
+
     /**
      * Returns the identifier of this data type, <code>TYPE_INT</code>,
      * as defined in <code>DataBlk</code>.
@@ -141,6 +145,7 @@ public class DataBlkInt extends DataBlk
         return TYPE_INT;
     }
 
+
     /**
      * Returns the array containing the data, or null if there is no
      * data array. The returned array is a int array.
@@ -157,6 +162,7 @@ public class DataBlkInt extends DataBlk
         return data;
     }
 
+
     /**
      * Returns the array containing the data, or null if there is no
      * data array.
@@ -169,6 +175,7 @@ public class DataBlkInt extends DataBlk
     {
         return data;
     }
+
 
     /**
      * Sets the data array to the specified one. The provided array
@@ -186,6 +193,7 @@ public class DataBlkInt extends DataBlk
         data = (int[])arr;
     }
 
+
     /**
      * Sets the data array to the specified one. The size of the array
      * is not checked for consistency with the block's dimensions. This
@@ -199,6 +207,7 @@ public class DataBlkInt extends DataBlk
     {
         data = arr;
     }
+
 
     /**
      * Returns a string of informations about the DataBlkInt.

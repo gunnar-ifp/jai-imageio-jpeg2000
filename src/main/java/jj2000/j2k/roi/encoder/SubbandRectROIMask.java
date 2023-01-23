@@ -68,6 +68,7 @@ public class SubbandRectROIMask extends SubbandROIMask
     /** The lower right y coordinates of the applicable ROIs */
     public int[] lrys;
 
+
     /**
      * The constructor of the SubbandROIMask takes the dimensions of the
      * subband as parameters. A tree of masks is generated from the subband

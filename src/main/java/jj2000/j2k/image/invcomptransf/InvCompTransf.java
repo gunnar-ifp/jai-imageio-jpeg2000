@@ -134,6 +134,7 @@ public class InvCompTransf extends ImgDataAdapter
      */
     private boolean noCompTransf = false;
 
+
     /**
      * Constructs a new ForwCompTransf object that operates on the
      * specified source of image data.
@@ -155,6 +156,7 @@ public class InvCompTransf extends ImgDataAdapter
         this.utdepth = utdepth;
     }
 
+
     /**
      * Returns the parameters that are used in this class and implementing
      * classes. It returns a 2D String array. Each of the 1D arrays is for a
@@ -172,6 +174,7 @@ public class InvCompTransf extends ImgDataAdapter
     {
         return pinfo;
     }
+
 
     /**
      * Returns a string with a descriptive text of which inverse component
@@ -196,6 +199,7 @@ public class InvCompTransf extends ImgDataAdapter
         }
     }
 
+
     /**
      * Returns true if this transform is reversible in current
      * tile. Reversible component transformations are those which operation
@@ -218,6 +222,7 @@ public class InvCompTransf extends ImgDataAdapter
                     " component transformation");
         }
     }
+
 
     /**
      * Returns the position of the fixed point in the specified
@@ -242,6 +247,7 @@ public class InvCompTransf extends ImgDataAdapter
     {
         return src.getFixedPoint(c);
     }
+
 
     /**
      * Calculates the bitdepths of the transformed components, given the
@@ -311,6 +317,7 @@ public class InvCompTransf extends ImgDataAdapter
         return tdepth;
     }
 
+
     /**
      * Returns the number of bits, referred to as the "range bits",
      * corresponding to the nominal range of the data in the specified
@@ -327,6 +334,7 @@ public class InvCompTransf extends ImgDataAdapter
     {
         return utdepth[c];
     }
+
 
     /**
      * Apply inverse component transformation associated with the current
@@ -360,6 +368,7 @@ public class InvCompTransf extends ImgDataAdapter
             return getInternCompData(blk, c);
         }
     }
+
 
     /**
      * Apply the inverse component transformation associated with the current
@@ -397,6 +406,7 @@ public class InvCompTransf extends ImgDataAdapter
                     " component transformation");
         }
     }
+
 
     /**
      * Apply inverse component transformation to obtain requested component
@@ -508,6 +518,7 @@ public class InvCompTransf extends ImgDataAdapter
         }
         return blk;
     }
+
 
     /**
      * Apply inverse irreversible component transformation to obtain requested
@@ -658,6 +669,7 @@ public class InvCompTransf extends ImgDataAdapter
         return blk;
     }
 
+
     /**
      * Changes the current tile, given the new indexes. An
      * IllegalArgumentException is thrown if the indexes do not
@@ -702,6 +714,7 @@ public class InvCompTransf extends ImgDataAdapter
             }
         }
     }
+
 
     /**
      * Advances to the next tile, in standard scan-line order (by rows

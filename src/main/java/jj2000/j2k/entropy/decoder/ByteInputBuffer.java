@@ -88,6 +88,7 @@ public class ByteInputBuffer
      */
     private int pos;
 
+
     /**
      * Creates a new byte array input stream that reads data from the
      * specified byte array. The byte array is not copied.
@@ -99,6 +100,7 @@ public class ByteInputBuffer
         this.buf = buf;
         count = buf.length;
     }
+
 
     /**
      * Creates a new byte array input stream that reads data from the
@@ -122,6 +124,7 @@ public class ByteInputBuffer
         pos = offset;
         count = offset + length;
     }
+
 
     /**
      * Sets the underlying buffer byte array to the given one, with the given
@@ -166,6 +169,7 @@ public class ByteInputBuffer
             pos = offset;
         }
     }
+
 
     /**
      * Adds the specified data to the end of the byte array stream. This
@@ -212,6 +216,7 @@ public class ByteInputBuffer
         }
     }
 
+
     /**
      * Reads the next byte of data from this input stream. The value
      * byte is returned as an int in the range 0 to 255. If no byte is
@@ -236,6 +241,7 @@ public class ByteInputBuffer
             throw new EOFException();
         }
     }
+
 
     /**
      * Reads the next byte of data from this input stream. The value byte is

@@ -60,6 +60,7 @@ public class XMLBox extends Box
     /** Cache the element names for this box's xml definition */
     private static String[] elementNames = { "Content" };
 
+
     /**
      * This method will be called by the getNativeNodeForSimpleBox of the
      * class Box to get the element names.
@@ -69,11 +70,13 @@ public class XMLBox extends Box
         return elementNames;
     }
 
+
     /** Create a Box from its content. */
     public XMLBox(byte[] data)
     {
         super(8 + data.length, 0x786D6C20, data);
     }
+
 
     /**
      * Constructs a <code>UUIDListBox</code> based on the provided
@@ -100,6 +103,7 @@ public class XMLBox extends Box
             }
         }
     }
+
 
     /**
      * Creates an <code>IIOMetadataNode</code> from this XML

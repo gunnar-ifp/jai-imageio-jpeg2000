@@ -63,6 +63,7 @@ public class IntegerSpec extends ModuleSpec
     /** The largest value of type int */
     protected static int MAX_INT = Integer.MAX_VALUE;
 
+
     /**
      * Constructs a new 'IntegerSpec' for the specified number of
      * tiles and components and with allowed type of
@@ -80,6 +81,7 @@ public class IntegerSpec extends ModuleSpec
     {
         super(nt, nc, type);
     }
+
 
     /**
      * Constructs a new 'IntegerSpec' for the specified number of
@@ -229,6 +231,7 @@ public class IntegerSpec extends ModuleSpec
         }
     }
 
+
     /**
      * Get the maximum value of each tile-component
      *
@@ -250,6 +253,7 @@ public class IntegerSpec extends ModuleSpec
 
         return max;
     }
+
 
     /**
      * Get the minimum value of each tile-component
@@ -273,6 +277,7 @@ public class IntegerSpec extends ModuleSpec
         return min;
     }
 
+
     /**
      * Get the maximum value of each tile for specified component
      *
@@ -294,6 +299,7 @@ public class IntegerSpec extends ModuleSpec
 
         return max;
     }
+
 
     /**
      * Get the minimum value of each tile for specified component
@@ -317,6 +323,7 @@ public class IntegerSpec extends ModuleSpec
         return min;
     }
 
+
     /**
      * Get the maximum value of each component in specified tile
      *
@@ -338,6 +345,7 @@ public class IntegerSpec extends ModuleSpec
 
         return max;
     }
+
 
     /**
      * Get the minimum value of each component in specified tile

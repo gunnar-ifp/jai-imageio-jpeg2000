@@ -81,6 +81,7 @@ public class ByteOutputBuffer
     /** The default initial buffer size */
     public final static int BUF_DEF_LEN = 256;
 
+
     /**
      * Creates a new byte array output stream. The buffer capacity is
      * initially BUF_DEF_LEN bytes, though its size increases if necessary.
@@ -91,6 +92,7 @@ public class ByteOutputBuffer
     {
         buf = new byte[BUF_DEF_LEN];
     }
+
 
     /**
      * Creates a new byte array output stream, with a buffer capacity
@@ -104,6 +106,7 @@ public class ByteOutputBuffer
     {
         buf = new byte[size];
     }
+
 
     /**
      * Writes the specified byte to this byte array output stream. The
@@ -124,6 +127,7 @@ public class ByteOutputBuffer
         }
         buf[count++] = (byte)b;
     }
+
 
     /**
      * Copies the specified part of the stream to the 'outbuf' byte
@@ -147,6 +151,7 @@ public class ByteOutputBuffer
         System.arraycopy(buf, off, outbuf, outoff, len);
     }
 
+
     /**
      * Returns the number of valid bytes in the output buffer (count class
      * variable).
@@ -159,6 +164,7 @@ public class ByteOutputBuffer
         return count;
     }
 
+
     /**
      * Discards all the buffered data, by resetting the counter of written
      * bytes to 0.
@@ -168,6 +174,7 @@ public class ByteOutputBuffer
     {
         count = 0;
     }
+
 
     /**
      * Returns the byte buffered at the given position in the buffer. The

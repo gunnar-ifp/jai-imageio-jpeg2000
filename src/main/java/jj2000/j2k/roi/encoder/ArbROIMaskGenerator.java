@@ -85,6 +85,7 @@ public class ArbROIMaskGenerator extends ROIMaskGenerator
     /** Flag indicating if any ROI was found to be in this tile */
     private boolean roiInTile;
 
+
     /**
      * The constructor of the arbitrary mask generator
      *
@@ -100,6 +101,7 @@ public class ArbROIMaskGenerator extends ROIMaskGenerator
         roiMask = new int[nrc][];
         this.src = src;
     }
+
 
     /**
      * This functions gets a DataBlk the size of the current code-block an
@@ -161,6 +163,7 @@ public class ArbROIMaskGenerator extends ROIMaskGenerator
 
     }
 
+
     /**
      * This function returns the relevant data of the mask generator
      */
@@ -169,6 +172,7 @@ public class ArbROIMaskGenerator extends ROIMaskGenerator
     {
         return ("Fast rectangular ROI mask generator");
     }
+
 
     /**
      * This function generates the ROI mask for one tile-component.
@@ -359,6 +363,7 @@ public class ArbROIMaskGenerator extends ROIMaskGenerator
                 decomp(sb, tilew, tileh, c);
         }
     }
+
 
     /**
      * This function decomposes the mask for a node in the subband tree.

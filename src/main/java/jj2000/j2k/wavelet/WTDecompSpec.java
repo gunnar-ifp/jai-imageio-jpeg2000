@@ -126,6 +126,7 @@ public class WTDecompSpec
     /** The component main default decomposition levels, for each component */
     private int compMainDefLevels[];
 
+
     /**
      * Constructs a new 'WTDecompSpec' for the specified number of components
      * and tiles, with the given main default decomposition type and number of
@@ -148,6 +149,7 @@ public class WTDecompSpec
         mainDefLevels = lev;
         specValType = new byte[nc];
     }
+
 
     /**
      * Sets the "component main default" decomposition type and number of
@@ -185,6 +187,7 @@ public class WTDecompSpec
             "levels");
     }
 
+
     /**
      * Returns the type of specification for the decomposition in the
      * specified component and tile. The specification type is one of:
@@ -205,6 +208,7 @@ public class WTDecompSpec
         return specValType[n];
     }
 
+
     /**
      * Returns the main default decomposition type.
      *
@@ -217,6 +221,7 @@ public class WTDecompSpec
         return mainDefDecompType;
     }
 
+
     /**
      * Returns the main default decomposition number of levels.
      *
@@ -228,6 +233,7 @@ public class WTDecompSpec
     {
         return mainDefLevels;
     }
+
 
     /**
      * Returns the decomposition type to be used in component 'n' and tile
@@ -257,6 +263,7 @@ public class WTDecompSpec
                 throw new Error("Internal JJ2000 error");
         }
     }
+
 
     /**
      * Returns the decomposition number of levels in component 'n' and tile

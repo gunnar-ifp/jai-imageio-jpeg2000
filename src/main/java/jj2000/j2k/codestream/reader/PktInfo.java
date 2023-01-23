@@ -80,6 +80,7 @@ public class PktInfo
      */
     public int numTruncPnts;
 
+
     /**
      * Classe's constructor.
      *
@@ -92,6 +93,7 @@ public class PktInfo
         layerIdx = lyIdx;
         packetIdx = pckIdx;
     }
+
 
     /**
      * Object information in a string.

@@ -114,6 +114,7 @@ public class J2KImageReader extends ImageReader implements MsgLogger
      */
     private boolean logJJ2000Msg = false;
 
+
     /**
      * Wrapper for the protected method <code>computeRegions</code>. So it
      * can be access from the classes which are not in <code>ImageReader</code>
@@ -208,6 +209,7 @@ public class J2KImageReader extends ImageReader implements MsgLogger
         }
     }
 
+
     /**
      * Wrapper for the protected method <code>checkReadParamBandSettings</code>.
      * So it can be access from the classes which are not in
@@ -219,6 +221,7 @@ public class J2KImageReader extends ImageReader implements MsgLogger
     {
         checkReadParamBandSettings(param, numSrcBands, numDstBands);
     }
+
 
     /**
      * Convert a rectangle provided in the coordinate system of the JPEG2000
@@ -268,6 +271,7 @@ public class J2KImageReader extends ImageReader implements MsgLogger
         return new Rectangle(x1, y1, x2 - x1, y2 - y1);
     }
 
+
     /**
      * Wrapper for the protected method <code>processImageUpdate</code>
      * So it can be access from the classes which are not in
@@ -286,6 +290,7 @@ public class J2KImageReader extends ImageReader implements MsgLogger
             bands);
     }
 
+
     /**
      * Wrapper for the protected method <code>processImageProgress</code>
      * So it can be access from the classes which are not in
@@ -295,6 +300,7 @@ public class J2KImageReader extends ImageReader implements MsgLogger
     {
         processImageProgress(percentageDone);
     }
+
 
     /**
      * Constructs <code>J2KImageReader</code> from the provided
@@ -308,6 +314,7 @@ public class J2KImageReader extends ImageReader implements MsgLogger
 
         FacilityManager.registerMsgLogger(null, this);
     }
+
 
     /** Overrides the method defined in the superclass. */
     @Override
@@ -327,12 +334,14 @@ public class J2KImageReader extends ImageReader implements MsgLogger
         }
     }
 
+
     /** Overrides the method defined in the superclass. */
     @Override
     public int getNumImages(boolean allowSearch) throws IOException
     {
         return 1;
     }
+
 
     @Override
     public int getWidth(int imageIndex) throws IOException
@@ -342,6 +351,7 @@ public class J2KImageReader extends ImageReader implements MsgLogger
         return width;
     }
 
+
     @Override
     public int getHeight(int imageIndex) throws IOException
     {
@@ -349,6 +359,7 @@ public class J2KImageReader extends ImageReader implements MsgLogger
         readHeader();
         return height;
     }
+
 
     @Override
     public int getTileGridXOffset(int imageIndex) throws IOException
@@ -358,6 +369,7 @@ public class J2KImageReader extends ImageReader implements MsgLogger
         return hd.getTilingOrigin(null).x;
     }
 
+
     @Override
     public int getTileGridYOffset(int imageIndex) throws IOException
     {
@@ -365,6 +377,7 @@ public class J2KImageReader extends ImageReader implements MsgLogger
         readHeader();
         return hd.getTilingOrigin(null).y;
     }
+
 
     @Override
     public int getTileWidth(int imageIndex) throws IOException
@@ -374,6 +387,7 @@ public class J2KImageReader extends ImageReader implements MsgLogger
         return hd.getNomTileWidth();
     }
 
+
     @Override
     public int getTileHeight(int imageIndex) throws IOException
     {
@@ -382,12 +396,14 @@ public class J2KImageReader extends ImageReader implements MsgLogger
         return hd.getNomTileHeight();
     }
 
+
     private void checkIndex(int imageIndex)
     {
         if (imageIndex != 0) {
             throw new IndexOutOfBoundsException(I18N.getString("J2KImageReader4"));
         }
     }
+
 
     public void readHeader()
     {
@@ -414,6 +430,7 @@ public class J2KImageReader extends ImageReader implements MsgLogger
         this.height = hd.getImgHeight();
     }
 
+
     @Override
     public Iterator getImageTypes(int imageIndex)
         throws IOException
@@ -429,11 +446,13 @@ public class J2KImageReader extends ImageReader implements MsgLogger
         return null;
     }
 
+
     @Override
     public ImageReadParam getDefaultReadParam()
     {
         return new J2KImageReadParam();
     }
+
 
     @Override
     public IIOMetadata getImageMetadata(int imageIndex)
@@ -451,11 +470,13 @@ public class J2KImageReader extends ImageReader implements MsgLogger
         return imageMetadata;
     }
 
+
     @Override
     public IIOMetadata getStreamMetadata() throws IOException
     {
         return null;
     }
+
 
     @Override
     public BufferedImage read(int imageIndex, ImageReadParam param)
@@ -492,6 +513,7 @@ public class J2KImageReader extends ImageReader implements MsgLogger
         return bi;
     }
 
+
     @Override
     public RenderedImage readAsRenderedImage(int imageIndex,
         ImageReadParam param)
@@ -521,11 +543,13 @@ public class J2KImageReader extends ImageReader implements MsgLogger
         return ri;
     }
 
+
     @Override
     public boolean canReadRaster()
     {
         return true;
     }
+
 
     @Override
     public boolean isRandomAccessEasy(int imageIndex) throws IOException
@@ -533,6 +557,7 @@ public class J2KImageReader extends ImageReader implements MsgLogger
         checkIndex(imageIndex);
         return false;
     }
+
 
     @Override
     public Raster readRaster(int imageIndex,
@@ -568,6 +593,7 @@ public class J2KImageReader extends ImageReader implements MsgLogger
         return ras;
     }
 
+
     @Override
     public boolean isImageTiled(int imageIndex)
     {
@@ -582,6 +608,7 @@ public class J2KImageReader extends ImageReader implements MsgLogger
         return false;
     }
 
+
     @Override
     public void reset()
     {
@@ -595,6 +622,7 @@ public class J2KImageReader extends ImageReader implements MsgLogger
         System.gc();
     }
 
+
     /**
      * This method wraps the protected method <code>abortRequested</code>
      * to allow the abortions be monitored by <code>J2KReadState</code>.
@@ -603,6 +631,7 @@ public class J2KImageReader extends ImageReader implements MsgLogger
     {
         return abortRequested();
     }
+
 
     private ImageTypeSpecifier getImageType(int imageIndex)
         throws IOException
@@ -616,6 +645,7 @@ public class J2KImageReader extends ImageReader implements MsgLogger
         return null;
     }
 
+
     // --- Begin jj2000.j2k.util.MsgLogger implementation ---
     @Override
     public void flush()
@@ -623,11 +653,13 @@ public class J2KImageReader extends ImageReader implements MsgLogger
         // Do nothing.
     }
 
+
     @Override
     public void println(String str, int flind, int ind)
     {
         printmsg(INFO, str);
     }
+
 
     @Override
     public void printmsg(int sev, String msg)

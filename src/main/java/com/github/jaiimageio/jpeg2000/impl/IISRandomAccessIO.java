@@ -62,6 +62,7 @@ public class IISRandomAccessIO implements RandomAccessIO
     /** The <code>ImageInputStream</code> that is wrapped */
     private ImageInputStream iis;
 
+
     /**
      * Creates a <code>RandomAccessIO</code> instance from the supplied
      * <code>ImageInputStream</code>.
@@ -76,11 +77,13 @@ public class IISRandomAccessIO implements RandomAccessIO
         this.iis = iis;
     }
 
+
     @Override
     public void close() throws IOException
     {
         iis.close();
     }
+
 
     /**
      * Returns the stream position clamped to a maximum of
@@ -93,11 +96,13 @@ public class IISRandomAccessIO implements RandomAccessIO
         return pos > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int)pos;
     }
 
+
     @Override
     public void seek(int off) throws IOException
     {
         iis.seek(off);
     }
+
 
     /**
      * Returns the length of the data stream.
@@ -138,11 +143,13 @@ public class IISRandomAccessIO implements RandomAccessIO
         return pos > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int)pos;
     }
 
+
     @Override
     public int read() throws IOException
     {
         return iis.read();
     }
+
 
     @Override
     public void readFully(byte b[], int off, int n) throws IOException
@@ -150,11 +157,13 @@ public class IISRandomAccessIO implements RandomAccessIO
         iis.readFully(b, off, n);
     }
 
+
     @Override
     public int getByteOrdering()
     {
         return iis.getByteOrder() == ByteOrder.BIG_ENDIAN ? EndianType.BIG_ENDIAN : EndianType.LITTLE_ENDIAN;
     }
+
 
     @Override
     public byte readByte() throws IOException
@@ -162,11 +171,13 @@ public class IISRandomAccessIO implements RandomAccessIO
         return iis.readByte();
     }
 
+
     @Override
     public int readUnsignedByte() throws IOException
     {
         return iis.readUnsignedByte();
     }
+
 
     @Override
     public short readShort() throws IOException
@@ -174,11 +185,13 @@ public class IISRandomAccessIO implements RandomAccessIO
         return iis.readShort();
     }
 
+
     @Override
     public int readUnsignedShort() throws IOException
     {
         return iis.readUnsignedShort();
     }
+
 
     @Override
     public int readInt() throws IOException
@@ -186,11 +199,13 @@ public class IISRandomAccessIO implements RandomAccessIO
         return iis.readInt();
     }
 
+
     @Override
     public long readUnsignedInt() throws IOException
     {
         return iis.readUnsignedInt();
     }
+
 
     @Override
     public long readLong() throws IOException
@@ -198,11 +213,13 @@ public class IISRandomAccessIO implements RandomAccessIO
         return iis.readLong();
     }
 
+
     @Override
     public float readFloat() throws IOException
     {
         return iis.readFloat();
     }
+
 
     @Override
     public double readDouble() throws IOException
@@ -210,11 +227,13 @@ public class IISRandomAccessIO implements RandomAccessIO
         return iis.readDouble();
     }
 
+
     @Override
     public int skipBytes(int n) throws IOException
     {
         return iis.skipBytes(n);
     }
+
 
     /**
      * A null operation as writing is not supported.
@@ -225,6 +244,7 @@ public class IISRandomAccessIO implements RandomAccessIO
         // Intentionally empty.
     }
 
+
     /**
      * Throws an <code>IOException</code> as writing is not supported.
      */
@@ -233,6 +253,7 @@ public class IISRandomAccessIO implements RandomAccessIO
     {
         throw new IOException("Writing is not supported!");
     }
+
 
     /**
      * Throws an <code>IOException</code> as writing is not supported.
@@ -243,6 +264,7 @@ public class IISRandomAccessIO implements RandomAccessIO
         throw new IOException("Writing is not supported!");
     }
 
+
     /**
      * Throws an <code>IOException</code> as writing is not supported.
      */
@@ -251,6 +273,7 @@ public class IISRandomAccessIO implements RandomAccessIO
     {
         throw new IOException("Writing is not supported!");
     }
+
 
     /**
      * Throws an <code>IOException</code> as writing is not supported.
@@ -261,6 +284,7 @@ public class IISRandomAccessIO implements RandomAccessIO
         throw new IOException("Writing is not supported!");
     }
 
+
     /**
      * Throws an <code>IOException</code> as writing is not supported.
      */
@@ -270,6 +294,7 @@ public class IISRandomAccessIO implements RandomAccessIO
         throw new IOException("Writing is not supported!");
     }
 
+
     /**
      * Throws an <code>IOException</code> as writing is not supported.
      */
@@ -278,6 +303,7 @@ public class IISRandomAccessIO implements RandomAccessIO
     {
         throw new IOException("Writing is not supported!");
     }
+
 
     /**
      * Throws an <code>IOException</code> as writing is not supported.

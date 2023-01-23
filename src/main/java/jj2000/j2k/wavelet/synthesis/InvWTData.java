@@ -71,11 +71,13 @@ public interface InvWTData extends MultiResImgData
     @Override
     public SubbandSyn getSynSubbandTree(int t, int c);
 
+
     /**
      * Returns the horizontal code-block partition origin. Allowable values
      * are 0 and 1, nothing else.
      */
     public int getCbULX();
+
 
     /**
      * Returns the vertical code-block partition origin Allowable values are 0

@@ -153,6 +153,7 @@ public class Box
         boxClasses.put(Integer.valueOf(0x75726c20), DataEntryURLBox.class);
     }
 
+
     /**
      * Returns the XML tag name defined in JP2 XML xsd/dtd for the box
      * with the provided <code>type</code>. If the <code>type</code> is
@@ -164,6 +165,7 @@ public class Box
         return name == null ? "unknown" : name;
     }
 
+
     /**
      * Returns the Box class for the box with the provided <code>type</code>.
      */
@@ -173,6 +175,7 @@ public class Box
             return null;
         return (Class)boxClasses.get(Integer.valueOf(type));
     }
+
 
     /** Returns the type String based on the provided name. */
     public static String getTypeByName(String name)
@@ -185,6 +188,7 @@ public class Box
         }
         return null;
     }
+
 
     /**
      * Creates a <code>Box</code> object with the provided <code>type</code>
@@ -223,6 +227,7 @@ public class Box
         return null;
     }
 
+
     /** Extracts the value of the attribute from name. */
     public static Object getAttribute(Node node, String name)
     {
@@ -230,6 +235,7 @@ public class Box
         node = map.getNamedItem(name);
         return (node != null) ? node.getNodeValue() : null;
     }
+
 
     /** Parses the byte array expressed by a string. */
     public static byte[] parseByteArray(String value)
@@ -248,6 +254,7 @@ public class Box
         return buf;
     }
 
+
     /** Parses the integer array expressed a string. */
     protected static int[] parseIntArray(String value)
     {
@@ -265,6 +272,7 @@ public class Box
         return buf;
     }
 
+
     /**
      * Gets its <code>String</code> value from an <code>IIOMetadataNode</code>.
      */
@@ -279,6 +287,7 @@ public class Box
 
         return node.getNodeValue();
     }
+
 
     /** Gets its byte value from an <code>IIOMetadataNode</code>. */
     protected static byte getByteElementValue(Node node)
@@ -295,6 +304,7 @@ public class Box
         return (byte)0;
     }
 
+
     /** Gets its integer value from an <code>IIOMetadataNode</code>. */
     protected static int getIntElementValue(Node node)
     {
@@ -310,6 +320,7 @@ public class Box
         return 0;
     }
 
+
     /** Gets its short value from an <code>IIOMetadataNode</code>. */
     protected static short getShortElementValue(Node node)
     {
@@ -324,6 +335,7 @@ public class Box
         return (short)0;
     }
 
+
     /** Gets the byte array from an <code>IIOMetadataNode</code>. */
     protected static byte[] getByteArrayElementValue(Node node)
     {
@@ -335,6 +347,7 @@ public class Box
 
         return parseByteArray(node.getNodeValue());
     }
+
 
     /** Gets the integer array from an <code>IIOMetadataNode</code>. */
     protected static int[] getIntArrayElementValue(Node node)
@@ -348,6 +361,7 @@ public class Box
         return parseIntArray(node.getNodeValue());
     }
 
+
     /**
      * Copies that four bytes of an integer into the byte array. Necessary
      * for the subclasses to compose the content array from the data elements
@@ -359,6 +373,7 @@ public class Box
         data[pos++] = (byte)(value >> 8);
         data[pos++] = (byte)(value & 0xFF);
     }
+
 
     /**
      * Converts the box type from integer to string. This is necessary because
@@ -374,6 +389,7 @@ public class Box
 
         return new String(buf);
     }
+
 
     /**
      * Converts the box type from integer to string. This is necessary because
@@ -396,6 +412,7 @@ public class Box
     protected int type;
     protected byte[] data;
 
+
     /**
      * Constructs a <code>Box</code> instance using the provided
      * the box type and the box content in byte array format.
@@ -413,6 +430,7 @@ public class Box
         setLength(length);
         setContent(data);
     }
+
 
     /**
      * Constructs a <code>Box</code> instance using the provided
@@ -437,6 +455,7 @@ public class Box
         setContent(data);
     }
 
+
     /**
      * Constructs a <code>Box</code> instance from the provided <code>
       *  ImageInputStream</code> at the specified position.
@@ -450,6 +469,7 @@ public class Box
     {
         read(iis, pos);
     }
+
 
     /**
      * Constructs a Box from an "unknown" Node. This node has at
@@ -498,6 +518,7 @@ public class Box
         }
     }
 
+
     /**
      * Creates an <code>IIOMetadataNode</code> from this
      * box. The format of this node is defined in the XML dtd and xsd
@@ -518,6 +539,7 @@ public class Box
 
         return node;
     }
+
 
     /**
      * Creates an <code>IIOMetadataNode</code> from this
@@ -552,6 +574,7 @@ public class Box
         }
     }
 
+
     /**
      * Sets the default attributes, "Length", "Type", and "ExtraLength", to
      * the provided <code>IIOMetadataNode</code>.
@@ -566,11 +589,13 @@ public class Box
         }
     }
 
+
     /** Returns the box length. */
     public int getLength()
     {
         return length;
     }
+
 
     /** Returns the box type. */
     public int getType()
@@ -578,11 +603,13 @@ public class Box
         return type;
     }
 
+
     /** Returns the box extra length. */
     public long getExtraLength()
     {
         return extraLength;
     }
+
 
     /** Returns the box content in byte array. */
     public byte[] getContent()
@@ -592,11 +619,13 @@ public class Box
         return data;
     }
 
+
     /** Sets the box length to the provided value. */
     public void setLength(int length)
     {
         this.length = length;
     }
+
 
     /** Sets the box extra length length to the provided value. */
     public void setExtraLength(long extraLength)
@@ -605,6 +634,7 @@ public class Box
             throw new IllegalArgumentException(I18N.getString("Box1"));
         this.extraLength = extraLength;
     }
+
 
     /**
      * Sets the box content. If the content length is not length -8 or
@@ -621,6 +651,7 @@ public class Box
             parse(data);
     }
 
+
     /** Writes this box instance into a <code>ImageOutputStream</code>. */
     public void write(ImageOutputStream ios) throws IOException
     {
@@ -633,6 +664,7 @@ public class Box
         else if (data != null)
             ios.write(data, 0, length);
     }
+
 
     /**
      * Reads a box from the <code>ImageInputStream</code>. at the provided
@@ -688,6 +720,7 @@ public class Box
         iis.reset();
     }
 
+
     /**
      * Parses the data elements from the byte array. The subclasses should
      * override this method.
@@ -695,6 +728,7 @@ public class Box
     protected void parse(byte[] data)
     {
     }
+
 
     /**
      * Composes the content byte array from the data elements.

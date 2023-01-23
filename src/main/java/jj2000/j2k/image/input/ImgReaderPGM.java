@@ -97,6 +97,7 @@ public class ImgReaderPGM extends ImgReader
      */
     private DataBlkInt intBlk;
 
+
     /**
      * Creates a new PGM file reader from the specified file.
      *
@@ -109,6 +110,7 @@ public class ImgReaderPGM extends ImgReader
         this(new RandomAccessFile(file, "r"));
     }
 
+
     /**
      * Creates a new PGM file reader from the specified file name.
      *
@@ -120,6 +122,7 @@ public class ImgReaderPGM extends ImgReader
     {
         this(new RandomAccessFile(fname, "r"));
     }
+
 
     /**
      * Creates a new PGM file reader from the specified RandomAccessFile
@@ -159,6 +162,7 @@ public class ImgReaderPGM extends ImgReader
         in.close();
         in = null;
     }
+
 
     /**
      * Returns the number of bits corresponding to the nominal range of the
@@ -315,6 +319,7 @@ public class ImgReaderPGM extends ImgReader
         return blk;
     }
 
+
     /**
      * Returns, in the blk argument, a block of image data containing the
      * specifed rectangular area, in the specified component. The data is
@@ -371,6 +376,7 @@ public class ImgReaderPGM extends ImgReader
         return getInternCompData(blk, c);
     }
 
+
     /**
      * Returns a byte read from the RandomAccessIO. The number of read byted
      * are counted to keep track of the offset of the pixel data in the PGM
@@ -387,6 +393,7 @@ public class ImgReaderPGM extends ImgReader
         offset++;
         return in.readByte();
     }
+
 
     /**
      * Checks that the RandomAccessIO begins with 'P5'
@@ -414,6 +421,7 @@ public class ImgReaderPGM extends ImgReader
             }
         }
     }
+
 
     /**
      * Skips any line in the header starting with '#' and any space, tab, line
@@ -466,6 +474,7 @@ public class ImgReaderPGM extends ImgReader
         return res;
     }
 
+
     /**
      * Returns true if the data read was originally signed in the specified
      * component, false if not. This method returns always false since PGM
@@ -483,6 +492,7 @@ public class ImgReaderPGM extends ImgReader
             throw new IllegalArgumentException();
         return false;
     }
+
 
     /**
      * Returns a string of information about the object, more than 1 line

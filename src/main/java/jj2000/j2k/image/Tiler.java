@@ -147,6 +147,7 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc
     /** The height of the current tile, on the reference grid. */
     private int tileH;
 
+
     /**
      * Constructs a new tiler with the specified 'BlkImgDataSrc' source,
      * image origin, tiling origin and nominal tile size.
@@ -236,6 +237,7 @@ if (src.getImgULX()!=0 || src.getImgULY()!=0) {
         ntY = (int)Math.ceil((y0siz + src.getImgHeight() - yt0siz) / (double)ytsiz);
     }
 
+
     /**
      * Returns the overall width of the current tile in pixels. This is the
      * tile's width without accounting for any component subsampling.
@@ -248,6 +250,7 @@ if (src.getImgULX()!=0 || src.getImgULY()!=0) {
         return tileW;
     }
 
+
     /**
      * Returns the overall height of the current tile in pixels. This is the
      * tile's width without accounting for any component subsampling.
@@ -259,6 +262,7 @@ if (src.getImgULX()!=0 || src.getImgULY()!=0) {
     {
         return tileH;
     }
+
 
     /**
      * Returns the width in pixels of the specified tile-component.
@@ -280,6 +284,7 @@ if (src.getImgULX()!=0 || src.getImgULY()!=0) {
         return compW[c];
     }
 
+
     /**
      * Returns the height in pixels of the specified tile-component.
      *
@@ -300,6 +305,7 @@ if (src.getImgULX()!=0 || src.getImgULY()!=0) {
         return compH[c];
     }
 
+
     /**
      * Returns the position of the fixed point in the specified
      * component. This is the position of the least significant integral
@@ -319,6 +325,7 @@ if (src.getImgULX()!=0 || src.getImgULY()!=0) {
     {
         return src.getFixedPoint(c);
     }
+
 
     /**
      * Returns, in the blk argument, a block of image data containing the
@@ -386,6 +393,7 @@ if (src.getImgULX()!=0 || src.getImgULY()!=0) {
         return blk;
     }
 
+
     /**
      * Returns, in the blk argument, a block of image data containing the
      * specifed rectangular area, in the specified component. The data is
@@ -451,6 +459,7 @@ if (src.getImgULX()!=0 || src.getImgULY()!=0) {
         return blk;
     }
 
+
     /**
      * Changes the current tile, given the new tile indexes. An
      * IllegalArgumentException is thrown if the coordinates do not correspond
@@ -497,6 +506,7 @@ if (src.getImgULX()!=0 || src.getImgULY()!=0) {
         }
     }
 
+
     /**
      * Advances to the next tile, in standard scan-line order (by rows then
      * columns). An NoNextElementException is thrown if the current tile is
@@ -515,6 +525,7 @@ if (src.getImgULX()!=0 || src.getImgULY()!=0) {
             setTile(0, ty + 1);
         }
     }
+
 
     /**
      * Returns the horizontal and vertical indexes of the current tile.
@@ -537,6 +548,7 @@ if (src.getImgULX()!=0 || src.getImgULY()!=0) {
         }
     }
 
+
     /**
      * Returns the index of the current tile, relative to a standard scan-line
      * order.
@@ -548,6 +560,7 @@ if (src.getImgULX()!=0 || src.getImgULY()!=0) {
     {
         return ty * ntX + tx;
     }
+
 
     /**
      * Returns the horizontal coordinate of the upper-left corner of the
@@ -561,6 +574,7 @@ if (src.getImgULX()!=0 || src.getImgULY()!=0) {
         return tcx0[c];
     }
 
+
     /**
      * Returns the vertical coordinate of the upper-left corner of the
      * specified component in the current tile.
@@ -573,6 +587,7 @@ if (src.getImgULX()!=0 || src.getImgULY()!=0) {
         return tcy0[c];
     }
 
+
     /** Returns the horizontal tile partition offset in the reference grid */
     @Override
     public int getTilePartULX()
@@ -580,12 +595,14 @@ if (src.getImgULX()!=0 || src.getImgULY()!=0) {
         return xt0siz;
     }
 
+
     /** Returns the vertical tile partition offset in the reference grid */
     @Override
     public int getTilePartULY()
     {
         return yt0siz;
     }
+
 
     /**
      * Returns the horizontal coordinate of the image origin, the top-left
@@ -600,6 +617,7 @@ if (src.getImgULX()!=0 || src.getImgULY()!=0) {
         return x0siz;
     }
 
+
     /**
      * Returns the vertical coordinate of the image origin, the top-left
      * corner, in the canvas system, on the reference grid.
@@ -612,6 +630,7 @@ if (src.getImgULX()!=0 || src.getImgULY()!=0) {
     {
         return y0siz;
     }
+
 
     /**
      * Returns the number of tiles in the horizontal and vertical directions.
@@ -635,6 +654,7 @@ if (src.getImgULX()!=0 || src.getImgULY()!=0) {
         }
     }
 
+
     /**
      * Returns the total number of tiles in the image.
      *
@@ -645,6 +665,7 @@ if (src.getImgULX()!=0 || src.getImgULY()!=0) {
     {
         return ntX * ntY;
     }
+
 
     /**
      * Returns the nominal width of the tiles in the reference grid.
@@ -657,6 +678,7 @@ if (src.getImgULX()!=0 || src.getImgULY()!=0) {
         return xtsiz;
     }
 
+
     /**
      * Returns the nominal width of the tiles in the reference grid.
      *
@@ -667,6 +689,7 @@ if (src.getImgULX()!=0 || src.getImgULY()!=0) {
     {
         return ytsiz;
     }
+
 
     /**
      * Returns the tiling origin, referred to as '(xt0siz,yt0siz)' in the
@@ -691,6 +714,7 @@ if (src.getImgULX()!=0 || src.getImgULY()!=0) {
             return new Point(xt0siz, yt0siz);
         }
     }
+
 
     /**
      * Returns a String object representing Tiler's informations

@@ -137,6 +137,7 @@ public abstract class DataBlk
     /** The progressive attribute (<code>false</code> by default) */
     public boolean progressive;
 
+
     /**
      * Returns the size in bits, given the data type. The data type
      * must be one defined in this class. An
@@ -165,6 +166,7 @@ public abstract class DataBlk
         }
     }
 
+
     /**
      * Returns the data type of the <code>DataBlk</code> object, as
      * defined in this class.
@@ -175,6 +177,7 @@ public abstract class DataBlk
      *
      */
     public abstract int getDataType();
+
 
     /**
      * Returns the array containing the data, or null if there is no
@@ -197,6 +200,7 @@ public abstract class DataBlk
      *
      */
     public abstract Object getData();
+
 
     /**
      * Sets the data array to the specified one. The type of the
@@ -222,6 +226,7 @@ public abstract class DataBlk
      * @see #getDataType
      */
     public abstract void setData(Object arr);
+
 
     /**
      * Returns a string of informations about the DataBlk

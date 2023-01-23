@@ -72,6 +72,7 @@ public interface ImgData
      */
     public int getTileWidth();
 
+
     /**
      * Returns the overall height of the current tile in pixels. This is the
      * tile's height without accounting for any component subsampling. This is
@@ -81,11 +82,14 @@ public interface ImgData
      */
     public int getTileHeight();
 
+
     /** Returns the nominal tiles width */
     public int getNomTileWidth();
 
+
     /** Returns the nominal tiles height */
     public int getNomTileHeight();
+
 
     /**
      * Returns the overall width of the image in pixels. This is the image's
@@ -95,6 +99,7 @@ public interface ImgData
      */
     public int getImgWidth();
 
+
     /**
      * Returns the overall height of the image in pixels. This is the image's
      * height without accounting for any component subsampling or tiling.
@@ -103,12 +108,14 @@ public interface ImgData
      */
     public int getImgHeight();
 
+
     /**
      * Returns the number of components in the image.
      *
      * @return The number of components in the image.
      */
     public int getNumComps();
+
 
     /**
      * Returns the component subsampling factor in the horizontal direction,
@@ -124,6 +131,7 @@ public interface ImgData
      */
     public int getCompSubsX(int c);
 
+
     /**
      * Returns the component subsampling factor in the vertical direction, for
      * the specified component. This is, approximately, the ratio of
@@ -138,6 +146,7 @@ public interface ImgData
      */
     public int getCompSubsY(int c);
 
+
     /**
      * Returns the width in pixels of the specified tile-component
      *
@@ -148,6 +157,7 @@ public interface ImgData
      * @return The width in pixels of component <code>c</code> in tile<code>t</code>.
      */
     public int getTileCompWidth(int t, int c);
+
 
     /**
      * Returns the height in pixels of the specified tile-component.
@@ -161,6 +171,7 @@ public interface ImgData
      */
     public int getTileCompHeight(int t, int c);
 
+
     /**
      * Returns the width in pixels of the specified component in the overall
      * image.
@@ -172,6 +183,7 @@ public interface ImgData
      */
     public int getCompImgWidth(int c);
 
+
     /**
      * Returns the height in pixels of the specified component in the overall
      * image.
@@ -182,6 +194,7 @@ public interface ImgData
      * image.
      */
     public int getCompImgHeight(int c);
+
 
     /**
      * Returns the number of bits, referred to as the "range bits",
@@ -199,6 +212,7 @@ public interface ImgData
      */
     public int getNomRangeBits(int c);
 
+
     /**
      * Changes the current tile, given the new indices. An
      * IllegalArgumentException is thrown if the coordinates do not correspond
@@ -210,12 +224,14 @@ public interface ImgData
      */
     public void setTile(int x, int y);
 
+
     /**
      * Advances to the next tile, in standard scan-line order (by rows then
      * columns). An NoNextElementException is thrown if the current tile is
      * the last one (i.e. there is no next tile).
      */
     public void nextTile();
+
 
     /**
      * Returns the indixes of the current tile. These are the horizontal and
@@ -228,6 +244,7 @@ public interface ImgData
      */
     public Point getTile(Point co);
 
+
     /**
      * Returns the index of the current tile, relative to a standard scan-line
      * order.
@@ -236,11 +253,14 @@ public interface ImgData
      */
     public int getTileIdx();
 
+
     /** Returns the horizontal tile partition offset in the reference grid */
     public int getTilePartULX();
 
+
     /** Returns the vertical tile partition offset in the reference grid */
     public int getTilePartULY();
+
 
     /**
      * Returns the horizontal coordinate of the upper-left corner of the
@@ -250,6 +270,7 @@ public interface ImgData
      */
     public int getCompULX(int c);
 
+
     /**
      * Returns the vertical coordinate of the upper-left corner of the
      * specified component in the current tile.
@@ -257,6 +278,7 @@ public interface ImgData
      * @param c The index of the component.
      */
     public int getCompULY(int c);
+
 
     /**
      * Returns the horizontal coordinate of the image origin, the top-left
@@ -267,6 +289,7 @@ public interface ImgData
      */
     public int getImgULX();
 
+
     /**
      * Returns the vertical coordinate of the image origin, the top-left
      * corner, in the canvas system, on the reference grid.
@@ -275,6 +298,7 @@ public interface ImgData
      * system, on the reference grid.
      */
     public int getImgULY();
+
 
     /**
      * Returns the number of tiles in the horizontal and vertical directions.
@@ -286,6 +310,7 @@ public interface ImgData
      * (Point.y) directions.
      */
     public Point getNumTiles(Point co);
+
 
     /**
      * Returns the total number of tiles in the image.

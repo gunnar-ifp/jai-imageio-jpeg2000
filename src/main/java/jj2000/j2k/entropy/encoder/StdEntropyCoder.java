@@ -682,6 +682,7 @@ public class StdEntropyCoder extends EntropyCoder
         // Should be private, but some buggy JDK 1.1 compilers complain
         int tType;
 
+
         /**
          * Creates a new compressor object with the given index.
          *
@@ -691,6 +692,7 @@ public class StdEntropyCoder extends EntropyCoder
         {
             this.idx = idx;
         }
+
 
         /**
          * Calls the 'compressCodeBlock()' method with thread local
@@ -716,6 +718,7 @@ public class StdEntropyCoder extends EntropyCoder
                 completedComps[c].push(this);
             }
         }
+
 
         /**
          * Returns the index of this compressor.
@@ -1099,6 +1102,7 @@ public class StdEntropyCoder extends EntropyCoder
         }
     }
 
+
     /**
      * Returns the code-block width for the specified tile and component.
      *
@@ -1114,6 +1118,7 @@ public class StdEntropyCoder extends EntropyCoder
         return cblks.getCBlkWidth(ModuleSpec.SPEC_TILE_COMP, t, c);
     }
 
+
     /**
      * Returns the code-block height for the specified tile and component.
      *
@@ -1128,6 +1133,7 @@ public class StdEntropyCoder extends EntropyCoder
     {
         return cblks.getCBlkHeight(ModuleSpec.SPEC_TILE_COMP, t, c);
     }
+
 
     /**
      * Returns the next coded code-block in the current tile for the specified
@@ -1257,6 +1263,7 @@ public class StdEntropyCoder extends EntropyCoder
         }
     }
 
+
     /**
      * Changes the current tile, given the new indexes. An
      * IllegalArgumentException is thrown if the indexes do not
@@ -1281,6 +1288,7 @@ public class StdEntropyCoder extends EntropyCoder
             }
         }
     }
+
 
     /**
      * Advances to the next tile, in standard scan-line order (by rows
@@ -1539,6 +1547,7 @@ public class StdEntropyCoder extends EntropyCoder
         // Done
     }
 
+
     /**
      * Calculates the number of magnitude bit-planes that are to be skipped,
      * because they are non-significant. The algorithm looks for the largest
@@ -1587,6 +1596,7 @@ public class StdEntropyCoder extends EntropyCoder
         // Return the number of non-significant bit-planes to skip
         return 30 - msbp;
     }
+
 
     /**
      * Performs the significance propagation pass on the specified data and
@@ -1961,6 +1971,7 @@ public class StdEntropyCoder extends EntropyCoder
         return dist;
     }
 
+
     /**
      * Performs the significance propagation pass on the specified data and
      * bit-plane, without using the arithmetic coder. It codes all
@@ -2323,6 +2334,7 @@ public class StdEntropyCoder extends EntropyCoder
         return dist;
     }
 
+
     /**
      * Performs the magnitude refinement pass on the specified data and
      * bit-plane. It codes the samples which are significant and which do not
@@ -2513,6 +2525,7 @@ public class StdEntropyCoder extends EntropyCoder
         return dist;
     }
 
+
     /**
      * Performs the magnitude refinement pass on the specified data and
      * bit-plane, without using the arithmetic coder. It codes the samples
@@ -2688,6 +2701,7 @@ public class StdEntropyCoder extends EntropyCoder
         // Return the reduction in distortion
         return dist;
     }
+
 
     /**
      * Performs the cleanup pass on the specified data and bit-plane. It codes
@@ -3218,6 +3232,7 @@ public class StdEntropyCoder extends EntropyCoder
         return dist;
     }
 
+
     /**
      * Ensures that at the end of a non-terminated coding pass there is not a
      * 0xFF byte, modifying the stored rates if necessary.
@@ -3282,6 +3297,7 @@ public class StdEntropyCoder extends EntropyCoder
             }
         }
     }
+
 
     /**
      * Load options, length calculation type and termination type for
@@ -3374,6 +3390,7 @@ public class StdEntropyCoder extends EntropyCoder
         } // End loop on tiles
     }
 
+
     /**
      * Returns the precinct partition width for the specified
      * component, tile and resolution level.
@@ -3393,6 +3410,7 @@ public class StdEntropyCoder extends EntropyCoder
         return pss.getPPX(t, c, rl);
     }
 
+
     /**
      * Returns the precinct partition height for the specified
      * component, tile and resolution level.
@@ -3411,6 +3429,7 @@ public class StdEntropyCoder extends EntropyCoder
     {
         return pss.getPPY(t, c, rl);
     }
+
 
     /**
      * Returns true if precinct partition is used for the specified

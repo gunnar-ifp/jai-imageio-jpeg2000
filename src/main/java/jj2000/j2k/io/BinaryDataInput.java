@@ -86,6 +86,7 @@ public interface BinaryDataInput
      */
     public byte readByte() throws EOFException, IOException;
 
+
     /**
      * Should read an unsigned byte (i.e., 8 bit) from the input. It is
      * returned as an <code>int</code> since Java does not have an
@@ -105,6 +106,7 @@ public interface BinaryDataInput
      */
     public int readUnsignedByte() throws EOFException, IOException;
 
+
     /**
      * Should read a signed short (i.e., 16 bit) from the input. Prior to
      * reading, the input should be realigned at the byte level.
@@ -121,6 +123,7 @@ public interface BinaryDataInput
      *
      */
     public short readShort() throws EOFException, IOException;
+
 
     /**
      * Should read an unsigned short (i.e., 16 bit) from the input. It is
@@ -141,6 +144,7 @@ public interface BinaryDataInput
      */
     public int readUnsignedShort() throws EOFException, IOException;
 
+
     /**
      * Should read a signed int (i.e., 32 bit) from the input. Prior to
      * reading, the input should be realigned at the byte level.
@@ -157,6 +161,7 @@ public interface BinaryDataInput
      *
      */
     public int readInt() throws EOFException, IOException;
+
 
     /**
      * Should read an unsigned int (i.e., 32 bit) from the input. It is
@@ -177,6 +182,7 @@ public interface BinaryDataInput
      */
     public long readUnsignedInt() throws EOFException, IOException;
 
+
     /**
      * Should read a signed long (i.e., 64 bit) from the input. Prior to
      * reading, the input should be realigned at the byte level.
@@ -193,6 +199,7 @@ public interface BinaryDataInput
      *
      */
     public long readLong() throws EOFException, IOException;
+
 
     /**
      * Should read an IEEE single precision (i.e., 32 bit)
@@ -212,6 +219,7 @@ public interface BinaryDataInput
      */
     public float readFloat() throws EOFException, IOException;
 
+
     /**
      * Should read an IEEE double precision (i.e., 64 bit)
      * floating-point number from the input. Prior to reading, the
@@ -230,6 +238,7 @@ public interface BinaryDataInput
      */
     public double readDouble() throws EOFException, IOException;
 
+
     /**
      * Returns the endianess (i.e., byte ordering) of the implementing
      * class. Note that an implementing class may implement only one
@@ -245,6 +254,7 @@ public interface BinaryDataInput
      *
      */
     public int getByteOrdering();
+
 
     /**
      * Skips <code>n</code> bytes from the input. Prior to skipping, the

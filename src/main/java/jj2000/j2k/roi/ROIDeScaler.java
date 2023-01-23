@@ -96,6 +96,7 @@ public class ROIDeScaler extends MultiResImgDataAdapter
      */
     private CBlkQuantDataSrcDec src;
 
+
     /**
      * Constructor of the ROI descaler, takes EntropyDEcoder as source of data
      * to de-scale.
@@ -111,6 +112,7 @@ public class ROIDeScaler extends MultiResImgDataAdapter
         this.src = src;
         this.mss = mss;
     }
+
 
     /**
      * Returns the subband tree, for the specified tile-component. This method
@@ -133,6 +135,7 @@ public class ROIDeScaler extends MultiResImgDataAdapter
         return src.getSynSubbandTree(t, c);
     }
 
+
     /**
      * Returns the horizontal code-block partition origin. Allowable values
      * are 0 and 1, nothing else.
@@ -143,6 +146,7 @@ public class ROIDeScaler extends MultiResImgDataAdapter
         return src.getCbULX();
     }
 
+
     /**
      * Returns the vertical code-block partition origin. Allowable values are
      * 0 and 1, nothing else.
@@ -152,6 +156,7 @@ public class ROIDeScaler extends MultiResImgDataAdapter
     {
         return src.getCbULY();
     }
+
 
     /**
      * Returns the parameters that are used in this class and implementing
@@ -170,6 +175,7 @@ public class ROIDeScaler extends MultiResImgDataAdapter
     {
         return pinfo;
     }
+
 
     /**
      * Returns the specified code-block in the current tile for the specified
@@ -223,6 +229,7 @@ public class ROIDeScaler extends MultiResImgDataAdapter
     {
         return getInternCodeBlock(c, m, n, sb, cblk);
     }
+
 
     /**
      * Returns the specified code-block in the current tile for the specified
@@ -323,6 +330,7 @@ public class ROIDeScaler extends MultiResImgDataAdapter
         }
         return cblk;
     }
+
 
     /**
      * Creates a ROIDeScaler object. The information needed to create the

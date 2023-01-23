@@ -105,6 +105,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat
     /** The value of the high-pass subband normalization factor */
     public final static float KH = 1.230174104914001f; // Table F.4 (0.8698644523f)
 
+
     /**
      * An implementation of the analyze_lpf() method that works on int
      * data, for the forward 9x7 wavelet transform using the
@@ -288,6 +289,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat
             lowSig[lk] *= KL;
         }
     }
+
 
     /**
      * An implementation of the analyze_hpf() method that works on int
@@ -474,6 +476,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat
         }
     }
 
+
     /**
      * Returns the negative support of the low-pass analysis
      * filter. That is the number of taps of the filter in the
@@ -486,6 +489,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat
     {
         return 4;
     }
+
 
     /**
      * Returns the positive support of the low-pass analysis
@@ -501,6 +505,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat
         return 4;
     }
 
+
     /**
      * Returns the negative support of the high-pass analysis
      * filter. That is the number of taps of the filter in the
@@ -515,6 +520,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat
         return 3;
     }
 
+
     /**
      * Returns the positive support of the high-pass analysis
      * filter. That is the number of taps of the filter in the
@@ -528,6 +534,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat
     {
         return 3;
     }
+
 
     /**
      * Returns the negative support of the low-pass synthesis
@@ -546,6 +553,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat
         return 3;
     }
 
+
     /**
      * Returns the positive support of the low-pass synthesis
      * filter. That is the number of taps of the filter in the
@@ -562,6 +570,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat
     {
         return 3;
     }
+
 
     /**
      * Returns the negative support of the high-pass synthesis
@@ -580,6 +589,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat
         return 4;
     }
 
+
     /**
      * Returns the positive support of the high-pass synthesis
      * filter. That is the number of taps of the filter in the
@@ -596,6 +606,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat
     {
         return 4;
     }
+
 
     /**
      * Returns the time-reversed low-pass synthesis waveform of the
@@ -617,6 +628,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat
     {
         return LPSynthesisFilter;
     }
+
 
     /**
      * Returns the time-reversed high-pass synthesis waveform of the
@@ -640,6 +652,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat
         return HPSynthesisFilter;
     }
 
+
     /**
      * Returns the implementation type of this filter, as defined in
      * this class, such as WT_FILTER_INT_LIFT, WT_FILTER_FLOAT_LIFT,
@@ -653,6 +666,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat
         return WT_FILTER_FLOAT_LIFT;
     }
 
+
     /**
      * Returns the reversibility of the filter. A filter is considered
      * reversible if it is suitable for lossless coding.
@@ -665,6 +679,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat
     {
         return false;
     }
+
 
     /**
      * Returns true if the wavelet filter computes or uses the
@@ -712,6 +727,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat
         }
     }
 
+
     /**
      * Tests if the 'obj' object is the same filter as this one. Two filters
      * are the same if the same filter code should be output for both filters
@@ -731,6 +747,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat
             obj instanceof AnWTFilterFloatLift9x7;
     }
 
+
     /**
      * Returns the type of filter used according to the FilterTypes
      * interface(W9x7).
@@ -744,6 +761,7 @@ public class AnWTFilterFloatLift9x7 extends AnWTFilterFloat
     {
         return FilterTypes.W9X7;
     }
+
 
     /** Debugging method */
     @Override

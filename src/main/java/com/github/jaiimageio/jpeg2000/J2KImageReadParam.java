@@ -105,11 +105,13 @@ public class J2KImageReadParam extends ImageReadParam
      */
     private int resolution = -1;
 
+
     /** Constructs a default instance of <code>J2KImageReadParam</code>. */
     public J2KImageReadParam()
     {
         super();
     }
+
 
     /**
      * Sets <code>decodingRate</code>.
@@ -122,6 +124,7 @@ public class J2KImageReadParam extends ImageReadParam
         this.decodingRate = rate;
     }
 
+
     /**
      * Gets <code>decodingRate</code>.
      *
@@ -132,6 +135,7 @@ public class J2KImageReadParam extends ImageReadParam
     {
         return decodingRate;
     }
+
 
     /**
      * Sets <code>resolution</code>.
@@ -144,6 +148,7 @@ public class J2KImageReadParam extends ImageReadParam
     {
         this.resolution = Math.max(resolution, -1);
     }
+
 
     /**
      * Gets <code>resolution</code>.

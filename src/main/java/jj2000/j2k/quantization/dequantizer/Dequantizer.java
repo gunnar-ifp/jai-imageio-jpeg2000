@@ -113,6 +113,7 @@ public abstract class Dequantizer extends MultiResImgDataAdapter
     /** Reference to the wavelet filter specifications */
     private SynWTFilterSpec wfs;
 
+
     /**
      * Initializes the source of compressed data.
      *
@@ -136,6 +137,7 @@ public abstract class Dequantizer extends MultiResImgDataAdapter
         this.cts = decSpec.cts;
         this.wfs = decSpec.wfs;
     }
+
 
     /**
      * Returns the number of bits, referred to as the "range bits",
@@ -171,6 +173,7 @@ public abstract class Dequantizer extends MultiResImgDataAdapter
         return rb[c];
     }
 
+
     /**
      * Returns the subband tree, for the specified tile-component. This method
      * returns the root element of the subband tree structure, see Subband and
@@ -194,6 +197,7 @@ public abstract class Dequantizer extends MultiResImgDataAdapter
         return src.getSynSubbandTree(t, c);
     }
 
+
     /**
      * Returns the horizontal code-block partition origin. Allowable values
      * are 0 and 1, nothing else.
@@ -204,6 +208,7 @@ public abstract class Dequantizer extends MultiResImgDataAdapter
         return src.getCbULX();
     }
 
+
     /**
      * Returns the vertical code-block partition origin. Allowable values are
      * 0 and 1, nothing else.
@@ -213,6 +218,7 @@ public abstract class Dequantizer extends MultiResImgDataAdapter
     {
         return src.getCbULY();
     }
+
 
     /**
      * Returns the parameters that are used in this class and
@@ -232,6 +238,7 @@ public abstract class Dequantizer extends MultiResImgDataAdapter
     {
         return pinfo;
     }
+
 
     /**
      * Changes the current tile, given the new indexes. An
@@ -296,6 +303,7 @@ public abstract class Dequantizer extends MultiResImgDataAdapter
                     tIdx);
         }
     }
+
 
     /**
      * Advances to the next tile, in standard scan-line order (by rows then

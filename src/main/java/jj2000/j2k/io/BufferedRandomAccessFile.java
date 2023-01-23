@@ -126,6 +126,7 @@ public abstract class BufferedRandomAccessFile
     /* The endianess of the class */
     protected int byteOrdering;
 
+
     /**
      * Constructor. Always needs a size for the buffer.
      *
@@ -159,6 +160,7 @@ public abstract class BufferedRandomAccessFile
         readNewBuffer(0);
     }
 
+
     /**
      * Constructor. Uses the default value for the byte-buffer
      * size (512 bytes).
@@ -178,6 +180,7 @@ public abstract class BufferedRandomAccessFile
 
         this(file, mode, 512);
     }
+
 
     /**
      * Constructor. Always needs a size for the buffer.
@@ -200,6 +203,7 @@ public abstract class BufferedRandomAccessFile
         this(new File(name), mode, bufferSize);
     }
 
+
     /**
      * Constructor. Uses the default value for the byte-buffer
      * size (512 bytes).
@@ -219,6 +223,7 @@ public abstract class BufferedRandomAccessFile
 
         this(name, mode, 512);
     }
+
 
     /**
      * Reads a new buffer from the file. If there has been any
@@ -261,6 +266,7 @@ public abstract class BufferedRandomAccessFile
         }
     }
 
+
     /**
      * Closes the buffered random access file
      *
@@ -277,6 +283,7 @@ public abstract class BufferedRandomAccessFile
         theFile.close();
     }
 
+
     /**
      * Returns the current offset in the file
      */
@@ -285,6 +292,7 @@ public abstract class BufferedRandomAccessFile
     {
         return (offset + pos);
     }
+
 
     /**
      * Returns the current length of the stream, in bytes, taking into
@@ -310,6 +318,7 @@ public abstract class BufferedRandomAccessFile
             return (offset + maxByte);
         }
     }
+
 
     /**
      * Moves the current position to the given offset at which the
@@ -339,6 +348,7 @@ public abstract class BufferedRandomAccessFile
         }
     }
 
+
     /**
      * Reads an unsigned byte of data from the stream. Prior to reading, the
      * stream is realigned at the byte level.
@@ -365,6 +375,7 @@ public abstract class BufferedRandomAccessFile
             return read();
         }
     }
+
 
     /**
      * Reads up to len bytes of data from this file into an array of
@@ -409,6 +420,7 @@ public abstract class BufferedRandomAccessFile
         }
     }
 
+
     /**
      * Writes a byte to the stream. Prior to writing, the stream is
      * realigned at the byte level.
@@ -440,6 +452,7 @@ public abstract class BufferedRandomAccessFile
         }
     }
 
+
     /**
      * Writes a byte to the stream. Prior to writing, the stream is
      * realigned at the byte level.
@@ -469,6 +482,7 @@ public abstract class BufferedRandomAccessFile
         }
     }
 
+
     /**
      * Writes aan array of bytes to the stream. Prior to writing, the stream is
      * realigned at the byte level.
@@ -493,6 +507,7 @@ public abstract class BufferedRandomAccessFile
         }
     }
 
+
     /**
      * Writes the byte value of <code>v</code> (i.e., 8 least
      * significant bits) to the output. Prior to writing, the output
@@ -515,6 +530,7 @@ public abstract class BufferedRandomAccessFile
         write(v);
     }
 
+
     /**
      * Any data that has been buffered must be written (including
      * buffering at the bit level), and the stream should be realigned
@@ -531,6 +547,7 @@ public abstract class BufferedRandomAccessFile
             byteBufferChanged = false;
         }
     }
+
 
     /**
      * Reads a signed byte (i.e., 8 bit) from the input. Prior to
@@ -561,6 +578,7 @@ public abstract class BufferedRandomAccessFile
         }
     }
 
+
     /**
      * Reads an unsigned byte (i.e., 8 bit) from the input. It is
      * returned as an <code>int</code> since Java does not have an
@@ -581,6 +599,7 @@ public abstract class BufferedRandomAccessFile
         return read();
     }
 
+
     /**
      * Returns the endianess (i.e., byte ordering) of the implementing
      * class. Note that an implementing class may implement only one
@@ -597,6 +616,7 @@ public abstract class BufferedRandomAccessFile
     {
         return byteOrdering;
     }
+
 
     /**
      * Skips <code>n</code> bytes from the input. Prior to skipping, the
@@ -624,6 +644,7 @@ public abstract class BufferedRandomAccessFile
             return n;
         }
     }
+
 
     /**
      * Returns a string of information about the file

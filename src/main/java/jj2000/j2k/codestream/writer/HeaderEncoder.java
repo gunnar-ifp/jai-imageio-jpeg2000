@@ -169,6 +169,7 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions
     /** The encoder specifications */
     protected J2KImageWriteParamJava wp;
 
+
     /**
      * Initializes the header writer with the references to the coding chain.
      *
@@ -210,6 +211,7 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions
 //        otherCOMMarkSeg = wp.getHCOM();
     }
 
+
     /**
      * Resets the contents of this HeaderEncoder to its initial state. It
      * erases all the data in the header buffer and reactualizes the
@@ -221,6 +223,7 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions
         hbuf = new DataOutputStream(baos);
     }
 
+
     /**
      * Returns the byte-buffer used to store the codestream header.
      *
@@ -231,6 +234,7 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions
         return baos.toByteArray();
     }
 
+
     /**
      * Returns the length of the header.
      *
@@ -240,6 +244,7 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions
     {
         return hbuf.size();
     }
+
 
     /**
      * Writes the header to the specified BinaryDataOutput.
@@ -259,6 +264,7 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions
         }
     }
 
+
     /**
      * Returns the number of bytes used in the codestream header's
      * buffer.
@@ -271,6 +277,7 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions
         return baos.size();
     }
 
+
     /**
      * Writes the header to the specified OutputStream.
      *
@@ -281,6 +288,7 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions
         out.write(getBuffer(), 0, getBufferLength());
     }
 
+
     /**
      * Start Of Codestream marker (SOC) signalling the beginning of a
      * codestream.
@@ -289,6 +297,7 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions
     {
         hbuf.writeShort(SOC);
     }
+
 
     /**
      * Writes SIZ marker segment of the codestream header. It is a fixed
@@ -364,6 +373,7 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions
         } // End loop on each component
 
     }
+
 
     /**
      * Writes COD marker segment. COD is a functional marker segment
@@ -604,6 +614,7 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions
         }
     }
 
+
     /**
      * Writes COC marker segment . It is a functional marker containing the
      * coding style for one component (coding style, decomposition, layering).
@@ -805,6 +816,7 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions
 
     }
 
+
     /**
      * Writes QCD marker segment in main header. QCD is a functional marker
      * segment countaining the quantization default used for compressing all
@@ -955,6 +967,7 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions
                 throw new Error("Internal JJ2000 error");
         }
     }
+
 
     /**
      * Writes QCC marker segment in main header. It is a functional
@@ -1139,6 +1152,7 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions
         }
     }
 
+
     /**
      * Writes QCD marker segment in tile header. QCD is a functional
      * marker segment countaining the quantization default used for
@@ -1290,6 +1304,7 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions
                 throw new Error("Internal JJ2000 error");
         }
     }
+
 
     /**
      * Writes QCC marker segment in tile header. It is a functional
@@ -1451,6 +1466,7 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions
         }
     }
 
+
     /**
      * Writes POC marker segment. POC is a functional marker segment
      * containing the bounds and progression order for any progression order
@@ -1608,6 +1624,7 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions
         writeCOM();
     }
 
+
     /**
      * Write a COM marker segment adding some comments to the codestream.
      *
@@ -1663,6 +1680,7 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions
         }
     }
 
+
     /**
      * Writes the RGN marker segment in the tile header. It describes the
      * scaling value in each tile component
@@ -1705,6 +1723,7 @@ public class HeaderEncoder implements Markers, StdEntropyCoderOptions
             hbuf.writeByte(((Integer)(wp.getROIs().getTileCompVal(tIdx, i))).intValue());
         }
     }
+
 
     /**
      * Writes tile-part header. JJ2000 tile-part header corresponds to the

@@ -64,6 +64,7 @@ public class ComponentMappingBox extends Box
     private byte[] type;
     private byte[] map;
 
+
     /**
      * Constructs a <code>ComponentMappingBox</code> from the provided
      * content byte array.
@@ -72,6 +73,7 @@ public class ComponentMappingBox extends Box
     {
         super(8 + data.length, 0x636D6170, data);
     }
+
 
     /**
      * Constructs a <code>ComponentMappingBox</code> from the provided
@@ -84,6 +86,7 @@ public class ComponentMappingBox extends Box
         this.type = t;
         this.map = m;
     }
+
 
     /**
      * Constructs a <code>ComponentMappingBox</code> based on the provided
@@ -119,6 +122,7 @@ public class ComponentMappingBox extends Box
         }
     }
 
+
     /** Parse the component mapping from the provided content data array. */
     @Override
     protected void parse(byte[] data)
@@ -134,6 +138,7 @@ public class ComponentMappingBox extends Box
             map[i] = data[j++];
         }
     }
+
 
     /**
      * Creates an <code>IIOMetadataNode</code> from this component mapping
@@ -167,20 +172,24 @@ public class ComponentMappingBox extends Box
         return node;
     }
 
+
     public short[] getComponent()
     {
         return components;
     }
+
 
     public byte[] getComponentType()
     {
         return type;
     }
 
+
     public byte[] getComponentAssociation()
     {
         return map;
     }
+
 
     @Override
     protected void compose()

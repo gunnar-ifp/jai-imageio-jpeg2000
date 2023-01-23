@@ -72,6 +72,7 @@ public class ColorSpecificationBox extends Box
         "EnumeratedColorSpace",
         "ICCProfile" };
 
+
     /**
      * This method will be called by the getNativeNodeForSimpleBox of the
      * class Box to get the element names.
@@ -88,6 +89,7 @@ public class ColorSpecificationBox extends Box
     private int ecs;
     private ICC_Profile profile;
 
+
     /** Computes the length of this box when profile is present. */
     private static int computeLength(byte m, ICC_Profile profile)
     {
@@ -97,6 +99,7 @@ public class ColorSpecificationBox extends Box
         }
         return ret;
     }
+
 
     /**
      * Creates a <code>ColorSpecificationBox</code> from the provided data
@@ -113,6 +116,7 @@ public class ColorSpecificationBox extends Box
         this.profile = profile;
     }
 
+
     /**
      * Creates a <code>ColorSpecificationBox</code> from the provided byte
      * array.
@@ -121,6 +125,7 @@ public class ColorSpecificationBox extends Box
     {
         super(8 + data.length, 0x636F6C72, data);
     }
+
 
     /**
      * Constructs a <code>ColorSpecificationBox</code> based on the provided
@@ -163,11 +168,13 @@ public class ColorSpecificationBox extends Box
         }
     }
 
+
     /** Returns the method to define the color space. */
     public byte getMethod()
     {
         return method;
     }
+
 
     /** Returns <code>Precedence</code>. */
     public byte getPrecedence()
@@ -175,11 +182,13 @@ public class ColorSpecificationBox extends Box
         return precedence;
     }
 
+
     /** Returns <code>ApproximationAccuracy</code>. */
     public byte getApproximationAccuracy()
     {
         return approximation;
     }
+
 
     /** Returns the enumerated color space. */
     public int getEnumeratedColorSpace()
@@ -187,11 +196,13 @@ public class ColorSpecificationBox extends Box
         return ecs;
     }
 
+
     /** Returns the ICC color profile in this color specification box. */
     public ICC_Profile getICCProfile()
     {
         return profile;
     }
+
 
     /**
      * Creates an <code>IIOMetadataNode</code> from this color specification
@@ -203,6 +214,7 @@ public class ColorSpecificationBox extends Box
     {
         return getNativeNodeForSimpleBox();
     }
+
 
     @Override
     protected void parse(byte[] data)
@@ -219,6 +231,7 @@ public class ColorSpecificationBox extends Box
             ((data[5] & 0xFF) << 8) | (data[6] & 0xFF);
 
     }
+
 
     @Override
     protected void compose()

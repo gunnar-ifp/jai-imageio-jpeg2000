@@ -164,6 +164,7 @@ public class MediaLibAccessor
      */
     private boolean areBinaryDataPacked = false;
 
+
     /**
      * Returns the most efficient FormatTag that is compatible with
      * the destination raster and all source rasters.
@@ -205,6 +206,7 @@ public class MediaLibAccessor
             return dstDT | UNCOPIED;
         return tag;
     }
+
 
     /**
      * Determines if the SampleModel stores data in a way that can
@@ -248,6 +250,7 @@ public class MediaLibAccessor
         return true;
     }
 
+
     /**
      * Returns <code>true</code> if the <code>MediaLibAccessor</code>
      * represents binary data.
@@ -256,6 +259,7 @@ public class MediaLibAccessor
     {
         return ((formatTag & BINARY_MASK) == BINARY);
     }
+
 
     /**
      * Returns the data type of the RasterAccessor object. Note that
@@ -267,6 +271,7 @@ public class MediaLibAccessor
         return formatTag & DATATYPE_MASK;
     }
 
+
     /**
      * Returns true if the MediaLibAccessors's data is copied from it's
      * raster.
@@ -276,11 +281,13 @@ public class MediaLibAccessor
         return ((formatTag & COPY_MASK) == COPIED);
     }
 
+
     /** Returns the bandOffsets. */
     public int[] getBandOffsets()
     {
         return bandOffsets;
     }
+
 
     /**
      * Returns parameters in the appropriate order if MediaLibAccessor
@@ -296,6 +303,7 @@ public class MediaLibAccessor
         return returnParams;
     }
 
+
     /**
      * Returns parameters in the appropriate order if MediaLibAccessor
      * has reordered the bands or is attempting to make a
@@ -309,6 +317,7 @@ public class MediaLibAccessor
         }
         return returnParams;
     }
+
 
     /**
      * Returns parameters in the appropriate order if MediaLibAccessor
@@ -334,6 +343,7 @@ public class MediaLibAccessor
         }
         return returnVals;
     }
+
 
     private float[] toFloatArray(double vals[])
     {

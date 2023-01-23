@@ -146,6 +146,7 @@ public abstract class PostCompRateAllocator extends ImgDataAdapter
     /** The header encoder */
     HeaderEncoder headEnc;
 
+
     /**
      * Initializes the source of entropy coded data.
      *
@@ -167,6 +168,7 @@ public abstract class PostCompRateAllocator extends ImgDataAdapter
         bsWriter = bw;
     }
 
+
     /**
      * Keep a reference to the header encoder.
      *
@@ -176,6 +178,7 @@ public abstract class PostCompRateAllocator extends ImgDataAdapter
     {
         this.headEnc = headEnc;
     }
+
 
     /**
      * Initializes the rate allocation points, taking into account header
@@ -188,6 +191,7 @@ public abstract class PostCompRateAllocator extends ImgDataAdapter
      */
     public abstract void initialize() throws IOException;
 
+
     /**
      * Runs the rate allocation algorithm and writes the data to the
      * bit stream. This must be called after the initialize() method.
@@ -195,6 +199,7 @@ public abstract class PostCompRateAllocator extends ImgDataAdapter
      * @see #initialize
      */
     public abstract void runAndWrite() throws IOException;
+
 
     /**
      * Returns the number of layers that are actually generated.
@@ -205,6 +210,7 @@ public abstract class PostCompRateAllocator extends ImgDataAdapter
     {
         return numLayers;
     }
+
 
     /**
      * Returns the parameters that are used in this class and implementing
@@ -223,6 +229,7 @@ public abstract class PostCompRateAllocator extends ImgDataAdapter
     {
         return pinfo;
     }
+
 
     /**
      * Creates a PostCompRateAllocator object for the appropriate rate
@@ -266,6 +273,7 @@ public abstract class PostCompRateAllocator extends ImgDataAdapter
 
         return new EBCOTRateAllocator(src, lyrs, bw, wp);
     }
+
 
     /**
      * Convenience method that parses the 'Alayers' option.

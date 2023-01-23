@@ -68,6 +68,7 @@ public class MsgPrinter
     /** Signals that the end-of-string was reached */
     private static final int IS_EOS = -1;
 
+
     /**
      * Creates a new message printer with the specified line width and
      * with the default locale.
@@ -82,6 +83,7 @@ public class MsgPrinter
         lw = linewidth;
     }
 
+
     /**
      * Returns the line width that is used for formatting.
      *
@@ -93,6 +95,7 @@ public class MsgPrinter
     {
         return lw;
     }
+
 
     /**
      * Sets the line width to the specified value. This new value will
@@ -109,6 +112,7 @@ public class MsgPrinter
         }
         lw = linewidth;
     }
+
 
     /**
      * Formats the message to print in the current line width, by
@@ -189,6 +193,7 @@ public class MsgPrinter
 
     }
 
+
     /**
      * Returns the index of the last character of the next word, plus 1, or
      * IS_NEWLINE if a newline character is encountered before the next word,
@@ -234,6 +239,7 @@ public class MsgPrinter
         }
         return from;
     }
+
 
     /**
      * Returns the position of the first character in the next word, starting

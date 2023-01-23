@@ -103,6 +103,7 @@ public class ROI
         this.maskPGM = maskPGM;
     }
 
+
     /**
      * Constructor for rectangular ROIs
      *
@@ -127,6 +128,7 @@ public class ROI
         rect = true;
     }
 
+
     /**
      * Constructor for circular ROIs
      *
@@ -146,6 +148,7 @@ public class ROI
         this.y = y;
         this.r = rad;
     }
+
 
     /**
      * This function prints all relevant data for the ROI

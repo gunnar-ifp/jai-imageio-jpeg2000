@@ -65,6 +65,7 @@ public class CBlkWTDataFloat extends CBlkWTData
     /** The array where the data is stored */
     public float[] data;
 
+
     /**
      * Returns the identifier of this data type, <code>TYPE_FLOAT</code>,
      * as defined in <code>DataBlk</code>.
@@ -81,6 +82,7 @@ public class CBlkWTDataFloat extends CBlkWTData
         return DataBlk.TYPE_FLOAT;
     }
 
+
     /**
      * Returns the array containing the data, or null if there is no
      * data array. The returned array is a float array.
@@ -96,6 +98,7 @@ public class CBlkWTDataFloat extends CBlkWTData
         return data;
     }
 
+
     /**
      * Returns the array containing the data, or null if there is no
      * data array.
@@ -108,6 +111,7 @@ public class CBlkWTDataFloat extends CBlkWTData
     {
         return data;
     }
+
 
     /**
      * Sets the data array to the specified one. The provided array
@@ -124,6 +128,7 @@ public class CBlkWTDataFloat extends CBlkWTData
     {
         data = (float[])arr;
     }
+
 
     /**
      * Sets the data array to the specified one. The size of the array

@@ -92,6 +92,7 @@ public abstract class InvWTAdapter implements InvWT
     /** The maximum available image resolution level */
     protected int maxImgRes;
 
+
     /**
      * Instantiates the 'InvWTAdapter' object using the specified
      * 'MultiResImgData' source. The reconstruction resolution level is set to
@@ -107,6 +108,7 @@ public abstract class InvWTAdapter implements InvWT
         this.decSpec = decSpec;
         maxImgRes = decSpec.dls.getMin();
     }
+
 
     /**
      * Sets the image reconstruction resolution level. A value of 0 means
@@ -139,6 +141,7 @@ public abstract class InvWTAdapter implements InvWT
         reslvl = rl;
     }
 
+
     /**
      * Returns the overall width of the current tile in pixels. This is the
      * tile's width without accounting for any component subsampling. This is
@@ -166,6 +169,7 @@ public abstract class InvWTAdapter implements InvWT
         }
         return mressrc.getTileWidth(rl);
     }
+
 
     /**
      * Returns the overall height of the current tile in pixels. This
@@ -196,6 +200,7 @@ public abstract class InvWTAdapter implements InvWT
         return mressrc.getTileHeight(rl);
     }
 
+
     /** Returns the nominal width of tiles */
     @Override
     public int getNomTileWidth()
@@ -203,12 +208,14 @@ public abstract class InvWTAdapter implements InvWT
         return mressrc.getNomTileWidth();
     }
 
+
     /** Returns the nominal height of tiles */
     @Override
     public int getNomTileHeight()
     {
         return mressrc.getNomTileHeight();
     }
+
 
     /**
      * Returns the overall width of the image in pixels. This is the
@@ -223,6 +230,7 @@ public abstract class InvWTAdapter implements InvWT
         return mressrc.getImgWidth(reslvl);
     }
 
+
     /**
      * Returns the overall height of the image in pixels. This is the
      * image's height without accounting for any component subsampling
@@ -236,6 +244,7 @@ public abstract class InvWTAdapter implements InvWT
         return mressrc.getImgHeight(reslvl);
     }
 
+
     /**
      * Returns the number of components in the image.
      *
@@ -246,6 +255,7 @@ public abstract class InvWTAdapter implements InvWT
     {
         return mressrc.getNumComps();
     }
+
 
     /**
      * Returns the component subsampling factor in the horizontal
@@ -266,6 +276,7 @@ public abstract class InvWTAdapter implements InvWT
         return mressrc.getCompSubsX(c);
     }
 
+
     /**
      * Returns the component subsampling factor in the vertical
      * direction, for the specified component. This is, approximately,
@@ -285,6 +296,7 @@ public abstract class InvWTAdapter implements InvWT
         return mressrc.getCompSubsY(c);
     }
 
+
     /**
      * Returns the width in pixels of the specified tile-component
      *
@@ -303,6 +315,7 @@ public abstract class InvWTAdapter implements InvWT
         return mressrc.getTileCompWidth(t, c, rl);
     }
 
+
     /**
      * Returns the height in pixels of the specified tile-component.
      *
@@ -316,7 +329,7 @@ public abstract class InvWTAdapter implements InvWT
      * @param c The index of the component, from 0 to N-1.
      *
      * @return The height in pixels of component <code>n</code> in tile
-     * <code>t</code>. 
+     * <code>t</code>.
      */
     @Override
     public int getTileCompHeight(int t, int c)
@@ -326,6 +339,7 @@ public abstract class InvWTAdapter implements InvWT
         int rl = mressrc.getSynSubbandTree(t, c).resLvl;
         return mressrc.getTileCompHeight(t, c, rl);
     }
+
 
     /**
      * Returns the width in pixels of the specified component in the overall
@@ -344,6 +358,7 @@ public abstract class InvWTAdapter implements InvWT
         int rl = decSpec.dls.getMinInComp(c);
         return mressrc.getCompImgWidth(c, rl);
     }
+
 
     /**
      * Returns the height in pixels of the specified component in the overall
@@ -368,6 +383,7 @@ public abstract class InvWTAdapter implements InvWT
         return mressrc.getCompImgHeight(c, rl);
     }
 
+
     /**
      * Changes the current tile, given the new indices. An
      * IllegalArgumentException is thrown if the coordinates do not correspond
@@ -387,6 +403,7 @@ public abstract class InvWTAdapter implements InvWT
         mressrc.setTile(x, y);
     }
 
+
     /**
      * Advances to the next tile, in standard scan-line order (by rows then
      * columns). An NoNextElementException is thrown if the current tile is
@@ -401,6 +418,7 @@ public abstract class InvWTAdapter implements InvWT
     {
         mressrc.nextTile();
     }
+
 
     /**
      * Returns the indixes of the current tile. These are the horizontal and
@@ -421,6 +439,7 @@ public abstract class InvWTAdapter implements InvWT
         return mressrc.getTile(co);
     }
 
+
     /**
      * Returns the index of the current tile, relative to a standard scan-line
      * order.
@@ -436,6 +455,7 @@ public abstract class InvWTAdapter implements InvWT
     {
         return mressrc.getTileIdx();
     }
+
 
     /**
      * Returns the horizontal coordinate of the upper-left corner of the
@@ -453,6 +473,7 @@ public abstract class InvWTAdapter implements InvWT
         return mressrc.getResULX(c, rl);
     }
 
+
     /**
      * Returns the vertical coordinate of the upper-left corner of the
      * specified component in the current tile.
@@ -468,6 +489,7 @@ public abstract class InvWTAdapter implements InvWT
         int rl = mressrc.getSynSubbandTree(tIdx, c).resLvl;
         return mressrc.getResULY(c, rl);
     }
+
 
     /**
      * Returns the horizontal coordinate of the image origin, the top-left
@@ -487,6 +509,7 @@ public abstract class InvWTAdapter implements InvWT
         return mressrc.getImgULX(reslvl);
     }
 
+
     /**
      * Returns the vertical coordinate of the image origin, the top-left
      * corner, in the canvas system, on the reference grid.
@@ -505,6 +528,7 @@ public abstract class InvWTAdapter implements InvWT
         return mressrc.getImgULY(reslvl);
     }
 
+
     /** Returns the horizontal tile partition offset in the reference grid */
     @Override
     public int getTilePartULX()
@@ -512,12 +536,14 @@ public abstract class InvWTAdapter implements InvWT
         return mressrc.getTilePartULX();
     }
 
+
     /** Returns the vertical tile partition offset in the reference grid */
     @Override
     public int getTilePartULY()
     {
         return mressrc.getTilePartULY();
     }
+
 
     /**
      * Returns the number of tiles in the horizontal and vertical directions.
@@ -538,6 +564,7 @@ public abstract class InvWTAdapter implements InvWT
         return mressrc.getNumTiles(co);
     }
 
+
     /**
      * Returns the total number of tiles in the image.
      *
@@ -552,6 +579,7 @@ public abstract class InvWTAdapter implements InvWT
     {
         return mressrc.getNumTiles();
     }
+
 
     /**
      * Returns the specified synthesis subband tree

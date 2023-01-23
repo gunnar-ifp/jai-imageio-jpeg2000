@@ -96,6 +96,7 @@ public interface ForwWT extends WaveletTransform, ForwWTDataProps
      */
     public AnWTFilter[] getHorAnWaveletFilters(int t, int c);
 
+
     /**
      * Returns the vertical analysis wavelet filters used in each
      * level, for the specified tile-component. The first element in
@@ -127,6 +128,7 @@ public interface ForwWT extends WaveletTransform, ForwWTDataProps
      */
     public AnWTFilter[] getVertAnWaveletFilters(int t, int c);
 
+
     /**
      * Returns the number of decomposition levels that are applied to
      * obtain the LL band, in the specified tile-component. A value of
@@ -142,6 +144,7 @@ public interface ForwWT extends WaveletTransform, ForwWTDataProps
      *
      */
     public int getDecompLevels(int t, int c);
+
 
     /**
      * Returns the wavelet tree decomposition. Only WT_DECOMP_DYADIC

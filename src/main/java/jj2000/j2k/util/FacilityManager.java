@@ -97,6 +97,7 @@ public class FacilityManager
      */
     private static volatile ProgressWatch defWatchProg = null;
 
+
     /**
      * Register the ProgressWatch for the given thread.
      * <p>
@@ -124,6 +125,7 @@ public class FacilityManager
         }
     }
 
+
     /**
      * Unregister the ProgressWatch previously registered for the given thread.
      * <p>
@@ -144,6 +146,7 @@ public class FacilityManager
         }
     }
 
+
     /**
      * Return the ProgressWatch instance registered with the current
      * thread (the thread that calls this method). If the current
@@ -156,6 +159,7 @@ public class FacilityManager
         ProgressWatch pw = watchProgList.get(Thread.currentThread());
         return (pw == null) ? defWatchProg : pw;
     }
+
 
     /**
      * Register MsgLogger 'ml' as the logging facility of the given thread.
@@ -184,6 +188,7 @@ public class FacilityManager
         }
     }
 
+
     /**
      * Unregister the MsgLogger previously registered for the given thread.
      * <p>
@@ -206,6 +211,7 @@ public class FacilityManager
         }
     }
 
+
     /**
      * Return the MsgLogger registered with the current thread (the thread that
      * calls this method).
@@ -225,6 +231,7 @@ public class FacilityManager
         MsgLogger ml = loggerList.get(Thread.currentThread());
         return (ml == null) ? defMsgLogger : ml;
     }
+
 
     /**
      * Return the MsgLogger registered with the thread 't'.

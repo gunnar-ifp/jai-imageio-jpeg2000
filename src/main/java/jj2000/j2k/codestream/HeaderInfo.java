@@ -84,6 +84,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
         /** Maximum height among all components */
         private int maxCompHeight = -1;
 
+
         /**
          * Width of the specified tile-component
          *
@@ -100,6 +101,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
             }
             return compWidth[c];
         }
+
 
         public int getMaxCompWidth()
         {
@@ -120,6 +122,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
             return maxCompWidth;
         }
 
+
         public int getCompImgHeight(int c)
         {
             if (compHeight == null) {
@@ -131,6 +134,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
             }
             return compHeight[c];
         }
+
 
         public int getMaxCompHeight()
         {
@@ -153,6 +157,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
 
         private int numTiles = -1;
 
+
         public int getNumTiles()
         {
             if (numTiles == -1) {
@@ -163,6 +168,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
         }
 
         private boolean[] origSigned = null;
+
 
         public boolean isOrigSigned(int c)
         {
@@ -177,6 +183,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
 
         private int[] origBitDepth = null;
 
+
         public int getOrigBitDepth(int c)
         {
             if (origBitDepth == null) {
@@ -187,6 +194,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
             }
             return origBitDepth[c];
         }
+
 
         public SIZ getCopy()
         {
@@ -199,6 +207,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
             }
             return ms;
         }
+
 
         /** Display information found in SIZ marker segment */
         @Override
@@ -230,6 +239,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
         }
     }
 
+
     /** Returns a new instance of SIZ */
     public SIZ getNewSIZ()
     {
@@ -245,6 +255,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
         public int tpsot;
         public int tnsot;
 
+
         /** Display information found in this SOT marker segment */
         @Override
         public String toString()
@@ -258,6 +269,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
             return str;
         }
     }
+
 
     /** Returns a new instance of SOT */
     public SOT getNewSOT()
@@ -280,6 +292,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
         public int[] spcod_t = new int[1]; // Transformation
         public int[] spcod_ps; // Precinct size
 
+
         public COD getCopy()
         {
             COD ms = null;
@@ -291,6 +304,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
             }
             return ms;
         }
+
 
         /** Display information found in this COD marker segment */
         @Override
@@ -368,6 +382,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
         }
     }
 
+
     /** Returns a new instance of COD */
     public COD getNewCOD()
     {
@@ -386,6 +401,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
         public int spcoc_cs;
         public int[] spcoc_t = new int[1];
         public int[] spcoc_ps;
+
 
         /** Display information found in this COC marker segment */
         @Override
@@ -439,6 +455,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
         }
     }
 
+
     /** Returns a new instance of COC */
     public COC getNewCOC()
     {
@@ -452,6 +469,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
         public int crgn;
         public int srgn;
         public int sprgn;
+
 
         /** Display information found in this RGN marker segment */
         @Override
@@ -471,6 +489,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
         }
     }
 
+
     /** Returns a new instance of RGN */
     public RGN getNewRGN()
     {
@@ -486,6 +505,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
 
         private int qType = -1;
 
+
         public int getQuantType()
         {
             if (qType == -1) {
@@ -496,6 +516,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
 
         private int gb = -1;
 
+
         public int getNumGuardBits()
         {
             if (gb == -1) {
@@ -503,6 +524,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
             }
             return gb;
         }
+
 
         /** Display information found in this QCD marker segment */
         @Override
@@ -558,6 +580,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
         }
     }
 
+
     /** Returns a new instance of QCD */
     public QCD getNewQCD()
     {
@@ -574,6 +597,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
 
         private int qType = -1;
 
+
         public int getQuantType()
         {
             if (qType == -1) {
@@ -584,6 +608,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
 
         private int gb = -1;
 
+
         public int getNumGuardBits()
         {
             if (gb == -1) {
@@ -591,6 +616,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
             }
             return gb;
         }
+
 
         /** Display information found in this QCC marker segment */
         @Override
@@ -647,6 +673,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
         }
     }
 
+
     /** Returns a new instance of QCC */
     public QCC getNewQCC()
     {
@@ -663,6 +690,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
         public int[] repoc;
         public int[] cepoc;
         public int[] ppoc;
+
 
         /** Display information found in this POC marker segment */
         @Override
@@ -700,6 +728,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
         }
     }
 
+
     /** Returns a new instance of POC */
     public POC getNewPOC()
     {
@@ -712,6 +741,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
         public int lcrg;
         public int[] xcrg;
         public int[] ycrg;
+
 
         /** Display information found in the CRG marker segment */
         @Override
@@ -726,6 +756,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
         }
     }
 
+
     /** Returns a new instance of CRG */
     public CRG getNewCRG()
     {
@@ -738,6 +769,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
         public int lcom;
         public int rcom;
         public byte[] ccom;
+
 
         /** Display information found in the COM marker segment */
         @Override
@@ -760,12 +792,14 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
         }
     }
 
+
     /** Returns a new instance of COM */
     public COM getNewCOM()
     {
         ncom++;
         return new COM();
     }
+
 
     /** Returns the number of found COM marker segments */
     public int getNumCOM()
@@ -833,6 +867,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
     /** Number of found COM marker segment */
     private int ncom = 0;
 
+
     /**
      * Display information found in the different marker segments of the main
      * header
@@ -885,6 +920,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
         return str;
     }
 
+
     /**
      * Returns information found in the tile-part headers of a given tile.
      *
@@ -934,6 +970,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
         return str;
     }
 
+
     /**
      * Returns information found in the tile-part headers of a given tile
      * exception the SOT marker segment.
@@ -978,6 +1015,7 @@ public class HeaderInfo implements Markers, ProgressionType, FilterTypes,
         }
         return str;
     }
+
 
     /** Returns a copy of this object */
     public HeaderInfo getCopy(int nt)

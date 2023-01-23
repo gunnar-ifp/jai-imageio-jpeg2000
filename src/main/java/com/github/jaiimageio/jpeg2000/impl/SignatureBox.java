@@ -64,6 +64,7 @@ public class SignatureBox extends Box
         super(12, 0x6A502020, null);
     }
 
+
     /**
      * Constructs a <code>SignatureBox</code> based on the provided
      * <code>org.w3c.dom.Node</code>.
@@ -73,6 +74,7 @@ public class SignatureBox extends Box
         super(node);
     }
 
+
     /**
      * Constructs a <code>SignatureBox</code> based on the provided
      * byte array.
@@ -81,6 +83,7 @@ public class SignatureBox extends Box
     {
         super(12, 0x6A502020, data);
     }
+
 
     /**
      * Creates an <code>IIOMetadataNode</code> from this signature
@@ -95,6 +98,7 @@ public class SignatureBox extends Box
         node.setAttribute("Signature", Integer.toString(0x0D0A870A));
         return node;
     }
+
 
     @Override
     protected void compose()

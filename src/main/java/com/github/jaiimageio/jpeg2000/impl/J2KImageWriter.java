@@ -122,6 +122,7 @@ public class J2KImageWriter extends ImageWriter
     /** The output stream to write into */
     private ImageOutputStream stream = null;
 
+
     /**
      * Constructs <code>J2KImageWriter</code> based on the provided
      * <code>ImageWriterSpi</code>.
@@ -130,6 +131,7 @@ public class J2KImageWriter extends ImageWriter
     {
         super(originator);
     }
+
 
     @Override
     public void setOutput(Object output)
@@ -143,17 +145,20 @@ public class J2KImageWriter extends ImageWriter
         else this.stream = null;
     }
 
+
     @Override
     public ImageWriteParam getDefaultWriteParam()
     {
         return new J2KImageWriteParam();
     }
 
+
     @Override
     public IIOMetadata getDefaultStreamMetadata(ImageWriteParam param)
     {
         return null;
     }
+
 
     @Override
     public IIOMetadata getDefaultImageMetadata(ImageTypeSpecifier imageType,
@@ -162,12 +167,14 @@ public class J2KImageWriter extends ImageWriter
         return new J2KMetadata(imageType, param, this);
     }
 
+
     @Override
     public IIOMetadata convertStreamMetadata(IIOMetadata inData,
         ImageWriteParam param)
     {
         return null;
     }
+
 
     @Override
     public IIOMetadata convertImageMetadata(IIOMetadata inData,
@@ -214,11 +221,13 @@ public class J2KImageWriter extends ImageWriter
         return null;
     }
 
+
     @Override
     public boolean canWriteRasters()
     {
         return true;
     }
+
 
     @Override
     public void write(IIOMetadata streamMetadata,
@@ -501,11 +510,13 @@ public class J2KImageWriter extends ImageWriter
         processImageComplete();
     }
 
+
     @Override
     public synchronized void abort()
     {
         super.abort();
     }
+
 
     @Override
     public void reset()
@@ -515,6 +526,7 @@ public class J2KImageWriter extends ImageWriter
         stream = null;
     }
 
+
     /**
      * This method wraps the protected method <code>abortRequested</code>
      * to allow the abortions be monitored by <code>J2KRenderedImage</code>.
@@ -523,6 +535,7 @@ public class J2KImageWriter extends ImageWriter
     {
         return abortRequested();
     }
+
 
     private void checkSampleModel(SampleModel sm)
     {

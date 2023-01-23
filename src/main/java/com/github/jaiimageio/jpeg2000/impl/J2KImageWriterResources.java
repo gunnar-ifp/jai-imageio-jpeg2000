@@ -49,9 +49,11 @@ public class J2KImageWriterResources
     static final Object[][] contents = {
     };
 
+
     public J2KImageWriterResources()
     {
     }
+
 
     public Object[][] getContents()
     {

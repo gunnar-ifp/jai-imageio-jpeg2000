@@ -75,6 +75,7 @@ public interface WaveletFilter
     /** The ID for floatring-poitn convolution implementations */
     public final static int WT_FILTER_FLOAT_CONVOL = 2;
 
+
     /**
      * Returns the negative support of the low-pass analysis
      * filter. That is the number of taps of the filter in the
@@ -87,6 +88,7 @@ public interface WaveletFilter
      * the negative direction
      */
     public int getAnLowNegSupport();
+
 
     /**
      * Returns the positive support of the low-pass analysis
@@ -101,6 +103,7 @@ public interface WaveletFilter
      */
     public int getAnLowPosSupport();
 
+
     /**
      * Returns the negative support of the high-pass analysis
      * filter. That is the number of taps of the filter in the
@@ -113,6 +116,7 @@ public interface WaveletFilter
      * the negative direction
      */
     public int getAnHighNegSupport();
+
 
     /**
      * Returns the positive support of the high-pass analysis
@@ -127,6 +131,7 @@ public interface WaveletFilter
      */
     public int getAnHighPosSupport();
 
+
     /**
      * Returns the negative support of the low-pass synthesis
      * filter. That is the number of taps of the filter in the
@@ -139,6 +144,7 @@ public interface WaveletFilter
      * the negative direction
      */
     public int getSynLowNegSupport();
+
 
     /**
      * Returns the positive support of the low-pass synthesis
@@ -153,6 +159,7 @@ public interface WaveletFilter
      */
     public int getSynLowPosSupport();
 
+
     /**
      * Returns the negative support of the high-pass synthesis
      * filter. That is the number of taps of the filter in the
@@ -165,6 +172,7 @@ public interface WaveletFilter
      * the negative direction
      */
     public int getSynHighNegSupport();
+
 
     /**
      * Returns the positive support of the high-pass synthesis
@@ -179,6 +187,7 @@ public interface WaveletFilter
      */
     public int getSynHighPosSupport();
 
+
     /**
      * Returns the implementation type of this filter, as defined in
      * this class, such as WT_FILTER_INT_LIFT, WT_FILTER_FLOAT_LIFT,
@@ -188,6 +197,7 @@ public interface WaveletFilter
      * WT_FILTER_INT_LIFT, WT_FILTER_FLOAT_LIFT, WT_FILTER_FLOAT_CONVOL.
      */
     public int getImplType();
+
 
     /**
      * Returns the type of data on which this filter works, as defined
@@ -199,6 +209,7 @@ public interface WaveletFilter
      */
     public int getDataType();
 
+
     /**
      * Returns the reversibility of the filter. A filter is considered
      * reversible if it is suitable for lossless coding.
@@ -206,6 +217,7 @@ public interface WaveletFilter
      * @return true if the filter is reversible, false otherwise.
      */
     public boolean isReversible();
+
 
     /**
      * Returns true if the wavelet filter computes or uses the

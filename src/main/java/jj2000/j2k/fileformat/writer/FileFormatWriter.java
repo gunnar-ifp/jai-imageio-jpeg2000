@@ -130,6 +130,7 @@ public class FileFormatWriter implements FileFormatBoxes
     /** cache the <code>J2KMetadataFormat</code> */
     J2KMetadataFormat format;
 
+
     /**
      * The constructor of the FileFormatWriter. It receives all the
      * information necessary about a codestream to generate a legal JP2 file
@@ -196,6 +197,7 @@ public class FileFormatWriter implements FileFormatBoxes
         return CSB_LENGTH + otherLength;
     }
 
+
     private void writeMetadata(J2KMetadata metadata) throws IOException
     {
         if (metadata == null)
@@ -207,6 +209,7 @@ public class FileFormatWriter implements FileFormatBoxes
         format = (J2KMetadataFormat)metadata.getMetadataFormat("com_sun_media_imageio_plugins_jpeg2000_image_1.0");
         writeSuperBox(root);
     }
+
 
     private void writeSuperBox(IIOMetadataNode node) throws IOException
     {
@@ -229,6 +232,7 @@ public class FileFormatWriter implements FileFormatBoxes
         }
     }
 
+
     private void writeBox(IIOMetadataNode node) throws IOException
     {
         int type = Box.getTypeInt((String)Box.getAttribute(node, "Type"));
@@ -240,6 +244,7 @@ public class FileFormatWriter implements FileFormatBoxes
         byte[] data = box.getContent();
         stream.write(data, 0, data.length);
     }
+
 
     private int computeLength(IIOMetadataNode root)
     {
@@ -257,6 +262,7 @@ public class FileFormatWriter implements FileFormatBoxes
 
         return length + (root.getNodeName().startsWith("JPEG2000") ? 8 : 0);
     }
+
 
     /**
      * This method writes the Contiguous codestream box

@@ -89,6 +89,7 @@ class PktHeaderBitReader
      */
     int nextbbuf;
 
+
     /**
      * Instantiates a 'PktHeaderBitReader' that gets the byte data from the
      * given source.
@@ -102,6 +103,7 @@ class PktHeaderBitReader
         usebais = false;
     }
 
+
     /**
      * Instantiates a 'PktHeaderBitReader' that gets the byte data from the
      * given source.
@@ -114,6 +116,7 @@ class PktHeaderBitReader
         this.bais = bais;
         usebais = true;
     }
+
 
     /**
      * Reads a single bit from the input.
@@ -149,6 +152,7 @@ class PktHeaderBitReader
         }
         return (bbuf >> --bpos) & 0x01;
     }
+
 
     /**
      * Reads a specified number of bits and returns them in a single
@@ -210,6 +214,7 @@ class PktHeaderBitReader
         }
     }
 
+
     /**
      * Synchronizes this object with the underlying byte based input. It
      * discards and buffered bits and gets ready to read bits from the current
@@ -226,6 +231,7 @@ class PktHeaderBitReader
         bbuf = 0;
         bpos = 0;
     }
+
 
     /**
      * Sets the underlying byte based input to the given object. This method
@@ -245,6 +251,7 @@ class PktHeaderBitReader
         bbuf = 0;
         bpos = 0;
     }
+
 
     /**
      * Sets the underlying byte based input to the given object. This method

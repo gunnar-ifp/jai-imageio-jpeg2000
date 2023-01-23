@@ -239,6 +239,7 @@ public class PktEncoder
     /** Whether or not the current packet is writable */
     private boolean packetWritable;
 
+
     /**
      * Creates a new packet header encoder, using the information from the
      * 'infoSrc' object. The information used is the number of components,
@@ -1014,6 +1015,7 @@ public class PktEncoder
         return hbuf;
     }
 
+
     /**
      * Returns the buffer of the body of the last encoded packet. The length
      * of the body can be retrieved with the getLastBodyLen() method. The
@@ -1035,6 +1037,7 @@ public class PktEncoder
         return lbbuf;
     }
 
+
     /**
      * Returns the length of the body of the last encoded packet, in
      * bytes. The body itself can be retrieved with the getLastBodyBuf()
@@ -1048,6 +1051,7 @@ public class PktEncoder
     {
         return lblen;
     }
+
 
     /**
      * Saves the current state of this object. The last saved state
@@ -1217,6 +1221,7 @@ public class PktEncoder
         } // End loop on tiles
     }
 
+
     /**
      * Resets the state of the object to the initial state, as if the object
      * was just created.
@@ -1277,6 +1282,7 @@ public class PktEncoder
         } // End loop on tiles
     }
 
+
     /**
      * Returns true if the current packet is writable i.e. should be written.
      * Returns false otherwise.
@@ -1286,6 +1292,7 @@ public class PktEncoder
         return packetWritable;
     }
 
+
     /**
      * Tells if there was ROI information in the last written packet
      */
@@ -1293,6 +1300,7 @@ public class PktEncoder
     {
         return roiInPkt;
     }
+
 
     /**
      * Gives the length to read in current packet body to get all ROI
@@ -1302,6 +1310,7 @@ public class PktEncoder
     {
         return roiLen;
     }
+
 
     /**
      * Returns the parameters that are used in this class and implementing
@@ -1320,6 +1329,7 @@ public class PktEncoder
     {
         return pinfo;
     }
+
 
     /**
      * Returns information about a given precinct

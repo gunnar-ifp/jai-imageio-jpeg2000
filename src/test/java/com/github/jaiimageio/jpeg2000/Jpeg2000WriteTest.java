@@ -29,6 +29,7 @@ public class Jpeg2000WriteTest
     private static final int SIZE = 1024;
     private final BufferedImage image = new BufferedImage(SIZE, SIZE, BufferedImage.TYPE_INT_RGB);
 
+
     @Before
     public void randomize()
     {

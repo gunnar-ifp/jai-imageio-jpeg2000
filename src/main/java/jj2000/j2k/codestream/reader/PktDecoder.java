@@ -212,6 +212,7 @@ public class PktDecoder implements StdEntropyCoderOptions
     /** True if truncation mode is used. False if it is parsing mode */
     private boolean isTruncMode;
 
+
     /**
      * Creates an empty PktDecoder object associated with given decoder
      * specifications and HeaderDecoder. This object must be initialized
@@ -244,6 +245,7 @@ public class PktDecoder implements StdEntropyCoderOptions
         ncbQuit = false;
         this.maxCB = maxCB;
     }
+
 
     /**
      * Re-initialize the PktDecoder instance at the beginning of a new tile.
@@ -369,6 +371,7 @@ public class PktDecoder implements StdEntropyCoderOptions
 
         return cbI;
     }
+
 
     /**
      * Retrives precincts and code-blocks coordinates in the given resolution,
@@ -541,7 +544,7 @@ public class PktDecoder implements StdEntropyCoderOptions
                     }
                 }
                 else { // HL, LH and HH subbands
-                    // HL subband
+                       // HL subband
                     acb0x = 0;
                     acb0y = cb0y;
 
@@ -744,6 +747,7 @@ public class PktDecoder implements StdEntropyCoderOptions
         } // Vertical precincts
     }
 
+
     /**
      * Gets the number of precincts in a given component and resolution level.
      *
@@ -755,6 +759,7 @@ public class PktDecoder implements StdEntropyCoderOptions
     {
         return numPrec[c][r].x * numPrec[c][r].y;
     }
+
 
     /**
      * Read specified packet head and found length of each code-block's piece
@@ -787,13 +792,14 @@ public class PktDecoder implements StdEntropyCoderOptions
         }
     }
 
+
     private boolean readPktHeadInternal(int l, int r, int c, int p, CBlkInfo[][][] cbI,
         int[] nb) throws IOException
     {
         CBlkInfo ccb;
-        int nSeg;     // number of segment to read
-        int cbLen;    // Length of cblk's code-words
-        int ltp;      // last truncation point index
+        int nSeg; // number of segment to read
+        int cbLen; // Length of cblk's code-words
+        int ltp; // last truncation point index
         int passtype; // coding pass type
         TagTreeDecoder tdIncl, tdBD;
         int tmp, tmp2, totnewtp, lblockCur, tpidx;
@@ -943,7 +949,7 @@ public class PktDecoder implements StdEntropyCoderOptions
 
                         }
                         else { // If code-block already included in one of
-                            // the previous layers.
+                               // the previous layers.
 
                             ccb.pktIdx[l] = pktIdx;
 
@@ -1156,6 +1162,7 @@ public class PktDecoder implements StdEntropyCoderOptions
         return false;
     }
 
+
     /**
      * Reads specificied packet body in order to find offset of each
      * code-block's piece of codeword. This use the list of found code-blocks
@@ -1260,6 +1267,7 @@ public class PktDecoder implements StdEntropyCoderOptions
         }
     }
 
+
     /**
      * Returns the precinct partition width for the specified component,
      * resolution level and tile.
@@ -1278,6 +1286,7 @@ public class PktDecoder implements StdEntropyCoderOptions
         return decSpec.pss.getPPX(t, c, r);
     }
 
+
     /**
      * Returns the precinct partition height for the specified component,
      * resolution level and tile.
@@ -1295,6 +1304,7 @@ public class PktDecoder implements StdEntropyCoderOptions
     {
         return decSpec.pss.getPPY(t, c, rl);
     }
+
 
     /**
      * Try to read a SOP marker and check that its sequence number if not out
@@ -1384,6 +1394,7 @@ public class PktDecoder implements StdEntropyCoderOptions
         return false;
     }
 
+
     /**
      * Try to read an EPH marker. If it is not possible then an Error is
      * thrown.
@@ -1411,6 +1422,7 @@ public class PktDecoder implements StdEntropyCoderOptions
                 + "marker ! ");
         }
     }
+
 
     /**
      * Get PrecInfo instance of the specified resolution level, component and

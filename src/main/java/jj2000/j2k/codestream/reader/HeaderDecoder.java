@@ -264,6 +264,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
     /** The packed packet headers if the PPM or PPT markers are used */
     private ByteArrayOutputStream[] pkdPktHeaders;
 
+
     /**
      * Return the maximum height among all components
      *
@@ -273,6 +274,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
     {
         return hi.siz.getMaxCompHeight();
     }
+
 
     /**
      * Return the maximum width among all components
@@ -284,6 +286,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         return hi.siz.getMaxCompWidth();
     }
 
+
     /**
      * Returns the image width in the reference grid.
      *
@@ -294,6 +297,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         return hi.siz.xsiz - hi.siz.x0siz;
     }
 
+
     /**
      * Returns the image height in the reference grid.
      *
@@ -303,6 +307,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
     {
         return hi.siz.ysiz - hi.siz.y0siz;
     }
+
 
     /**
      * Return the horizontal upper-left coordinate of the image in the
@@ -315,6 +320,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         return hi.siz.x0siz;
     }
 
+
     /**
      * Return the vertical upper-left coordinate of the image in the reference
      * grid.
@@ -326,6 +332,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         return hi.siz.y0siz;
     }
 
+
     /**
      * Returns the nominal width of the tiles in the reference grid.
      *
@@ -336,6 +343,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         return hi.siz.xtsiz;
     }
 
+
     /**
      * Returns the nominal width of the tiles in the reference grid.
      *
@@ -345,6 +353,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
     {
         return hi.siz.ytsiz;
     }
+
 
     /**
      * Returns the tiling origin, referred to as '(Px,Py)' in the 'ImgData'
@@ -370,6 +379,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         }
     }
 
+
     /**
      * Returns true if the original data of the specified component was
      * signed. If the data was not signed a level shift has to be applied at
@@ -384,6 +394,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         return hi.siz.isOrigSigned(c);
     }
 
+
     /**
      * Returns the original bitdepth of the specified component.
      *
@@ -396,6 +407,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         return hi.siz.getOrigBitDepth(c);
     }
 
+
     /**
      * Returns the number of components in the image.
      *
@@ -405,6 +417,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
     {
         return nComp;
     }
+
 
     /**
      * Returns the component sub-sampling factor, with respect to the
@@ -420,6 +433,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         return hi.siz.xrsiz[c];
     }
 
+
     /**
      * Returns the component sub-sampling factor, with respect to the
      * reference grid, along the vertical direction for the specified
@@ -433,6 +447,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
     {
         return hi.siz.yrsiz[c];
     }
+
 
     /**
      * Returns the dequantizer parameters. Dequantizer parameters normally are
@@ -454,6 +469,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         return new StdDequantizer(src, rb, decSpec2);
     }
 
+
     /**
      * Returns the horizontal code-block partition origin.Allowable values are
      * 0 and 1, nothing else.
@@ -463,6 +479,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         return cb0x;
     }
 
+
     /**
      * Returns the vertical code-block partition origin. Allowable values are
      * 0 and 1, nothing else.
@@ -471,6 +488,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
     {
         return cb0y;
     }
+
 
     /**
      * Returns the precinct partition width for the specified tile-component
@@ -490,6 +508,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         return decSpec.pss.getPPX(t, c, rl);
     }
 
+
     /**
      * Returns the precinct partition height for the specified component, tile
      * and resolution level.
@@ -508,6 +527,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         return decSpec.pss.getPPY(t, c, rl);
     }
 
+
     /**
      * Returns the boolean used to know if the precinct partition is used
      **/
@@ -515,6 +535,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
     {
         return precinctPartitionIsUsed;
     }
+
 
     /**
      * Reads a wavelet filter from the codestream and returns the filter
@@ -548,6 +569,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         }
     }
 
+
     /**
      * Checks that the marker segment length is correct.
      *
@@ -565,6 +587,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
                 str + " length was short, attempting to resync.");
         }
     }
+
 
     /**
      * Reads the SIZ marker segment and realigns the codestream at the point
@@ -659,6 +682,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         decSpec = new DecoderSpecs(nTiles, nComp);
     }
 
+
     /**
      * Reads a CRG marker segment and checks its length. CRG is an
      * informational marker segment that allows specific registration of
@@ -746,6 +770,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         // Check marker length
         checkMarkerLength(ehs, "COM marker");
     }
+
 
     /**
      * Reads a QCD marker segment and realigns the codestream at the point
@@ -929,6 +954,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         // Check marker length
         checkMarkerLength(ehs, "QCD marker");
     }
+
 
     /**
      * Reads a QCC marker segment and realigns the codestream at the point
@@ -1124,6 +1150,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         // Check marker length
         checkMarkerLength(ehs, "QCC marker");
     }
+
 
     /**
      * Reads a COD marker segment and realigns the codestream where the next
@@ -1405,6 +1432,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         }
     }
 
+
     /**
      * Reads the COC marker segment and realigns the codestream where the next
      * marker should be found.
@@ -1567,6 +1595,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         }
     }
 
+
     /**
      * Reads the POC marker segment and realigns the codestream where the next
      * marker should be found.
@@ -1709,6 +1738,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         }
     }
 
+
     /**
      * Reads TLM marker segment and realigns the codestream where the next
      * marker should be found. Informations stored in these fields are
@@ -1729,6 +1759,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
 
         FacilityManager.getMsgLogger().printmsg(MsgLogger.INFO, "Skipping unsupported TLM marker");
     }
+
 
     /**
      * Reads PLM marker segment and realigns the codestream where the next
@@ -1751,6 +1782,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         FacilityManager.getMsgLogger().printmsg(MsgLogger.INFO, "Skipping unsupported PLM marker");
     }
 
+
     /**
      * Reads the PLT fields and realigns the codestream where the next marker
      * should be found. Informations stored in these fields are currently NOT
@@ -1771,6 +1803,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
 
         FacilityManager.getMsgLogger().printmsg(MsgLogger.INFO, "Skipping unsupported PLT marker");
     }
+
 
     /**
      * Reads the RGN marker segment of the codestream header.
@@ -1843,6 +1876,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         checkMarkerLength(ehs, "RGN marker");
     }
 
+
     /**
      * Reads the PPM marker segment of the main header.
      *
@@ -1880,6 +1914,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         // Check marker length
         checkMarkerLength(ehs, "PPM marker");
     }
+
 
     /**
      * Teads the PPT marker segment of the main header.
@@ -1928,6 +1963,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
 
         decSpec.pphs.setTileDef(tile, Boolean.TRUE);
     }
+
 
     /**
      * This method extract a marker segment from the main header and stores it
@@ -2099,6 +2135,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
             }
         }
     }
+
 
     /**
      * This method extracts a marker segment in a tile-part header and stores
@@ -2412,6 +2449,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         return decSpec;
     }
 
+
     /**
      * Creates a HeaderDecoder instance and read in two passes the main header
      * of the codestream. The first and last marker segments shall be
@@ -2461,6 +2499,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
         readFoundMainMarkSeg();
     }
 
+
     /**
      * Creates and returns the entropy decoder corresponding to the
      * information read from the codestream header and with the special
@@ -2507,7 +2546,7 @@ public class HeaderDecoder implements ProgressionType, Markers,
      **/
 /*
 public BlkImgDataSrc createColorSpaceMapper(BlkImgDataSrc src,
-                                        ColorSpace csMap)
+                                    ColorSpace csMap)
 throws IOException, ICCProfileException, ColorSpaceException {
 return ColorSpaceMapper.createInstance(src,csMap);
 }
@@ -2527,7 +2566,7 @@ return ColorSpaceMapper.createInstance(src,csMap);
      **/
 /*
  public BlkImgDataSrc createChannelDefinitionMapper(BlkImgDataSrc src,
-                                                ColorSpace csMap)
+                                            ColorSpace csMap)
  throws IOException, ColorSpaceException {
  return ChannelDefinitionMapper.createInstance(src,csMap);
  }
@@ -2547,7 +2586,7 @@ return ColorSpaceMapper.createInstance(src,csMap);
      **/
 /*
 public BlkImgDataSrc createPalettizedColorSpaceMapper(BlkImgDataSrc src,
-                                                  ColorSpace csMap)
+                                              ColorSpace csMap)
 throws IOException, ColorSpaceException {
 return PalettizedColorSpaceMapper.createInstance(src, csMap); }
 */
@@ -2565,9 +2604,10 @@ return PalettizedColorSpaceMapper.createInstance(src, csMap); }
      * @exception ColorSpaceException if image contains a bad colorspace box
      **/
 
+
 /*
 public BlkImgDataSrc createResampler(BlkImgDataSrc src,
-                                 ColorSpace csMap)
+                             ColorSpace csMap)
 throws IOException, ColorSpaceException {
 return Resampler.createInstance(src, csMap); }
 */
@@ -2590,6 +2630,7 @@ return Resampler.createInstance(src, csMap); }
     {
         return ROIDeScaler.createInstance(src, j2krparam, decSpec2);
     }
+
 
     /**
      * Method that resets members indicating which markers have already been
@@ -2618,6 +2659,7 @@ return Resampler.createInstance(src, csMap); }
         return hdStr;
     }
 
+
     /**
      * Returns the parameters that are used in this class. It returns a 2D
      * String array. Each of the 1D arrays is for a different option, and they
@@ -2634,6 +2676,7 @@ return Resampler.createInstance(src, csMap); }
         return pinfo;
     }
 
+
     /**
      * Return the number of tiles in the image
      *
@@ -2643,6 +2686,7 @@ return Resampler.createInstance(src, csMap); }
     {
         return nTiles;
     }
+
 
     /**
      * Return the packed packet headers for a given tile.
@@ -2708,6 +2752,7 @@ return Resampler.createInstance(src, csMap); }
         return new ByteArrayInputStream(pkdPktHeaders[tile].toByteArray());
     }
 
+
     /**
      * Sets the tile of each tile part in order. This information is needed
      * for identifying which packet header belongs to which tile when using
@@ -2721,6 +2766,7 @@ return Resampler.createInstance(src, csMap); }
             tileOfTileParts.addElement(Integer.valueOf(tile));
         }
     }
+
 
     /**
      * Returns the number of found marker segments in the current header.

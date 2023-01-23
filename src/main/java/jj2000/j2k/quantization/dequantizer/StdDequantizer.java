@@ -111,6 +111,7 @@ public class StdDequantizer extends Dequantizer
     /** Type of the current output data */
     private int outdtype;
 
+
     /**
      * Initializes the source of compressed data. And sets the number of range
      * bits and fraction bits and receives the parameters for the dequantizer.
@@ -142,6 +143,7 @@ public class StdDequantizer extends Dequantizer
         this.gbs = decSpec.gbs;
     }
 
+
     /**
      * Returns the position of the fixed point in the output data for the
      * specified component. This is the position of the least significant
@@ -166,6 +168,7 @@ public class StdDequantizer extends Dequantizer
     {
         return 0;
     }
+
 
     /**
      * Returns the specified code-block in the current tile for the specified
@@ -214,6 +217,7 @@ public class StdDequantizer extends Dequantizer
     {
         return getInternCodeBlock(c, m, n, sb, cblk);
     }
+
 
     /**
      * Returns the specified code-block in the current tile for the specified

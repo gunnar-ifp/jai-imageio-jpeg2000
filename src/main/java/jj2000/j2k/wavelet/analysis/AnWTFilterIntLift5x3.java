@@ -68,6 +68,7 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt
     /** The high-pass synthesis filter of the 5x3 wavelet transform */
     private final static float HPSynthesisFilter[] = { -0.125f, -0.25f, 0.75f, -0.25f, -0.125f };
 
+
     /**
      * An implementation of the analyze_lpf() method that works on int data,
      * for the forward 5x3 wavelet transform using the lifting scheme. See the
@@ -180,6 +181,7 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt
             }
         }
     }
+
 
     /**
      * An implementation of the analyze_hpf() method that works on int data,
@@ -297,6 +299,7 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt
         }
     }
 
+
     /**
      * Returns the negative support of the low-pass analysis
      * filter. That is the number of taps of the filter in the
@@ -309,6 +312,7 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt
     {
         return 2;
     }
+
 
     /**
      * Returns the positive support of the low-pass analysis filter. That is
@@ -323,6 +327,7 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt
         return 2;
     }
 
+
     /**
      * Returns the negative support of the high-pass analysis filter. That is
      * the number of taps of the filter in the negative direction.
@@ -336,6 +341,7 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt
         return 1;
     }
 
+
     /**
      * Returns the positive support of the high-pass analysis filter. That is
      * the number of taps of the filter in the negative direction.
@@ -348,6 +354,7 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt
     {
         return 1;
     }
+
 
     /**
      * Returns the negative support of the low-pass synthesis filter. That is
@@ -365,6 +372,7 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt
         return 1;
     }
 
+
     /**
      * Returns the positive support of the low-pass synthesis filter. That is
      * the number of taps of the filter in the negative direction.
@@ -380,6 +388,7 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt
     {
         return 1;
     }
+
 
     /**
      * Returns the negative support of the high-pass synthesis filter. That is
@@ -397,6 +406,7 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt
         return 2;
     }
 
+
     /**
      * Returns the positive support of the high-pass synthesis filter. That is
      * the number of taps of the filter in the negative direction.
@@ -412,6 +422,7 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt
     {
         return 2;
     }
+
 
     /**
      * Returns the time-reversed low-pass synthesis waveform of the filter,
@@ -431,6 +442,7 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt
     {
         return LPSynthesisFilter;
     }
+
 
     /**
      * Returns the time-reversed high-pass synthesis waveform of the filter,
@@ -465,6 +477,7 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt
         return WT_FILTER_INT_LIFT;
     }
 
+
     /**
      * Returns the reversibility of the filter. A filter is considered
      * reversible if it is suitable for lossless coding.
@@ -477,6 +490,7 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt
     {
         return true;
     }
+
 
     /**
      * Returns true if the wavelet filter computes or uses the same "inner"
@@ -521,6 +535,7 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt
         }
     }
 
+
     /**
      * Tests if the 'obj' object is the same filter as this one. Two filters
      * are the same if the same filter code should be output for both filters
@@ -540,6 +555,7 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt
             obj instanceof AnWTFilterIntLift5x3;
     }
 
+
     /**
      * Returns the type of filter used according to the FilterTypes interface
      * (W5x3).
@@ -553,6 +569,7 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt
     {
         return FilterTypes.W5X3;
     }
+
 
     /** Debugging method */
     @Override

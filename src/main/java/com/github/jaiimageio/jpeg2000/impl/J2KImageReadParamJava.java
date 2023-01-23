@@ -118,11 +118,13 @@ public class J2KImageReadParamJava extends J2KImageReadParam
      */
     private boolean parsingEnabled = true;
 
+
     /** Constructs a default instance of <code>J2KImageReadParamJava</code>. */
     public J2KImageReadParamJava()
     {
         super();
     }
+
 
     public J2KImageReadParamJava(ImageReadParam param)
     {
@@ -156,11 +158,13 @@ public class J2KImageReadParamJava extends J2KImageReadParam
         setResolution(j2kParam.getResolution());
     }
 
+
     /** Sets <code>noROIDescaling</code> */
     public void setNoROIDescaling(boolean value)
     {
         this.noROIDescaling = value;
     }
+
 
     /** Gets <code>noROIDescaling</code> */
     public boolean getNoROIDescaling()
@@ -168,11 +172,13 @@ public class J2KImageReadParamJava extends J2KImageReadParam
         return noROIDescaling;
     }
 
+
     /** Sets <code>parsingEnabled</code> */
     public void setParsingEnabled(boolean value)
     {
         this.parsingEnabled = value;
     }
+
 
     /** Gets <code>parsingEnabled</code> */
     public boolean getParsingEnabled()

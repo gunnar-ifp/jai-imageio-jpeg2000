@@ -148,6 +148,7 @@ public abstract class CBlkWTData
     /** Number of ROI magnitude bit-planes */
     public int nROIbp = 0;
 
+
     /**
      * Returns the data type of the <code>CBlkWTData</code> object, as
      * defined in the DataBlk class.
@@ -157,6 +158,7 @@ public abstract class CBlkWTData
      * @see DataBlk
      */
     public abstract int getDataType();
+
 
     /**
      * Returns the array containing the data, or null if there is no data. The
@@ -175,6 +177,7 @@ public abstract class CBlkWTData
      * @see #getDataType
      */
     public abstract Object getData();
+
 
     /**
      * Sets the data array to the specified one. The type of the specified
@@ -197,6 +200,7 @@ public abstract class CBlkWTData
      * @see #getDataType
      */
     public abstract void setData(Object arr);
+
 
     /**
      * Returns a string of informations about the DataBlk

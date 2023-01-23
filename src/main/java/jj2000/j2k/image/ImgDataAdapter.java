@@ -81,6 +81,7 @@ public abstract class ImgDataAdapter implements ImgData
     /** The ImgData source */
     protected ImgData imgdatasrc;
 
+
     /**
      * Instantiates the ImgDataAdapter object specifying the ImgData source.
      *
@@ -90,6 +91,7 @@ public abstract class ImgDataAdapter implements ImgData
     {
         imgdatasrc = src;
     }
+
 
     /**
      * Returns the overall width of the current tile in pixels. This is the
@@ -108,6 +110,7 @@ public abstract class ImgDataAdapter implements ImgData
         return imgdatasrc.getTileWidth();
     }
 
+
     /**
      * Returns the overall height of the current tile in pixels. This is the
      * tile's height without accounting for any component subsampling. This is
@@ -125,6 +128,7 @@ public abstract class ImgDataAdapter implements ImgData
         return imgdatasrc.getTileHeight();
     }
 
+
     /** Returns the nominal tiles width */
     @Override
     public int getNomTileWidth()
@@ -132,12 +136,14 @@ public abstract class ImgDataAdapter implements ImgData
         return imgdatasrc.getNomTileWidth();
     }
 
+
     /** Returns the nominal tiles height */
     @Override
     public int getNomTileHeight()
     {
         return imgdatasrc.getNomTileHeight();
     }
+
 
     /**
      * Returns the overall width of the image in pixels. This is the image's
@@ -155,6 +161,7 @@ public abstract class ImgDataAdapter implements ImgData
         return imgdatasrc.getImgWidth();
     }
 
+
     /**
      * Returns the overall height of the image in pixels. This is the image's
      * height without accounting for any component subsampling or tiling.
@@ -171,6 +178,7 @@ public abstract class ImgDataAdapter implements ImgData
         return imgdatasrc.getImgHeight();
     }
 
+
     /**
      * Returns the number of components in the image.
      *
@@ -185,6 +193,7 @@ public abstract class ImgDataAdapter implements ImgData
     {
         return imgdatasrc.getNumComps();
     }
+
 
     /**
      * Returns the component subsampling factor in the horizontal direction,
@@ -208,6 +217,7 @@ public abstract class ImgDataAdapter implements ImgData
         return imgdatasrc.getCompSubsX(c);
     }
 
+
     /**
      * Returns the component subsampling factor in the vertical direction, for
      * the specified component. This is, approximately, the ratio of
@@ -230,6 +240,7 @@ public abstract class ImgDataAdapter implements ImgData
         return imgdatasrc.getCompSubsY(c);
     }
 
+
     /**
      * Returns the width in pixels of the specified tile-component
      * tile.
@@ -248,6 +259,7 @@ public abstract class ImgDataAdapter implements ImgData
     {
         return imgdatasrc.getTileCompWidth(t, c);
     }
+
 
     /**
      * Returns the height in pixels of the specified tile-component.
@@ -269,6 +281,7 @@ public abstract class ImgDataAdapter implements ImgData
         return imgdatasrc.getTileCompHeight(t, c);
     }
 
+
     /**
      * Returns the width in pixels of the specified component in the overall
      * image.
@@ -288,6 +301,7 @@ public abstract class ImgDataAdapter implements ImgData
         return imgdatasrc.getCompImgWidth(c);
     }
 
+
     /**
      * Returns the height in pixels of the specified component in the overall
      * image.
@@ -306,6 +320,7 @@ public abstract class ImgDataAdapter implements ImgData
     {
         return imgdatasrc.getCompImgHeight(c);
     }
+
 
     /**
      * Returns the number of bits, referred to as the "range bits",
@@ -330,6 +345,7 @@ public abstract class ImgDataAdapter implements ImgData
         return imgdatasrc.getNomRangeBits(c);
     }
 
+
     /**
      * Changes the current tile, given the new indexes. An
      * IllegalArgumentException is thrown if the indexes do not correspond to
@@ -350,6 +366,7 @@ public abstract class ImgDataAdapter implements ImgData
         tIdx = getTileIdx();
     }
 
+
     /**
      * Advances to the next tile, in standard scan-line order (by rows then
      * columns). An NoNextElementException is thrown if the current tile is
@@ -366,6 +383,7 @@ public abstract class ImgDataAdapter implements ImgData
         imgdatasrc.nextTile();
         tIdx = getTileIdx();
     }
+
 
     /**
      * Returns the indexes of the current tile. These are the horizontal and
@@ -386,6 +404,7 @@ public abstract class ImgDataAdapter implements ImgData
         return imgdatasrc.getTile(co);
     }
 
+
     /**
      * Returns the index of the current tile, relative to a standard scan-line
      * order.
@@ -401,6 +420,7 @@ public abstract class ImgDataAdapter implements ImgData
     {
         return imgdatasrc.getTileIdx();
     }
+
 
     /**
      * Returns the horizontal coordinate of the upper-left corner of the
@@ -418,6 +438,7 @@ public abstract class ImgDataAdapter implements ImgData
         return imgdatasrc.getCompULX(c);
     }
 
+
     /**
      * Returns the vertical coordinate of the upper-left corner of the
      * specified component in the current tile.
@@ -434,6 +455,7 @@ public abstract class ImgDataAdapter implements ImgData
         return imgdatasrc.getCompULY(c);
     }
 
+
     /** Returns the horizontal tile partition offset in the reference grid */
     @Override
     public int getTilePartULX()
@@ -441,12 +463,14 @@ public abstract class ImgDataAdapter implements ImgData
         return imgdatasrc.getTilePartULX();
     }
 
+
     /** Returns the vertical tile offset in the reference grid */
     @Override
     public int getTilePartULY()
     {
         return imgdatasrc.getTilePartULY();
     }
+
 
     /**
      * Returns the horizontal coordinate of the image origin, the top-left
@@ -465,6 +489,7 @@ public abstract class ImgDataAdapter implements ImgData
         return imgdatasrc.getImgULX();
     }
 
+
     /**
      * Returns the vertical coordinate of the image origin, the top-left
      * corner, in the canvas system, on the reference grid.
@@ -481,6 +506,7 @@ public abstract class ImgDataAdapter implements ImgData
     {
         return imgdatasrc.getImgULY();
     }
+
 
     /**
      * Returns the number of tiles in the horizontal and vertical directions.
@@ -500,6 +526,7 @@ public abstract class ImgDataAdapter implements ImgData
     {
         return imgdatasrc.getNumTiles(co);
     }
+
 
     /**
      * Returns the total number of tiles in the image.

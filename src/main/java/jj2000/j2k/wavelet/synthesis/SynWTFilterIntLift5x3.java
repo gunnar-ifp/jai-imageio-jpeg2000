@@ -182,6 +182,7 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt
         }
     }
 
+
     /**
      * An implementation of the synthetize_hpf() method that works on int
      * data, for the inverse 5x3 wavelet transform using thelifting
@@ -300,6 +301,7 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt
         }
     }
 
+
     /**
      * Returns the negative support of the low-pass analysis filter. That is
      * the number of taps of the filter in the negative direction.
@@ -311,6 +313,7 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt
     {
         return 2;
     }
+
 
     /**
      * Returns the positive support of the low-pass analysis filter. That is
@@ -325,6 +328,7 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt
         return 2;
     }
 
+
     /**
      * Returns the negative support of the high-pass analysis filter. That is
      * the number of taps of the filter in the negative direction.
@@ -338,6 +342,7 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt
         return 1;
     }
 
+
     /**
      * Returns the positive support of the high-pass analysis filter. That is
      * the number of taps of the filter in the negative direction.
@@ -350,6 +355,7 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt
     {
         return 1;
     }
+
 
     /**
      * Returns the negative support of the low-pass synthesis filter. That is
@@ -367,6 +373,7 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt
         return 1;
     }
 
+
     /**
      * Returns the positive support of the low-pass synthesis filter. That is
      * the number of taps of the filter in the negative direction.
@@ -382,6 +389,7 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt
     {
         return 1;
     }
+
 
     /**
      * Returns the negative support of the high-pass synthesis filter. That is
@@ -399,6 +407,7 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt
         return 2;
     }
 
+
     /**
      * Returns the positive support of the high-pass synthesis filter. That is
      * the number of taps of the filter in the negative direction.
@@ -415,6 +424,7 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt
         return 2;
     }
 
+
     /**
      * Returns the implementation type of this filter, as defined in this
      * class, such as WT_FILTER_INT_LIFT, WT_FILTER_FLOAT_LIFT,
@@ -428,6 +438,7 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt
         return WT_FILTER_INT_LIFT;
     }
 
+
     /**
      * Returns the reversibility of the filter. A filter is considered
      * reversible if it is suitable for lossless coding.
@@ -440,6 +451,7 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt
     {
         return true;
     }
+
 
     /**
      * Returns true if the wavelet filter computes or uses the same "inner"
@@ -483,6 +495,7 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt
             else return false;
         }
     }
+
 
     /**
      * Returns a string of information about the synthesis wavelet filter

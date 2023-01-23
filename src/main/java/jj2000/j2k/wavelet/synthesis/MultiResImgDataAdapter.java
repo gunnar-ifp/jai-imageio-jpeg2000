@@ -82,6 +82,7 @@ public abstract class MultiResImgDataAdapter implements MultiResImgData
     /** The MultiResImgData source */
     protected MultiResImgData mressrc;
 
+
     /**
      * Instantiates the MultiResImgDataAdapter object specifying the
      * MultiResImgData source.
@@ -92,6 +93,7 @@ public abstract class MultiResImgDataAdapter implements MultiResImgData
     {
         mressrc = src;
     }
+
 
     /**
      * Returns the overall width of the current tile in pixels, for the given
@@ -112,6 +114,7 @@ public abstract class MultiResImgDataAdapter implements MultiResImgData
         return mressrc.getTileWidth(rl);
     }
 
+
     /**
      * Returns the overall height of the current tile in pixels, for the given
      * resolution level. This is the tile's height without accounting for any
@@ -131,6 +134,7 @@ public abstract class MultiResImgDataAdapter implements MultiResImgData
         return mressrc.getTileHeight(rl);
     }
 
+
     /** Returns the nominal tiles width */
     @Override
     public int getNomTileWidth()
@@ -138,12 +142,14 @@ public abstract class MultiResImgDataAdapter implements MultiResImgData
         return mressrc.getNomTileWidth();
     }
 
+
     /** Returns the nominal tiles height */
     @Override
     public int getNomTileHeight()
     {
         return mressrc.getNomTileHeight();
     }
+
 
     /**
      * Returns the overall width of the image in pixels, for the given
@@ -164,6 +170,7 @@ public abstract class MultiResImgDataAdapter implements MultiResImgData
         return mressrc.getImgWidth(rl);
     }
 
+
     /**
      * Returns the overall height of the image in pixels, for the given
      * resolution level. This is the image's height without accounting for any
@@ -183,6 +190,7 @@ public abstract class MultiResImgDataAdapter implements MultiResImgData
         return mressrc.getImgHeight(rl);
     }
 
+
     /**
      * Returns the number of components in the image.
      *
@@ -197,6 +205,7 @@ public abstract class MultiResImgDataAdapter implements MultiResImgData
     {
         return mressrc.getNumComps();
     }
+
 
     /**
      * Returns the component subsampling factor in the horizontal direction,
@@ -220,6 +229,7 @@ public abstract class MultiResImgDataAdapter implements MultiResImgData
         return mressrc.getCompSubsX(c);
     }
 
+
     /**
      * Returns the component subsampling factor in the vertical direction, for
      * the specified component. This is, approximately, the ratio of
@@ -241,6 +251,7 @@ public abstract class MultiResImgDataAdapter implements MultiResImgData
     {
         return mressrc.getCompSubsY(c);
     }
+
 
     /**
      * Returns the width in pixels of the specified tile-component for the
@@ -265,6 +276,7 @@ public abstract class MultiResImgDataAdapter implements MultiResImgData
         return mressrc.getTileCompWidth(t, c, rl);
     }
 
+
     /**
      * Returns the height in pixels of the specified tile-component for the
      * given resolution level.
@@ -280,13 +292,14 @@ public abstract class MultiResImgDataAdapter implements MultiResImgData
      * @param rl The resolution level, from 0 to L.
      *
      * @return The height in pixels of component <code>c</code> in tile
-     * <code>t</code>. 
+     * <code>t</code>.
      */
     @Override
     public int getTileCompHeight(int t, int c, int rl)
     {
         return mressrc.getTileCompHeight(t, c, rl);
     }
+
 
     /**
      * Returns the width in pixels of the specified component in the overall
@@ -309,6 +322,7 @@ public abstract class MultiResImgDataAdapter implements MultiResImgData
         return mressrc.getCompImgWidth(c, rl);
     }
 
+
     /**
      * Returns the height in pixels of the specified component in the overall
      * image, for the given resolution level.
@@ -328,6 +342,7 @@ public abstract class MultiResImgDataAdapter implements MultiResImgData
     {
         return mressrc.getCompImgHeight(c, rl);
     }
+
 
     /**
      * Changes the current tile, given the new indexes. An
@@ -349,6 +364,7 @@ public abstract class MultiResImgDataAdapter implements MultiResImgData
         tIdx = getTileIdx();
     }
 
+
     /**
      * Advances to the next tile, in standard scan-line order (by rows then
      * columns). An NoNextElementException is thrown if the current tile is
@@ -364,6 +380,7 @@ public abstract class MultiResImgDataAdapter implements MultiResImgData
         mressrc.nextTile();
         tIdx = getTileIdx();
     }
+
 
     /**
      * Returns the indexes of the current tile. These are the horizontal and
@@ -384,6 +401,7 @@ public abstract class MultiResImgDataAdapter implements MultiResImgData
         return mressrc.getTile(co);
     }
 
+
     /**
      * Returns the index of the current tile, relative to a standard scan-line
      * order.
@@ -399,6 +417,7 @@ public abstract class MultiResImgDataAdapter implements MultiResImgData
     {
         return mressrc.getTileIdx();
     }
+
 
     /**
      * Returns the horizontal coordinate of the upper-left corner of the
@@ -418,6 +437,7 @@ public abstract class MultiResImgDataAdapter implements MultiResImgData
         return mressrc.getResULX(c, rl);
     }
 
+
     /**
      * Returns the vertical coordinate of the upper-left corner of the
      * specified resolution in the given component of the current tile.
@@ -436,6 +456,7 @@ public abstract class MultiResImgDataAdapter implements MultiResImgData
         return mressrc.getResULY(c, rl);
     }
 
+
     /** Returns the horizontal tile partition offset in the reference grid */
     @Override
     public int getTilePartULX()
@@ -443,12 +464,14 @@ public abstract class MultiResImgDataAdapter implements MultiResImgData
         return mressrc.getTilePartULX();
     }
 
+
     /** Returns the vertical tile partition offset in the reference grid */
     @Override
     public int getTilePartULY()
     {
         return mressrc.getTilePartULY();
     }
+
 
     /**
      * Returns the horizontal coordinate of the image origin, the top-left
@@ -470,6 +493,7 @@ public abstract class MultiResImgDataAdapter implements MultiResImgData
         return mressrc.getImgULX(rl);
     }
 
+
     /**
      * Returns the vertical coordinate of the image origin, the top-left
      * corner, in the canvas system, on the reference grid at the specified
@@ -490,6 +514,7 @@ public abstract class MultiResImgDataAdapter implements MultiResImgData
         return mressrc.getImgULY(rl);
     }
 
+
     /**
      * Returns the number of tiles in the horizontal and vertical directions.
      *
@@ -508,6 +533,7 @@ public abstract class MultiResImgDataAdapter implements MultiResImgData
     {
         return mressrc.getNumTiles(co);
     }
+
 
     /**
      * Returns the total number of tiles in the image.

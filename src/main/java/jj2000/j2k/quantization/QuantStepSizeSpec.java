@@ -63,6 +63,7 @@ public class QuantStepSizeSpec extends ModuleSpec
 
     private String defaultValue = "0.0078125";
 
+
     /**
      * Constructs an empty 'QuantStepSizeSpec' with specified number of
      * tile and components. This constructor is called by the decoder.
@@ -78,6 +79,7 @@ public class QuantStepSizeSpec extends ModuleSpec
     {
         super(nt, nc, type);
     }
+
 
     /**
      * Constructs a new 'QuantStepSizeSpec' for the specified number of

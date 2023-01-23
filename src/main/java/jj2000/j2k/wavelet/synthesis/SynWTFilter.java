@@ -177,6 +177,7 @@ public abstract class SynWTFilter implements WaveletFilter,
         Object highSig, int highOff, int highLen, int highStep,
         Object outSig, int outOff, int outStep);
 
+
     /**
      * Reconstructs the output signal by the synthesis filter,
      * recomposing the low-pass and high-pass input signals in one

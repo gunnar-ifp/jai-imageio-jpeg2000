@@ -132,6 +132,7 @@ public class TagTreeEncoder
      */
     protected boolean saved;
 
+
     /**
      * Creates a tag tree encoder with 'w' elements along the
      * horizontal dimension and 'h' elements along the vertical
@@ -161,6 +162,7 @@ public class TagTreeEncoder
             Arrays.fill(treeV[k], Integer.MAX_VALUE);
         }
     }
+
 
     /**
      * Creates a tag tree encoder with 'w' elements along the
@@ -199,6 +201,7 @@ public class TagTreeEncoder
         recalcTreeV();
     }
 
+
     /**
      * Returns the number of leafs along the horizontal direction.
      *
@@ -211,6 +214,7 @@ public class TagTreeEncoder
         return w;
     }
 
+
     /**
      * Returns the number of leafs along the vertical direction.
      *
@@ -222,6 +226,7 @@ public class TagTreeEncoder
     {
         return h;
     }
+
 
     /**
      * Initializes the variables of this class, given the dimensions
@@ -266,6 +271,7 @@ public class TagTreeEncoder
             h = (h + 1) >> 1;
         }
     }
+
 
     /**
      * Recalculates the values of the elements in the tag tree, in
@@ -320,6 +326,7 @@ public class TagTreeEncoder
         }
     }
 
+
     /**
      * Changes the value of a leaf in the tag tree. The new and old
      * values of the element must be not smaller than the largest
@@ -358,6 +365,7 @@ public class TagTreeEncoder
             }
         }
     }
+
 
     /**
      * Sets the values of the leafs to the new set of values and
@@ -399,6 +407,7 @@ public class TagTreeEncoder
         // Recalculate tree at other levels
         recalcTreeV();
     }
+
 
     /**
      * Encodes information for the specified element of the tree,
@@ -466,6 +475,7 @@ public class TagTreeEncoder
         }
     }
 
+
     /**
      * Saves the current values and state of the tree. Calling
      * restore() restores the tag tree the saved state.
@@ -499,6 +509,7 @@ public class TagTreeEncoder
         saved = true;
     }
 
+
     /**
      * Restores the saved values and state of the tree. An
      * IllegalArgumentException is thrown if the tree values and state
@@ -524,6 +535,7 @@ public class TagTreeEncoder
 
     }
 
+
     /**
      * Resets the tree values and state. All the values are set to
      * Integer.MAX_VALUE and the states to 0.
@@ -542,6 +554,7 @@ public class TagTreeEncoder
         // Invalidate saved tree
         saved = false;
     }
+
 
     /**
      * Resets the tree values and state. The values are set to the

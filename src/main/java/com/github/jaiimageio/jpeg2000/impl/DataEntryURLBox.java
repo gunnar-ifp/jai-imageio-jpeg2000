@@ -61,6 +61,7 @@ public class DataEntryURLBox extends Box
     /** Cache the element names for this box's xml definition */
     private static String[] elementNames = { "Version", "Flags", "URL" };
 
+
     /**
      * This method will be called by the getNativeNodeForSimpleBox of the
      * class Box to get the element names.
@@ -75,11 +76,13 @@ public class DataEntryURLBox extends Box
     private byte[] flags;
     private String url;
 
+
     /** Constructs a <code>DataEntryURLBox</code> from its content data. */
     public DataEntryURLBox(byte[] data)
     {
         super(8 + data.length, 0x75726C20, data);
     }
+
 
     /** Constructs a <code>DataEntryURLBox</code> from its data elements. */
     public DataEntryURLBox(byte version, byte[] flags, String url)
@@ -89,6 +92,7 @@ public class DataEntryURLBox extends Box
         this.flags = flags;
         this.url = url;
     }
+
 
     /** Constructs a <code>DataEntryURLBox</code> from a Node. */
     public DataEntryURLBox(Node node) throws IIOInvalidTreeException
@@ -114,6 +118,7 @@ public class DataEntryURLBox extends Box
         }
     }
 
+
     /** Parses the content of this box from its content byte array. */
     @Override
     protected void parse(byte[] data)
@@ -127,6 +132,7 @@ public class DataEntryURLBox extends Box
         url = new String(data, 4, data.length - 4);
     }
 
+
     /**
      * Creates an <code>IIOMetadataNode</code> from this data entry URL
      * box. The format of this node is defined in the XML dtd and xsd
@@ -138,11 +144,13 @@ public class DataEntryURLBox extends Box
         return getNativeNodeForSimpleBox();
     }
 
+
     /** Returns the <code>Version</code> data element. */
     public byte getVersion()
     {
         return version;
     }
+
 
     /** Returns the <code>Flags</code> data element. */
     public byte[] getFlags()
@@ -150,11 +158,13 @@ public class DataEntryURLBox extends Box
         return flags;
     }
 
+
     /** Returns the <code>URL</code> data element. */
     public String getURL()
     {
         return url;
     }
+
 
     @Override
     protected void compose()

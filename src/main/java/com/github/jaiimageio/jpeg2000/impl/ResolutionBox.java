@@ -72,6 +72,7 @@ public class ResolutionBox extends Box
     private float hRes;
     private float vRes;
 
+
     /**
      * Constructs a <code>ResolutionBox</code> from the provided type and
      * content data array.
@@ -80,6 +81,7 @@ public class ResolutionBox extends Box
     {
         super(18, type, data);
     }
+
 
     /**
      * Constructs a <code>ResolutionBox</code> from the provided type and
@@ -119,6 +121,7 @@ public class ResolutionBox extends Box
         }
     }
 
+
     /**
      * Constructs a <code>ResolutionBox</code> based on the provided
      * <code>org.w3c.dom.Node</code>.
@@ -157,17 +160,20 @@ public class ResolutionBox extends Box
         }
     }
 
+
     /** Return the horizontal resolution. */
     public float getHorizontalResolution()
     {
         return hRes;
     }
 
+
     /** Return the vertical resolution. */
     public float getVerticalResolution()
     {
         return vRes;
     }
+
 
     /** Parse the data elements from the provided content data array. */
     @Override
@@ -182,6 +188,7 @@ public class ResolutionBox extends Box
         vRes = (float)((numV & 0xFFFF) * Math.pow(10, expV) / (denomV & 0xFFFF));
         hRes = (float)((numH & 0xFFFF) * Math.pow(10, expH) / (denomH & 0xFFFF));
     }
+
 
     /**
      * Creates an <code>IIOMetadataNode</code> from this resolution
@@ -226,6 +233,7 @@ public class ResolutionBox extends Box
 
         return node;
     }
+
 
     @Override
     protected void compose()

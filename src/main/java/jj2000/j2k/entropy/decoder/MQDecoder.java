@@ -117,6 +117,7 @@ public class MQDecoder
     /** The initial state of each context */
     final int initStates[];
 
+
     /**
      * Instantiates a new MQ-decoder, with the specified number of contexts and
      * initial states. The compressed bytestream is read from the 'iStream'
@@ -151,6 +152,7 @@ public class MQDecoder
         // Set the contexts
         resetCtxts();
     }
+
 
     /**
      * Decodes 'n' symbols from the bit stream using the same context
@@ -306,6 +308,7 @@ public class MQDecoder
             return false; // done, did not use speedup mode
         } // End normal mode
     }
+
 
     /**
      * This function performs the arithmetic decoding. The function receives
@@ -536,6 +539,7 @@ public class MQDecoder
         return decision;
     }
 
+
     /**
      * Checks for past errors in the decoding process using the predictable
      * error resilient termination. This works only if the encoder used the
@@ -620,6 +624,7 @@ public class MQDecoder
         return false;
     }
 
+
     /**
      * This function gets one byte of compressed bits from the in-stream.
      * the byte is added to c. If the byte is 0xFF and the next byte is greater
@@ -656,6 +661,7 @@ public class MQDecoder
         }
     }
 
+
     /**
      * Returns the number of contexts in the arithmetic coder.
      *
@@ -667,6 +673,7 @@ public class MQDecoder
     {
         return I.length;
     }
+
 
     /**
      * Resets a context to the original probability distribution.
@@ -682,6 +689,7 @@ public class MQDecoder
         mPS[c] = 0;
     }
 
+
     /**
      * Resets a context to the original probability distribution. The
      * original probability distribution depends on the actual
@@ -693,6 +701,7 @@ public class MQDecoder
         System.arraycopy(initStates, 0, I, 0, I.length);
         Arrays.fill(mPS, 0);
     }
+
 
     /**
      * Resets the MQ decoder to start a new segment. This is like recreating a
@@ -718,6 +727,7 @@ public class MQDecoder
         init();
     }
 
+
     /**
      * Returns the underlying 'ByteInputBuffer' from where the MQ
      * coded input bytes are read.
@@ -729,6 +739,7 @@ public class MQDecoder
     {
         return in;
     }
+
 
     /**
      * Initializes the state of the MQ coder, without modifying the current

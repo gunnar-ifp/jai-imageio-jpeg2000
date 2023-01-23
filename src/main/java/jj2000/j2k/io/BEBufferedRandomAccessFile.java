@@ -84,6 +84,7 @@ public class BEBufferedRandomAccessFile extends BufferedRandomAccessFile
         byteOrdering = BIG_ENDIAN;
     }
 
+
     /**
      * Constructor. Uses the default value for the byte-buffer size (512
      * bytes).
@@ -103,6 +104,7 @@ public class BEBufferedRandomAccessFile extends BufferedRandomAccessFile
         super(file, mode);
         byteOrdering = BIG_ENDIAN;
     }
+
 
     /**
      * Constructor. Always needs a size for the buffer.
@@ -126,6 +128,7 @@ public class BEBufferedRandomAccessFile extends BufferedRandomAccessFile
         byteOrdering = BIG_ENDIAN;
     }
 
+
     /**
      * Constructor. Uses the default value for the byte-buffer size (512
      * bytes).
@@ -145,6 +148,7 @@ public class BEBufferedRandomAccessFile extends BufferedRandomAccessFile
         super(name, mode);
         byteOrdering = BIG_ENDIAN;
     }
+
 
     /**
      * Writes the short value of <code>v</code> (i.e., 16 least significant bits)
@@ -168,6 +172,7 @@ public class BEBufferedRandomAccessFile extends BufferedRandomAccessFile
         write(v);
     }
 
+
     /**
      * Writes the int value of <code>v</code> (i.e., the 32 bits) to the
      * output. Prior to writing, the output should be realigned at the byte
@@ -185,6 +190,7 @@ public class BEBufferedRandomAccessFile extends BufferedRandomAccessFile
         write(v >>> 8);
         write(v);
     }
+
 
     /**
      * Writes the long value of <code>v</code> (i.e., the 64 bits) to the
@@ -208,6 +214,7 @@ public class BEBufferedRandomAccessFile extends BufferedRandomAccessFile
         write((int)v);
     }
 
+
     /**
      * Writes the IEEE float value <code>v</code> (i.e., 32 bits) to the
      * output. Prior to writing, the output should be realigned at the byte
@@ -227,6 +234,7 @@ public class BEBufferedRandomAccessFile extends BufferedRandomAccessFile
         write(intV >>> 8);
         write(intV);
     }
+
 
     /**
      * Writes the IEEE double value <code>v</code> (i.e., 64 bits) to the
@@ -252,6 +260,7 @@ public class BEBufferedRandomAccessFile extends BufferedRandomAccessFile
         write((int)(longV));
     }
 
+
     /**
      * Reads a signed short (i.e., 16 bit) from the input. Prior to reading,
      * the input should be realigned at the byte level.
@@ -270,6 +279,7 @@ public class BEBufferedRandomAccessFile extends BufferedRandomAccessFile
         return (short)((read() << 8) |
             (read()));
     }
+
 
     /**
      * Reads an unsigned short (i.e., 16 bit) from the input. It is returned
@@ -292,6 +302,7 @@ public class BEBufferedRandomAccessFile extends BufferedRandomAccessFile
             read());
     }
 
+
     /**
      * Reads a signed int (i.e., 32 bit) from the input. Prior to reading, the
      * input should be realigned at the byte level.
@@ -312,6 +323,7 @@ public class BEBufferedRandomAccessFile extends BufferedRandomAccessFile
             (read() << 8) |
             read());
     }
+
 
     /**
      * Reads an unsigned int (i.e., 32 bit) from the input. It is returned as
@@ -334,6 +346,7 @@ public class BEBufferedRandomAccessFile extends BufferedRandomAccessFile
             (read() << 8) |
             read();
     }
+
 
     /**
      * Reads a signed long (i.e., 64 bit) from the input. Prior to reading,
@@ -360,6 +373,7 @@ public class BEBufferedRandomAccessFile extends BufferedRandomAccessFile
             (read()));
     }
 
+
     /**
      * Reads an IEEE single precision (i.e., 32 bit) floating-point number
      * from the input. Prior to reading, the input should be realigned at the
@@ -382,6 +396,7 @@ public class BEBufferedRandomAccessFile extends BufferedRandomAccessFile
                 (read() << 8) |
                 (read()));
     }
+
 
     /**
      * Reads an IEEE double precision (i.e., 64 bit) floating-point number
@@ -409,6 +424,7 @@ public class BEBufferedRandomAccessFile extends BufferedRandomAccessFile
                 ((long)read() << 8) |
                 (read()));
     }
+
 
     /**
      * Returns a string of information about the file and the endianess

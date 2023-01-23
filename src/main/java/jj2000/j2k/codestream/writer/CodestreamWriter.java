@@ -81,6 +81,7 @@ public abstract class CodestreamWriter
      */
     protected int maxBytes;
 
+
     /**
      * Allocates this object and initializes the maximum numner of
      * bytes.
@@ -93,6 +94,7 @@ public abstract class CodestreamWriter
         maxBytes = mb;
     }
 
+
     /**
      * Returns the number of bytes remaining available in the bit stream. This
      * is the maximum allowed number of bytes minus the number of bytes that
@@ -104,12 +106,14 @@ public abstract class CodestreamWriter
      */
     public abstract int getMaxAvailableBytes();
 
+
     /**
      * Returns the current length of the entire bit stream.
      *
      * @return the current length of the bit stream
      */
     public abstract int getLength();
+
 
     /**
      * Writes a packet head to the bit stream and returns the number of bytes
@@ -155,6 +159,7 @@ public abstract class CodestreamWriter
     public abstract int writePacketHead(byte head[], int hlen, boolean sim,
         boolean sop, boolean eph)
         throws IOException;
+
 
     /**
      * Writes a packet body to the bit stream and returns the number of bytes
@@ -204,6 +209,7 @@ public abstract class CodestreamWriter
      */
     public abstract void close() throws IOException;
 
+
     /**
      * Writes the header data to the bit stream, if it has not been already
      * done. In some implementations this method can be called only once, and
@@ -216,6 +222,7 @@ public abstract class CodestreamWriter
      */
     public abstract void commitBitstreamHeader(HeaderEncoder he)
         throws IOException;
+
 
     /**
      * Gives the offset of the end of last packet containing ROI information

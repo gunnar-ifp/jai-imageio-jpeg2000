@@ -141,6 +141,7 @@ public class ForwWTFull extends ForwardWT
      */
     Point ncblks;
 
+
     /**
      * Initializes this object with the given source of image data and with
      * all the decompositon parameters
@@ -180,6 +181,7 @@ public class ForwWTFull extends ForwardWT
         lastm = new int[ncomp];
     }
 
+
     /**
      * Returns the implementation type of this wavelet transform, WT_IMPL_FULL
      * (full-page based transform). All components return the same.
@@ -193,6 +195,7 @@ public class ForwWTFull extends ForwardWT
     {
         return WaveletTransform.WT_IMPL_FULL;
     }
+
 
     /**
      * Returns the number of decomposition levels that are applied to the LL
@@ -212,6 +215,7 @@ public class ForwWTFull extends ForwardWT
         return ((Integer)dls.getTileCompVal(t, c)).intValue();
     }
 
+
     /**
      * Returns the wavelet tree decomposition. Actually JPEG 2000 part 1 only
      * supports WT_DECOMP_DYADIC decomposition.
@@ -227,6 +231,7 @@ public class ForwWTFull extends ForwardWT
     {
         return WT_DECOMP_DYADIC;
     }
+
 
     /**
      * Returns the horizontal analysis wavelet filters used in each level, for
@@ -257,6 +262,7 @@ public class ForwWTFull extends ForwardWT
         return filters.getHFilters(t, c);
     }
 
+
     /**
      * Returns the vertical analysis wavelet filters used in each level, for
      * the specified component and tile. The first element in the array is the
@@ -286,6 +292,7 @@ public class ForwWTFull extends ForwardWT
         return filters.getVFilters(t, c);
     }
 
+
     /**
      * Returns the reversibility of the wavelet transform for the specified
      * component and tile. A wavelet transform is reversible when it is
@@ -303,6 +310,7 @@ public class ForwWTFull extends ForwardWT
         return filters.isReversible(t, c);
     }
 
+
     /**
      * Returns the horizontal offset of the code-block partition. Allowable
      * values are 0 and 1, nothing else.
@@ -313,6 +321,7 @@ public class ForwWTFull extends ForwardWT
         return cb0x;
     }
 
+
     /**
      * Returns the vertical offset of the code-block partition. Allowable
      * values are 0 and 1, nothing else.
@@ -322,6 +331,7 @@ public class ForwWTFull extends ForwardWT
     {
         return cb0y;
     }
+
 
     /**
      * Returns the position of the fixed point in the specified
@@ -559,6 +569,7 @@ public class ForwWTFull extends ForwardWT
         return cblk;
     }
 
+
     /**
      * Returns the next code-block in the current tile for the specified
      * component, as a copy (see below). The order in which code-blocks are
@@ -657,6 +668,7 @@ public class ForwWTFull extends ForwardWT
         return cblk;
     }
 
+
     /**
      * Return the data type of this CBlkWTDataSrc. Its value should be either
      * DataBlk.TYPE_INT or DataBlk.TYPE_FLOAT but can change according to the
@@ -673,6 +685,7 @@ public class ForwWTFull extends ForwardWT
     {
         return filters.getWTDataType(t, c);
     }
+
 
     /**
      * Returns the next subband that will be used to get the next code-block
@@ -770,6 +783,7 @@ public class ForwWTFull extends ForwardWT
         return nextsb;
     }
 
+
     /**
      * Performs the forward wavelet transform on the whole band. It
      * iteratively decomposes the subbands from the top node to the leaves.
@@ -801,6 +815,7 @@ public class ForwWTFull extends ForwardWT
             waveletTreeDecomposition(band, (SubbandAn)subband.getLL(), c);
         }
     }
+
 
     /**
      * Performs the 2D forward wavelet transform on a subband of the initial
@@ -944,6 +959,7 @@ public class ForwWTFull extends ForwardWT
         }
     }
 
+
     /**
      * Changes the current tile, given the new coordinates.
      *
@@ -974,6 +990,7 @@ public class ForwWTFull extends ForwardWT
 
     }
 
+
     /**
      * Advances to the next tile, in standard scan-line order (by rows then
      * columns). An NoNextElementException is thrown if the current tile is
@@ -1001,6 +1018,7 @@ public class ForwWTFull extends ForwardWT
 
     }
 
+
     /**
      * Returns a reference to the subband tree structure representing the
      * subband decomposition for the specified tile-component of the source.
@@ -1027,6 +1045,7 @@ public class ForwWTFull extends ForwardWT
         }
         return subbTrees[t][c];
     }
+
 
     /**
      * Initialises subbands fields, such as number of code-blocks and

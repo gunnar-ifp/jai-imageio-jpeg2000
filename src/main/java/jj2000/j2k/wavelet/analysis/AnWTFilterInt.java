@@ -115,6 +115,7 @@ public abstract class AnWTFilterInt extends AnWTFilter
         int lowSig[], int lowOff, int lowStep,
         int highSig[], int highOff, int highStep);
 
+
     /**
      * The general version of the analyze_lpf() method, it just calls the
      * specialized version. See the description of the analyze_lpf()
@@ -168,6 +169,7 @@ public abstract class AnWTFilterInt extends AnWTFilter
             (int[])highSig, highOff, highStep);
     }
 
+
     /**
      * A specific version of the analyze_hpf() method that works on int
      * data. See the general description of the analyze_hpf() method in
@@ -212,6 +214,7 @@ public abstract class AnWTFilterInt extends AnWTFilter
     public abstract void analyze_hpf(int inSig[], int inOff, int inLen, int inStep,
         int lowSig[], int lowOff, int lowStep,
         int highSig[], int highOff, int highStep);
+
 
     /**
      * The general version of the analyze_hpf() method, it just calls the
@@ -265,6 +268,7 @@ public abstract class AnWTFilterInt extends AnWTFilter
             (int[])lowSig, lowOff, lowStep,
             (int[])highSig, highOff, highStep);
     }
+
 
     /**
      * Returns the type of data on which this filter works, as defined

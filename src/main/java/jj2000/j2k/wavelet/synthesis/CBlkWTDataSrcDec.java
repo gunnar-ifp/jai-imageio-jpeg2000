@@ -97,6 +97,7 @@ public interface CBlkWTDataSrcDec extends InvWTData
      */
     public int getNomRangeBits(int c);
 
+
     /**
      * Returns the position of the fixed point in the specified component, or
      * equivalently the number of fractional bits. This is the position of the
@@ -113,6 +114,7 @@ public interface CBlkWTDataSrcDec extends InvWTData
      * number of fractional bits. For floating-point data 0 is returned.
      */
     public int getFixedPoint(int c);
+
 
     /**
      * Returns the specified code-block in the current tile for the specified
@@ -157,6 +159,7 @@ public interface CBlkWTDataSrcDec extends InvWTData
      */
     public DataBlk getCodeBlock(int c, int m, int n, SubbandSyn sb,
         DataBlk cblk);
+
 
     /**
      * Returns the specified code-block in the current tile for the specified

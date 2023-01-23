@@ -75,6 +75,7 @@ public interface ForwWTDataProps extends ImgData
      */
     public boolean isReversible(int t, int c);
 
+
     /**
      * Returns a reference to the root of subband tree structure representing
      * the subband decomposition for the specified tile-component.
@@ -91,11 +92,13 @@ public interface ForwWTDataProps extends ImgData
      */
     public SubbandAn getAnSubbandTree(int t, int c);
 
+
     /**
      * Returns the horizontal offset of the code-block partition. Allowable
      * values are 0 and 1, nothing else.
      */
     public int getCbULX();
+
 
     /**
      * Returns the vertical offset of the code-block partition. Allowable

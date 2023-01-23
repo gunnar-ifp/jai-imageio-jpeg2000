@@ -118,6 +118,7 @@ public abstract class SynWTFilterFloat extends SynWTFilter
         float[] highSig, int highOff, int highLen, int highStep,
         float[] outSig, int outOff, int outStep);
 
+
     /**
      * The general version of the synthetize_lpf() method, it just calls
      * the specialized version. See the description of the synthetize_lpf()
@@ -174,6 +175,7 @@ public abstract class SynWTFilterFloat extends SynWTFilter
             (float[])outSig, outOff, outStep);
     }
 
+
     /**
      * A specific version of the synthetize_hpf() method that works on float
      * data. See the general description of the synthetize_hpf() method in the
@@ -221,6 +223,7 @@ public abstract class SynWTFilterFloat extends SynWTFilter
     public abstract void synthetize_hpf(float[] lowSig, int lowOff, int lowLen, int lowStep,
         float[] highSig, int highOff, int highLen, int highStep,
         float[] outSig, int outOff, int outStep);
+
 
     /**
      * The general version of the synthetize_hpf() method, it just calls
@@ -277,6 +280,7 @@ public abstract class SynWTFilterFloat extends SynWTFilter
             (float[])highSig, highOff, highLen, highStep,
             (float[])outSig, outOff, outStep);
     }
+
 
     /**
      * Returns the type of data on which this filter works, as defined

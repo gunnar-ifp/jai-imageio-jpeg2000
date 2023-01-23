@@ -63,6 +63,7 @@ public class J2KRenderedImage extends SimpleRenderedImage
 
     private J2KReadState readState;
 
+
     public J2KRenderedImage(ImageInputStream iis,
         J2KImageReadParamJava param,
         J2KMetadata metadata,
@@ -71,12 +72,14 @@ public class J2KRenderedImage extends SimpleRenderedImage
         this(new J2KReadState(iis, param, metadata, reader));
     }
 
+
     public J2KRenderedImage(ImageInputStream iis,
         J2KImageReadParamJava param,
         J2KImageReader reader) throws IOException
     {
         this(new J2KReadState(iis, param, reader));
     }
+
 
     public J2KRenderedImage(J2KReadState readState)
     {
@@ -100,6 +103,7 @@ public class J2KRenderedImage extends SimpleRenderedImage
         sampleModel = readState.getSampleModel();
         colorModel = readState.getColorModel();
     }
+
 
     @Override
     public synchronized Raster getTile(int tileX, int tileY)

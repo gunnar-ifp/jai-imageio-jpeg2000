@@ -62,6 +62,7 @@ public class DataBlkFloat extends DataBlk
     /** The array where the data is stored */
     public float[] data;
 
+
     /**
      * Creates a DataBlkFloat with 0 dimensions and no data array
      * (i.e. data is null).
@@ -72,6 +73,7 @@ public class DataBlkFloat extends DataBlk
     public DataBlkFloat()
     {
     }
+
 
     /**
      * Creates a DataBlkFloat with the specified dimensions and
@@ -101,6 +103,7 @@ public class DataBlkFloat extends DataBlk
         data = new float[w * h];
     }
 
+
     /**
      * Copy constructor.
      * Creates a DataBlkFloat which is the copy of the DataBlkFloat
@@ -124,6 +127,7 @@ public class DataBlkFloat extends DataBlk
                 this.data, i * this.scanw, this.w);
     }
 
+
     /**
      * Returns the identifier of this data type, <code>TYPE_FLOAT</code>,
      * as defined in <code>DataBlk</code>.
@@ -141,6 +145,7 @@ public class DataBlkFloat extends DataBlk
         return TYPE_FLOAT;
     }
 
+
     /**
      * Returns the array containing the data, or null if there is no
      * data array. The returned array is a float array.
@@ -157,6 +162,7 @@ public class DataBlkFloat extends DataBlk
         return data;
     }
 
+
     /**
      * Returns the array containing the data, or null if there is no
      * data array.
@@ -169,6 +175,7 @@ public class DataBlkFloat extends DataBlk
     {
         return data;
     }
+
 
     /**
      * Sets the data array to the specified one. The provided array
@@ -186,6 +193,7 @@ public class DataBlkFloat extends DataBlk
         data = (float[])arr;
     }
 
+
     /**
      * Sets the data array to the specified one. The size of the array
      * is not checked for consistency with the block's dimensions.
@@ -198,6 +206,7 @@ public class DataBlkFloat extends DataBlk
     {
         data = arr;
     }
+
 
     /**
      * Returns a string of informations about the DataBlkInt.

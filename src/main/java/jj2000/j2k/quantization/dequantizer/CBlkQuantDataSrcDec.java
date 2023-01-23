@@ -131,6 +131,7 @@ public interface CBlkQuantDataSrcDec extends InvWTData
      */
     public DataBlk getCodeBlock(int c, int m, int n, SubbandSyn sb, DataBlk cblk);
 
+
     /**
      * Returns the specified code-block in the current tile for the specified
      * component (as a reference or copy).

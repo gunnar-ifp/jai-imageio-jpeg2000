@@ -99,6 +99,7 @@ public class ImgDataJoiner implements BlkImgDataSrc
      */
     private int[] subsY;
 
+
     /**
      * Class constructor. Each input BlkImgDataSrc and its component index
      * must appear in the order wanted for the output components.<br>
@@ -195,6 +196,7 @@ public class ImgDataJoiner implements BlkImgDataSrc
         }
     }
 
+
     /**
      * Returns the overall width of the current tile in pixels. This is the
      * tile's width without accounting for any component subsampling.
@@ -206,6 +208,7 @@ public class ImgDataJoiner implements BlkImgDataSrc
     {
         return w;
     }
+
 
     /**
      * Returns the overall height of the current tile in pixels. This is the
@@ -219,6 +222,7 @@ public class ImgDataJoiner implements BlkImgDataSrc
         return h;
     }
 
+
     /** Returns the nominal tiles width */
     @Override
     public int getNomTileWidth()
@@ -226,12 +230,14 @@ public class ImgDataJoiner implements BlkImgDataSrc
         return w;
     }
 
+
     /** Returns the nominal tiles height */
     @Override
     public int getNomTileHeight()
     {
         return h;
     }
+
 
     /**
      * Returns the overall width of the image in pixels. This is the image's
@@ -245,6 +251,7 @@ public class ImgDataJoiner implements BlkImgDataSrc
         return w;
     }
 
+
     /**
      * Returns the overall height of the image in pixels. This is the image's
      * height without accounting for any component subsampling or tiling.
@@ -257,6 +264,7 @@ public class ImgDataJoiner implements BlkImgDataSrc
         return h;
     }
 
+
     /**
      * Returns the number of components in the image.
      *
@@ -267,6 +275,7 @@ public class ImgDataJoiner implements BlkImgDataSrc
     {
         return nc;
     }
+
 
     /**
      * Returns the component subsampling factor in the horizontal direction,
@@ -285,6 +294,7 @@ public class ImgDataJoiner implements BlkImgDataSrc
     {
         return subsX[c];
     }
+
 
     /**
      * Returns the component subsampling factor in the vertical direction, for
@@ -320,6 +330,7 @@ public class ImgDataJoiner implements BlkImgDataSrc
         return imageData[c].getTileCompWidth(t, compIdx[c]);
     }
 
+
     /**
      * Returns the height in pixels of the specified tile-component.
      *
@@ -336,6 +347,7 @@ public class ImgDataJoiner implements BlkImgDataSrc
         return imageData[c].getTileCompHeight(t, compIdx[c]);
     }
 
+
     /**
      * Returns the width in pixels of the specified component in the overall
      * image.
@@ -350,6 +362,7 @@ public class ImgDataJoiner implements BlkImgDataSrc
     {
         return imageData[c].getCompImgWidth(compIdx[c]);
     }
+
 
     /**
      * Returns the height in pixels of the specified component in the
@@ -367,6 +380,7 @@ public class ImgDataJoiner implements BlkImgDataSrc
     {
         return imageData[n].getCompImgHeight(compIdx[n]);
     }
+
 
     /**
      * Returns the number of bits, referred to as the "range bits",
@@ -388,6 +402,7 @@ public class ImgDataJoiner implements BlkImgDataSrc
         return imageData[c].getNomRangeBits(compIdx[c]);
     }
 
+
     /**
      * Returns the position of the fixed point in the specified
      * component. This is the position of the least significant integral
@@ -407,6 +422,7 @@ public class ImgDataJoiner implements BlkImgDataSrc
     {
         return imageData[c].getFixedPoint(compIdx[c]);
     }
+
 
     /**
      * Returns, in the blk argument, a block of image data containing the
@@ -455,6 +471,7 @@ public class ImgDataJoiner implements BlkImgDataSrc
         return imageData[c].getInternCompData(blk, compIdx[c]);
     }
 
+
     /**
      * Returns, in the blk argument, a block of image data containing the
      * specifed rectangular area, in the specified component. The data is
@@ -502,6 +519,7 @@ public class ImgDataJoiner implements BlkImgDataSrc
         return imageData[c].getCompData(blk, compIdx[c]);
     }
 
+
     /**
      * Changes the current tile, given the new coordinates. An
      * IllegalArgumentException is thrown if the coordinates do not correspond
@@ -519,6 +537,7 @@ public class ImgDataJoiner implements BlkImgDataSrc
         }
     }
 
+
     /**
      * Advances to the next tile, in standard scan-line order (by rows then
      * columns). A NoNextElementException is thrown if the current tile is the
@@ -530,6 +549,7 @@ public class ImgDataJoiner implements BlkImgDataSrc
     {
         throw new NoNextElementException();
     }
+
 
     /**
      * Returns the coordinates of the current tile. This default
@@ -553,6 +573,7 @@ public class ImgDataJoiner implements BlkImgDataSrc
         }
     }
 
+
     /**
      * Returns the index of the current tile, relative to a standard scan-line
      * order. This default implementations assumes no tiling, so 0 is always
@@ -566,6 +587,7 @@ public class ImgDataJoiner implements BlkImgDataSrc
         return 0;
     }
 
+
     /**
      * Returns the horizontal coordinate of the upper-left corner of the
      * specified component in the current tile.
@@ -577,6 +599,7 @@ public class ImgDataJoiner implements BlkImgDataSrc
     {
         return 0;
     }
+
 
     /**
      * Returns the vertical coordinate of the upper-left corner of the
@@ -590,6 +613,7 @@ public class ImgDataJoiner implements BlkImgDataSrc
         return 0;
     }
 
+
     /** Returns the horizontal tile partition offset in the reference grid */
     @Override
     public int getTilePartULX()
@@ -597,12 +621,14 @@ public class ImgDataJoiner implements BlkImgDataSrc
         return 0;
     }
 
+
     /** Returns the vertical tile partition offset in the reference grid */
     @Override
     public int getTilePartULY()
     {
         return 0;
     }
+
 
     /**
      * Returns the horizontal coordinate of the image origin, the top-left
@@ -617,6 +643,7 @@ public class ImgDataJoiner implements BlkImgDataSrc
         return 0;
     }
 
+
     /**
      * Returns the vertical coordinate of the image origin, the top-left
      * corner, in the canvas system, on the reference grid.
@@ -629,6 +656,7 @@ public class ImgDataJoiner implements BlkImgDataSrc
     {
         return 0;
     }
+
 
     /**
      * Returns the number of tiles in the horizontal and vertical
@@ -654,6 +682,7 @@ public class ImgDataJoiner implements BlkImgDataSrc
         }
     }
 
+
     /**
      * Returns the total number of tiles in the image. This default
      * implementation assumes no tiling, so 1 is always returned.
@@ -665,6 +694,7 @@ public class ImgDataJoiner implements BlkImgDataSrc
     {
         return 1;
     }
+
 
     /**
      * Returns a string of information about the object, more than 1 line

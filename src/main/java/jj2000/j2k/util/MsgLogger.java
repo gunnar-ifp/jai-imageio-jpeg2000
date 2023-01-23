@@ -101,6 +101,7 @@ public interface MsgLogger
      */
     public static final int ERROR = 3;
 
+
     /**
      * Prints the message 'msg' to the output device, appending a newline,
      * with severity 'sev'. Some implementations where the appended newline is
@@ -116,6 +117,7 @@ public interface MsgLogger
      *
      */
     public void printmsg(int sev, String msg);
+
 
     /**
      * Prints the string 'str' to the output device, appending a line
@@ -137,6 +139,7 @@ public interface MsgLogger
      *
      */
     public void println(String str, int flind, int ind);
+
 
     /**
      * Writes any buffered data from the println() method to the device.

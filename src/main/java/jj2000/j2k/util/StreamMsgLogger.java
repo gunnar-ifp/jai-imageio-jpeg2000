@@ -74,6 +74,7 @@ public class StreamMsgLogger implements MsgLogger
     /** The printer that formats the text */
     private MsgPrinter mp;
 
+
     /**
      * Constructs a StreamMsgLogger that uses 'outstr' as the 'out' stream,
      * and 'errstr' as the 'err' stream. Note that 'outstr' and 'errstr' can
@@ -93,6 +94,7 @@ public class StreamMsgLogger implements MsgLogger
         err = new PrintWriter(errstr, true);
         mp = new MsgPrinter(lw);
     }
+
 
     /**
      * Constructs a StreamMsgLogger that uses 'outstr' as the 'out' stream,
@@ -114,6 +116,7 @@ public class StreamMsgLogger implements MsgLogger
         mp = new MsgPrinter(lw);
     }
 
+
     /**
      * Constructs a StreamMsgLogger that uses 'outstr' as the 'out' stream,
      * and 'errstr' as the 'err' stream. Note that 'outstr' and 'errstr' can
@@ -133,6 +136,7 @@ public class StreamMsgLogger implements MsgLogger
         err = errstr;
         mp = new MsgPrinter(lw);
     }
+
 
     /**
      * Prints the message 'msg' to the output device, appending a newline,
@@ -177,6 +181,7 @@ public class StreamMsgLogger implements MsgLogger
         lout.flush();
     }
 
+
     /**
      * Prints the string 'str' to the 'out' stream, appending a newline. The
      * message is reformatted to the line width given to the constructors and
@@ -201,6 +206,7 @@ public class StreamMsgLogger implements MsgLogger
     {
         mp.print(out, flind, ind, str);
     }
+
 
     /**
      * Writes any buffered data from the print() and println() methods to the

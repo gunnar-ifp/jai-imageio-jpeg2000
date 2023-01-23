@@ -80,6 +80,7 @@ public abstract class SubbandROIMask
     /** Height of the subband mask */
     public int h;
 
+
     /**
      * The constructor of the SubbandROIMask takes the dimensions of the
      * subband as parameters
@@ -99,6 +100,7 @@ public abstract class SubbandROIMask
         this.w = w;
         this.h = h;
     }
+
 
     /**
      * Returns a reference to the Subband mask element to which the specified

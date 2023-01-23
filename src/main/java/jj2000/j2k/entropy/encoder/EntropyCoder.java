@@ -187,6 +187,7 @@ public abstract class EntropyCoder extends ImgDataAdapter
     /** The source of quantized wavelet coefficients */
     protected CBlkQuantDataSrcEnc src;
 
+
     /**
      * Initializes the source of quantized wavelet coefficients.
      *
@@ -197,6 +198,7 @@ public abstract class EntropyCoder extends ImgDataAdapter
         super(src);
         this.src = src;
     }
+
 
     /**
      * Returns the code-block width for the specified tile and component.
@@ -209,6 +211,7 @@ public abstract class EntropyCoder extends ImgDataAdapter
      */
     public abstract int getCBlkWidth(int t, int c);
 
+
     /**
      * Returns the code-block height for the specified tile and component.
      *
@@ -219,6 +222,7 @@ public abstract class EntropyCoder extends ImgDataAdapter
      * @return The code-block height for the specified tile and component
      */
     public abstract int getCBlkHeight(int t, int c);
+
 
     /**
      * Returns the reversibility of the tile-component data that is provided
@@ -244,6 +248,7 @@ public abstract class EntropyCoder extends ImgDataAdapter
         return src.isReversible(t, c);
     }
 
+
     /**
      * Returns a reference to the root of subband tree structure representing
      * the subband decomposition for the specified tile-component.
@@ -264,6 +269,7 @@ public abstract class EntropyCoder extends ImgDataAdapter
         return src.getAnSubbandTree(t, c);
     }
 
+
     /**
      * Returns the horizontal offset of the code-block partition. Allowable
      * values are 0 and 1, nothing else.
@@ -274,6 +280,7 @@ public abstract class EntropyCoder extends ImgDataAdapter
         return src.getCbULX();
     }
 
+
     /**
      * Returns the vertical offset of the code-block partition. Allowable
      * values are 0 and 1, nothing else.
@@ -283,6 +290,7 @@ public abstract class EntropyCoder extends ImgDataAdapter
     {
         return src.getCbULY();
     }
+
 
     /**
      * Returns the parameters that are used in this class and
@@ -302,6 +310,7 @@ public abstract class EntropyCoder extends ImgDataAdapter
     {
         return pinfo;
     }
+
 
     /**
      * Creates a EntropyCoder object for the appropriate entropy coding

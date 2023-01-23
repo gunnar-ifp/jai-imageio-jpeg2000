@@ -122,6 +122,7 @@ public class DecoderSpecs implements Cloneable
     /** Packed packet header specifications */
     public ModuleSpec pphs;
 
+
     /**
      * Returns a copy of the current object.
      */

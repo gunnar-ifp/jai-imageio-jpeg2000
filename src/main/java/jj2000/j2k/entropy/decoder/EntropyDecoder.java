@@ -99,6 +99,7 @@ public abstract class EntropyDecoder extends MultiResImgDataAdapter
      */
     protected CodedCBlkDataSrcDec src;
 
+
     /**
      * Initializes the source of compressed data.
      *
@@ -109,6 +110,7 @@ public abstract class EntropyDecoder extends MultiResImgDataAdapter
         super(src);
         this.src = src;
     }
+
 
     /**
      * Returns the subband tree, for the specified tile-component. This method
@@ -132,6 +134,7 @@ public abstract class EntropyDecoder extends MultiResImgDataAdapter
         return src.getSynSubbandTree(t, c);
     }
 
+
     /**
      * Returns the horizontal code-block partition origin. Allowable values
      * are 0 and 1, nothing else.
@@ -141,6 +144,7 @@ public abstract class EntropyDecoder extends MultiResImgDataAdapter
     {
         return src.getCbULX();
     }
+
 
     /**
      * Returns the vertical code-block partition origin. Allowable values are

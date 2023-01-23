@@ -180,6 +180,7 @@ public class EBCOTRateAllocator extends PostCompRateAllocator
     /** The minimum slope accross all code-blocks and truncation points. */
     private float minSlope;
 
+
     /**
      * Initializes the EBCOT rate allocator of entropy coded data. The layout
      * of layers, and their bitrate constraints, is specified by the 'lyrs'
@@ -356,6 +357,7 @@ public class EBCOTRateAllocator extends PostCompRateAllocator
         // it is needed that the bit stream header has been entirely written
     }
 
+
     /**
      * Runs the rate allocation algorithm and writes the data to the bit
      * stream writer object provided to the constructor.
@@ -366,6 +368,7 @@ public class EBCOTRateAllocator extends PostCompRateAllocator
         //Now, run the rate allocation
         buildAndWriteLayers();
     }
+
 
     /**
      * Initializes the layers array. This must be called after the main header
@@ -561,6 +564,7 @@ public class EBCOTRateAllocator extends PostCompRateAllocator
         } // End loop on tiles
     }
 
+
     /**
      * This method gets all the coded code-blocks from the EBCOT entropy coder
      * for every component and every tile. Each coded code-block is stored in
@@ -670,6 +674,7 @@ public class EBCOTRateAllocator extends PostCompRateAllocator
                 src.nextTile();
         }
     }
+
 
     /**
      * This method builds all the bit stream layers and then writes them to
@@ -837,6 +842,7 @@ public class EBCOTRateAllocator extends PostCompRateAllocator
         } // End loop on tiles
     }
 
+
     /**
      * Write a piece of bit stream according to the
      * RES_LY_COMP_POS_PROG progression mode and between given bounds
@@ -932,6 +938,7 @@ public class EBCOTRateAllocator extends PostCompRateAllocator
         } // End loop on resolution levels
     }
 
+
     /**
      * Write a piece of bit stream according to the
      * LY_RES_COMP_POS_PROG progression mode and between given bounds
@@ -1014,6 +1021,7 @@ public class EBCOTRateAllocator extends PostCompRateAllocator
             } // end loop on resolution levels
         } // end loop on layers
     }
+
 
     /**
      * Write a piece of bit stream according to the
@@ -1200,6 +1208,7 @@ public class EBCOTRateAllocator extends PostCompRateAllocator
             }
         }
     }
+
 
     /**
      * Write a piece of bit stream according to the
@@ -1390,6 +1399,7 @@ public class EBCOTRateAllocator extends PostCompRateAllocator
         }
     }
 
+
     /**
      * Write a piece of bit stream according to the
      * RES_POS_COMP_LY_PROG progression mode and between given bounds
@@ -1578,6 +1588,7 @@ public class EBCOTRateAllocator extends PostCompRateAllocator
         }
     }
 
+
     /**
      * This function implements the rate-distortion optimization algorithm.
      * It saves the state of any previously generated bit-stream layers and
@@ -1761,6 +1772,7 @@ public class EBCOTRateAllocator extends PostCompRateAllocator
         return ft;
     }
 
+
     /**
      * This function attempts to estimate a rate-distortion slope threshold
      * which will achieve a target number of code bytes close the
@@ -1902,6 +1914,7 @@ public class EBCOTRateAllocator extends PostCompRateAllocator
         return eth;
     }
 
+
     /**
      * This function finds the new truncation points indices for a packet. It
      * does so by including the data from the code-blocks in the component,
@@ -2001,6 +2014,7 @@ public class EBCOTRateAllocator extends PostCompRateAllocator
             return idx;
         }
     }
+
 
     /**
      * Returns the minimum slope value associated with a summary table

@@ -83,6 +83,7 @@ public class ProgressionSpec extends ModuleSpec
         }
     }
 
+
     /**
      * Creates a new ProgressionSpec object for the specified number of
      * tiles, components and the J2KImageWriteParamJava instance.
@@ -365,6 +366,7 @@ public class ProgressionSpec extends ModuleSpec
             }
         }
     }
+
 
     /**
      * Check if the progression mode exists and if so, return its integer

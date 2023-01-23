@@ -66,6 +66,7 @@ public class ChannelDefinitionBox extends Box
     private short[] types;
     private short[] associations;
 
+
     /**
      * Computes the length of this box from the provided
      * <code>ColorModel</code>.
@@ -76,6 +77,7 @@ public class ChannelDefinitionBox extends Box
         return 10 +
             (colorModel.isAlphaPremultiplied() ? length * 18 : length * 12);
     }
+
 
     /**
      * Fills the channel definitions into the arrays based on the number
@@ -107,6 +109,7 @@ public class ChannelDefinitionBox extends Box
         }
     }
 
+
     /**
      * Constructs a <code>ChannelDefinitionBox</code> based on the provided
      * <code>ColorModel</code>.
@@ -130,6 +133,7 @@ public class ChannelDefinitionBox extends Box
             associations);
     }
 
+
     /**
      * Constructs a <code>ChannelDefinitionBox</code> based on the provided
      * content in byte array.
@@ -138,6 +142,7 @@ public class ChannelDefinitionBox extends Box
     {
         super(8 + data.length, 0x63646566, data);
     }
+
 
     /**
      * Constructs a <code>ChannelDefinitionBox</code> based on the provided
@@ -152,6 +157,7 @@ public class ChannelDefinitionBox extends Box
         this.types = types;
         this.associations = associations;
     }
+
 
     /**
      * Constructs a <code>ChannelDefinitionBox</code> based on the provided
@@ -197,6 +203,7 @@ public class ChannelDefinitionBox extends Box
         }
     }
 
+
     /** Parse the channel definitions from the content data array. */
     @Override
     protected void parse(byte[] data)
@@ -213,17 +220,20 @@ public class ChannelDefinitionBox extends Box
         }
     }
 
+
     /** Returns the defined channels. */
     public short[] getChannel()
     {
         return channels;
     }
 
+
     /** Returns the channel types. */
     public short[] getTypes()
     {
         return types;
     }
+
 
     /**
      * Returns the association which associates a color channel to a color
@@ -233,6 +243,7 @@ public class ChannelDefinitionBox extends Box
     {
         return associations;
     }
+
 
     /**
      * Creates an <code>IIOMetadataNode</code> from this channel definition
@@ -272,6 +283,7 @@ public class ChannelDefinitionBox extends Box
 
         return node;
     }
+
 
     @Override
     protected void compose()

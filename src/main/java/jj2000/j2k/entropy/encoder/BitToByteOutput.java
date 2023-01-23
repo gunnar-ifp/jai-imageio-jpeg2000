@@ -84,6 +84,7 @@ class BitToByteOutput
     /** The number of written bytes (excluding the bit buffer) */
     int nb = 0;
 
+
     /**
      * Instantiates a new 'BitToByteOutput' object that uses 'out' as the
      * underlying byte based output.
@@ -94,6 +95,7 @@ class BitToByteOutput
     {
         this.out = out;
     }
+
 
     /**
      * Writes to the bit stream the symbols contained in the 'symbuf'
@@ -135,6 +137,7 @@ class BitToByteOutput
         this.bpos = bpos;
     }
 
+
     /**
      * Write a bit to the output. The least significant bit of 'bit' is
      * written to the output.
@@ -163,6 +166,7 @@ class BitToByteOutput
             bbuf = 0;
         }
     }
+
 
     /**
      * Writes the contents of the bit buffer and byte aligns the output by
@@ -209,6 +213,7 @@ class BitToByteOutput
         }
     }
 
+
     /**
      * Terminates the bit stream by calling 'flush()' and then 'reset()'.
      */
@@ -219,6 +224,7 @@ class BitToByteOutput
         reset();
         return savedNb;
     }
+
 
     /**
      * Resets the bit buffer to empty, without writing anything to the
@@ -232,6 +238,7 @@ class BitToByteOutput
         bbuf = 0;
         nb = 0;
     }
+
 
     /**
      * Returns the length, in bytes, of the output bit stream as written by
@@ -253,6 +260,7 @@ class BitToByteOutput
             return nb + ((bpos == 7) ? 0 : 1);
         }
     }
+
 
     /**
      * Set the flag according to whether or not the predictable termination is

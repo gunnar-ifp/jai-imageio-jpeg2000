@@ -93,6 +93,7 @@ public abstract class WTFilterSpec
     // Use byte to save memory (no need for speed here).
     protected byte specValType[];
 
+
     /**
      * Constructs a 'WTFilterSpec' object, initializing all the components and
      * tiles to the 'FILTER_SPEC_MAIN_DEF' spec type, for the specified number
@@ -109,6 +110,7 @@ public abstract class WTFilterSpec
         specValType = new byte[nc];
     }
 
+
     /**
      * Returns the data type used by the filters in this object, as defined in
      * the 'DataBlk' interface.
@@ -120,6 +122,7 @@ public abstract class WTFilterSpec
      *
      */
     public abstract int getWTDataType();
+
 
     /**
      * Returns the type of specification for the filters in the specified

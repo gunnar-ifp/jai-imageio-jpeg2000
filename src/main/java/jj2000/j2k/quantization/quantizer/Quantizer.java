@@ -149,6 +149,7 @@ public abstract class Quantizer extends ImgDataAdapter
     /** The source of wavelet transform coefficients */
     protected CBlkWTDataSrc src;
 
+
     /**
      * Initializes the source of wavelet transform coefficients.
      *
@@ -159,6 +160,7 @@ public abstract class Quantizer extends ImgDataAdapter
         super(src);
         this.src = src;
     }
+
 
     /**
      * Returns the number of guard bits used by this quantizer in the
@@ -172,6 +174,7 @@ public abstract class Quantizer extends ImgDataAdapter
      */
     public abstract int getNumGuardBits(int t, int c);
 
+
     /**
      * Returns true if the quantizer of given tile-component uses derived
      * quantization step sizes.
@@ -183,6 +186,7 @@ public abstract class Quantizer extends ImgDataAdapter
      * @return True if derived quantization is used.
      */
     public abstract boolean isDerived(int t, int c);
+
 
     /**
      * Calculates the parameters of the SubbandAn objects that depend on the
@@ -197,6 +201,7 @@ public abstract class Quantizer extends ImgDataAdapter
      * @see SubbandAn#stepWMSE
      */
     protected abstract void calcSbParams(SubbandAn sb, int n);
+
 
     /**
      * Returns a reference to the subband tree structure representing the
@@ -231,6 +236,7 @@ public abstract class Quantizer extends ImgDataAdapter
         return sbba;
     }
 
+
     /**
      * Returns the horizontal offset of the code-block partition. Allowable
      * values are 0 and 1, nothing else.
@@ -241,6 +247,7 @@ public abstract class Quantizer extends ImgDataAdapter
         return src.getCbULX();
     }
 
+
     /**
      * Returns the vertical offset of the code-block partition. Allowable
      * values are 0 and 1, nothing else.
@@ -250,6 +257,7 @@ public abstract class Quantizer extends ImgDataAdapter
     {
         return src.getCbULY();
     }
+
 
     /**
      * Returns the parameters that are used in this class and implementing
@@ -268,6 +276,7 @@ public abstract class Quantizer extends ImgDataAdapter
     {
         return pinfo;
     }
+
 
     /**
      * Creates a Quantizer object for the appropriate type of quantization
@@ -291,6 +300,7 @@ public abstract class Quantizer extends ImgDataAdapter
         // Instantiate quantizer
         return new StdQuantizer(src, wp);
     }
+
 
     /**
      * Returns the maximum number of magnitude bits in any subband in the

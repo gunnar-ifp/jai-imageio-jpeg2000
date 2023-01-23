@@ -86,6 +86,7 @@ public interface BlkImgDataSrc extends ImgData
      */
     public int getFixedPoint(int c);
 
+
     /**
      * Returns, in the blk argument, a block of image data containing the
      * specifed rectangular area, in the specified component. The data is
@@ -135,6 +136,7 @@ public interface BlkImgDataSrc extends ImgData
      * @see #getCompData
      */
     public DataBlk getInternCompData(DataBlk blk, int c);
+
 
     /**
      * Returns, in the blk argument, a block of image data containing the

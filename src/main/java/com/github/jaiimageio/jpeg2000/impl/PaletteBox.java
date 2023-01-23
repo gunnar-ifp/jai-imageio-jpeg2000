@@ -73,6 +73,7 @@ public class PaletteBox extends Box
     private byte[] bitDepth;
     private byte[][] lut;
 
+
     /** Compute the length of this box. */
     private static int computeLength(IndexColorModel icm)
     {
@@ -80,6 +81,7 @@ public class PaletteBox extends Box
         int[] comp = icm.getComponentSize();
         return 11 + comp.length + size * comp.length;
     }
+
 
     /**
      * Gets the size of the components or the bit depth for all the color
@@ -94,6 +96,7 @@ public class PaletteBox extends Box
             buf[i] = (byte)(comp[i] - 1);
         return buf;
     }
+
 
     /**
      * Gets the LUT from the <code>IndexColorModel</code> as an two-dimensional
@@ -112,6 +115,7 @@ public class PaletteBox extends Box
         return lut;
     }
 
+
     /**
      * Constructs a <code>PlatteBox</code> from an
      * <code>IndexColorModel</code>.
@@ -120,6 +124,7 @@ public class PaletteBox extends Box
     {
         this(computeLength(icm), getCompSize(icm), getLUT(icm));
     }
+
 
     /**
      * Constructs a <code>PlatteBox</code> from an
@@ -173,6 +178,7 @@ public class PaletteBox extends Box
 
     }
 
+
     /**
      * Constructs a <code>PlatteBox</code> from the provided length, bit
      * depths of the color components and the LUT.
@@ -186,6 +192,7 @@ public class PaletteBox extends Box
         this.numComps = lut.length;
     }
 
+
     /**
      * Constructs a <code>PlatteBox</code> from the provided byte array.
      */
@@ -194,11 +201,13 @@ public class PaletteBox extends Box
         super(8 + data.length, 0x70636C72, data);
     }
 
+
     /** Return the number of palette entries. */
     public int getNumEntries()
     {
         return numEntries;
     }
+
 
     /** Return the number of color components. */
     public int getNumComp()
@@ -206,17 +215,20 @@ public class PaletteBox extends Box
         return numComps;
     }
 
+
     /** Return the bit depths for all the color components. */
     public byte[] getBitDepths()
     {
         return bitDepth;
     }
 
+
     /** Return the LUT. */
     public byte[][] getLUT()
     {
         return lut;
     }
+
 
     /**
      * creates an <code>IIOMetadataNode</code> from this palette box.
@@ -260,6 +272,7 @@ public class PaletteBox extends Box
         return node;
     }
 
+
     @Override
     protected void parse(byte[] data)
     {
@@ -276,6 +289,7 @@ public class PaletteBox extends Box
             for (int j = 0; j < numComps; j++)
                 lut[j][i] = data[k++];
     }
+
 
     @Override
     protected void compose()

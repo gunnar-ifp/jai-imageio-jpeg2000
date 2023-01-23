@@ -240,6 +240,7 @@ public class QuantTypeSpec extends ModuleSpec
         }
     }
 
+
     /**
      * Returns true if given tile-component uses derived quantization step
      * size.
@@ -257,6 +258,7 @@ public class QuantTypeSpec extends ModuleSpec
         else return false;
     }
 
+
     /**
      * Check the reversibility of the given tile-component.
      *
@@ -272,6 +274,7 @@ public class QuantTypeSpec extends ModuleSpec
             return true;
         else return false;
     }
+
 
     /**
      * Check the reversibility of the whole image.
@@ -293,6 +296,7 @@ public class QuantTypeSpec extends ModuleSpec
 
         return false;
     }
+
 
     /**
      * Check the irreversibility of the whole image.

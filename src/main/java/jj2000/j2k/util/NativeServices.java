@@ -121,6 +121,7 @@ public final class NativeServices
      */
     private final static int LIB_STATE_NOT_FOUND = 2;
 
+
     /**
      * Private and only constructor, so that no class instance might be
      * created. Since all methods are static creating a class instance is
@@ -130,6 +131,7 @@ public final class NativeServices
     {
         throw new IllegalArgumentException("Class can not be instantiated");
     }
+
 
     /**
      * Sets the concurrency level of the threading system of the Java Virtual
@@ -174,11 +176,13 @@ public final class NativeServices
         setThreadConcurrencyN(n);
     }
 
+
     /**
      * Calls the POSIX threads 'pthread_setconcurrency', or equivalent,
      * function with 'level' as the argument.
      */
     private static native void setThreadConcurrencyN(int level);
+
 
     /**
      * Returns the current concurrency level. See 'setThreadConcurrency' for
@@ -196,6 +200,7 @@ public final class NativeServices
         return getThreadConcurrencyN();
     }
 
+
     /**
      * Calls the POSIX threads 'pthread_getconcurrency', or equivalent,
      * function and return the result.
@@ -203,6 +208,7 @@ public final class NativeServices
      * @return The current concurrency level.
      */
     private static native int getThreadConcurrencyN();
+
 
     /**
      * Loads the shared library implementing the native methods of this
@@ -231,6 +237,7 @@ public final class NativeServices
         libState = LIB_STATE_LOADED;
         return true;
     }
+
 
     /**
      * Checks if the library SHLIB_NAME is already loaded and attempts to load

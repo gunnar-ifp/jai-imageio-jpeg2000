@@ -75,6 +75,7 @@ public abstract class ROIMaskGenerator
     /* Flag indicating whether there are any ROIs in this tile */
     protected boolean roiInTile;
 
+
     /**
      * The constructor of the mask generator
      *
@@ -89,6 +90,7 @@ public abstract class ROIMaskGenerator
         tileMaskMade = new boolean[nrc];
     }
 
+
     /**
      * This function returns the ROIs in the image
      *
@@ -98,6 +100,7 @@ public abstract class ROIMaskGenerator
     {
         return rois;
     }
+
 
     /**
      * This functions gets a DataBlk with the size of the current code-block
@@ -118,6 +121,7 @@ public abstract class ROIMaskGenerator
     public abstract boolean getROIMask(DataBlkInt db, Subband sb,
         int magbits, int c);
 
+
     /**
      * This function generates the ROI mask for the entire tile. The mask is
      * generated for one component. This method is called once for each tile
@@ -130,6 +134,7 @@ public abstract class ROIMaskGenerator
      * @param n component number
      */
     public abstract void makeMask(Subband sb, int magbits, int n);
+
 
     /**
      * This function is called every time the tile is changed to indicate

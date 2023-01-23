@@ -64,6 +64,7 @@ public class J2KImageWriterSpi extends ImageWriterSpi
     private static String[] mimeTypes = { "image/jp2", "image/jpeg2000" };
     private boolean registered = false;
 
+
     public J2KImageWriterSpi()
     {
         super(PackageUtil.getVendor(),
@@ -83,6 +84,7 @@ public class J2KImageWriterSpi extends ImageWriterSpi
             null, null);
     }
 
+
     @Override
     public String getDescription(Locale locale)
     {
@@ -90,6 +92,7 @@ public class J2KImageWriterSpi extends ImageWriterSpi
             " JPEG 2000 Image Writer";
         return desc;
     }
+
 
     @Override
     public void onRegistration(ServiceRegistry registry,
@@ -118,6 +121,7 @@ public class J2KImageWriterSpi extends ImageWriterSpi
         }
     }
 
+
     @Override
     public boolean canEncodeImage(ImageTypeSpecifier type)
     {
@@ -129,6 +133,7 @@ public class J2KImageWriterSpi extends ImageWriterSpi
             return false;
         return true;
     }
+
 
     @Override
     public ImageWriter createWriterInstance(Object extension)

@@ -132,6 +132,7 @@ public interface CBlkQuantDataSrcEnc extends ForwWTDataProps
      */
     public CBlkWTData getNextCodeBlock(int c, CBlkWTData cblk);
 
+
     /**
      * Returns the next code-block in the current tile for the specified
      * component. The order in which code-blocks are returned is not

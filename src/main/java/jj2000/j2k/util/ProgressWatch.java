@@ -48,10 +48,12 @@ public interface ProgressWatch
      */
     public void initProgressWatch(int min, int max, String info);
 
+
     /**
      * Update the progress watching process to the specified value
      */
     public void updateProgressWatch(int val, String info);
+
 
     /**
      * Terminate the progress watch process
