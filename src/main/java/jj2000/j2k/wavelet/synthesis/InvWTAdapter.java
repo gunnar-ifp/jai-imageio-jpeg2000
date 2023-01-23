@@ -266,7 +266,7 @@ public abstract class InvWTAdapter implements InvWT {
      *
      * @param c The index of the component, from 0 to N-1.
      *
-     * @return The width in pixels of component <tt>n</tt> in tile <tt>t</tt>.
+     * @return The width in pixels of component <code>n</code> in tile <code>t</code>.
      * */
     @Override
     public int getTileCompWidth(int t,int c) {
@@ -286,8 +286,8 @@ public abstract class InvWTAdapter implements InvWT {
      *
      * @param c The index of the component, from 0 to N-1.
      *
-     * @return The height in pixels of component <tt>n</tt> in tile
-     * <tt>t</tt>. 
+     * @return The height in pixels of component <code>n</code> in tile
+     * <code>t</code>. 
      * */
     @Override
     public int getTileCompHeight(int t,int c) {
@@ -303,7 +303,7 @@ public abstract class InvWTAdapter implements InvWT {
      *
      * @param c The index of the component, from 0 to N-1.
      *
-     * @return The width in pixels of component <tt>c</tt> in the overall
+     * @return The width in pixels of component <code>c</code> in the overall
      * image.
      * */
     @Override
@@ -323,7 +323,7 @@ public abstract class InvWTAdapter implements InvWT {
      *
      * @param c The index of the component, from 0 to N-1.
      *
-     * @return The height in pixels of component <tt>n</tt> in the overall
+     * @return The height in pixels of component <code>n</code> in the overall
      * image.
      * */
     @Override

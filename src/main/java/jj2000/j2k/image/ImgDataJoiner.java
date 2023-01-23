@@ -94,7 +94,7 @@ public class ImgDataJoiner implements BlkImgDataSrc {
      * must appear in the order wanted for the output components.<br>
      *
      * <u>Example:</u> Reading R,G,B components from 3 PGM files.<br>
-     * <tt>
+     * <code>
      * BlkImgDataSrc[] idList = <br>
      *   {<br>
      *   new ImgReaderPGM(new BEBufferedRandomAccessFile("R.pgm", "r")),<br>
@@ -103,7 +103,7 @@ public class ImgDataJoiner implements BlkImgDataSrc {
      *   };<br>
      * int[] compIdx = {0,0,0};<br>
      * ImgDataJoiner idj = new ImgDataJoiner(idList, compIdx);
-     * </tt>
+     * </code>
      *
      * <p>Of course, the 2 arrays must have the same length (This length is
      * the number of output components). The image width and height are
@@ -294,7 +294,7 @@ public class ImgDataJoiner implements BlkImgDataSrc {
      *
      * @param c The index of the component, from 0 to N-1.
      *
-     * @return The width in pixels of component <tt>c</tt> in tile<tt>t</tt>.
+     * @return The width in pixels of component <code>c</code> in tile<code>t</code>.
      * */
     @Override
     public int getTileCompWidth(int t,int c){
@@ -308,7 +308,7 @@ public class ImgDataJoiner implements BlkImgDataSrc {
      *
      * @param c The index of the component, from 0 to N-1.
      *
-     * @return The height in pixels of component <tt>c</tt> in the current
+     * @return The height in pixels of component <code>c</code> in the current
      * tile.
      * */
     @Override
@@ -322,7 +322,7 @@ public class ImgDataJoiner implements BlkImgDataSrc {
      *
      * @param c The index of the component, from 0 to N-1.
      *
-     * @return The width in pixels of component <tt>c</tt> in the overall
+     * @return The width in pixels of component <code>c</code> in the overall
      * image.
      * */
     @Override
@@ -336,7 +336,7 @@ public class ImgDataJoiner implements BlkImgDataSrc {
      *
      * @param n The index of the component, from 0 to N-1.
      *
-     * @return The height in pixels of component <tt>n</tt> in the overall
+     * @return The height in pixels of component <code>n</code> in the overall
      * image.
      *
      *
@@ -349,7 +349,7 @@ public class ImgDataJoiner implements BlkImgDataSrc {
     /**
      * Returns the number of bits, referred to as the "range bits",
      * corresponding to the nominal range of the data in the specified
-     * component. If this number is <i>b</b> then for unsigned data the
+     * component. If this number is <b>b</b> then for unsigned data the
      * nominal range is between 0 and 2^b-1, and for signed data it is between
      * -2^(b-1) and 2^(b-1)-1. For floating point data this value is not
      * applicable.
@@ -400,13 +400,13 @@ public class ImgDataJoiner implements BlkImgDataSrc {
      * data is to be modified by the caller then the other method is probably
      * preferable.
      *
-     * <P>If the data array in <tt>blk</tt> is <tt>null</tt>, then a new one
+     * <P>If the data array in <code>blk</code> is <code>null</code>, then a new one
      * is created if necessary. The implementation of this interface may
      * choose to return the same array or a new one, depending on what is more
-     * efficient. Therefore, the data array in <tt>blk</tt> prior to the
+     * efficient. Therefore, the data array in <code>blk</code> prior to the
      * method call should not be considered to contain the returned data, a
      * new array may have been created. Instead, get the array from
-     * <tt>blk</tt> after the method has returned.
+     * <code>blk</code> after the method has returned.
      *
      * <P>The returned data may have its 'progressive' attribute set. In this
      * case the returned data is only an approximation of the "final" data.

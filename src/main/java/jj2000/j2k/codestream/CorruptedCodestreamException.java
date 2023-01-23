@@ -65,7 +65,7 @@ public class CorruptedCodestreamException extends IOException {
     private static final long serialVersionUID = -5273081182631363170L;
 
     /**
-     * Constructs a new <tt>CorruptedCodestreamException</tt> exception
+     * Constructs a new <code>CorruptedCodestreamException</code> exception
      * with no detail message.
      *
      * */
@@ -74,7 +74,7 @@ public class CorruptedCodestreamException extends IOException {
     }
 
     /**
-     * Constructs a new <tt>CorruptedCodestreamException</tt> exception
+     * Constructs a new <code>CorruptedCodestreamException</code> exception
      * with the specified detail message.
      *
      * @param s The detail message.

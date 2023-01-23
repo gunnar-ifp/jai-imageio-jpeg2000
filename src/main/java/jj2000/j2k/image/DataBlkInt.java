@@ -48,7 +48,7 @@
 package jj2000.j2k.image;
 
 /**
- * This is an implementation of the <tt>DataBlk</tt> interface for
+ * This is an implementation of the <code>DataBlk</code> interface for
  * signed 32 bit integral data.
  *
  * <P>The methods in this class are declared final, so that they can
@@ -120,11 +120,11 @@ public class DataBlkInt extends DataBlk {
     }
 
     /**
-     * Returns the identifier of this data type, <tt>TYPE_INT</tt>,
-     * as defined in <tt>DataBlk</tt>.
+     * Returns the identifier of this data type, <code>TYPE_INT</code>,
+     * as defined in <code>DataBlk</code>.
      *
      * @return The type of data stored. Always
-     * <tt>DataBlk.TYPE_INT</tt>
+     * <code>DataBlk.TYPE_INT</code>
      *
      * @see DataBlk#TYPE_INT
      *

@@ -188,8 +188,8 @@ public interface MultiResImgData {
      *
      * @param rl The resolution level, from 0 to L.
      *
-     * @return The width in pixels of component <tt>c</tt> in tile <tt>t</tt>
-     * for resolution <tt>rl</tt>.
+     * @return The width in pixels of component <code>c</code> in tile <code>t</code>
+     * for resolution <code>rl</code>.
      * */
     public int getTileCompWidth(int t,int c,int rl);
 
@@ -203,8 +203,8 @@ public interface MultiResImgData {
      *
      * @param rl The resolution level, from 0 to L.
      *
-     * @return The height in pixels of component <tt>c</tt> in tile
-     * <tt>t</tt>.
+     * @return The height in pixels of component <code>c</code> in tile
+     * <code>t</code>.
      * */
     public int getTileCompHeight(int t,int c,int rl);
 
@@ -216,7 +216,7 @@ public interface MultiResImgData {
      *
      * @param rl The resolution level, from 0 to L.
      *
-     * @return The width in pixels of component <tt>c</tt> in the overall
+     * @return The width in pixels of component <code>c</code> in the overall
      * image.
      * */
     public int getCompImgWidth(int c,int rl);
@@ -229,7 +229,7 @@ public interface MultiResImgData {
      *
      * @param rl The resolution level, from 0 to L.
      *
-     * @return The height in pixels of component <tt>n</tt> in the overall
+     * @return The height in pixels of component <code>n</code> in the overall
      * image.
      * */
     public int getCompImgHeight(int n, int rl);

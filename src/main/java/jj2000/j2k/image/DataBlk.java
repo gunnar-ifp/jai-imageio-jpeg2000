@@ -51,8 +51,8 @@ package jj2000.j2k.image;
  * This is a generic abstract class to store data from a block of an
  * image. This class does not have the notion of components. Therefore, it
  * should be used for data from a single component. Subclasses should
- * implement the different types of storage (<tt>int</tt>,
- * <tt>float</tt>, etc.).
+ * implement the different types of storage (<code>int</code>,
+ * <code>float</code>, etc.).
  *
  * <P>The data is always stored in one array, of the type matching the data
  * type (i.e. for 'int' it's an 'int[]'). The data should be stored in the
@@ -72,8 +72,8 @@ package jj2000.j2k.image;
  * "final" values. When the final values are returned the progressive
  * attribute must be turned off.
  *
- * <P>The classes <tt>DataBlkInt</tt> and <tt>DataBlkFloat</tt>
- * provide implementations for <tt>int</tt> and <tt>float</tt> types
+ * <P>The classes <code>DataBlkInt</code> and <code>DataBlkFloat</code>
+ * provide implementations for <code>int</code> and <code>float</code> types
  * respectively.
  *
  * @see DataBlkInt
@@ -82,19 +82,19 @@ package jj2000.j2k.image;
  * */
 public abstract class DataBlk {
 
-    /** The identifier for the <tt>byte</tt> data type, as signed 8
+    /** The identifier for the <code>byte</code> data type, as signed 8
         bits. */
     public final static int TYPE_BYTE = 0;
 
-    /** The identifier for the <tt>short</tt> data type, as signed 16
+    /** The identifier for the <code>short</code> data type, as signed 16
         bits. */
     public final static int TYPE_SHORT = 1;
 
-    /** The identifier for the <tt>int</tt> data type, as signed 32
+    /** The identifier for the <code>int</code> data type, as signed 32
         bits. */
     public final static int TYPE_INT = 3;
 
-    /** The identifier for the <tt>float</tt> data type */
+    /** The identifier for the <code>float</code> data type */
     public final static int TYPE_FLOAT = 4;
 
     /** The horizontal coordinate (in pixels) of the upper-left corner
@@ -121,13 +121,13 @@ public abstract class DataBlk {
     /** The width of the scanlines used to store the data in the array */
     public int scanw;
 
-    /** The progressive attribute (<tt>false</tt> by default) */
+    /** The progressive attribute (<code>false</code> by default) */
     public boolean progressive;
 
     /**
      * Returns the size in bits, given the data type. The data type
      * must be one defined in this class. An
-     * <tt>IllegalArgumentException</tt> is thrown if <tt>type</tt> is
+     * <code>IllegalArgumentException</code> is thrown if <code>type</code> is
      * not defined in this class.
      *
      * @param type The data type.
@@ -152,7 +152,7 @@ public abstract class DataBlk {
     }
 
     /**
-     * Returns the data type of the <tt>DataBlk</tt> object, as
+     * Returns the data type of the <code>DataBlk</code> object, as
      * defined in this class.
      *
      * @return The data type of the object, as defined in thsi class.
@@ -165,15 +165,15 @@ public abstract class DataBlk {
     /**
      * Returns the array containing the data, or null if there is no
      * data. The returned array is of the type returned by
-     * <tt>getDataType()</tt> (e.g., for <tt>TYPE_INT</tt>, it is a
-     * <tt>int[]</tt>).
+     * <code>getDataType()</code> (e.g., for <code>TYPE_INT</code>, it is a
+     * <code>int[]</code>).
      *
      * <P>Each implementing class should provide a type specific
-     * equivalent method (e.g., <tt>getDataInt()</tt> in
-     * <tt>DataBlkInt</tt>) which returns an array of the correct
-     * type explicetely and not through an <tt>Object</tt>.
+     * equivalent method (e.g., <code>getDataInt()</code> in
+     * <code>DataBlkInt</code>) which returns an array of the correct
+     * type explicetely and not through an <code>Object</code>.
      *
-     * @return The array containing the data, or <tt>null</tt> if
+     * @return The array containing the data, or <code>null</code> if
      *         there is no data.
      *
      *
@@ -186,17 +186,17 @@ public abstract class DataBlk {
     /**
      * Sets the data array to the specified one. The type of the
      * specified data array must match the one returned by
-     * <tt>getDataType()</tt> (e.g., for <tt>TYPE_INT</tt>, it should
-     * be a <tt>int[]</tt>). If the wrong type of array is given a
-     * <tt>ClassCastException</tt> will be thrown.
+     * <code>getDataType()</code> (e.g., for <code>TYPE_INT</code>, it should
+     * be a <code>int[]</code>). If the wrong type of array is given a
+     * <code>ClassCastException</code> will be thrown.
      *
      * <P>The size of the array is not necessarily checked for
-     * consistency with <tt>w</tt> and <tt>h</tt> or any other fields.
+     * consistency with <code>w</code> and <code>h</code> or any other fields.
      *
      * <P>Each implementing class should provide a type specific
-     * equivalent method (e.g., <tt>setDataInt()</tt> in
-     * <tt>DataBlkInt</tt>) which takes an array of the correct
-     * type explicetely and not through an <tt>Object</tt>.
+     * equivalent method (e.g., <code>setDataInt()</code> in
+     * <code>DataBlkInt</code>) which takes an array of the correct
+     * type explicetely and not through an <code>Object</code>.
      *
      * @param arr The new data array to use
      *

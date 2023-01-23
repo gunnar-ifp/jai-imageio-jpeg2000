@@ -56,7 +56,7 @@ import java.io.IOException;
  *
  * <P>Byte level input (i.e., for byte, int, long, float, etc.) should
  * always be byte aligned. For example, a request to read an
- * <tt>int</tt> should always realign the input at the byte level.
+ * <code>int</code> should always realign the input at the byte level.
  *
  * <P>The implementation of this interface should clearly define if
  * multi-byte input data is read in little- or big-endian byte
@@ -85,12 +85,12 @@ public interface BinaryDataInput {
 
     /**
      * Should read an unsigned byte (i.e., 8 bit) from the input. It is
-     * returned as an <tt>int</tt> since Java does not have an
+     * returned as an <code>int</code> since Java does not have an
      * unsigned byte type. Prior to reading, the input should be
      * realigned at the byte level.
      *
      * @return The next byte-aligned unsigned byte (8 bit) from the
-     * input, as an <tt>int</tt>.
+     * input, as an <code>int</code>.
      *
      * @exception EOFException If the end-of file was reached before
      * getting all the necessary data.
@@ -121,12 +121,12 @@ public interface BinaryDataInput {
 
     /**
      * Should read an unsigned short (i.e., 16 bit) from the input. It is
-     * returned as an <tt>int</tt> since Java does not have an
+     * returned as an <code>int</code> since Java does not have an
      * unsigned short type. Prior to reading, the input should be
      * realigned at the byte level.
      *
      * @return The next byte-aligned unsigned short (16 bit) from the
-     * input, as an <tt>int</tt>.
+     * input, as an <code>int</code>.
      *
      * @exception EOFException If the end-of file was reached before
      * getting all the necessary data.
@@ -157,12 +157,12 @@ public interface BinaryDataInput {
 
     /**
      * Should read an unsigned int (i.e., 32 bit) from the input. It is
-     * returned as a <tt>long</tt> since Java does not have an
+     * returned as a <code>long</code> since Java does not have an
      * unsigned short type. Prior to reading, the input should be
      * realigned at the byte level.
      *
      * @return The next byte-aligned unsigned int (32 bit) from the
-     * input, as a <tt>long</tt>.
+     * input, as a <code>long</code>.
      *
      * @exception EOFException If the end-of file was reached before
      * getting all the necessary data.
@@ -233,8 +233,8 @@ public interface BinaryDataInput {
      * type of endianness or both, which would be decided at creatiuon
      * time.
      *
-     * @return Either <tt>EndianType.BIG_ENDIAN</tt> or
-     * <tt>EndianType.LITTLE_ENDIAN</tt>
+     * @return Either <code>EndianType.BIG_ENDIAN</code> or
+     * <code>EndianType.LITTLE_ENDIAN</code>
      *
      * @see EndianType
      *
@@ -244,7 +244,7 @@ public interface BinaryDataInput {
     public int getByteOrdering();
 
     /**
-     * Skips <tt>n</tt> bytes from the input. Prior to skipping, the
+     * Skips <code>n</code> bytes from the input. Prior to skipping, the
      * input should be realigned at the byte level.
      *
      * @param n The number of bytes to skip

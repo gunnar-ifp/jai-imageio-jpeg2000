@@ -352,7 +352,7 @@ public class RenderedImageSrc implements BlkImgDataSrc {
     /**
      * Returns the overall width of the image in pixels. This is the image's
      * width without accounting for any component subsampling or tiling. The
-     * value of <tt>w</tt> is returned.
+     * value of <code>w</code> is returned.
      *
      * @return The total image's width in pixels.
      * */
@@ -364,7 +364,7 @@ public class RenderedImageSrc implements BlkImgDataSrc {
     /**
      * Returns the overall height of the image in pixels. This is the image's
      * height without accounting for any component subsampling or tiling. The
-     * value of <tt>h</tt> is returned.
+     * value of <code>h</code> is returned.
      *
      * @return The total image's height in pixels.
      * */
@@ -374,7 +374,7 @@ public class RenderedImageSrc implements BlkImgDataSrc {
     }
 
     /**
-     * Returns the number of components in the image. The value of <tt>nc</tt>
+     * Returns the number of components in the image. The value of <code>nc</code>
      * is returned.
      *
      * @return The number of components in the image.
@@ -444,7 +444,7 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      *
      * @param n The index of the component, from 0 to C-1.
      *
-     * @return The width in pixels of component <tt>n</tt> in the current
+     * @return The width in pixels of component <code>n</code> in the current
      * tile.
      * */
     public int getCompWidth(int n) {
@@ -459,7 +459,7 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      *
      * @param c The index of the component, from 0 to C-1.
      *
-     * @return The height in pixels of component <tt>c</tt> in the current
+     * @return The height in pixels of component <code>c</code> in the current
      * tile.
      * */
     public int getCompHeight(int c) {
@@ -473,7 +473,7 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      *
      * @param c The index of the component, from 0 to C-1.
      *
-     * @return The width in pixels of component <tt>c</tt> in the overall
+     * @return The width in pixels of component <code>c</code> in the overall
      * image.
      * */
     @Override
@@ -488,7 +488,7 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      *
      * @param c The index of the component, from 0 to C-1.
      *
-     * @return The height in pixels of component <tt>c</tt> in the overall
+     * @return The height in pixels of component <code>c</code> in the overall
      * image.
      * */
     @Override
@@ -677,7 +677,7 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      * was specified in the constructor, which normally is 8 for non bilevel
      * data, and 1 for bilevel data.
      *
-     * <P>If this number is <i>b</b> then the nominal range is between
+     * <P>If this number is <b>b</b> then the nominal range is between
      * -2^(b-1) and 2^(b-1)-1, since unsigned data is level shifted to have a
      * nominal avergae of 0.
      *
@@ -725,13 +725,13 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      * tile. These members are not modified by this method. The 'offset' and
      * 'scanw' of the returned data can be arbitrary. See the 'DataBlk' class.
      *
-     * <P>If the data array in <tt>blk</tt> is <tt>null</tt>, then a new one
+     * <P>If the data array in <code>blk</code> is <code>null</code>, then a new one
      * is created if necessary. The implementation of this interface may
      * choose to return the same array or a new one, depending on what is more
-     * efficient. Therefore, the data array in <tt>blk</tt> prior to the
+     * efficient. Therefore, the data array in <code>blk</code> prior to the
      * method call should not be considered to contain the returned data, a
      * new array may have been created. Instead, get the array from
-     * <tt>blk</tt> after the method has returned.
+     * <code>blk</code> after the method has returned.
      *
      * <P>The returned data always has its 'progressive' attribute unset
      * (i.e. false).

@@ -398,7 +398,7 @@ public class ThreadPool {
      * the method will block until a thread of the pool becomes idle or the
      * calling thread is interrupted.
      *
-     * <P>This method is the same as <tt>runTarget(t,l,true,false)</tt>.
+     * <P>This method is the same as <code>runTarget(t,l,true,false)</code>.
      *
      * @param t The target. The 'run()' method of this object will be run in
      * an idle thread of the pool.
@@ -425,7 +425,7 @@ public class ThreadPool {
      * interrupted. If the asynchronous mode is used then the method will not
      * block and will return false.
      *
-     * <P>This method is the same as <tt>runTarget(t,l,async,false)</tt>.
+     * <P>This method is the same as <code>runTarget(t,l,async,false)</code>.
      *
      * @param t The target. The 'run()' method of this object will be run in
      * an idle thread of the pool.

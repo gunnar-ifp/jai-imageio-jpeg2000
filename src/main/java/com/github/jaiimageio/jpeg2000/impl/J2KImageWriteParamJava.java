@@ -85,19 +85,21 @@ import com.github.jaiimageio.jpeg2000.J2KImageWriteParam;
  * where &lt;tile-component idx&gt; respect the following policy according to
  * the degree of priority:
  * <table>
+ * <caption><b>JPEG 2000 Plugin Decoding Parameters</b></caption>
  * <tr><td>(1) t&lt;idx&gt; c&lt;idx&gt; : Tile-component specification.</td></tr>
  * <tr><td>(2) t&lt;idx&gt; : Tile specification.</td></tr>
  * <tr><td>(3) c&lt;idx&gt; : Component specification.</td></tr>
  * <tr><td>(4) &lt;void&gt; : Default specification.</td></tr>
  * </table>
- * <p>Where the priorities of the specifications are:
+ * 
+ * Where the priorities of the specifications are:
  * (1) &gt; (2) &gt; (3) &gt; (4), ("&gt;" means "overrides")
  *  &lt;idx&gt;: "," separates indexes, "-" separates bounds of indexes list.
  *  (for example, 0,2-4 means indexes 0,2,3 and  4).
  *
  * <p>The parameters for encoding JPEG 2000 are listed in the following table:
  *
- *  * <p><table border=1>
+ * <table border=1>
  * <caption><b>JPEG 2000 Plugin Decoding Parameters</b></caption>
  * <tr><th>Parameter Name</th> <th>Description</th><th>TC_SPEC</th></tr>
  * <tr>

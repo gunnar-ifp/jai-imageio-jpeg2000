@@ -62,7 +62,7 @@ public class ForwCompTransfSpec extends CompTransfSpec implements FilterTypes {
 
     /**
      * Constructs a new 'ForwCompTransfSpec' for the specified number of
-     * components and tiles and the arguments of <tt>optName</tt>
+     * components and tiles and the arguments of <code>optName</code>
      * option. This constructor is called by the encoder. It also
      * checks that the arguments belongs to the recognized arguments
      * list.

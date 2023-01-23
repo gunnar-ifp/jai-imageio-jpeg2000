@@ -552,8 +552,8 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
      *
      * @param rl The resolution level, from 0 to L.
      *
-     * @return The width in pixels of component <tt>c</tt> in tile <tt>t</tt>
-     * for resolution level <tt>rl</tt>.
+     * @return The width in pixels of component <code>c</code> in tile <code>t</code>
+     * for resolution level <code>rl</code>.
      * */
     @Override
     public final int getTileCompWidth(int t,int c,int rl) {
@@ -582,7 +582,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
      *
      * @param rl The resolution level, from 0 to L.
      *
-     * @return The height in pixels of component <tt>c</tt> in the current
+     * @return The height in pixels of component <code>c</code> in the current
      * tile.
      * */
     @Override
@@ -622,7 +622,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
      *
      * @param rl The resolution level, from 0 to L.
      *
-     * @return The width in pixels of component <tt>c</tt> in the overall
+     * @return The width in pixels of component <code>c</code> in the overall
      * image.
      * */
     @Override
@@ -656,7 +656,7 @@ public abstract class BitstreamReaderAgent implements CodedCBlkDataSrcDec {
      *
      * @param rl The resolution level, from 0 to L.
      *
-     * @return The height in pixels of component <tt>c</tt> in the overall
+     * @return The height in pixels of component <code>c</code> in the overall
      * image.
      * */
     @Override

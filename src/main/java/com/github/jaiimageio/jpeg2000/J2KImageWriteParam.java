@@ -59,9 +59,8 @@ import javax.imageio.ImageWriteParam;
  *
  * <p>The parameters for encoding JPEG 2000 are listed in the following table:
  *
- * <p><table border=1>
- * <caption><b>JPEG 2000 Plugin Decoding Parameters</b></caption>
  * <table>
+ * <caption><b>JPEG 2000 Plugin Decoding Parameters</b></caption>
  * <tr><th>Parameter Name</th> <th>Description</th></tr>
  * <tr>
  *    <td>numDecompositionLevels</td>

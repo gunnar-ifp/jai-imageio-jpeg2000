@@ -50,8 +50,8 @@ import org.w3c.dom.Node;
 
 /** This class is defined to represent a Signature Box of JPEG JP2
  *  file format.  This type of box has a fixed length of 12, a type of "jP  "
- *  and a four byte content of 0x0D0A870A, which is used to detects of the
- *  common file transmission errors which substitutes <CR><LF> with <LF> or
+ *  and a four byte content of {@code 0x0D0A870A}, which is used to detects of the
+ *  common file transmission errors which substitutes {@literal <CR><LF>} with {@literal <LF>} or
  *  vice versa.
  */
 public class SignatureBox extends Box {

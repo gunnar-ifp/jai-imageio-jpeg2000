@@ -2245,9 +2245,9 @@ public class HeaderDecoder implements ProgressionType, Markers,
 
 
     /**
-     * Return the DecoderSpecs instance filled when reading the headers
+     * Return the DecoderSpecs instance filled when reading the headers.
      *
-     * @retrieves and reads all marker segments previously found in the
+     * Retrieves and reads all marker segments previously found in the
      * tile-part header.
      *
      * @param tileIdx The index of the current tile

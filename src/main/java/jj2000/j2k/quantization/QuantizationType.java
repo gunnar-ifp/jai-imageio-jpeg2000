@@ -57,7 +57,7 @@ package jj2000.j2k.quantization;
  *
  * <P>This interface defines the constants only. In order to use the
  * constants in any other class you can either use the fully qualified
- * name (e.g., <tt>QuantizationType.Q_TYPE_SCALAR_DZ</tt>) or declare
+ * name (e.g., <code>QuantizationType.Q_TYPE_SCALAR_DZ</code>) or declare
  * this interface in the implements clause of the class and then
  * access the identifier directly.
  * */

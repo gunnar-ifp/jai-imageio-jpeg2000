@@ -51,7 +51,7 @@ import java.io.IOException;
 /**
  * This class defines a Buffered Random Access File, where all I/O is
  * considered to be big-endian, and extends the
- * <tt>BufferedRandomAccessFile</tt> class.
+ * <code>BufferedRandomAccessFile</code> class.
  *
  * @see RandomAccessIO
  * @see BinaryDataOutput
@@ -141,13 +141,13 @@ public class BEBufferedRandomAccessFile extends BufferedRandomAccessFile
     }
 
     /**
-     * Writes the short value of <tt>v</tt> (i.e., 16 least significant bits)
+     * Writes the short value of <code>v</code> (i.e., 16 least significant bits)
      * to the output. Prior to writing, the output should be realigned at the
      * byte level.
      *
      * <P>Signed or unsigned data can be written. To write a signed value just
-     * pass the <tt>short</tt> value as an argument. To write unsigned data
-     * pass the <tt>int</tt> value as an argument (it will be automatically
+     * pass the <code>short</code> value as an argument. To write unsigned data
+     * pass the <code>int</code> value as an argument (it will be automatically
      * casted, and only the 16 least significant bits will be written).
      *
      * @param v The value to write to the output
@@ -161,7 +161,7 @@ public class BEBufferedRandomAccessFile extends BufferedRandomAccessFile
     }
 
     /**
-     * Writes the int value of <tt>v</tt> (i.e., the 32 bits) to the
+     * Writes the int value of <code>v</code> (i.e., the 32 bits) to the
      * output. Prior to writing, the output should be realigned at the byte
      * level.
      *
@@ -178,7 +178,7 @@ public class BEBufferedRandomAccessFile extends BufferedRandomAccessFile
     }
 
     /**
-     * Writes the long value of <tt>v</tt> (i.e., the 64 bits) to the
+     * Writes the long value of <code>v</code> (i.e., the 64 bits) to the
      * output. Prior to writing, the output should be realigned at the byte
      * level.
      *
@@ -199,7 +199,7 @@ public class BEBufferedRandomAccessFile extends BufferedRandomAccessFile
     }
 
     /**
-     * Writes the IEEE float value <tt>v</tt> (i.e., 32 bits) to the
+     * Writes the IEEE float value <code>v</code> (i.e., 32 bits) to the
      * output. Prior to writing, the output should be realigned at the byte
      * level.
      *
@@ -218,7 +218,7 @@ public class BEBufferedRandomAccessFile extends BufferedRandomAccessFile
     }
 
     /**
-     * Writes the IEEE double value <tt>v</tt> (i.e., 64 bits) to the
+     * Writes the IEEE double value <code>v</code> (i.e., 64 bits) to the
      * output. Prior to writing, the output should be realigned at the byte
      * level.
      *
@@ -262,12 +262,12 @@ public class BEBufferedRandomAccessFile extends BufferedRandomAccessFile
 
     /**
      * Reads an unsigned short (i.e., 16 bit) from the input. It is returned
-     * as an <tt>int</tt> since Java does not have an unsigned short
+     * as an <code>int</code> since Java does not have an unsigned short
      * type. Prior to reading, the input should be realigned at the byte
      * level.
      *
      * @return The next byte-aligned unsigned short (16 bit) from the
-     * input, as an <tt>int</tt>.
+     * input, as an <code>int</code>.
      *
      * @exception java.io.EOFException If the end-of file was reached before
      * getting all the necessary data.
@@ -306,11 +306,11 @@ public class BEBufferedRandomAccessFile extends BufferedRandomAccessFile
 
     /**
      * Reads an unsigned int (i.e., 32 bit) from the input. It is returned as
-     * a <tt>long</tt> since Java does not have an unsigned short type. Prior
+     * a <code>long</code> since Java does not have an unsigned short type. Prior
      * to reading, the input should be realigned at the byte level.
      *
      * @return The next byte-aligned unsigned int (32 bit) from the
-     * input, as a <tt>long</tt>.
+     * input, as a <code>long</code>.
      *
      * @exception java.io.EOFException If the end-of file was reached before
      * getting all the necessary data.

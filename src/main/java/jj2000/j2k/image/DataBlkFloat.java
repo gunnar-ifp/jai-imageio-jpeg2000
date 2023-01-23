@@ -48,7 +48,7 @@
 package jj2000.j2k.image;
 
 /**
- * This is an implementation of the <tt>DataBlk</tt> interface for
+ * This is an implementation of the <code>DataBlk</code> interface for
  * 32 bit floating point data (float).
  *
  * <P>The methods in this class are declared final, so that they can
@@ -120,11 +120,11 @@ public class DataBlkFloat extends DataBlk {
     }
 
     /**
-     * Returns the identifier of this data type, <tt>TYPE_FLOAT</tt>,
-     * as defined in <tt>DataBlk</tt>.
+     * Returns the identifier of this data type, <code>TYPE_FLOAT</code>,
+     * as defined in <code>DataBlk</code>.
      *
      * @return The type of data stored. Always
-     * <tt>DataBlk.TYPE_FLOAT</tt>
+     * <code>DataBlk.TYPE_FLOAT</code>
      *
      * @see DataBlk#TYPE_FLOAT
      *

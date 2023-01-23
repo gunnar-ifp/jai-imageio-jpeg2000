@@ -54,12 +54,12 @@ package jj2000.j2k;
  *
  * <P>Its purpose it is to ease the development and testing process. A
  * class that partially implements its functionality should throw a
- * <tt>NotImplementedError</tt> when a method that has not yet
+ * <code>NotImplementedError</code> when a method that has not yet
  * been implemented is called.
  *
- * <P>This class is made a subclass of <tt>Error</tt> since it should
+ * <P>This class is made a subclass of <code>Error</code> since it should
  * never be caught by an application. There is no need to declare this
- * exception in the <tt>throws</tt> clause of a method.
+ * exception in the <code>throws</code> clause of a method.
  *
  * @see Error
  */
@@ -71,7 +71,7 @@ public class NotImplementedError extends Error {
     private static final long serialVersionUID = -415875025583798659L;
 
     /**
-     * Constructs a new <tt>NotImplementedError</tt> exception with
+     * Constructs a new <code>NotImplementedError</code> exception with
      * the default detail message. The message is:
      *
      * <P><I>The called method has not been implemented yet. Sorry!</I>
@@ -83,8 +83,8 @@ public class NotImplementedError extends Error {
     }
 
     /**
-     * Constructs a new <tt>NotImplementedError</tt> exception with
-     * the specified detail message <tt>m</tt>.
+     * Constructs a new <code>NotImplementedError</code> exception with
+     * the specified detail message <code>m</code>.
      *
      * @param m The detail message to use
      *
