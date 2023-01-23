@@ -67,11 +67,14 @@ import com.github.jaiimageio.jpeg2000.impl.J2KMetadataFormat;
  * fileformat
  *
  * @see jj2000.j2k.fileformat.reader.FileFormatReader
- * */
-public class FileFormatWriter implements FileFormatBoxes {
+ */
+public class FileFormatWriter implements FileFormatBoxes
+{
 
-    /** The name of the file from which to read the codestream and to write
-     * the JP2 file*/
+    /**
+     * The name of the file from which to read the codestream and to write
+     * the JP2 file
+     */
     private File file;
 
     private ImageOutputStream stream;
@@ -115,8 +118,9 @@ public class FileFormatWriter implements FileFormatBoxes {
     /** The sample model of the image to be compressed. */
     private J2KMetadata metadata;
 
-    /** Indicates that the <code>colorModel</code> is a
-     *  <code>IndexColorModel</code>
+    /**
+     * Indicates that the <code>colorModel</code> is a
+     * <code>IndexColorModel</code>
      */
     private boolean isIndexed = false;
 
@@ -124,7 +128,7 @@ public class FileFormatWriter implements FileFormatBoxes {
     private int otherLength;
 
     /** cache the <code>J2KMetadataFormat</code> */
-    J2KMetadataFormat format ;
+    J2KMetadataFormat format;
 
     /**
      * The constructor of the FileFormatWriter. It receives all the
@@ -144,16 +148,17 @@ public class FileFormatWriter implements FileFormatBoxes {
      * @param colorModel The color model of the image to be compressed.
      */
     public FileFormatWriter(File file, ImageOutputStream stream,
-                            int height, int width, int nc,
-                            int[] bpc, int clength,
-                            ColorModel colorModel,
-                            SampleModel sampleModel,
-                            J2KMetadata metadata){
+        int height, int width, int nc,
+        int[] bpc, int clength,
+        ColorModel colorModel,
+        SampleModel sampleModel,
+        J2KMetadata metadata)
+    {
         this.height = height;
         this.width = width;
         this.nc = nc;
         this.bpc = bpc;
-        this.file=file;
+        this.file = file;
         this.stream = stream;
         this.clength = clength;
         this.colorModel = colorModel;
@@ -163,10 +168,10 @@ public class FileFormatWriter implements FileFormatBoxes {
         if (colorModel instanceof IndexColorModel)
             isIndexed = true;
 
-        bpcVaries=false;
+        bpcVaries = false;
         int fixbpc = bpc[0];
-        for(int i=nc-1; i>0 ; i--) {
-            if(bpc[i] != fixbpc)
+        for (int i = nc - 1; i > 0; i--) {
+            if (bpc[i] != fixbpc)
                 bpcVaries = true;
         }
     }
@@ -180,8 +185,9 @@ public class FileFormatWriter implements FileFormatBoxes {
      * @return The number of bytes increases because of the file format
      *
      * @exception java.io.IOException If an I/O error ocurred.
-     * */
-    public int writeFileFormat() throws IOException {
+     */
+    public int writeFileFormat() throws IOException
+    {
         writeMetadata(metadata);
 
         // Write the Codestream box
@@ -190,19 +196,20 @@ public class FileFormatWriter implements FileFormatBoxes {
         return CSB_LENGTH + otherLength;
     }
 
-    private void writeMetadata(J2KMetadata metadata) throws IOException {
+    private void writeMetadata(J2KMetadata metadata) throws IOException
+    {
         if (metadata == null)
             return;
 
-        IIOMetadataNode root =
-            (IIOMetadataNode)metadata.getAsTree("com_sun_media_imageio_plugins_jpeg2000_image_1.0");
+        IIOMetadataNode root = (IIOMetadataNode)metadata.getAsTree("com_sun_media_imageio_plugins_jpeg2000_image_1.0");
         if (root == null)
             return;
         format = (J2KMetadataFormat)metadata.getMetadataFormat("com_sun_media_imageio_plugins_jpeg2000_image_1.0");
         writeSuperBox(root);
     }
 
-    private void writeSuperBox(IIOMetadataNode node) throws IOException {
+    private void writeSuperBox(IIOMetadataNode node) throws IOException
+    {
         NodeList list = node.getChildNodes();
 
         String name = node.getNodeName();
@@ -218,12 +225,12 @@ public class FileFormatWriter implements FileFormatBoxes {
             name = child.getNodeName();
             if (name.startsWith("JPEG2000") && format.isLeaf(name))
                 writeBox(child);
-            else
-                writeSuperBox(child);
+            else writeSuperBox(child);
         }
     }
 
-    private void writeBox(IIOMetadataNode node) throws IOException {
+    private void writeBox(IIOMetadataNode node) throws IOException
+    {
         int type = Box.getTypeInt((String)Box.getAttribute(node, "Type"));
         int length = Integer.parseInt((String)Box.getAttribute(node, "Length"));
         Box box = Box.createBox(type, node);
@@ -234,7 +241,8 @@ public class FileFormatWriter implements FileFormatBoxes {
         stream.write(data, 0, data.length);
     }
 
-    private int computeLength(IIOMetadataNode root) {
+    private int computeLength(IIOMetadataNode root)
+    {
         NodeList list = root.getChildNodes();
         int length = 0;
         for (int i = 0; i < list.getLength(); i++) {
@@ -243,38 +251,37 @@ public class FileFormatWriter implements FileFormatBoxes {
 
             if (format.isLeaf(name))
                 length += Integer.parseInt((String)Box.getAttribute(node, "Length"));
-            else
-                length += computeLength(node);
+            else length += computeLength(node);
 
         }
 
-        return length + (root.getNodeName().startsWith("JPEG2000") ? 8 : 0) ;
+        return length + (root.getNodeName().startsWith("JPEG2000") ? 8 : 0);
     }
 
     /**
      * This method writes the Contiguous codestream box
      *
      * @exception java.io.IOException If an I/O error ocurred.
-     * */
-    public void writeContiguousCodeStreamBox()throws IOException {
+     */
+    public void writeContiguousCodeStreamBox() throws IOException
+    {
 
         //when write a jp2 file
         if (metadata != null) {
             // Write box length (LBox)
             // This value is set to 0 since in this implementation, this box is
             // always last
-            stream.writeInt(clength+8);
+            stream.writeInt(clength + 8);
 
             // Write contiguous codestream box name (TBox)
             stream.writeInt(CONTIGUOUS_CODESTREAM_BOX);
         }
-            // Read and buffer the codestream
-        BEBufferedRandomAccessFile fi =
-            new BEBufferedRandomAccessFile(file,"rw+");
+        // Read and buffer the codestream
+        BEBufferedRandomAccessFile fi = new BEBufferedRandomAccessFile(file, "rw+");
         int remainder = clength;
         byte[] codestream = new byte[1024];
 
-        while(remainder >0) {
+        while (remainder > 0) {
             int len = remainder > 1024 ? 1024 : remainder;
             fi.readFully(codestream, 0, len);
 

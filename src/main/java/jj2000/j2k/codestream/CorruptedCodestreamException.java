@@ -57,7 +57,8 @@ import java.io.IOException;
  * bit stream which is illegal.
  *
  */
-public class CorruptedCodestreamException extends IOException {
+public class CorruptedCodestreamException extends IOException
+{
 
     /**
      * 
@@ -68,8 +69,9 @@ public class CorruptedCodestreamException extends IOException {
      * Constructs a new <code>CorruptedCodestreamException</code> exception
      * with no detail message.
      *
-     * */
-    public CorruptedCodestreamException() {
+     */
+    public CorruptedCodestreamException()
+    {
         super();
     }
 
@@ -79,8 +81,9 @@ public class CorruptedCodestreamException extends IOException {
      *
      * @param s The detail message.
      *
-     * */
-    public CorruptedCodestreamException(String s) {
+     */
+    public CorruptedCodestreamException(String s)
+    {
         super(s);
     }
 

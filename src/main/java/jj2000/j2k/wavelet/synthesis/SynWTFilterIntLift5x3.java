@@ -50,14 +50,16 @@ package jj2000.j2k.wavelet.synthesis;
  * data. It implements the inverse wavelet transform specifically for the 5x3
  * filter. The implementation is based on the lifting scheme.
  *
- * <P>See the SynWTFilter class for details such as normalization, how to
+ * <P>
+ * See the SynWTFilter class for details such as normalization, how to
  * split odd-length signals, etc. In particular, this method assumes that the
  * low-pass coefficient is computed first.
  *
  * @see SynWTFilter
  * @see SynWTFilterInt
- * */
-public class SynWTFilterIntLift5x3 extends SynWTFilterInt {
+ */
+public class SynWTFilterIntLift5x3 extends SynWTFilterInt
+{
 
     /**
      * An implementation of the synthetize_lpf() method that works on int
@@ -65,9 +67,11 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt {
      * scheme. See the general description of the synthetize_lpf() method in
      * the SynWTFilter class for more details.
      *
-     * <P>The coefficients of the first lifting step are [-1/4 1 -1/4].
+     * <P>
+     * The coefficients of the first lifting step are [-1/4 1 -1/4].
      *
-     * <P>The coefficients of the second lifting step are [1/2 1 1/2].
+     * <P>
+     * The coefficients of the second lifting step are [1/2 1 1/2].
      *
      * @param lowSig This is the array that contains the low-pass
      * input signal.
@@ -103,16 +107,16 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt {
      * output samples in the outSig array.
      *
      * @see SynWTFilter#synthetize_lpf
-     * */
+     */
     @Override
-    public
-        void synthetize_lpf(int[] lowSig, int lowOff, int lowLen, int lowStep,
-                        int[] highSig, int highOff, int highLen, int highStep,
-                        int[] outSig, int outOff, int outStep) {
+    public void synthetize_lpf(int[] lowSig, int lowOff, int lowLen, int lowStep,
+        int[] highSig, int highOff, int highLen, int highStep,
+        int[] outSig, int outOff, int outStep)
+    {
 
         int i;
         int outLen = lowLen + highLen; //Length of the output signal
-        int iStep = 2*outStep; //Upsampling in outSig
+        int iStep = 2 * outStep; //Upsampling in outSig
         int ik; //Indexing outSig
         int lk; //Indexing lowSig
         int hk; //Indexing highSig
@@ -127,8 +131,8 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt {
         ik = outOff;
 
         //Handle tail boundary effect. Use symmetric extension.
-        if(outLen>1) {
-            outSig[ik] = lowSig[lk] - ((highSig[hk]+1)>>1);
+        if (outLen > 1) {
+            outSig[ik] = lowSig[lk] - ((highSig[hk] + 1) >> 1);
         }
         else {
             outSig[ik] = lowSig[lk];
@@ -139,9 +143,9 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt {
         ik += iStep;
 
         //Apply lifting step to each "inner" sample.
-        for(i = 2; i < outLen-1; i += 2) {
+        for (i = 2; i < outLen - 1; i += 2) {
             outSig[ik] = lowSig[lk] -
-                ((highSig[hk-highStep] + highSig[hk] + 2)>>2);
+                ((highSig[hk - highStep] + highSig[hk] + 2) >> 2);
 
             lk += lowStep;
             hk += highStep;
@@ -149,8 +153,8 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt {
         }
 
         //Handle head boundary effect if input signal has odd length.
-        if((outLen % 2 == 1)&&(outLen>2)) {
-            outSig[ik] = lowSig[lk] - ((2*highSig[hk-highStep]+2)>>2);
+        if ((outLen % 2 == 1) && (outLen > 2)) {
+            outSig[ik] = lowSig[lk] - ((2 * highSig[hk - highStep] + 2) >> 2);
         }
 
         /*
@@ -162,19 +166,19 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt {
         ik = outOff + outStep;
 
         //Apply first lifting step to each "inner" sample.
-        for(i = 1; i < outLen-1; i += 2) {
+        for (i = 1; i < outLen - 1; i += 2) {
             // Since signs are inversed (add instead of substract)
             // the +1 rounding dissapears.
             outSig[ik] = highSig[hk] +
-                ((outSig[ik-outStep] + outSig[ik+outStep]) >> 1);
+                ((outSig[ik - outStep] + outSig[ik + outStep]) >> 1);
 
             hk += highStep;
             ik += iStep;
         }
 
         //Handle head boundary effect if input signal has even length.
-        if( outLen%2==0 && outLen>1) {
-            outSig[ik] = highSig[hk] + outSig[ik-outStep];
+        if (outLen % 2 == 0 && outLen > 1) {
+            outSig[ik] = highSig[hk] + outSig[ik - outStep];
         }
     }
 
@@ -184,9 +188,11 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt {
      * scheme. See the general description of the synthetize_hpf() method in
      * the SynWTFilter class for more details.
      *
-     * <P>The coefficients of the first lifting step are [-1/4 1 -1/4].
+     * <P>
+     * The coefficients of the first lifting step are [-1/4 1 -1/4].
      *
-     * <P>The coefficients of the second lifting step are [1/2 1 1/2].
+     * <P>
+     * The coefficients of the second lifting step are [1/2 1 1/2].
      *
      * @param lowSig This is the array that contains the low-pass
      * input signal.
@@ -222,16 +228,16 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt {
      * output samples in the outSig array.
      *
      * @see SynWTFilter#synthetize_hpf
-     * */
+     */
     @Override
-    public
-        void synthetize_hpf(int[] lowSig, int lowOff, int lowLen, int lowStep,
-                        int[] highSig, int highOff, int highLen, int highStep,
-                        int[] outSig, int outOff, int outStep) {
+    public void synthetize_hpf(int[] lowSig, int lowOff, int lowLen, int lowStep,
+        int[] highSig, int highOff, int highLen, int highStep,
+        int[] outSig, int outOff, int outStep)
+    {
 
         int i;
         int outLen = lowLen + highLen; //Length of the output signal
-        int iStep = 2*outStep; //Upsampling in outSig
+        int iStep = 2 * outStep; //Upsampling in outSig
         int ik; //Indexing outSig
         int lk; //Indexing lowSig
         int hk; //Indexing highSig
@@ -246,18 +252,18 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt {
         ik = outOff + outStep;
 
         //Apply lifting step to each "inner" sample.
-        for(i = 1; i<outLen-1; i += 2) {
+        for (i = 1; i < outLen - 1; i += 2) {
             outSig[ik] = lowSig[lk] -
-                ((highSig[hk] + highSig[hk+highStep] + 2)>>2);
+                ((highSig[hk] + highSig[hk + highStep] + 2) >> 2);
 
             lk += lowStep;
             hk += highStep;
             ik += iStep;
         }
 
-        if ( (outLen>1) && (outLen%2==0) ) {
+        if ((outLen > 1) && (outLen % 2 == 0)) {
             // symmetric extension.
-            outSig[ik] = lowSig[lk] - ((2*highSig[hk]+2)>>2);
+            outSig[ik] = lowSig[lk] - ((2 * highSig[hk] + 2) >> 2);
         }
         /*
          *Generate odd samples (inverse high pass-filter)
@@ -267,30 +273,30 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt {
         hk = highOff;
         ik = outOff;
 
-        if ( outLen>1 ) {
-            outSig[ik] = highSig[hk] + outSig[ik+outStep];
+        if (outLen > 1) {
+            outSig[ik] = highSig[hk] + outSig[ik + outStep];
         }
         else {
-	    // Normalize for Nyquist gain
-            outSig[ik] = highSig[hk]>>1;
+            // Normalize for Nyquist gain
+            outSig[ik] = highSig[hk] >> 1;
         }
 
         hk += highStep;
         ik += iStep;
 
         //Apply first lifting step to each "inner" sample.
-        for(i = 2; i < outLen-1; i += 2) {
+        for (i = 2; i < outLen - 1; i += 2) {
             // Since signs are inversed (add instead of substract)
             // the +1 rounding dissapears.
             outSig[ik] = highSig[hk] +
-                ((outSig[ik-outStep] + outSig[ik+outStep]) >> 1);
+                ((outSig[ik - outStep] + outSig[ik + outStep]) >> 1);
             hk += highStep;
             ik += iStep;
         }
 
         //Handle head boundary effect if input signal has odd length.
-        if(outLen%2==1 && outLen>1) {
-            outSig[ik] = highSig[hk] + outSig[ik-outStep];
+        if (outLen % 2 == 1 && outLen > 1) {
+            outSig[ik] = highSig[hk] + outSig[ik - outStep];
         }
     }
 
@@ -299,9 +305,10 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt {
      * the number of taps of the filter in the negative direction.
      *
      * @return 2
-     * */
+     */
     @Override
-    public int getAnLowNegSupport() {
+    public int getAnLowNegSupport()
+    {
         return 2;
     }
 
@@ -311,9 +318,10 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt {
      *
      * @return The number of taps of the low-pass analysis filter in the
      * positive direction
-     * */
+     */
     @Override
-    public int getAnLowPosSupport() {
+    public int getAnLowPosSupport()
+    {
         return 2;
     }
 
@@ -323,9 +331,10 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt {
      *
      * @return The number of taps of the high-pass analysis filter in
      * the negative direction
-     * */
+     */
     @Override
-    public int getAnHighNegSupport() {
+    public int getAnHighNegSupport()
+    {
         return 1;
     }
 
@@ -335,9 +344,10 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt {
      *
      * @return The number of taps of the high-pass analysis filter in
      * the positive direction
-     * */
+     */
     @Override
-    public int getAnHighPosSupport() {
+    public int getAnHighPosSupport()
+    {
         return 1;
     }
 
@@ -345,13 +355,15 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt {
      * Returns the negative support of the low-pass synthesis filter. That is
      * the number of taps of the filter in the negative direction.
      *
-     * <P>A MORE PRECISE DEFINITION IS NEEDED
+     * <P>
+     * A MORE PRECISE DEFINITION IS NEEDED
      *
      * @return The number of taps of the low-pass synthesis filter in the
      * negative direction
-     * */
+     */
     @Override
-    public int getSynLowNegSupport() {
+    public int getSynLowNegSupport()
+    {
         return 1;
     }
 
@@ -359,13 +371,15 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt {
      * Returns the positive support of the low-pass synthesis filter. That is
      * the number of taps of the filter in the negative direction.
      *
-     * <P>A MORE PRECISE DEFINITION IS NEEDED
+     * <P>
+     * A MORE PRECISE DEFINITION IS NEEDED
      *
      * @return The number of taps of the low-pass synthesis filter in the
      * positive direction
-     * */
+     */
     @Override
-    public int getSynLowPosSupport() {
+    public int getSynLowPosSupport()
+    {
         return 1;
     }
 
@@ -373,13 +387,15 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt {
      * Returns the negative support of the high-pass synthesis filter. That is
      * the number of taps of the filter in the negative direction.
      *
-     * <P>A MORE PRECISE DEFINITION IS NEEDED
+     * <P>
+     * A MORE PRECISE DEFINITION IS NEEDED
      *
      * @return The number of taps of the high-pass synthesis filter in the
      * negative direction
-     * */
+     */
     @Override
-    public int getSynHighNegSupport() {
+    public int getSynHighNegSupport()
+    {
         return 2;
     }
 
@@ -387,13 +403,15 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt {
      * Returns the positive support of the high-pass synthesis filter. That is
      * the number of taps of the filter in the negative direction.
      *
-     * <P>A MORE PRECISE DEFINITION IS NEEDED
+     * <P>
+     * A MORE PRECISE DEFINITION IS NEEDED
      *
      * @return The number of taps of the high-pass synthesis filter in the
      * positive direction
-     * */
+     */
     @Override
-    public int getSynHighPosSupport() {
+    public int getSynHighPosSupport()
+    {
         return 2;
     }
 
@@ -403,9 +421,10 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt {
      * WT_FILTER_FLOAT_CONVOL.
      *
      * @return WT_FILTER_INT_LIFT.
-     * */
+     */
     @Override
-    public int getImplType() {
+    public int getImplType()
+    {
         return WT_FILTER_INT_LIFT;
     }
 
@@ -415,9 +434,10 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt {
      *
      * @return true since the 5x3 is reversible, provided the appropriate
      * rounding is performed.
-     * */
+     */
     @Override
-    public boolean isReversible() {
+    public boolean isReversible()
+    {
         return true;
     }
 
@@ -430,7 +450,8 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt {
      * affected by image boundaries processings such as symmetric extension,
      * since there is not reference method for this.
      *
-     * <P>The result depends on the length of the allowed overlap when
+     * <P>
+     * The result depends on the length of the allowed overlap when
      * compared to the overlap required by the wavelet filter. It also depends
      * on how overlap processing is implemented in the wavelet filter.
      *
@@ -446,18 +467,19 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt {
      *
      * @return true if both overlaps are greater than 2, and correct
      * processing is applied in the analyze() method.
-     * */
+     */
     @Override
-    public boolean isSameAsFullWT(int tailOvrlp, int headOvrlp, int inLen) {
+    public boolean isSameAsFullWT(int tailOvrlp, int headOvrlp, int inLen)
+    {
 
         //If the input signal has even length.
-        if(inLen % 2 == 0) {
-            if(tailOvrlp >= 2 && headOvrlp >= 1) return true;
+        if (inLen % 2 == 0) {
+            if (tailOvrlp >= 2 && headOvrlp >= 1) return true;
             else return false;
         }
         //Else if the input signal has odd length.
         else {
-            if(tailOvrlp >= 2 && headOvrlp >= 2) return true;
+            if (tailOvrlp >= 2 && headOvrlp >= 2) return true;
             else return false;
         }
     }
@@ -466,9 +488,10 @@ public class SynWTFilterIntLift5x3 extends SynWTFilterInt {
      * Returns a string of information about the synthesis wavelet filter
      *
      * @return wavelet filter type.
-     * */
+     */
     @Override
-    public String toString(){
+    public String toString()
+    {
         return "w5x3 (lifting)";
     }
 

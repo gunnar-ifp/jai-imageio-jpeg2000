@@ -57,9 +57,11 @@ import jj2000.j2k.wavelet.WaveletFilter;
  * and AnWTFilterFloat classes. Implementations of analysis
  * filters should inherit from one of those classes.
  *
- * <P>All analysis wavelet filters should follow the following conventions:
+ * <P>
+ * All analysis wavelet filters should follow the following conventions:
  *
- * <P>- The first sample to filter is the low-pass one. As a
+ * <P>
+ * - The first sample to filter is the low-pass one. As a
  * consequence, if the input signal is of odd-length then the low-pass
  * output signal is one sample longer than the high-pass output
  * one. Therefore, if the length of input signal is N, the low-pass
@@ -67,22 +69,26 @@ import jj2000.j2k.wavelet.WaveletFilter;
  * odd, while the high-pass output signal is of length N/2 if N is
  * even and N/2-1/2 if N is odd.
  *
- * <P>- The normalization is 1 for the DC gain and 2 for the Nyquist
+ * <P>
+ * - The normalization is 1 for the DC gain and 2 for the Nyquist
  * gain (Type I normalization), for both reversible and non-reversible
  * filters.
  *
- * <P>If the length of input signal is N, the low-pass output signal
+ * <P>
+ * If the length of input signal is N, the low-pass output signal
  * is of length N/2 if N is even and N/2+1/2 if N is odd, while the
  * high-pass output sample is of length N/2 if N is even and N/2-1/2
  * if N is odd.
  *
- * <P>The analyze method may seem very complicated, but is designed to
+ * <P>
+ * The analyze method may seem very complicated, but is designed to
  * minimize the amount of data copying and redundant calculations when
  * used for block-based or line-based wavelet transform
  * implementations, while being applicable to full-frame transforms as
  * well.
  *
- * <P>All filters should implement the equals() method of the Object
+ * <P>
+ * All filters should implement the equals() method of the Object
  * class. The call x.equals(y) should test if the 'x' and 'y' filters are the
  * same or not, in what concerns the bit stream header syntax (two filters are
  * the same if the same filter code should be output to the bit stream).
@@ -90,22 +96,26 @@ import jj2000.j2k.wavelet.WaveletFilter;
  * @see AnWTFilterInt
  *
  * @see AnWTFilterFloat
- * */
-public abstract class AnWTFilter implements WaveletFilter{
+ */
+public abstract class AnWTFilter implements WaveletFilter
+{
 
     /** The prefix for wavelet filter options: 'F' */
     public final static char OPT_PREFIX = 'F';
 
-    /** The list of parameters that is accepted for wavelet filters. Options
-     * for wavelet filters start with a 'F'. */
-    private final static String [][] pinfo = {
-        { "Ffilters", "[<tile-component idx>] <id> "+
-          "[ [<tile-component idx>] <id> ...]",
-          "Specifies which filters to use for specified tile-component.\n"+
-          "<tile-component idx>: see general note\n"+
-          "<id>: ',' separates horizontal and vertical filters, ':' separates"+
-          " decomposition levels filters. JPEG 2000 part I only supports w5x3"+
-          " and w9x7 filters.",null},
+    /**
+     * The list of parameters that is accepted for wavelet filters. Options
+     * for wavelet filters start with a 'F'.
+     */
+    private final static String[][] pinfo = {
+        { "Ffilters", "[<tile-component idx>] <id> " +
+            "[ [<tile-component idx>] <id> ...]",
+            "Specifies which filters to use for specified tile-component.\n" +
+                "<tile-component idx>: see general note\n" +
+                "<id>: ',' separates horizontal and vertical filters, ':' separates" +
+                " decomposition levels filters. JPEG 2000 part I only supports w5x3" +
+                " and w9x7 filters.",
+            null },
     };
 
     /**
@@ -114,14 +124,16 @@ public abstract class AnWTFilter implements WaveletFilter{
      * the filtering and the subsampling with the low pass first
      * filtering convention.
      *
-     * <P>The input signal resides in the inSig array. The index of
+     * <P>
+     * The input signal resides in the inSig array. The index of
      * the first sample to filter (i.e. that will generate the first
      * low-pass output sample) is given by inOff. The number of
      * samples to filter is given by inLen. This array must be of the
      * same type as the one for which the particular implementation
      * works with (which is returned by the getDataType() method).
      *
-     * <P>The input signal can be interleaved with other signals in
+     * <P>
+     * The input signal can be interleaved with other signals in
      * the same inSig array, and this is determined by the inStep
      * argument. This means that the first sample of the input signal
      * is inSig[inOff], the second is inSig[inOff+inStep], the third
@@ -131,7 +143,8 @@ public abstract class AnWTFilter implements WaveletFilter{
      * inSig, without having to copy the data, in this case the inStep
      * argument should be the line width.
      *
-     * <P>This method also allows to apply the analysis wavelet filter
+     * <P>
+     * This method also allows to apply the analysis wavelet filter
      * by parts in the input signal using an overlap and thus
      * producing the same coefficients at the output. The tailOvrlp
      * argument specifies how many samples in the input signal, before
@@ -149,13 +162,15 @@ public abstract class AnWTFilter implements WaveletFilter{
      * overlapping block-based wavelet transforms (in which case it
      * will be used when filtering lines and columns).
      *
-     * <P>The low-pass output signal is placed in the lowSig
+     * <P>
+     * The low-pass output signal is placed in the lowSig
      * array. The lowOff and lowStep arguments are analogous to the
      * inOff and inStep ones, but they apply to the lowSig array. The
      * lowSig array must be long enough to hold the low-pass output
      * signal.
      *
-     * <P>The high-pass output signal is placed in the highSig
+     * <P>
+     * The high-pass output signal is placed in the highSig
      * array. The highOff and highStep arguments are analogous to the
      * inOff and inStep ones, but they apply to the highSig array. The
      * highSig array must be long enough to hold the high-pass output
@@ -199,11 +214,10 @@ public abstract class AnWTFilter implements WaveletFilter{
      *
      *
      *
-     * */
-    public abstract
-        void analyze_lpf(Object inSig, int inOff, int inLen, int inStep,
-                     Object lowSig, int lowOff, int lowStep,
-                     Object highSig, int highOff, int highStep);
+     */
+    public abstract void analyze_lpf(Object inSig, int inOff, int inLen, int inStep,
+        Object lowSig, int lowOff, int lowStep,
+        Object highSig, int highOff, int highStep);
 
     /**
      * Filters the input signal by this analysis filter, decomposing
@@ -211,14 +225,16 @@ public abstract class AnWTFilter implements WaveletFilter{
      * the filtering and the subsampling with the high pass first filtering
      * convention.
      *
-     * <P>The input signal resides in the inSig array. The index of
+     * <P>
+     * The input signal resides in the inSig array. The index of
      * the first sample to filter (i.e. that will generate the first
      * high-pass output sample) is given by inOff. The number of
      * samples to filter is given by inLen. This array must be of the
      * same type as the one for which the particular implementation
      * works with (which is returned by the getDataType() method).
      *
-     * <P>The input signal can be interleaved with other signals in
+     * <P>
+     * The input signal can be interleaved with other signals in
      * the same inSig array, and this is determined by the inStep
      * argument. This means that the first sample of the input signal
      * is inSig[inOff], the second is inSig[inOff+inStep], the third
@@ -228,13 +244,15 @@ public abstract class AnWTFilter implements WaveletFilter{
      * inSig, without having to copy the data, in this case the inStep
      * argument should be the line width.
      *
-     * <P>The low-pass output signal is placed in the lowSig
+     * <P>
+     * The low-pass output signal is placed in the lowSig
      * array. The lowOff and lowStep arguments are analogous to the
      * inOff and inStep ones, but they apply to the lowSig array. The
      * lowSig array must be long enough to hold the low-pass output
      * signal.
      *
-     * <P>The high-pass output signal is placed in the highSig
+     * <P>
+     * The high-pass output signal is placed in the highSig
      * array. The highOff and highStep arguments are analogous to the
      * inOff and inStep ones, but they apply to the highSig array. The
      * highSig array must be long enough to hold the high-pass output
@@ -278,11 +296,10 @@ public abstract class AnWTFilter implements WaveletFilter{
      *
      *
      *
-     * */
-    public abstract
-        void analyze_hpf(Object inSig, int inOff, int inLen, int inStep,
-                     Object lowSig, int lowOff, int lowStep,
-                     Object highSig, int highOff, int highStep);
+     */
+    public abstract void analyze_hpf(Object inSig, int inOff, int inLen, int inStep,
+        Object lowSig, int lowOff, int lowStep,
+        Object highSig, int highOff, int highStep);
 
     /**
      * Returns the time-reversed low-pass synthesis waveform of the
@@ -291,7 +308,8 @@ public abstract class AnWTFilter implements WaveletFilter{
      * to calculate the L2-norm of the synthesis basis functions for a
      * particular subband (also called energy weight).
      *
-     * <P>The returned array may not be modified (i.e. a reference to
+     * <P>
+     * The returned array may not be modified (i.e. a reference to
      * the internal array may be returned by the implementation of
      * this method).
      *
@@ -299,7 +317,7 @@ public abstract class AnWTFilter implements WaveletFilter{
      * filter.
      *
      *
-     * */
+     */
     public abstract float[] getLPSynthesisFilter();
 
     /**
@@ -310,7 +328,8 @@ public abstract class AnWTFilter implements WaveletFilter{
      * basis functions for a particular subband (also called energy
      * weight).
      *
-     * <P>The returned array may not be modified (i.e. a reference to
+     * <P>
+     * The returned array may not be modified (i.e. a reference to
      * the internal array may be returned by the implementation of
      * this method).
      *
@@ -318,7 +337,7 @@ public abstract class AnWTFilter implements WaveletFilter{
      * filter.
      *
      *
-     * */
+     */
     public abstract float[] getHPSynthesisFilter();
 
     /**
@@ -330,7 +349,8 @@ public abstract class AnWTFilter implements WaveletFilter{
      * where in_l is the length of 'in' and 'lp_l' is the lengthg of
      * the low-pass synthesis filter.
      *
-     * <P>The length of the low-pass synthesis filter is
+     * <P>
+     * The length of the low-pass synthesis filter is
      * getSynLowNegSupport()+getSynLowPosSupport().
      *
      * @param in The synthesis waveform of the previous stage.
@@ -344,9 +364,10 @@ public abstract class AnWTFilter implements WaveletFilter{
      * @see #getSynLowPosSupport
      *
      *
-     * */
-    public float[] getLPSynWaveForm(float in[], float out[]) {
-        return upsampleAndConvolve(in,getLPSynthesisFilter(),out);
+     */
+    public float[] getLPSynWaveForm(float in[], float out[])
+    {
+        return upsampleAndConvolve(in, getLPSynthesisFilter(), out);
     }
 
     /**
@@ -358,7 +379,8 @@ public abstract class AnWTFilter implements WaveletFilter{
      * where in_l is the length of 'in' and 'hp_l' is the lengthg of
      * the high-pass synthesis filter.
      *
-     * <P>The length of the high-pass synthesis filter is
+     * <P>
+     * The length of the high-pass synthesis filter is
      * getSynHighNegSupport()+getSynHighPosSupport().
      *
      * @param in The synthesis waveform of the previous stage.
@@ -372,9 +394,10 @@ public abstract class AnWTFilter implements WaveletFilter{
      * @see #getSynHighPosSupport
      *
      *
-     * */
-    public float[] getHPSynWaveForm(float in[], float out[]) {
-        return upsampleAndConvolve(in,getHPSynthesisFilter(),out);
+     */
+    public float[] getHPSynWaveForm(float in[], float out[])
+    {
+        return upsampleAndConvolve(in, getHPSynthesisFilter(), out);
     }
 
     /**
@@ -384,7 +407,8 @@ public abstract class AnWTFilter implements WaveletFilter{
      * where l_in is the length of 'in', and l_wf is the length of
      * 'wf'.
      *
-     * <P>The 'wf' signal has to be already time-reversed, therefore
+     * <P>
+     * The 'wf' signal has to be already time-reversed, therefore
      * only a dot-product is performed (instead of a
      * convolution). This is equivalent to convolving with the
      * non-time-reversed 'wf' signal.
@@ -403,17 +427,17 @@ public abstract class AnWTFilter implements WaveletFilter{
      * @return The resulting signal, of length in.length*2+wf.length-2
      *
      *
-     * */
-    private static
-        float[] upsampleAndConvolve(float in[], float wf[], float out[]) {
+     */
+    private static float[] upsampleAndConvolve(float in[], float wf[], float out[])
+    {
         // NOTE: the effective length of the signal 'in' upsampled by
         // 2 is 2*in.length-1 (not 2*in.length), so the resulting signal
         // (after convolution) is of length 2*in.length-1+wf.length-1,
         // which is 2*in.length+wf.length-2
 
-        int i,k,j;
+        int i, k, j;
         float tmp;
-        int maxi,maxk;
+        int maxi, maxk;
 
         // If in null, then simulate dirac
         if (in == null) {
@@ -423,21 +447,21 @@ public abstract class AnWTFilter implements WaveletFilter{
 
         // Get output buffer if necessary
         if (out == null) {
-            out = new float[in.length*2+wf.length-2];
+            out = new float[in.length * 2 + wf.length - 2];
         }
         // Convolve the signals
-        for (i=0, maxi=in.length*2+wf.length-2; i<maxi; i++) {
+        for (i = 0, maxi = in.length * 2 + wf.length - 2; i < maxi; i++) {
             tmp = 0.0f;
 
             // Calculate limits of loop below
-            k = (i-wf.length+2)/2;
-            if (k<0) k = 0;
-            maxk = i/2+1;
+            k = (i - wf.length + 2) / 2;
+            if (k < 0) k = 0;
+            maxk = i / 2 + 1;
             if (maxk > in.length) maxk = in.length;
 
             // Calculate dot-product with upsampling of 'in' by 2.
-            for (j = 2*k-i+wf.length-1; k<maxk; k++, j+=2) {
-                tmp += in[k]*wf[j];
+            for (j = 2 * k - i + wf.length - 1; k < maxk; k++, j += 2) {
+                tmp += in[k] * wf[j];
             }
             // Store result
             out[i] = tmp;
@@ -472,8 +496,9 @@ public abstract class AnWTFilter implements WaveletFilter{
      * or null if no options are supported.
      *
      *
-     * */
-    public static String[][] getParameterInfo() {
+     */
+    public static String[][] getParameterInfo()
+    {
         return pinfo;
     }
 

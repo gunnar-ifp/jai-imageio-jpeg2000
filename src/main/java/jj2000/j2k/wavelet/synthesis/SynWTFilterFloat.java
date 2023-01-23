@@ -57,15 +57,18 @@ import jj2000.j2k.image.DataBlk;
  * specifically. Implementations that work on float data should inherit
  * from this class.
  *
- * <P>See the SynWTFilter class for details such as
+ * <P>
+ * See the SynWTFilter class for details such as
  * normalization, how to split odd-length signals, etc.
  *
- * <P>The advantage of using the specialized method is that no casts
+ * <P>
+ * The advantage of using the specialized method is that no casts
  * are performed.
  *
  * @see SynWTFilter
- * */
-public abstract class SynWTFilterFloat extends SynWTFilter {
+ */
+public abstract class SynWTFilterFloat extends SynWTFilter
+{
 
     /**
      * A specific version of the synthetize_lpf() method that works on float
@@ -110,11 +113,10 @@ public abstract class SynWTFilterFloat extends SynWTFilter {
      *
      *
      *
-     * */
-    public abstract
-        void synthetize_lpf(float[] lowSig, int lowOff, int lowLen, int lowStep,
-                        float[] highSig, int highOff, int highLen, int highStep,
-                        float[] outSig, int outOff, int outStep);
+     */
+    public abstract void synthetize_lpf(float[] lowSig, int lowOff, int lowLen, int lowStep,
+        float[] highSig, int highOff, int highLen, int highStep,
+        float[] outSig, int outOff, int outStep);
 
     /**
      * The general version of the synthetize_lpf() method, it just calls
@@ -160,17 +162,17 @@ public abstract class SynWTFilterFloat extends SynWTFilter {
      *
      *
      *
-     * */
+     */
     @Override
-    public
-        void synthetize_lpf(Object lowSig, int lowOff, int lowLen, int lowStep,
-                        Object highSig, int highOff, int highLen, int highStep,
-                        Object outSig, int outOff, int outStep) {
+    public void synthetize_lpf(Object lowSig, int lowOff, int lowLen, int lowStep,
+        Object highSig, int highOff, int highLen, int highStep,
+        Object outSig, int outOff, int outStep)
+    {
 
         synthetize_lpf((float[])lowSig, lowOff, lowLen, lowStep,
-                   (float[])highSig, highOff, highLen, highStep,
-                   (float[])outSig, outOff, outStep);
-        }
+            (float[])highSig, highOff, highLen, highStep,
+            (float[])outSig, outOff, outStep);
+    }
 
     /**
      * A specific version of the synthetize_hpf() method that works on float
@@ -215,11 +217,10 @@ public abstract class SynWTFilterFloat extends SynWTFilter {
      *
      *
      *
-     * */
-    public abstract
-        void synthetize_hpf(float[] lowSig, int lowOff, int lowLen, int lowStep,
-                        float[] highSig, int highOff, int highLen, int highStep,
-                        float[] outSig, int outOff, int outStep);
+     */
+    public abstract void synthetize_hpf(float[] lowSig, int lowOff, int lowLen, int lowStep,
+        float[] highSig, int highOff, int highLen, int highStep,
+        float[] outSig, int outOff, int outStep);
 
     /**
      * The general version of the synthetize_hpf() method, it just calls
@@ -265,17 +266,17 @@ public abstract class SynWTFilterFloat extends SynWTFilter {
      *
      *
      *
-     * */
+     */
     @Override
-    public
-        void synthetize_hpf(Object lowSig, int lowOff, int lowLen, int lowStep,
-                        Object highSig, int highOff, int highLen, int highStep,
-                        Object outSig, int outOff, int outStep) {
+    public void synthetize_hpf(Object lowSig, int lowOff, int lowLen, int lowStep,
+        Object highSig, int highOff, int highLen, int highStep,
+        Object outSig, int outOff, int outStep)
+    {
 
         synthetize_hpf((float[])lowSig, lowOff, lowLen, lowStep,
-                   (float[])highSig, highOff, highLen, highStep,
-                   (float[])outSig, outOff, outStep);
-        }
+            (float[])highSig, highOff, highLen, highStep,
+            (float[])outSig, outOff, outStep);
+    }
 
     /**
      * Returns the type of data on which this filter works, as defined
@@ -287,9 +288,10 @@ public abstract class SynWTFilterFloat extends SynWTFilter {
      * @see jj2000.j2k.image.DataBlk
      *
      *
-     * */
+     */
     @Override
-    public int getDataType() {
+    public int getDataType()
+    {
         return DataBlk.TYPE_FLOAT;
     }
 

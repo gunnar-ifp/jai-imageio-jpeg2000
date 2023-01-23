@@ -50,56 +50,64 @@ import javax.imageio.ImageReadParam;
  * A subclass of <code>ImageReadParam</code> for reading images in
  * the JPEG 2000 format.
  *
- * <p>The decoding parameters for JPEG 2000 are listed below:
+ * <p>
+ * The decoding parameters for JPEG 2000 are listed below:
  *
  * <table border=1>
  * <caption><b>JPEG 2000 Plugin Decoding Parameters</b></caption>
- * <tr><th>Parameter Name</th> <th>Description</th></tr>
  * <tr>
- *    <td>decodingRate</td>
- *    <td>Specifies the decoding rate in bits per pixel (bpp) where the
- *    number of pixels is related to the image's original size (Note:
- *    this parameter is not affected by <code>resolution</code>).
- *    The default is <code>Double.MAX_VALUE</code>.
- *    It means decoding with the encoding rate.
- *    </td>
+ * <th>Parameter Name</th>
+ * <th>Description</th>
  * </tr>
  * <tr>
- *    <td>resolution</td>
- *    <td>Specifies the resolution level wanted for the decoded image
- *    (0 means the lowest available resolution, the resolution
- *    level gives an image with the original dimension).  If the given index
- *    is greater than the number of available resolution levels of the
- *    compressed image, the decoded image has the lowest available
- *    resolution (among all tile-components).  This parameter affects only
- *    the inverse wavelet transform and not the number of bytes read by the
- *    codestream parser, which depends only on <code>decodingRate</code>.
- *    The default value, -1, means to use the resolution level at encoding.
- *    </td>
+ * <td>decodingRate</td>
+ * <td>Specifies the decoding rate in bits per pixel (bpp) where the
+ * number of pixels is related to the image's original size (Note:
+ * this parameter is not affected by <code>resolution</code>).
+ * The default is <code>Double.MAX_VALUE</code>.
+ * It means decoding with the encoding rate.
+ * </td>
+ * </tr>
+ * <tr>
+ * <td>resolution</td>
+ * <td>Specifies the resolution level wanted for the decoded image
+ * (0 means the lowest available resolution, the resolution
+ * level gives an image with the original dimension). If the given index
+ * is greater than the number of available resolution levels of the
+ * compressed image, the decoded image has the lowest available
+ * resolution (among all tile-components). This parameter affects only
+ * the inverse wavelet transform and not the number of bytes read by the
+ * codestream parser, which depends only on <code>decodingRate</code>.
+ * The default value, -1, means to use the resolution level at encoding.
+ * </td>
  * </tr>
  * </table>
  */
-public class J2KImageReadParam extends ImageReadParam {
-    /** Specifies the decoding rate in bits per pixel (bpp) where the
-     *  number of  pixels is related to the image's original size
-     *  (Note: this number is not affected by <code>resolution</code>).
+public class J2KImageReadParam extends ImageReadParam
+{
+    /**
+     * Specifies the decoding rate in bits per pixel (bpp) where the
+     * number of pixels is related to the image's original size
+     * (Note: this number is not affected by <code>resolution</code>).
      */
     private double decodingRate = Double.MAX_VALUE;
 
-    /** Specifies the resolution level wanted for the decoded image
-     *  (0 means the lowest available resolution, the resolution
-     *  level gives an image with the original dimension).  If the given index
-     *  is greater than the number of available resolution levels of the
-     *  compressed image, the decoded image has the lowest available
-     *  resolution (among all tile-components).  This parameter
-     *  affects only the inverse wavelet transform but not the number
-     *  of bytes read by the codestream parser, which
-     *  depends only on <code>decodingRate</code>.
+    /**
+     * Specifies the resolution level wanted for the decoded image
+     * (0 means the lowest available resolution, the resolution
+     * level gives an image with the original dimension). If the given index
+     * is greater than the number of available resolution levels of the
+     * compressed image, the decoded image has the lowest available
+     * resolution (among all tile-components). This parameter
+     * affects only the inverse wavelet transform but not the number
+     * of bytes read by the codestream parser, which
+     * depends only on <code>decodingRate</code>.
      */
     private int resolution = -1;
 
     /** Constructs a default instance of <code>J2KImageReadParam</code>. */
-    public J2KImageReadParam() {
+    public J2KImageReadParam()
+    {
         super();
     }
 
@@ -109,7 +117,8 @@ public class J2KImageReadParam extends ImageReadParam {
      * @param rate the decoding rate in bits per pixel.
      * @see #getDecodingRate()
      */
-    public void setDecodingRate(double rate) {
+    public void setDecodingRate(double rate)
+    {
         this.decodingRate = rate;
     }
 
@@ -119,7 +128,8 @@ public class J2KImageReadParam extends ImageReadParam {
      * @return the decoding rate in bits per pixel.
      * @see #setDecodingRate(double)
      */
-    public double getDecodingRate() {
+    public double getDecodingRate()
+    {
         return decodingRate;
     }
 
@@ -130,7 +140,8 @@ public class J2KImageReadParam extends ImageReadParam {
      * the lowest available.
      * @see #getResolution()
      */
-    public void setResolution(int resolution) {
+    public void setResolution(int resolution)
+    {
         this.resolution = Math.max(resolution, -1);
     }
 
@@ -141,7 +152,8 @@ public class J2KImageReadParam extends ImageReadParam {
      * the lowest available.
      * @see #setResolution(int)
      */
-    public int getResolution() {
+    public int getResolution()
+    {
         return resolution;
     }
 }

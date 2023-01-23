@@ -49,6 +49,7 @@
 package jj2000.j2k.image;
 
 import java.awt.Point;
+
 /**
  * This interface defines methods to access image attributes (width, height,
  * number of components, etc.). The image can be tiled or not (i.e. if the
@@ -59,15 +60,16 @@ import java.awt.Point;
  * other interfaces, such as 'BlkImgDataSrc'.
  *
  * @see BlkImgDataSrc
- * */
-public interface ImgData {
+ */
+public interface ImgData
+{
     /**
      * Returns the overall width of the current tile in pixels. This is the
      * tile's width without accounting for any component subsampling. This is
      * also referred as the reference grid width in the current tile.
      *
      * @return The total current tile's width in pixels.
-     * */
+     */
     public int getTileWidth();
 
     /**
@@ -76,7 +78,7 @@ public interface ImgData {
      * also referred as the reference grid height in the current tile.
      *
      * @return The total current tile's height in pixels.
-     * */
+     */
     public int getTileHeight();
 
     /** Returns the nominal tiles width */
@@ -90,7 +92,7 @@ public interface ImgData {
      * width without accounting for any component subsampling or tiling.
      *
      * @return The total image's width in pixels.
-     * */
+     */
     public int getImgWidth();
 
     /**
@@ -98,14 +100,14 @@ public interface ImgData {
      * height without accounting for any component subsampling or tiling.
      *
      * @return The total image's height in pixels.
-     * */
+     */
     public int getImgHeight();
 
     /**
      * Returns the number of components in the image.
      *
      * @return The number of components in the image.
-     * */
+     */
     public int getNumComps();
 
     /**
@@ -119,7 +121,7 @@ public interface ImgData {
      * @return The horizontal subsampling factor of component 'c'
      *
      * @see ImgData
-     * */
+     */
     public int getCompSubsX(int c);
 
     /**
@@ -133,7 +135,7 @@ public interface ImgData {
      * @return The vertical subsampling factor of component 'c'
      *
      * @see ImgData
-     * */
+     */
     public int getCompSubsY(int c);
 
     /**
@@ -144,8 +146,8 @@ public interface ImgData {
      * @param c The index of the component, from 0 to N-1.
      *
      * @return The width in pixels of component <code>c</code> in tile<code>t</code>.
-     * */
-    public int getTileCompWidth(int t,int c);
+     */
+    public int getTileCompWidth(int t, int c);
 
     /**
      * Returns the height in pixels of the specified tile-component.
@@ -156,8 +158,8 @@ public interface ImgData {
      *
      * @return The height in pixels of component <code>c</code> in tile
      * <code>t</code>.
-     * */
-    public int getTileCompHeight(int t,int c);
+     */
+    public int getTileCompHeight(int t, int c);
 
     /**
      * Returns the width in pixels of the specified component in the overall
@@ -167,7 +169,7 @@ public interface ImgData {
      *
      * @return The width in pixels of component <code>c</code> in the overall
      * image.
-     * */
+     */
     public int getCompImgWidth(int c);
 
     /**
@@ -178,7 +180,7 @@ public interface ImgData {
      *
      * @return The height in pixels of component <code>n</code> in the overall
      * image.
-     * */
+     */
     public int getCompImgHeight(int c);
 
     /**
@@ -194,8 +196,9 @@ public interface ImgData {
      *
      * @return The number of bits corresponding to the nominal range of the
      * image data (in the image domain).
-     * */
+     */
     public int getNomRangeBits(int c);
+
     /**
      * Changes the current tile, given the new indices. An
      * IllegalArgumentException is thrown if the coordinates do not correspond
@@ -204,14 +207,14 @@ public interface ImgData {
      * @param x The horizontal index of the tile.
      *
      * @param y The vertical index of the new tile.
-     * */
-    public void setTile(int x,int y);
+     */
+    public void setTile(int x, int y);
 
     /**
      * Advances to the next tile, in standard scan-line order (by rows then
      * columns). An NoNextElementException is thrown if the current tile is
      * the last one (i.e. there is no next tile).
-     * */
+     */
     public void nextTile();
 
     /**
@@ -222,7 +225,7 @@ public interface ImgData {
      * null a new one is created and returned.
      *
      * @return The current tile's indices (vertical and horizontal indexes).
-     * */
+     */
     public Point getTile(Point co);
 
     /**
@@ -230,7 +233,7 @@ public interface ImgData {
      * order.
      *
      * @return The current tile's index (starts at 0).
-     * */
+     */
     public int getTileIdx();
 
     /** Returns the horizontal tile partition offset in the reference grid */
@@ -244,7 +247,7 @@ public interface ImgData {
      * specified component in the current tile.
      *
      * @param c The index of the component.
-     * */
+     */
     public int getCompULX(int c);
 
     /**
@@ -252,7 +255,7 @@ public interface ImgData {
      * specified component in the current tile.
      *
      * @param c The index of the component.
-     * */
+     */
     public int getCompULY(int c);
 
     /**
@@ -261,7 +264,7 @@ public interface ImgData {
      *
      * @return The horizontal coordinate of the image origin in the canvas
      * system, on the reference grid.
-     * */
+     */
     public int getImgULX();
 
     /**
@@ -270,7 +273,7 @@ public interface ImgData {
      *
      * @return The vertical coordinate of the image origin in the canvas
      * system, on the reference grid.
-     * */
+     */
     public int getImgULY();
 
     /**
@@ -281,14 +284,14 @@ public interface ImgData {
      *
      * @return The number of tiles in the horizontal (Point.x) and vertical
      * (Point.y) directions.
-     * */
+     */
     public Point getNumTiles(Point co);
 
     /**
      * Returns the total number of tiles in the image.
      *
      * @return The total number of tiles in the image.
-     * */
+     */
     public int getNumTiles();
 
 }

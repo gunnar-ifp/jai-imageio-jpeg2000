@@ -57,15 +57,18 @@ import jj2000.j2k.image.DataBlk;
  * specifically. Implementations that work on int data should inherit
  * from this class.
  *
- * <P>See the SynWTFilter class for details such as
+ * <P>
+ * See the SynWTFilter class for details such as
  * normalization, how to split odd-length signals, etc.
  *
- * <P>The advantage of using the specialized method is that no casts
+ * <P>
+ * The advantage of using the specialized method is that no casts
  * are performed.
  *
  * @see SynWTFilter
- * */
-public abstract class SynWTFilterInt extends SynWTFilter {
+ */
+public abstract class SynWTFilterInt extends SynWTFilter
+{
 
     /**
      * A specific version of the synthetize_lpf() method that works on int
@@ -110,11 +113,10 @@ public abstract class SynWTFilterInt extends SynWTFilter {
      *
      *
      *
-     * */
-    public abstract
-        void synthetize_lpf(int[] lowSig, int lowOff, int lowLen, int lowStep,
-                        int[] highSig, int highOff, int highLen, int highStep,
-                        int[] outSig, int outOff, int outStep);
+     */
+    public abstract void synthetize_lpf(int[] lowSig, int lowOff, int lowLen, int lowStep,
+        int[] highSig, int highOff, int highLen, int highStep,
+        int[] outSig, int outOff, int outStep);
 
     /**
      * The general version of the synthetize_lpf() method, it just calls
@@ -160,17 +162,17 @@ public abstract class SynWTFilterInt extends SynWTFilter {
      *
      *
      *
-     * */
+     */
     @Override
-    public
-        void synthetize_lpf(Object lowSig, int lowOff, int lowLen, int lowStep,
-                        Object highSig, int highOff, int highLen, int highStep,
-                        Object outSig, int outOff, int outStep) {
+    public void synthetize_lpf(Object lowSig, int lowOff, int lowLen, int lowStep,
+        Object highSig, int highOff, int highLen, int highStep,
+        Object outSig, int outOff, int outStep)
+    {
 
         synthetize_lpf((int[])lowSig, lowOff, lowLen, lowStep,
-                   (int[])highSig, highOff, highLen, highStep,
-                   (int[])outSig, outOff, outStep);
-        }
+            (int[])highSig, highOff, highLen, highStep,
+            (int[])outSig, outOff, outStep);
+    }
 
     /**
      * A specific version of the synthetize_hpf() method that works on int
@@ -215,11 +217,10 @@ public abstract class SynWTFilterInt extends SynWTFilter {
      *
      *
      *
-     * */
-    public abstract
-        void synthetize_hpf(int[] lowSig, int lowOff, int lowLen, int lowStep,
-                        int[] highSig, int highOff, int highLen, int highStep,
-                        int[] outSig, int outOff, int outStep);
+     */
+    public abstract void synthetize_hpf(int[] lowSig, int lowOff, int lowLen, int lowStep,
+        int[] highSig, int highOff, int highLen, int highStep,
+        int[] outSig, int outOff, int outStep);
 
 
 
@@ -267,17 +268,17 @@ public abstract class SynWTFilterInt extends SynWTFilter {
      *
      *
      *
-     * */
+     */
     @Override
-    public
-        void synthetize_hpf(Object lowSig, int lowOff, int lowLen, int lowStep,
-                        Object highSig, int highOff, int highLen, int highStep,
-                        Object outSig, int outOff, int outStep) {
+    public void synthetize_hpf(Object lowSig, int lowOff, int lowLen, int lowStep,
+        Object highSig, int highOff, int highLen, int highStep,
+        Object outSig, int outOff, int outStep)
+    {
 
         synthetize_hpf((int[])lowSig, lowOff, lowLen, lowStep,
-                   (int[])highSig, highOff, highLen, highStep,
-                   (int[])outSig, outOff, outStep);
-        }
+            (int[])highSig, highOff, highLen, highStep,
+            (int[])outSig, outOff, outStep);
+    }
 
     /**
      * Returns the type of data on which this filter works, as defined
@@ -289,11 +290,12 @@ public abstract class SynWTFilterInt extends SynWTFilter {
      * @see jj2000.j2k.image.DataBlk
      *
      *
-     * */
+     */
     @Override
-    public int getDataType() {
+    public int getDataType()
+    {
         return DataBlk.TYPE_INT;
-        }
-
     }
+
+}
 

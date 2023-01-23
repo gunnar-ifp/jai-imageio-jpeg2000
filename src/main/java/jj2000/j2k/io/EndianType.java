@@ -52,24 +52,32 @@ package jj2000.j2k.io;
  * This interface defines constants for the two types of byte
  * ordering: little- and big-endian.
  *
- * <P>Little-endian is least significant byte first.
+ * <P>
+ * Little-endian is least significant byte first.
  *
- * <P>Big-endian is most significant byte first.
+ * <P>
+ * Big-endian is most significant byte first.
  *
- * <P>This interface defines the constants only. In order to use the
+ * <P>
+ * This interface defines the constants only. In order to use the
  * constants in any other class you can either use the fully qualified
  * name (e.g., <code>EndianType.LITTLE_ENDIAN</code>) or declare this
  * interface in the implements clause of the class and then access the
  * identifier directly.
  *
  */
-public interface EndianType {
+public interface EndianType
+{
 
-    /** Identifier for big-endian byte ordering (i.e. most significant
-     * byte first) */
+    /**
+     * Identifier for big-endian byte ordering (i.e. most significant
+     * byte first)
+     */
     public static final int BIG_ENDIAN = 0;
 
-    /** Identifier for little-endian byte ordering (i.e. least
-     * significant byte first) */
+    /**
+     * Identifier for little-endian byte ordering (i.e. least
+     * significant byte first)
+     */
     public static final int LITTLE_ENDIAN = 1;
 }

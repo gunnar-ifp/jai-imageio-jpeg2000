@@ -44,6 +44,7 @@
  * Copyright (c) 1999/2000 JJ2000 Partners.
  *  */
 package jj2000.j2k.entropy.decoder;
+
 import jj2000.j2k.wavelet.synthesis.InvWTData;
 import jj2000.j2k.wavelet.synthesis.SubbandSyn;
 
@@ -52,10 +53,12 @@ import jj2000.j2k.wavelet.synthesis.SubbandSyn;
  * transfer it in a code-block by code-block basis. In each call to
  * 'geCodeBlock()' a specified coded code-block is returned.
  *
- * <P>This interface is the source of data for the entropy decoder. See the
+ * <P>
+ * This interface is the source of data for the entropy decoder. See the
  * 'EntropyDecoder' class.
  *
- * <P>For each coded-code-block the entropy-coded data is returned along with
+ * <P>
+ * For each coded-code-block the entropy-coded data is returned along with
  * its truncation point information in a 'DecLyrdCBlk' object.
  *
  * @see EntropyDecoder
@@ -63,8 +66,9 @@ import jj2000.j2k.wavelet.synthesis.SubbandSyn;
  * @see DecLyrdCBlk
  *
  * @see jj2000.j2k.codestream.reader.BitstreamReaderAgent
- * */
-public interface CodedCBlkDataSrcDec extends InvWTData {
+ */
+public interface CodedCBlkDataSrcDec extends InvWTData
+{
 
     /**
      * Returns the specified coded code-block, for the specified component, in
@@ -72,24 +76,28 @@ public interface CodedCBlkDataSrcDec extends InvWTData {
      * number of layers that is returned depends on 'nl' and the amount of
      * data available.
      *
-     * <P>The argument 'fl' is to be used by subsequent calls to this method
+     * <P>
+     * The argument 'fl' is to be used by subsequent calls to this method
      * for the same code-block. In this way supplamental data can be retrieved
      * at a later time. The fact that data from more than one layer can be
      * returned means that several packets from the same code-block, of the
      * same component, and the same tile, have been concatenated.
      *
-     * <P>The returned compressed code-block can have its progressive
+     * <P>
+     * The returned compressed code-block can have its progressive
      * attribute set. If this attribute is set it means that more data can be
      * obtained by subsequent calls to this method (subject to transmission
      * delays, etc). If the progressive attribute is not set it means that the
      * returned data is all the data that can be obtained for the specified
      * subblock.
      *
-     * <P>The compressed code-block is uniquely specified by the current tile,
+     * <P>
+     * The compressed code-block is uniquely specified by the current tile,
      * the component (identified by 'c'), the subband (indentified by 'sb')
      * and the code-bock vertical and horizontal indexes 'm' and 'n'.
      *
-     * <P>The 'ulx' and 'uly' members of the returned 'DecLyrdCBlk' object
+     * <P>
+     * The 'ulx' and 'uly' members of the returned 'DecLyrdCBlk' object
      * contain the coordinates of the top-left corner of the block, with
      * respect to the tile, not the subband.
      *
@@ -115,8 +123,8 @@ public interface CodedCBlkDataSrcDec extends InvWTData {
      *
      * @return The compressed code-block, with a certain number of layers
      * determined by the available data and 'nl'.
-     * */
+     */
     public DecLyrdCBlk getCodeBlock(int c, int m, int n,
-                                         SubbandSyn sb, int fl, int nl,
-                                         DecLyrdCBlk ccb);
+        SubbandSyn sb, int fl, int nl,
+        DecLyrdCBlk ccb);
 }

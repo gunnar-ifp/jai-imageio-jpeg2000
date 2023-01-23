@@ -51,8 +51,9 @@ package jj2000.j2k.codestream;
  *
  * @see PrecCoordInfo
  * @see CBlkCoordInfo
- * */
-public abstract class CoordInfo {
+ */
+public abstract class CoordInfo
+{
 
     /** Horizontal upper left coordinate in the subband */
     public int ulx;
@@ -76,8 +77,9 @@ public abstract class CoordInfo {
      * @param w The width
      *
      * @param h The height
-     * */
-    public CoordInfo(int ulx, int uly, int w, int h) {
+     */
+    public CoordInfo(int ulx, int uly, int w, int h)
+    {
         this.ulx = ulx;
         this.uly = uly;
         this.w = w;
@@ -85,15 +87,18 @@ public abstract class CoordInfo {
     }
 
     /** Empty contructor */
-    public CoordInfo() { }
+    public CoordInfo()
+    {
+    }
 
     /**
      * Returns object's information in a String
      *
      * @return String with object's information
-     * */
+     */
     @Override
-    public String toString() {
-        return "ulx="+ulx+", uly="+uly+", w="+w+", h="+h;
+    public String toString()
+    {
+        return "ulx=" + ulx + ", uly=" + uly + ", w=" + w + ", h=" + h;
     }
 }

@@ -63,7 +63,8 @@ import jj2000.j2k.image.ImgData;
 
 import com.github.jaiimageio.impl.common.ImageUtil;
 
-public class RenderedImageSrc implements BlkImgDataSrc {
+public class RenderedImageSrc implements BlkImgDataSrc
+{
     /** The width of the image */
     private int w;
 
@@ -104,8 +105,10 @@ public class RenderedImageSrc implements BlkImgDataSrc {
     /** The line buffer. */
     private byte buf[];
 
-    /** Temporary DataBlkInt object (needed when encoder uses floating-point
-        filters). This avoid allocating new DataBlk at each time */
+    /**
+     * Temporary DataBlkInt object (needed when encoder uses floating-point
+     * filters). This avoid allocating new DataBlk at each time
+     */
     private DataBlkInt intBlk;
 
     private RenderedImage src;
@@ -135,8 +138,9 @@ public class RenderedImageSrc implements BlkImgDataSrc {
     /** Used to process abortion. */
     private J2KImageWriter writer;
 
-    /** Indicates a <code>raster</code> rather than a <code>RenderedImage</code>
-     *  to be encoded.
+    /**
+     * Indicates a <code>raster</code> rather than a <code>RenderedImage</code>
+     * to be encoded.
      */
     private boolean inputIsRaster = false;
 
@@ -148,8 +152,9 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      * @param writer The <code>J2KImageWriter</code> performs the encoding.
      */
     public RenderedImageSrc(Raster raster,
-                            J2KImageWriteParamJava param,
-                            J2KImageWriter writer) {
+        J2KImageWriteParamJava param,
+        J2KImageWriter writer)
+    {
         this.raster = raster;
         this.param = param;
         this.writer = writer;
@@ -159,9 +164,8 @@ public class RenderedImageSrc implements BlkImgDataSrc {
 
         if (sourceRegion == null)
             sourceRegion = new Rectangle(raster.getMinX(), raster.getMinY(),
-                                         raster.getWidth(), raster.getHeight());
-        else
-            sourceRegion = sourceRegion.intersection(raster.getBounds());
+                raster.getWidth(), raster.getHeight());
+        else sourceRegion = sourceRegion.intersection(raster.getBounds());
 
         if (sourceRegion.isEmpty())
             throw new RuntimeException(I18N.getString("J2KImageWriterCodecLib0"));
@@ -179,10 +183,11 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      * @param src The <code>RenderedImage</code> to be encoded.
      * @param param The <code>J2KImageWriteParamJava</code> used in encoding.
      * @param writer The <code>J2KImageWriter</code> performs the encoding.
-     * */
+     */
     public RenderedImageSrc(RenderedImage src,
-                            J2KImageWriteParamJava param,
-                            J2KImageWriter writer) {
+        J2KImageWriteParamJava param,
+        J2KImageWriter writer)
+    {
         this.src = src;
         this.param = param;
         this.writer = writer;
@@ -191,12 +196,11 @@ public class RenderedImageSrc implements BlkImgDataSrc {
 
         if (sourceRegion == null)
             sourceRegion = new Rectangle(src.getMinX(), src.getMinY(),
-                                         src.getWidth(), src.getHeight());
-        else
-            sourceRegion = sourceRegion.intersection(new Rectangle(src.getMinX(),
-                                                                   src.getMinY(),
-                                                                   src.getWidth(),
-                                                                   src.getHeight()));
+                src.getWidth(), src.getHeight());
+        else sourceRegion = sourceRegion.intersection(new Rectangle(src.getMinX(),
+            src.getMinY(),
+            src.getWidth(),
+            src.getHeight()));
         if (sourceRegion.isEmpty())
             throw new RuntimeException(I18N.getString("J2KImageWriterCodecLib0"));
 
@@ -206,20 +210,23 @@ public class RenderedImageSrc implements BlkImgDataSrc {
         setSampleModelAndMore();
     }
 
-    private void getFromParam() {
+    private void getFromParam()
+    {
         try {
             tileWidth = param.getTileWidth();
             tileHeight = param.getTileHeight();
             tileXOffset = param.getTileGridXOffset();
             tileYOffset = param.getTileGridYOffset();
-        } catch(IllegalStateException e) {
+        }
+        catch (IllegalStateException e) {
             param.setTilingMode(ImageWriteParam.MODE_EXPLICIT);
             if (inputIsRaster) {
                 param.setTiling(raster.getWidth(), raster.getHeight(),
-                                raster.getMinX(), raster.getMinY());
-            } else {
+                    raster.getMinX(), raster.getMinY());
+            }
+            else {
                 param.setTiling(src.getWidth(), src.getHeight(),
-                                src.getMinX(), src.getMinY());
+                    src.getMinX(), src.getMinY());
             }
             tileWidth = param.getTileWidth();
             tileHeight = param.getTileHeight();
@@ -236,8 +243,8 @@ public class RenderedImageSrc implements BlkImgDataSrc {
         sourceRegion.width -= xOffset;
         sourceRegion.height -= yOffset;
 
-	xOffset = sourceRegion.x % scaleX;
-	yOffset = sourceRegion.y % scaleY;
+        xOffset = sourceRegion.x % scaleX;
+        yOffset = sourceRegion.y % scaleY;
 
         minX = sourceRegion.x / scaleX;
         minY = sourceRegion.y / scaleY;
@@ -245,8 +252,8 @@ public class RenderedImageSrc implements BlkImgDataSrc {
         w = (sourceRegion.width + scaleX - 1) / scaleX;
         h = (sourceRegion.height + scaleY - 1) / scaleY;
 
-        tileXOffset += (minX - tileXOffset)/tileWidth * tileWidth;
-        tileYOffset += (minY - tileYOffset)/tileHeight * tileHeight;
+        tileXOffset += (minX - tileXOffset) / tileWidth * tileWidth;
+        tileYOffset += (minY - tileYOffset) / tileHeight * tileHeight;
 
         destinationRegion = new Rectangle(minX, minY, w, h);
 
@@ -254,22 +261,25 @@ public class RenderedImageSrc implements BlkImgDataSrc {
             tileWidth != sm.getWidth() ||
             tileHeight != sm.getHeight() ||
             (!inputIsRaster &&
-             (tileXOffset != src.getTileGridXOffset() ||
-             tileYOffset != src.getTileGridYOffset())) ||
+                (tileXOffset != src.getTileGridXOffset() ||
+                    tileYOffset != src.getTileGridYOffset()))
+            ||
             (inputIsRaster &&
-             (tileXOffset != raster.getMinX() ||
-             tileYOffset != raster.getMinY())))
+                (tileXOffset != raster.getMinX() ||
+                    tileYOffset != raster.getMinY())))
             noTransform = false;
 
     }
 
-    private void setSampleModelAndMore() {
+    private void setSampleModelAndMore()
+    {
         nc = sm.getNumBands();
         sourceBands = param.getSourceBands();
         if (sourceBands != null) {
             sm = sm.createSubsetSampleModel(sourceBands);
             noSubband = false;
-        } else {
+        }
+        else {
             sourceBands = new int[nc];
             for (int i = 0; i < nc; i++)
                 sourceBands[i] = i;
@@ -279,13 +289,14 @@ public class RenderedImageSrc implements BlkImgDataSrc {
         nc = sm.getNumBands();
         isBinary = ImageUtil.isBinary(sm);
 
-        if(cm != null) {
+        if (cm != null) {
             // XXX: rb should be set to getComponentSize();
             rb = cm.getComponentSize(0);
             for (int i = 1; i < cm.getNumComponents(); i++)
                 if (rb < cm.getComponentSize(i))
                     rb = cm.getComponentSize(i);
-        } else {
+        }
+        else {
             // XXX: rb should be set to getSampleSize();
             rb = sm.getSampleSize(0);
             for (int i = 1; i < sm.getNumBands(); i++)
@@ -293,29 +304,32 @@ public class RenderedImageSrc implements BlkImgDataSrc {
                     rb = sm.getSampleSize(i);
         }
 
-	if (!isOrigSigned(0) && rb > 1)
+        if (!isOrigSigned(0) && rb > 1)
             // XXX: if rb is an int[] this will have to change.
-	    dcOffset = 1 << rb - 1;
+            dcOffset = 1 << rb - 1;
     }
 
 
     @Override
-    public int getTilePartULX() {
-	return tileXOffset;
+    public int getTilePartULX()
+    {
+        return tileXOffset;
     }
 
     @Override
-    public int getTilePartULY() {
-	return tileYOffset;
+    public int getTilePartULY()
+    {
+        return tileYOffset;
     }
 
     /**
      * Returns the width of the current tile in pixels.
      *
      * @return The total image width in pixels.
-     * */
+     */
     @Override
-    public int getTileWidth() {
+    public int getTileWidth()
+    {
         int width = tileWidth;
         int maxX = getImgULX() + getImgWidth();
         int x = co.x * tileWidth + tileXOffset;
@@ -327,9 +341,11 @@ public class RenderedImageSrc implements BlkImgDataSrc {
     /**
      * Returns the overall height of the current tile in pixels.
      *
-     * @return The total image height in pixels.  */
+     * @return The total image height in pixels.
+     */
     @Override
-    public int getTileHeight() {
+    public int getTileHeight()
+    {
         int height = tileHeight;
         int maxY = getImgULY() + getImgHeight();
         int y = co.y * tileHeight + tileYOffset;
@@ -340,13 +356,15 @@ public class RenderedImageSrc implements BlkImgDataSrc {
     }
 
     @Override
-    public int getNomTileWidth() {
-	return tileWidth;
+    public int getNomTileWidth()
+    {
+        return tileWidth;
     }
 
     @Override
-    public int getNomTileHeight() {
-	return tileHeight;
+    public int getNomTileHeight()
+    {
+        return tileHeight;
     }
 
     /**
@@ -355,9 +373,10 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      * value of <code>w</code> is returned.
      *
      * @return The total image's width in pixels.
-     * */
+     */
     @Override
-    public int getImgWidth() {
+    public int getImgWidth()
+    {
         return w;
     }
 
@@ -367,9 +386,10 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      * value of <code>h</code> is returned.
      *
      * @return The total image's height in pixels.
-     * */
+     */
     @Override
-    public int getImgHeight() {
+    public int getImgHeight()
+    {
         return h;
     }
 
@@ -378,27 +398,32 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      * is returned.
      *
      * @return The number of components in the image.
-     * */
+     */
     @Override
-    public int getNumComps() {
+    public int getNumComps()
+    {
         return nc;
     }
 
-    public int getTileGridXOffset() {
+    public int getTileGridXOffset()
+    {
         return param.getTileGridXOffset();
     }
 
-    public int getTileGridYOffset() {
+    public int getTileGridYOffset()
+    {
         return param.getTileGridYOffset();
     }
 
     @Override
-    public int getTileCompHeight(int t, int c) {
+    public int getTileCompHeight(int t, int c)
+    {
         return tileHeight;
     }
 
     @Override
-    public int getTileCompWidth(int t, int c) {
+    public int getTileCompWidth(int t, int c)
+    {
         return tileWidth;
     }
 
@@ -413,9 +438,10 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      * @return The horizontal subsampling factor of component 'c'
      *
      * @see ImgData
-     * */
+     */
     @Override
-    public int getCompSubsX(int c) {
+    public int getCompSubsX(int c)
+    {
         return 1;
     }
 
@@ -430,9 +456,10 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      * @return The vertical subsampling factor of component 'c'
      *
      * @see ImgData
-     * */
+     */
     @Override
-    public int getCompSubsY(int c) {
+    public int getCompSubsY(int c)
+    {
         return 1;
     }
 
@@ -446,8 +473,9 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      *
      * @return The width in pixels of component <code>n</code> in the current
      * tile.
-     * */
-    public int getCompWidth(int n) {
+     */
+    public int getCompWidth(int n)
+    {
         return w;
     }
 
@@ -461,8 +489,9 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      *
      * @return The height in pixels of component <code>c</code> in the current
      * tile.
-     * */
-    public int getCompHeight(int c) {
+     */
+    public int getCompHeight(int c)
+    {
         return h;
     }
 
@@ -475,9 +504,10 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      *
      * @return The width in pixels of component <code>c</code> in the overall
      * image.
-     * */
+     */
     @Override
-    public int getCompImgWidth(int c) {
+    public int getCompImgWidth(int c)
+    {
         return w;
     }
 
@@ -490,9 +520,10 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      *
      * @return The height in pixels of component <code>c</code> in the overall
      * image.
-     * */
+     */
     @Override
-    public int getCompImgHeight(int c) {
+    public int getCompImgHeight(int c)
+    {
         return h;
     }
 
@@ -502,11 +533,12 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      * @param x The horizontal coordinate of the tile.
      *
      * @param y The vertical coordinate of the new tile.
-     * */
+     */
     @Override
-    public void setTile(int x, int y) {
+    public void setTile(int x, int y)
+    {
         if (x >= getNumXTiles()) {
-            y += x/ getNumXTiles();
+            y += x / getNumXTiles();
             x = x % getNumXTiles();
         }
         co.x = x;
@@ -517,9 +549,10 @@ public class RenderedImageSrc implements BlkImgDataSrc {
     /**
      * Advances to the next tile, in standard scan-line order (by rows then
      * columns).
-     * */
+     */
     @Override
-    public void nextTile() {
+    public void nextTile()
+    {
         co.x++;
         if (co.x >= getNumXTiles()) {
             co.x = 0;
@@ -536,13 +569,13 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      * null a new one is created and returned.
      *
      * @return The current tile's coordinates.
-     * */
+     */
     @Override
-    public Point getTile(Point co) {
+    public Point getTile(Point co)
+    {
         if (co != null)
             return co;
-        else
-            return new Point(0, 0);
+        else return new Point(0, 0);
     }
 
     /**
@@ -550,9 +583,10 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      * order.
      *
      * @return The current tile's index (starts at 0).
-     * */
+     */
     @Override
-    public int getTileIdx() {
+    public int getTileIdx()
+    {
         return getNumXTiles() * co.y + co.x;
     }
 
@@ -571,15 +605,16 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      * @return The horizontal and vertical offsets of the upper-left corner of
      * the current tile, for the specified component, relative to the canvas
      * origin, in the component coordinates.
-     * */
-    public Point getTileOff(Point p, int c) {
+     */
+    public Point getTileOff(Point p, int c)
+    {
         if (p != null) {
             p.x = co.x * tileWidth + tileXOffset;
             p.y = co.y * tileHeight + tileYOffset;
             return co;
-        } else
-            return new Point(co.x * tileWidth + tileXOffset,
-                             co.y * tileHeight + tileYOffset);
+        }
+        else return new Point(co.x * tileWidth + tileXOffset,
+            co.y * tileHeight + tileYOffset);
     }
 
     /**
@@ -592,9 +627,10 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      * @return The horizontal coordinate of the upper-left corner of the
      * active tile, with respect to the canvas origin, for component 'c', in
      * the component coordinates.
-     * */
+     */
     @Override
-    public int getCompULX(int c) {
+    public int getCompULX(int c)
+    {
         return raster.getMinX();
     }
 
@@ -608,9 +644,10 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      * @return The vertical coordinate of the upper-left corner of the active
      * tile, with respect to the canvas origin, for component 'c', in the
      * component coordinates.
-     * */
+     */
     @Override
-    public int getCompULY(int c) {
+    public int getCompULY(int c)
+    {
         return raster.getMinY();
     }
 
@@ -620,9 +657,10 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      *
      * @return The horizontal coordinate of the image origin in the canvas
      * system, on the reference grid.
-     * */
+     */
     @Override
-    public int getImgULX() {
+    public int getImgULX()
+    {
         return destinationRegion.x;
     }
 
@@ -632,9 +670,10 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      *
      * @return The vertical coordinate of the image origin in the canvas
      * system, on the reference grid.
-     * */
+     */
     @Override
-    public int getImgULY() {
+    public int getImgULY()
+    {
         return destinationRegion.y;
     }
 
@@ -647,9 +686,10 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      *
      * @return The number of tiles in the horizontal (Point.x) and vertical
      * (Point.y) directions.
-     * */
+     */
     @Override
-    public Point getNumTiles(Point co) {
+    public Point getNumTiles(Point co)
+    {
         if (co != null) {
             co.x = getNumXTiles();
             co.y = getNumYTiles();
@@ -665,9 +705,10 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      * implementation assumes no tiling, so 1 is always returned.
      *
      * @return The total number of tiles in the image.
-     * */
+     */
     @Override
-    public int getNumTiles() {
+    public int getNumTiles()
+    {
         return getNumXTiles() * getNumYTiles();
     }
 
@@ -677,7 +718,8 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      * was specified in the constructor, which normally is 8 for non bilevel
      * data, and 1 for bilevel data.
      *
-     * <P>If this number is <b>b</b> then the nominal range is between
+     * <p>
+     * If this number is <b>b</b> then the nominal range is between
      * -2^(b-1) and 2^(b-1)-1, since unsigned data is level shifted to have a
      * nominal avergae of 0.
      *
@@ -686,9 +728,10 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      * @return The number of bits corresponding to the nominal range of the
      * data. For floating-point data this value is not applicable and the
      * return value is undefined.
-     * */
+     */
     @Override
-    public int getNomRangeBits(int c) {
+    public int getNomRangeBits(int c)
+    {
         // Check component index
         // XXX: Should be component-dependent.
         return rb;
@@ -703,9 +746,10 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      *
      * @return The position of the fixed-point (i.e. the number of fractional
      * bits). Always 0 for this ImgReader.
-     * */
+     */
     @Override
-    public int getFixedPoint(int c) {
+    public int getFixedPoint(int c)
+    {
         // Check component index
         return 0;
     }
@@ -717,15 +761,18 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      * returned, as a reference to the internal data, if any, instead of as a
      * copy, therefore the returned data should not be modified.
      *
-     * <P> After being read the coefficients are level shifted by subtracting
+     * <P>
+     * After being read the coefficients are level shifted by subtracting
      * 2^(nominal bit range - 1)
      *
-     * <P>The rectangular area to return is specified by the 'ulx', 'uly', 'w'
+     * <P>
+     * The rectangular area to return is specified by the 'ulx', 'uly', 'w'
      * and 'h' members of the 'blk' argument, relative to the current
      * tile. These members are not modified by this method. The 'offset' and
      * 'scanw' of the returned data can be arbitrary. See the 'DataBlk' class.
      *
-     * <P>If the data array in <code>blk</code> is <code>null</code>, then a new one
+     * <P>
+     * If the data array in <code>blk</code> is <code>null</code>, then a new one
      * is created if necessary. The implementation of this interface may
      * choose to return the same array or a new one, depending on what is more
      * efficient. Therefore, the data array in <code>blk</code> prior to the
@@ -733,15 +780,18 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      * new array may have been created. Instead, get the array from
      * <code>blk</code> after the method has returned.
      *
-     * <P>The returned data always has its 'progressive' attribute unset
+     * <P>
+     * The returned data always has its 'progressive' attribute unset
      * (i.e. false).
      *
-     * <P>When an I/O exception is encountered the JJ2KExceptionHandler is
+     * <P>
+     * When an I/O exception is encountered the JJ2KExceptionHandler is
      * used. The exception is passed to its handleException method. The action
      * that is taken depends on the action that has been registered in
      * JJ2KExceptionHandler. See JJ2KExceptionHandler for details.
      *
-     * <P>This method implements buffering for the 3 components: When the
+     * <P>
+     * This method implements buffering for the 3 components: When the
      * first one is asked, all the 3 components are read and stored until they
      * are needed.
      *
@@ -758,47 +808,47 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      * @see JJ2KExceptionHandler
      */
     @Override
-    public final DataBlk getInternCompData(DataBlk blk, int c) {
+    public final DataBlk getInternCompData(DataBlk blk, int c)
+    {
         if (writer != null && writer.getAbortRequest())
             throw new RuntimeException(J2KImageWriter.WRITE_ABORTED);
 
         if (barr == null)
             barr = new int[nc][];
 
-	// Check type of block provided as an argument
-	if(blk.getDataType()!=DataBlk.TYPE_INT){
-	    if(intBlk==null)
-		intBlk = new DataBlkInt(blk.ulx,blk.uly,blk.w,blk.h);
-	    else{
-		intBlk.ulx = blk.ulx;
-		intBlk.uly = blk.uly;
-		intBlk.w = blk.w;
-		intBlk.h = blk.h;
-	    }
-	    blk = intBlk;
-	}
+        // Check type of block provided as an argument
+        if (blk.getDataType() != DataBlk.TYPE_INT) {
+            if (intBlk == null)
+                intBlk = new DataBlkInt(blk.ulx, blk.uly, blk.w, blk.h);
+            else {
+                intBlk.ulx = blk.ulx;
+                intBlk.uly = blk.uly;
+                intBlk.w = blk.w;
+                intBlk.h = blk.h;
+            }
+            blk = intBlk;
+        }
 
-        float percentage =
-            (getTileIdx() + (blk.uly + 1.0F) / blk.h) / getNumTiles();
+        float percentage = (getTileIdx() + (blk.uly + 1.0F) / blk.h) / getNumTiles();
         writer.processImageProgressWrapper(percentage * 100.0F);
 
         // If asking a component for the first time for this block, read the 3
         // components
         if ((barr[c] == null) ||
             (dbi.ulx > blk.ulx) || (dbi.uly > blk.uly) ||
-            (dbi.ulx+dbi.w < blk.ulx+blk.w) ||
-            (dbi.uly+dbi.h < blk.uly+blk.h)) {
-            int k,j,i,mi;
+            (dbi.ulx + dbi.w < blk.ulx + blk.w) ||
+            (dbi.uly + dbi.h < blk.uly + blk.h)) {
+            int k, j, i, mi;
 
             // Reset data arrays if needed
-            if (barr[c] == null || barr[c].length < blk.w*blk.h) {
-                barr[c] = new int[blk.w*blk.h];
+            if (barr[c] == null || barr[c].length < blk.w * blk.h) {
+                barr[c] = new int[blk.w * blk.h];
             }
             blk.setData(barr[c]);
 
             for (i = (c + 1) % nc; i != c; i = (i + 1) % nc)
-                if (barr[i] == null || barr[i].length < blk.w*blk.h) {
-                    barr[i] = new int[blk.w*blk.h];
+                if (barr[i] == null || barr[i].length < blk.w * blk.h) {
+                    barr[i] = new int[blk.w * blk.h];
                 }
 
             // set attributes of the DataBlk used for buffering
@@ -811,11 +861,11 @@ public class RenderedImageSrc implements BlkImgDataSrc {
             if (aTile == null) {
                 aTile = getTile(co.x, co.y);
                 Rectangle temp = aTile.getBounds();
-                aTile = aTile.createTranslatedChild(temp.x-minX,
-                                                    temp.y-minY);
+                aTile = aTile.createTranslatedChild(temp.x - minX,
+                    temp.y - minY);
             }
 
-            for (i = 0; i < nc ; i++) {
+            for (i = 0; i < nc; i++) {
                 aTile.getSamples(blk.ulx, blk.uly, blk.w, blk.h, i, barr[i]);
                 for (k = 0; k < barr[i].length; k++)
                     barr[i][k] -= dcOffset;
@@ -826,15 +876,16 @@ public class RenderedImageSrc implements BlkImgDataSrc {
             blk.setData(barr[c]);
             blk.offset = 0;
             blk.scanw = blk.w;
-        } else { //Asking for the 2nd or 3rd block component
+        }
+        else { //Asking for the 2nd or 3rd block component
             blk.setData(barr[c]);
-            blk.offset = (blk.ulx-dbi.ulx)*dbi.w+blk.ulx-dbi.ulx;
+            blk.offset = (blk.ulx - dbi.ulx) * dbi.w + blk.ulx - dbi.ulx;
             blk.scanw = dbi.scanw;
         }
 
         // Turn off the progressive attribute
         blk.progressive = false;
-	return blk;
+        return blk;
     }
 
     /**
@@ -843,24 +894,29 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      * returned, as a copy of the internal data, therefore the returned data
      * can be modified "in place".
      *
-     * <P> After being read the coefficients are level shifted by subtracting
+     * <P>
+     * After being read the coefficients are level shifted by subtracting
      * 2^(nominal bit range - 1)
      *
-     * <P>The rectangular area to return is specified by the 'ulx', 'uly', 'w'
+     * <P>
+     * The rectangular area to return is specified by the 'ulx', 'uly', 'w'
      * and 'h' members of the 'blk' argument, relative to the current
      * tile. These members are not modified by this method. The 'offset' of
      * the returned data is 0, and the 'scanw' is the same as the block's
      * width. See the 'DataBlk' class.
      *
-     * <P>If the data array in 'blk' is 'null', then a new one is created. If
+     * <P>
+     * If the data array in 'blk' is 'null', then a new one is created. If
      * the data array is not 'null' then it is reused, and it must be large
      * enough to contain the block's data. Otherwise an 'ArrayStoreException'
      * or an 'IndexOutOfBoundsException' is thrown by the Java system.
      *
-     * <P>The returned data has its 'progressive' attribute unset
+     * <P>
+     * The returned data has its 'progressive' attribute unset
      * (i.e. false).
      *
-     * <P>When an I/O exception is encountered the JJ2KExceptionHandler is
+     * <P>
+     * When an I/O exception is encountered the JJ2KExceptionHandler is
      * used. The exception is passed to its handleException method. The action
      * that is taken depends on the action that has been registered in
      * JJ2KExceptionHandler. See JJ2KExceptionHandler for details.
@@ -878,18 +934,19 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      * @see #getInternCompData
      *
      * @see JJ2KExceptionHandler
-     * */
+     */
     @Override
-    public final DataBlk getCompData(DataBlk blk, int c) {
+    public final DataBlk getCompData(DataBlk blk, int c)
+    {
         // NOTE: can not directly call getInterCompData since that returns
         // internally buffered data.
-        int ulx,uly,w,h;
+        int ulx, uly, w, h;
 
-	// Check type of block provided as an argument
-	if(blk.getDataType()!=DataBlk.TYPE_INT){
-	    DataBlkInt tmp = new DataBlkInt(blk.ulx,blk.uly,blk.w,blk.h);
-	    blk = tmp;
-	}
+        // Check type of block provided as an argument
+        if (blk.getDataType() != DataBlk.TYPE_INT) {
+            DataBlkInt tmp = new DataBlkInt(blk.ulx, blk.uly, blk.w, blk.h);
+            blk = tmp;
+        }
 
         int bakarr[] = (int[])blk.getData();
         // Save requested block size
@@ -899,25 +956,25 @@ public class RenderedImageSrc implements BlkImgDataSrc {
         h = blk.h;
         // Force internal data buffer to be different from external
         blk.setData(null);
-        getInternCompData(blk,c);
+        getInternCompData(blk, c);
         // Copy the data
         if (bakarr == null) {
-            bakarr = new int[w*h];
+            bakarr = new int[w * h];
         }
         if (blk.offset == 0 && blk.scanw == w) {
             // Requested and returned block buffer are the same size
-            System.arraycopy(blk.getData(),0,bakarr,0,w*h);
+            System.arraycopy(blk.getData(), 0, bakarr, 0, w * h);
         }
         else { // Requested and returned block are different
-            for (int i=h-1; i>=0; i--) { // copy line by line
-                System.arraycopy(blk.getData(),blk.offset+i*blk.scanw,
-                                 bakarr,i*w,w);
+            for (int i = h - 1; i >= 0; i--) { // copy line by line
+                System.arraycopy(blk.getData(), blk.offset + i * blk.scanw,
+                    bakarr, i * w, w);
             }
         }
         blk.setData(bakarr);
         blk.offset = 0;
         blk.scanw = blk.w;
-	return blk;
+        return blk;
     }
 
     /**
@@ -928,16 +985,16 @@ public class RenderedImageSrc implements BlkImgDataSrc {
      * @param c The index of the component, from 0 to N-1.
      *
      * @return always false, since PPM data is always unsigned.
-     * */
-    public boolean isOrigSigned(int c) {
+     */
+    public boolean isOrigSigned(int c)
+    {
         if (isBinary) return true;
 
         // Check component index
         SampleModel sm = null;
         if (inputIsRaster)
             sm = raster.getSampleModel();
-        else
-            sm = src.getSampleModel();
+        else sm = src.getSampleModel();
 
         if (sm.getDataType() == DataBuffer.TYPE_USHORT ||
             sm.getDataType() == DataBuffer.TYPE_BYTE)
@@ -945,29 +1002,33 @@ public class RenderedImageSrc implements BlkImgDataSrc {
         return true;
     }
 
-    private int getNumXTiles() {
+    private int getNumXTiles()
+    {
         int x = destinationRegion.x;
         int tx = tileXOffset;
         int tw = tileWidth;
         return ToTile(x + destinationRegion.width - 1, tx, tw) - ToTile(x, tx, tw) + 1;
     }
 
-    private int getNumYTiles() {
+    private int getNumYTiles()
+    {
         int y = destinationRegion.y;
         int ty = tileYOffset;
         int th = tileHeight;
         return ToTile(y + destinationRegion.height - 1, ty, th) - ToTile(y, ty, th) + 1;
     }
 
-    private static int ToTile(int pos, int tileOffset, int tileSize) {
+    private static int ToTile(int pos, int tileOffset, int tileSize)
+    {
         pos -= tileOffset;
         if (pos < 0) {
-            pos += 1 - tileSize;         // force round to -infinity (ceiling)
+            pos += 1 - tileSize; // force round to -infinity (ceiling)
         }
-        return pos/tileSize;
+        return pos / tileSize;
     }
 
-    private Raster getTile(int tileX, int tileY) {
+    private Raster getTile(int tileX, int tileY)
+    {
         int sx = tileXOffset + tileX * tileWidth;
         int sy = tileYOffset + tileY * tileHeight;
         tileX += tileXOffset / tileWidth;
@@ -976,11 +1037,10 @@ public class RenderedImageSrc implements BlkImgDataSrc {
         if (inputIsRaster) {
             if (noTransform) {
                 return raster.createChild(sx, sy, getTileWidth(), getTileHeight(),
-                                          sx, sy, sourceBands);
+                    sx, sy, sourceBands);
             }
 
-            WritableRaster ras =
-                Raster.createWritableRaster(sm, new Point(sx, sy));
+            WritableRaster ras = Raster.createWritableRaster(sm, new Point(sx, sy));
 
             int x = mapToSourceX(sx);
             int y = mapToSourceY(sy);
@@ -993,7 +1053,7 @@ public class RenderedImageSrc implements BlkImgDataSrc {
                 if (y < minY || y >= maxY)
                     continue;
                 Raster source = raster.createChild(x, y, (cTileWidth - 1) * scaleX + 1, 1,
-                                                   x, y, null);
+                    x, y, null);
                 int tempX = sx;
                 for (int i = 0, offset = x; i < cTileWidth; i++, tempX++, offset += scaleX) {
                     for (int k = 0; k < nc; k++) {
@@ -1005,14 +1065,15 @@ public class RenderedImageSrc implements BlkImgDataSrc {
 
             return ras;
 
-        } else {
+        }
+        else {
             if (noTransform) {
                 Raster ras = src.getTile(tileX, tileY);
                 if (noSubband)
                     return ras;
                 else {
                     return ras.createChild(sx, sy, tileWidth, tileHeight,
-                                           sx, sy, sourceBands);
+                        sx, sy, sourceBands);
                 }
             }
 
@@ -1023,11 +1084,11 @@ public class RenderedImageSrc implements BlkImgDataSrc {
 
             int minY = src.getMinY();
             int maxY = src.getMinY() + src.getHeight();
-	    int length = tileWidth * scaleX;
+            int length = tileWidth * scaleX;
 
-	    if (x + length >= src.getWidth())
-		length = src.getWidth() - x;
-	    int dLength = (length + scaleX -1 ) / scaleX;
+            if (x + length >= src.getWidth())
+                length = src.getWidth() - x;
+            int dLength = (length + scaleX - 1) / scaleX;
 
             for (int j = 0; j < tileHeight; j++, sy++, y += scaleY) {
                 if (y < minY || y >= maxY)
@@ -1049,11 +1110,13 @@ public class RenderedImageSrc implements BlkImgDataSrc {
         }
     }
 
-    private int mapToSourceX(int x) {
+    private int mapToSourceX(int x)
+    {
         return x * scaleX + xOffset;
     }
 
-    private int mapToSourceY(int y) {
+    private int mapToSourceY(int y)
+    {
         return y * scaleY + yOffset;
     }
 }

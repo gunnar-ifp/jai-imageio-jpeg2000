@@ -51,11 +51,14 @@ package jj2000.j2k.entropy.encoder;
  * implements the bit stuffing policy needed for the 'selective arithmetic
  * coding bypass' mode of the entropy coder. This class also delays the output
  * of a trailing 0xFF, since they are synthetized be the decoder.
- * */
-class BitToByteOutput {
+ */
+class BitToByteOutput
+{
 
-    /** Whether or not predictable termination is requested. This value is
-     * important when the last byte before termination is an 0xFF  */
+    /**
+     * Whether or not predictable termination is requested. This value is
+     * important when the last byte before termination is an 0xFF
+     */
     private boolean isPredTerm = false;
 
     /** The alternating sequence of 0's and 1's used for byte padding */
@@ -70,10 +73,12 @@ class BitToByteOutput {
     /** The bit buffer */
     int bbuf;
 
-    /** The position of the next bit to put in the bit buffer. When it is 7
+    /**
+     * The position of the next bit to put in the bit buffer. When it is 7
      * the bit buffer 'bbuf' is empty. The value should always be between 7
      * and 0 (i.e. if it gets to -1, the bit buffer should be immediately
-     * written to the byte output). */
+     * written to the byte output).
+     */
     int bpos = 7;
 
     /** The number of written bytes (excluding the bit buffer) */
@@ -84,8 +89,9 @@ class BitToByteOutput {
      * underlying byte based output.
      *
      * @param out The underlying byte based output
-     * */
-    BitToByteOutput(ByteOutputBuffer out) {
+     */
+    BitToByteOutput(ByteOutputBuffer out)
+    {
         this.out = out;
     }
 
@@ -97,16 +103,17 @@ class BitToByteOutput {
      * @param symbuf The symbols to write
      *
      * @param nsym The number of symbols in symbuf
-     * */
-    final void writeBits(int[] symbuf, int nsym) {
+     */
+    final void writeBits(int[] symbuf, int nsym)
+    {
         int i;
-        int bbuf,bpos;
+        int bbuf, bpos;
         bbuf = this.bbuf;
         bpos = this.bpos;
         // Write symbol by symbol to bit buffer
-        for (i=0; i<nsym; i++) {
-            bbuf |= (symbuf[i]&0x01)<<(bpos--);
-            if (bpos<0) { // Bit buffer is full, write it
+        for (i = 0; i < nsym; i++) {
+            bbuf |= (symbuf[i] & 0x01) << (bpos--);
+            if (bpos < 0) { // Bit buffer is full, write it
                 if (bbuf != 0xFF) { // No bit-stuffing needed
                     if (delFF) { // Output delayed 0xFF if any
                         out.write(0xFF);
@@ -133,10 +140,11 @@ class BitToByteOutput {
      * written to the output.
      *
      * @param bit
-     * */
-    final void writeBit(int bit) {
-        bbuf |= (bit&0x01)<<(bpos--);
-        if (bpos<0) {
+     */
+    final void writeBit(int bit)
+    {
+        bbuf |= (bit & 0x01) << (bpos--);
+        if (bpos < 0) {
             if (bbuf != 0xFF) { // No bit-stuffing needed
                 if (delFF) { // Output delayed 0xFF if any
                     out.write(0xFF);
@@ -159,8 +167,9 @@ class BitToByteOutput {
     /**
      * Writes the contents of the bit buffer and byte aligns the output by
      * filling bits with an alternating sequence of 0's and 1's.
-     * */
-    void flush() {
+     */
+    void flush()
+    {
         if (delFF) { // There was a bit stuffing
             if (bpos != 6) { // Bit buffer is not empty
                 // Output delayed 0xFF
@@ -169,13 +178,14 @@ class BitToByteOutput {
                 nb++;
                 // Pad to byte boundary with an alternating sequence of 0's
                 // and 1's.
-                bbuf |= (PAD_SEQ >>> (6-bpos));
+                bbuf |= (PAD_SEQ >>> (6 - bpos));
                 // Output the bit buffer
                 out.write(bbuf);
                 nb++;
                 bpos = 7;
                 bbuf = 0;
-            }else if(isPredTerm) {
+            }
+            else if (isPredTerm) {
                 out.write(0xFF);
                 nb++;
                 out.write(0x2A);
@@ -189,7 +199,7 @@ class BitToByteOutput {
             if (bpos != 7) { // Bit buffer is not empty
                 // Pad to byte boundary with an alternating sequence of 0's and
                 // 1's.
-                bbuf |= (PAD_SEQ >>> (6-bpos));
+                bbuf |= (PAD_SEQ >>> (6 - bpos));
                 // Output the bit buffer (bbuf can not be 0xFF)
                 out.write(bbuf);
                 nb++;
@@ -201,20 +211,22 @@ class BitToByteOutput {
 
     /**
      * Terminates the bit stream by calling 'flush()' and then 'reset()'.
-     * */
-    public int terminate() {
+     */
+    public int terminate()
+    {
         flush();
-	int savedNb = nb;
+        int savedNb = nb;
         reset();
-	return savedNb;
+        return savedNb;
     }
 
     /**
      * Resets the bit buffer to empty, without writing anything to the
      * underlying byte output, and resets the byte count. The underlying byte
      * output is NOT reset.
-     * */
-    void reset() {
+     */
+    void reset()
+    {
         delFF = false;
         bpos = 7;
         bbuf = 0;
@@ -227,8 +239,9 @@ class BitToByteOutput {
      * of bytes in length then it is rounded to the next integer.
      *
      * @return The length, in bytes, of the output bit stream.
-     * */
-    int length() {
+     */
+    int length()
+    {
         if (delFF) {
             // If bit buffer is empty we just need 'nb' bytes. If not we need
             // the delayed FF and the padded bit buffer.
@@ -237,17 +250,18 @@ class BitToByteOutput {
         else {
             // If the bit buffer is empty, we just need 'nb' bytes. If not, we
             // add length of the padded bit buffer
-            return nb + ((bpos==7) ? 0 : 1);
+            return nb + ((bpos == 7) ? 0 : 1);
         }
     }
 
-    /** 
+    /**
      * Set the flag according to whether or not the predictable termination is
      * requested.
      *
      * @param isPredTerm Whether or not predictable termination is requested.
-     * */
-    void setPredTerm(boolean isPredTerm) {
+     */
+    void setPredTerm(boolean isPredTerm)
+    {
         this.isPredTerm = isPredTerm;
     }
 

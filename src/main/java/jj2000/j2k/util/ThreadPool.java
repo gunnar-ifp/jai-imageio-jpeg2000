@@ -52,7 +52,8 @@ package jj2000.j2k.util;
  * This class implements a thread pool. The thread pool contains a set of
  * threads which can be given work to do.
  *
- * <P>If the Java Virtual Machine (JVM) uses native threads, then the
+ * <P>
+ * If the Java Virtual Machine (JVM) uses native threads, then the
  * different threads will be able to execute in different processors in
  * parallel on multiprocessors machines. However, under some JVMs and
  * operating systems using native threads is not sufficient to allow the JVM
@@ -67,27 +68,31 @@ package jj2000.j2k.util;
  * supporting native libraries. See 'NativeServices' for details. See
  * 'CONCURRENCY_PROP_NAME' for the name of the property.
  *
- * <P>Initially the thread pool contains a user specified number of idle
+ * <P>
+ * Initially the thread pool contains a user specified number of idle
  * threads. Idle threads can be given a target which is run. While running the
  * target the thread temporarily leaves the idle list. When the target
  * finishes, it joins the idle list again, waiting for a new target. When a
  * target is finished a thread can be notified on a particular object that is
  * given as a lock.
  *
- * <P>Jobs can be submitted using Runnable interfaces, using the 'runTarget()'
+ * <P>
+ * Jobs can be submitted using Runnable interfaces, using the 'runTarget()'
  * methods. When the job is submitted, an idle thread will be obtained, the
  * 'run()' method of the 'Runnable' interface will be executed and when it
  * completes the thread will be returned to the idle list. In general the
  * 'run()' method should complete in a rather short time, so that the threds
  * of the pool are not starved.
  *
- * <P>If using the non-asynchronous calls to 'runTarget()', it is important
+ * <P>
+ * If using the non-asynchronous calls to 'runTarget()', it is important
  * that any target's 'run()' method, or any method called from it, does not
  * use non-asynchronous calls to 'runTarget()' on the same thread pool where
  * it was started. Otherwise this could create a dead-lock when there are not
  * enough idle threads.
  *
- * <P>The pool also has a global error and runtime exception condition (one
+ * <P>
+ * The pool also has a global error and runtime exception condition (one
  * for 'Error' and one for 'RuntimeException'). If a target's 'run()' method
  * throws an 'Error' or 'RuntimeException' the corresponding exception
  * condition is set and the exception object saved. In any subsequent call to
@@ -99,7 +104,8 @@ package jj2000.j2k.util;
  * condition has precedence on all 'RuntimeException' conditions. The threads
  * in the pool are unaffected by any exceptions thrown by targets.
  *
- * <P>The only exception to the above is the 'ThreadDeath' exception. If a
+ * <P>
+ * The only exception to the above is the 'ThreadDeath' exception. If a
  * target's 'run()' method throws the 'ThreadDeath' exception a warning
  * message is printed and the exception is propagated, which will terminate
  * the thread in which it occurs. This could lead to instabilities of the
@@ -107,7 +113,8 @@ package jj2000.j2k.util;
  * is thrown by the Java(TM) Virtual Machine when Thread.stop() is
  * called. This method is deprecated and should never be called.
  *
- * <P>All the threads in the pool are "daemon" threads and will automatically
+ * <P>
+ * All the threads in the pool are "daemon" threads and will automatically
  * terminate when no daemon threads are running.
  *
  * @see NativeServices
@@ -122,16 +129,20 @@ package jj2000.j2k.util;
  *
  * @see RuntimeException
  *
- * */
-public class ThreadPool {
+ */
+public class ThreadPool
+{
 
-    /** The name of the property that sets the concurrency level:
-        jj2000.j2k.util.ThreadPool.concurrency */
-    public final static String CONCURRENCY_PROP_NAME =
-        "jj2000.j2k.util.ThreadPool.concurrency";
+    /**
+     * The name of the property that sets the concurrency level:
+     * jj2000.j2k.util.ThreadPool.concurrency
+     */
+    public final static String CONCURRENCY_PROP_NAME = "jj2000.j2k.util.ThreadPool.concurrency";
 
-    /** The array of idle threads and the lock for the manipulation of the
-     * idle thread list. */
+    /**
+     * The array of idle threads and the lock for the manipulation of the
+     * idle thread list.
+     */
     private ThreadPoolThread idle[];
 
     /** The number of idle threads */
@@ -153,8 +164,9 @@ public class ThreadPool {
 
     /**
      * The threads that are managed by the pool.
-     * */
-    class ThreadPoolThread extends Thread {
+     */
+    class ThreadPoolThread extends Thread
+    {
         private Runnable target;
         private Object lock;
         private boolean doNotifyAll;
@@ -165,10 +177,11 @@ public class ThreadPool {
          * pool.
          *
          * @param idx The index of this thread in the pool
-	 *
-	 * @param name The name of the thread
-         * */
-        public ThreadPoolThread(int idx, String name) {
+         *
+         * @param name The name of the thread
+         */
+        public ThreadPoolThread(int idx, String name)
+        {
             super(name);
             setDaemon(true);
             setPriority(poolPriority);
@@ -181,11 +194,13 @@ public class ThreadPool {
          * target's run() method is done it re-joins the idle state and
          * notifies the waiting lock object, if one exists.
          *
-         * <P>An interrupt on this thread has no effect other than forcing a
+         * <P>
+         * An interrupt on this thread has no effect other than forcing a
          * check on the target. Normally the target is checked every time the
          * thread is woken up by notify, no interrupts should be done.
          *
-         * <P>Any exception thrown by the target's 'run()' method is catched
+         * <P>
+         * Any exception thrown by the target's 'run()' method is catched
          * and this thread is not affected, except for 'ThreadDeath'. If a
          * 'ThreadDeath' exception is catched a warning message is printed by
          * the 'FacilityManager' and the exception is propagated up. For
@@ -193,9 +208,10 @@ public class ThreadPool {
          * the corresponding error condition is set and this thread is not
          * affected. For any other exceptions a new 'RuntimeException' is
          * created and the error condition is set, this thread is not affected.
-         * */
+         */
         @Override
-        public void run() {
+        public void run()
+        {
             // Join the idle threads list
             putInIdleList(this);
             // Permanently lock the object while running so that target can
@@ -207,34 +223,38 @@ public class ThreadPool {
                     while (target == null) {
                         try {
                             this.wait();
-                        } catch (InterruptedException e) {
+                        }
+                        catch (InterruptedException e) {
                         }
                     }
                     // Run the target and catch all possible errors
                     try {
                         target.run();
-                    } catch (ThreadDeath td) {
+                    }
+                    catch (ThreadDeath td) {
                         // We have been instructed to abruptly terminate
                         // the thread, which should never be done. This can
                         // cause another thread, or the system, to lock.
-                        FacilityManager.getMsgLogger().
-                            printmsg(MsgLogger.WARNING,
-                                     "Thread.stop() called on a ThreadPool "+
-                                     "thread or ThreadDeath thrown. This is "+
-                                     "deprecated. Lock-up might occur.");
+                        FacilityManager.getMsgLogger().printmsg(MsgLogger.WARNING,
+                            "Thread.stop() called on a ThreadPool " +
+                                "thread or ThreadDeath thrown. This is " +
+                                "deprecated. Lock-up might occur.");
                         throw td;
-                    } catch (Error e) {
+                    }
+                    catch (Error e) {
                         targetE = e;
-                    } catch (RuntimeException re) {
+                    }
+                    catch (RuntimeException re) {
                         targetRE = re;
-                    } catch (Throwable ue) {
+                    }
+                    catch (Throwable ue) {
                         // A totally unexpected error has occurred
                         // (Thread.stop(Throwable) has been used, which should
                         // never be.
-                        targetRE = new RuntimeException("Unchecked exception "+
-                                                        "thrown by target's "+
-                                                        "run() method in pool "+
-                                                        poolName+".");
+                        targetRE = new RuntimeException("Unchecked exception " +
+                            "thrown by target's " +
+                            "run() method in pool " +
+                            poolName + ".");
                     }
                     // Join idle threads
                     putInIdleList(this);
@@ -269,9 +289,10 @@ public class ThreadPool {
          *
          * @param notifyAll If true 'notifyAll()', instead of 'notify()', will
          * be called on tghe lock.
-         * */
+         */
         synchronized void setTarget(Runnable target, Object lock,
-                                    boolean notifyAll) {
+            boolean notifyAll)
+        {
             // Set the target
             this.target = target;
             this.lock = lock;
@@ -285,7 +306,8 @@ public class ThreadPool {
      * Creates a new thread pool of the given size, thread priority and pool
      * name.
      *
-     * <P>If the Java system property of the name defined by
+     * <P>
+     * If the Java system property of the name defined by
      * 'CONCURRENCY_PROP_NAME' is set, then an attempt will be made to load
      * the library that supports concurrency setting (see
      * 'NativeServices'). If that succeds the concurrency level will be set to
@@ -304,8 +326,9 @@ public class ThreadPool {
      * @see NativeServices
      *
      * @see #CONCURRENCY_PROP_NAME
-     * */
-    public ThreadPool(int size, int priority, String name) {
+     */
+    public ThreadPool(int size, int priority, String name)
+    {
         int i;
         ThreadPoolThread t;
         String prop;
@@ -319,8 +342,7 @@ public class ThreadPool {
             poolPriority = Thread.currentThread().getPriority();
         }
         else {
-            poolPriority = (priority < Thread.MAX_PRIORITY) ? priority :
-                Thread.MAX_PRIORITY;
+            poolPriority = (priority < Thread.MAX_PRIORITY) ? priority : Thread.MAX_PRIORITY;
         }
         if (name == null) {
             poolName = "Anonymous ThreadPool";
@@ -333,7 +355,8 @@ public class ThreadPool {
         prop = null;
         try {
             prop = System.getProperty(CONCURRENCY_PROP_NAME);
-        } catch(SecurityException se) {
+        }
+        catch (SecurityException se) {
             // Ignore it.
         }
         if (prop == null) {
@@ -344,28 +367,27 @@ public class ThreadPool {
             try {
                 clevel = Integer.parseInt(prop);
                 if (clevel < 0) throw new NumberFormatException();
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Invalid concurrency level "+
-                                                   "in property "+
-                                                   CONCURRENCY_PROP_NAME);
+            }
+            catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Invalid concurrency level " +
+                    "in property " +
+                    CONCURRENCY_PROP_NAME);
             }
             // Attempt to load library
             if (NativeServices.loadLibrary()) {
                 // Library load successful
-                FacilityManager.getMsgLogger().
-                    printmsg(MsgLogger.INFO,"Changing thread concurrency "+
-                             "level from "+
-                             NativeServices.getThreadConcurrency()+
-                             " to "+clevel+".");
+                FacilityManager.getMsgLogger().printmsg(MsgLogger.INFO, "Changing thread concurrency " +
+                    "level from " +
+                    NativeServices.getThreadConcurrency() +
+                    " to " + clevel + ".");
                 NativeServices.setThreadConcurrency(clevel);
             }
             else {
                 // Could not load the library => warn
-                FacilityManager.getMsgLogger().
-                    printmsg(MsgLogger.WARNING,"Native library to set "+
-                             "thread concurrency level as specified by the "+
-                             CONCURRENCY_PROP_NAME+" property not found. "+
-                             "Thread concurrency unchanged.");
+                FacilityManager.getMsgLogger().printmsg(MsgLogger.WARNING, "Native library to set " +
+                    "thread concurrency level as specified by the " +
+                    CONCURRENCY_PROP_NAME + " property not found. " +
+                    "Thread concurrency unchanged.");
             }
         }
 
@@ -374,8 +396,8 @@ public class ThreadPool {
         nidle = 0;
 
         // Create and start the threads
-        for (i=0; i<size; i++) {
-            t = new ThreadPoolThread(i,poolName+"-"+i);
+        for (i = 0; i < size; i++) {
+            t = new ThreadPoolThread(i, poolName + "-" + i);
             t.start();
         }
     }
@@ -386,8 +408,9 @@ public class ThreadPool {
      *
      * @return The pool's size.
      *
-     * */
-    public int getSize() {
+     */
+    public int getSize()
+    {
         return idle.length;
     }
 
@@ -398,7 +421,8 @@ public class ThreadPool {
      * the method will block until a thread of the pool becomes idle or the
      * calling thread is interrupted.
      *
-     * <P>This method is the same as <code>runTarget(t,l,true,false)</code>.
+     * <P>
+     * This method is the same as <code>runTarget(t,l,true,false)</code>.
      *
      * @param t The target. The 'run()' method of this object will be run in
      * an idle thread of the pool.
@@ -411,9 +435,10 @@ public class ThreadPool {
      * idle thread could be found and the target was not submitted for
      * execution.
      *
-     * */
-    public boolean runTarget(Runnable t, Object l) {
-        return runTarget(t,l,false,false);
+     */
+    public boolean runTarget(Runnable t, Object l)
+    {
+        return runTarget(t, l, false, false);
     }
 
     /**
@@ -425,7 +450,8 @@ public class ThreadPool {
      * interrupted. If the asynchronous mode is used then the method will not
      * block and will return false.
      *
-     * <P>This method is the same as <code>runTarget(t,l,async,false)</code>.
+     * <P>
+     * This method is the same as <code>runTarget(t,l,async,false)</code>.
      *
      * @param t The target. The 'run()' method of this object will be run in
      * an idle thread of the pool.
@@ -440,9 +466,10 @@ public class ThreadPool {
      * idle thread could be found and the target was not submitted for
      * execution.
      *
-     * */
-    public boolean runTarget(Runnable t, Object l, boolean async) {
-        return runTarget(t,l,async,false);
+     */
+    public boolean runTarget(Runnable t, Object l, boolean async)
+    {
+        return runTarget(t, l, async, false);
     }
 
     /**
@@ -471,17 +498,18 @@ public class ThreadPool {
      * idle thread could be found and the target was not submitted for
      * execution.
      *
-     * */
+     */
     public boolean runTarget(Runnable t, Object l,
-                             boolean async, boolean notifyAll) {
-        ThreadPoolThread runner;   // The thread to run the target
+        boolean async, boolean notifyAll)
+    {
+        ThreadPoolThread runner; // The thread to run the target
 
         // Get a thread to run
         runner = getIdle(async);
         // If no runner return failure
         if (runner == null) return false;
         // Set the runner
-        runner.setTarget(t,l,notifyAll);
+        runner.setTarget(t, l, notifyAll);
         return true;
     }
 
@@ -495,8 +523,9 @@ public class ThreadPool {
      *
      * @exception RuntimeException If a runtime exception has been thrown by a
      * target 'run()' method.
-     * */
-    public void checkTargetErrors() {
+     */
+    public void checkTargetErrors()
+    {
         // Check for Error
         if (targetE != null) throw targetE;
         // Check for RuntimeException
@@ -511,12 +540,14 @@ public class ThreadPool {
      * conditions. There is no guarantee that no error conditions exist when
      * returning from this method.
      *
-     * <P>In order to ensure that no error conditions exist when returning
+     * <P>
+     * In order to ensure that no error conditions exist when returning
      * from this method cooperation from the targets and the thread using this
      * pool is necessary (i.e. currently no targets running or waiting to
      * run).
-     * */
-    public void clearTargetErrors() {
+     */
+    public void clearTargetErrors()
+    {
         // Clear the error and runtime exception conditions
         targetE = null;
         targetRE = null;
@@ -526,17 +557,20 @@ public class ThreadPool {
      * Puts the thread 't' in the idle list. The thread 't' should be in fact
      * idle and ready to accept a new target when it joins the idle list.
      *
-     * <P> An idle thread that is already in the list should never add itself
+     * <P>
+     * An idle thread that is already in the list should never add itself
      * to the list before it is removed. For efficiency reasons there is no
      * check to see if the thread is already in the list of idle threads.
      *
-     * <P> If the idle list was empty 'notify()' will be called on the 'idle'
+     * <P>
+     * If the idle list was empty 'notify()' will be called on the 'idle'
      * array, to wake up a thread that might be waiting (within the
      * 'getIdle()' method) on an idle thread to become available.
      *
      * @param t The thread to put in the idle list.
-     * */
-    private void putInIdleList(ThreadPoolThread t) {
+     */
+    private void putInIdleList(ThreadPoolThread t)
+    {
         // NOTE: if already in idle => catastrophe! (should be OK since //
         // this is private method)
         // Lock the idle array to avoid races with 'getIdle()'
@@ -555,7 +589,8 @@ public class ThreadPool {
      * block until a thread of the pool becomes idle or the calling thread is
      * interrupted.
      *
-     * <P>If in non-asynchronous mode and there are currently no idle threads
+     * <P>
+     * If in non-asynchronous mode and there are currently no idle threads
      * available the calling thread will wait on the 'idle' array lock, until
      * notified by 'putInIdleList()' that an idle thread might have become
      * available.
@@ -564,8 +599,9 @@ public class ThreadPool {
      *
      * @return An idle thread of the pool, that has been removed from the idle
      * list, or null if none is available.
-     * */
-    private ThreadPoolThread getIdle(boolean async) {
+     */
+    private ThreadPoolThread getIdle(boolean async)
+    {
         // Lock the idle array to avoid races with 'putInIdleList()'
         synchronized (idle) {
             if (async) {
@@ -577,7 +613,8 @@ public class ThreadPool {
                 while (nidle == 0) {
                     try {
                         idle.wait();
-                    } catch (InterruptedException e) {
+                    }
+                    catch (InterruptedException e) {
                         // If we were interrupted just return null
                         return null;
                     }

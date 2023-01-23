@@ -55,88 +55,89 @@ import javax.imageio.stream.ImageInputStream;
 
 import com.github.jaiimageio.impl.common.PackageUtil;
 
-public class J2KImageReaderSpi extends ImageReaderSpi {
+public class J2KImageReaderSpi extends ImageReaderSpi
+{
 
-    private static String [] writerSpiNames =
-        {"com.github.jaiimageio.jpeg2000.impl.J2KImageWriterSpi"};
-    private static String[] formatNames =
-        {"jpeg 2000", "JPEG 2000", "jpeg2000", "JPEG2000"};
-    private static String[] extensions =
-        {"jp2"}; // Should add jpx or jpm
-    private static String[] mimeTypes = {"image/jp2", "image/jpeg2000"};
+    private static String[] writerSpiNames = { "com.github.jaiimageio.jpeg2000.impl.J2KImageWriterSpi" };
+    private static String[] formatNames = { "jpeg 2000", "JPEG 2000", "jpeg2000", "JPEG2000" };
+    private static String[] extensions = { "jp2" }; // Should add jpx or jpm
+    private static String[] mimeTypes = { "image/jp2", "image/jpeg2000" };
     private boolean registered = false;
 
-    public J2KImageReaderSpi() {
+    public J2KImageReaderSpi()
+    {
         super(PackageUtil.getVendor(),
-              PackageUtil.getVersion(),
-              formatNames,
-              extensions,
-              mimeTypes,
-              "com.github.jaiimageio.jpeg2000.impl.J2KImageReader",
-              STANDARD_INPUT_TYPE,
-              writerSpiNames,
-              false,
-              null, null,
-              null, null,
-              true,
-              "com_sun_media_imageio_plugins_jpeg2000_image_1.0",
-              "com.github.jaiimageio.jpeg2000.impl.J2KMetadataFormat",
-              null, null);
+            PackageUtil.getVersion(),
+            formatNames,
+            extensions,
+            mimeTypes,
+            "com.github.jaiimageio.jpeg2000.impl.J2KImageReader",
+            STANDARD_INPUT_TYPE,
+            writerSpiNames,
+            false,
+            null, null,
+            null, null,
+            true,
+            "com_sun_media_imageio_plugins_jpeg2000_image_1.0",
+            "com.github.jaiimageio.jpeg2000.impl.J2KMetadataFormat",
+            null, null);
     }
 
     @Override
     public void onRegistration(ServiceRegistry registry,
-                               Class category) {
+        Class category)
+    {
         if (registered) {
             return;
         }
-	
+
         registered = true;
 
         // Set pairwise ordering to give codecLib reader precedence.
         Class codecLibReaderSPIClass = null;
         try {
-            codecLibReaderSPIClass =
-                Class.forName("com.github.jaiimageio.jpeg2000.impl.J2KImageReaderCodecLibSpi");
-        } catch(Throwable t) {
+            codecLibReaderSPIClass = Class.forName("com.github.jaiimageio.jpeg2000.impl.J2KImageReaderCodecLibSpi");
+        }
+        catch (Throwable t) {
             // Ignore it.
         }
 
-        if(codecLibReaderSPIClass != null) {
-            Object codecLibReaderSPI =
-                registry.getServiceProviderByClass(codecLibReaderSPIClass);
-            if(codecLibReaderSPI != null) {
+        if (codecLibReaderSPIClass != null) {
+            Object codecLibReaderSPI = registry.getServiceProviderByClass(codecLibReaderSPIClass);
+            if (codecLibReaderSPI != null) {
                 registry.setOrdering(category, codecLibReaderSPI, this);
             }
         }
     }
 
     @Override
-    public String getDescription(Locale locale) {
-	String desc = PackageUtil.getSpecificationTitle() + 
-	    " JPEG 2000 Image Reader";
-	return desc;
+    public String getDescription(Locale locale)
+    {
+        String desc = PackageUtil.getSpecificationTitle() +
+            " JPEG 2000 Image Reader";
+        return desc;
     }
 
     @Override
-    public boolean canDecodeInput(Object source) throws IOException {
+    public boolean canDecodeInput(Object source) throws IOException
+    {
         if (!(source instanceof ImageInputStream)) {
             return false;
         }
 
         ImageInputStream stream = (ImageInputStream)source;
 
-	//fix of 4938421
+        //fix of 4938421
         stream.mark();
-	int marker = (stream.read() << 8) | stream.read();
+        int marker = (stream.read() << 8) | stream.read();
 
-	if (marker == 0xFF4F) {
-	    stream.reset();
-	    return true;
-	}
+        if (marker == 0xFF4F) {
+            stream.reset();
+            return true;
+        }
 
-	stream.reset();
-	stream.mark();
+        stream.reset();
+        stream.mark();
         byte[] b = new byte[12];
         stream.readFully(b);
         stream.reset();
@@ -144,17 +145,17 @@ public class J2KImageReaderSpi extends ImageReaderSpi {
         //Verify the signature box
 
         // The length of the signature box is 12
-        if (b[0] !=0 || b[1]!=0 || b[2] != 0 || b[3] != 12)
+        if (b[0] != 0 || b[1] != 0 || b[2] != 0 || b[3] != 12)
             return false;
 
         // The signature box type is "jP  "
         if ((b[4] & 0xff) != 0x6A || (b[5] & 0xFF) != 0x50 ||
-            (b[6] & 0xFF) !=0x20 || (b[7] & 0xFF) != 0x20)
+            (b[6] & 0xFF) != 0x20 || (b[7] & 0xFF) != 0x20)
             return false;
 
         // The signture content is 0x0D0A870A
         if ((b[8] & 0xFF) != 0x0D || (b[9] & 0xFF) != 0x0A ||
-            (b[10] & 0xFF) != 0x87 || (b[11] &0xFF) != 0x0A)
+            (b[10] & 0xFF) != 0x87 || (b[11] & 0xFF) != 0x0A)
             return false;
 
         return true;
@@ -162,7 +163,8 @@ public class J2KImageReaderSpi extends ImageReaderSpi {
 
     @Override
     public ImageReader createReaderInstance(Object extension)
-        throws IIOException {
+        throws IIOException
+    {
         return new J2KImageReader(this);
     }
 }

@@ -54,42 +54,50 @@ package jj2000.j2k.util;
  * some native methods. It makes use of native methods to access those thread
  * properties.
  *
- * <P>Since the methods in this class require the presence of a shared library
+ * <P>
+ * Since the methods in this class require the presence of a shared library
  * with the name defined in SHLIB_NAME it is necessary to load it prior to
  * making use of any such methods. All methods that require the shared library
  * will automatically load the library if that has not been already done. The
  * library might also be manually loaded with the 'loadLibrary()' method of
  * this class.
  *
- * <P>This class provides only static methods. It should not be instantiated.
+ * <P>
+ * This class provides only static methods. It should not be instantiated.
  *
- * <P>Currently the only native services available is settings relative to
+ * <P>
+ * Currently the only native services available is settings relative to
  * POSIX threads, which are not accessible from the Java API.
  *
- * <P>Currently the methods in this class make sense with POSIX threads only,
+ * <P>
+ * Currently the methods in this class make sense with POSIX threads only,
  * since they access POSIX threads settings. POSIX threads are most used under
  * UNIX and UNIX-like operating systems and are mostly referred to as "native"
  * threads in Java Virtual Machine (JVM) implementations.
  *
- * <P>The shared library SHLIB_NAME uses functions of the POSIX thread library
+ * <P>
+ * The shared library SHLIB_NAME uses functions of the POSIX thread library
  * (i.e. 'pthread'). Calling the methods that use the 'pthread' library will
  * most prbably cause the Java Virtual Machine (JVM) to crash if it is not
  * using the POSIX threads, due to unsatisfied references. For instance, JVMs
  * that use "green" threads will most certainly crash. POSIX threads are
  * referred to as "native" threads in JVMs under UNIX operating systems.
  *
- * <P>On Operating Systems where POSIX threads are not available (typically
+ * <P>
+ * On Operating Systems where POSIX threads are not available (typically
  * Windows 95/98/NT/2000, MacIntosh, OS/2) there is no problem since the
  * SHLIB_NAME, if available, will not make use of POSIX threads library
  * functions, thus no problem should occur.
- * */
-public final class NativeServices {
+ */
+public final class NativeServices
+{
 
-    /** The name of the shared library containing the implementation of the
+    /**
+     * The name of the shared library containing the implementation of the
      * native methods: 'jj2000'. The actual file name of the library is system
      * dependent. Under UNIX it will be 'libjj2000.so', while under Windows it
      * will be 'jj2000.dll'.
-     * */
+     */
     public static final String SHLIB_NAME = "jj2000";
 
     /** The state of the library loading */
@@ -97,25 +105,29 @@ public final class NativeServices {
 
     /**
      * Library load state ID indicating that no attept to load the library has
-     * been done yet.  */
+     * been done yet.
+     */
     private final static int LIB_STATE_NOT_LOADED = 0;
 
     /**
      * Library load state ID indicating that the library was successfully
-     * loaded. */
+     * loaded.
+     */
     private final static int LIB_STATE_LOADED = 1;
 
     /**
      * Library load state ID indicating that an attempt to load the library
-     * was done and that it could not be found. */
+     * was done and that it could not be found.
+     */
     private final static int LIB_STATE_NOT_FOUND = 2;
 
     /**
      * Private and only constructor, so that no class instance might be
      * created. Since all methods are static creating a class instance is
      * useless. If called it throws an 'IllegalArgumentException'.
-     * */
-    private NativeServices() {
+     */
+    private NativeServices()
+    {
         throw new IllegalArgumentException("Class can not be instantiated");
     }
 
@@ -131,13 +143,15 @@ public final class NativeServices {
      * machines. If the concurrency level if set to more than the number of
      * available processors in the machine the performance might degrade.
      *
-     * <P>For JVM implementations that use POSIX threads with
+     * <P>
+     * For JVM implementations that use POSIX threads with
      * PTHREAD_SCOPE_SYSTEM scheduling scope or JVM implementations that use
      * Windows(R) threads and maybe others, setting the concurrency level has
      * no effect. In this cases the number of CPUs that can be exploited by
      * the JVM is not limited in principle, all CPUs are available to the JVM.
      *
-     * <P>For JVM implementations that use "green" threads setting the
+     * <P>
+     * For JVM implementations that use "green" threads setting the
      * concurrency level, and thus calling this method, makes no sense, since
      * "green" threads are all contained in one user process and can not use
      * multiple CPUs. In fact calling this method can result in a JVM crash is
@@ -149,8 +163,9 @@ public final class NativeServices {
      *
      * @exception UnsatisfiedLinkError If the shared native library
      * implementing the functionality could not be loaded.
-     * */
-    public static void setThreadConcurrency(int n) {
+     */
+    public static void setThreadConcurrency(int n)
+    {
         // Check that the library is loaded
         checkLibrary();
         // Check argument
@@ -162,7 +177,7 @@ public final class NativeServices {
     /**
      * Calls the POSIX threads 'pthread_setconcurrency', or equivalent,
      * function with 'level' as the argument.
-     * */
+     */
     private static native void setThreadConcurrencyN(int level);
 
     /**
@@ -172,8 +187,9 @@ public final class NativeServices {
      * @return The current concurrency level
      *
      * @see #setThreadConcurrency
-     * */
-    public static int getThreadConcurrency() {
+     */
+    public static int getThreadConcurrency()
+    {
         // Check that the library is loaded
         checkLibrary();
         // Return concurrency from native method
@@ -185,7 +201,7 @@ public final class NativeServices {
      * function and return the result.
      *
      * @return The current concurrency level.
-     * */
+     */
     private static native int getThreadConcurrencyN();
 
     /**
@@ -197,14 +213,16 @@ public final class NativeServices {
      *
      * @return True if the libary could be loaded or is already loaded. False
      * if the library can not be found and loaded.
-     * */
-    public static boolean loadLibrary() {
+     */
+    public static boolean loadLibrary()
+    {
         // If already loaded return true without doing anything
         if (libState == LIB_STATE_LOADED) return true;
         // Try to load the library
         try {
             System.loadLibrary(SHLIB_NAME);
-        } catch (UnsatisfiedLinkError e) {
+        }
+        catch (UnsatisfiedLinkError e) {
             // Library was not found
             libState = LIB_STATE_NOT_FOUND;
             return false;
@@ -222,18 +240,19 @@ public final class NativeServices {
      *
      * @exception UnsatisfiedLinkError If the library SHLIB_NAME can not be
      * found.
-     * */
-    private static void checkLibrary() {
+     */
+    private static void checkLibrary()
+    {
         switch (libState) {
-        case LIB_STATE_LOADED: // Already loaded, nothing to do
-            return;
-        case LIB_STATE_NOT_LOADED: // Not yet loaded => load now
-            // If load successful break, otherwise continue to the
-            // LIB_STATE_NOT_LOADED state
-            if (loadLibrary()) break;
-        case LIB_STATE_NOT_FOUND: // Could not be found, throw exception
-            throw new UnsatisfiedLinkError("NativeServices: native shared "+
-                                           "library could not be loaded");
+            case LIB_STATE_LOADED: // Already loaded, nothing to do
+                return;
+            case LIB_STATE_NOT_LOADED: // Not yet loaded => load now
+                // If load successful break, otherwise continue to the
+                // LIB_STATE_NOT_LOADED state
+                if (loadLibrary()) break;
+            case LIB_STATE_NOT_FOUND: // Could not be found, throw exception
+                throw new UnsatisfiedLinkError("NativeServices: native shared " +
+                    "library could not be loaded");
         }
     }
 

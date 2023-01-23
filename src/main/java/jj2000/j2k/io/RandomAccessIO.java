@@ -52,20 +52,22 @@ import java.io.IOException;
  * implements the <code>BinaryDataInput</code> and <code>BinaryDataOutput</code>
  * interfaces so that binary data input/output can be performed.
  *
- * <P>This interface supports streams of up to 2 GB in length.
+ * <P>
+ * This interface supports streams of up to 2 GB in length.
  *
  * @see BinaryDataInput
  * @see BinaryDataOutput
- * */
+ */
 public interface RandomAccessIO
-    extends BinaryDataInput, BinaryDataOutput {
+    extends BinaryDataInput, BinaryDataOutput
+{
 
     /**
      * Closes the I/O stream. Prior to closing the stream, any buffered data
      * (at the bit and byte level) should be written.
      *
      * @exception IOException If an I/O error ocurred.
-     * */
+     */
     public void close() throws IOException;
 
     /**
@@ -76,7 +78,7 @@ public interface RandomAccessIO
      * @return The offset of the current position, in bytes.
      *
      * @exception IOException If an I/O error ocurred.
-     * */
+     */
     public int getPos() throws IOException;
 
     /**
@@ -86,7 +88,7 @@ public interface RandomAccessIO
      * @return The length of the stream, in bytes.
      *
      * @exception IOException If an I/O error ocurred.
-     * */
+     */
     public int length() throws IOException;
 
     /**
@@ -102,7 +104,7 @@ public interface RandomAccessIO
      * @exception EOFException If in read-only and seeking beyond EOF.
      *
      * @exception IOException If an I/O error ocurred.
-     * */
+     */
     public void seek(int off) throws IOException;
 
     /**
@@ -114,7 +116,7 @@ public interface RandomAccessIO
      * @exception EOFException If the end-of file was reached.
      *
      * @exception IOException If an I/O error ocurred.
-     * */
+     */
     public int read() throws EOFException, IOException;
 
     /**
@@ -134,7 +136,7 @@ public interface RandomAccessIO
      * getting all the necessary data.
      *
      * @exception IOException If an I/O error ocurred.
-     * */
+     */
     public void readFully(byte b[], int off, int len) throws IOException;
 
     /**
@@ -145,6 +147,6 @@ public interface RandomAccessIO
      * written.
      *
      * @exception IOException If an I/O error ocurred.
-     * */
+     */
     public void write(int b) throws IOException;
 }

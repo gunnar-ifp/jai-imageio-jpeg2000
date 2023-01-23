@@ -57,37 +57,43 @@ import jj2000.j2k.wavelet.WaveletFilter;
  * that describes the subband decomposition for a wavelet transform,
  * specifically for the analysis side.
  *
- * <P>The element can be either a node or a leaf of the tree. If it is
+ * <P>
+ * The element can be either a node or a leaf of the tree. If it is
  * a node then ther are 4 descendants (LL, HL, LH and HH). If it is a
  * leaf there are no descendants.
  *
- * <P>The tree is bidirectional. Each element in the tree structure
+ * <P>
+ * The tree is bidirectional. Each element in the tree structure
  * has a "parent", which is the subband from which the element was
  * obtained by decomposition. The only exception is the root element
  * which has no parent (i.e.it's null), for obvious reasons.
- * */
-public class SubbandAn extends Subband {
+ */
+public class SubbandAn extends Subband
+{
 
     /**
      * The reference to the parent of this subband. It is null for the
-     * root element. It is null by default.  */
+     * root element. It is null by default.
+     */
     public SubbandAn parent = null;
 
     /**
      * The reference to the LL subband resulting from the
-     * decomposition of this subband. It is null by default.  */
+     * decomposition of this subband. It is null by default.
+     */
     public SubbandAn subb_LL;
 
     /**
      * The reference to the HL subband (horizontal high-pass)
      * resulting from the decomposition of this subband. It is null by
-     * default.  */
+     * default.
+     */
     public SubbandAn subb_HL;
 
     /**
      * The reference to the LH subband (vertical high-pass) resulting
      * from the decomposition of this subband. It is null by default.
-     * */
+     */
     public SubbandAn subb_LH;
 
     /**
@@ -96,21 +102,25 @@ public class SubbandAn extends Subband {
      */
     public SubbandAn subb_HH;
 
-    /** The horizontal analysis filter used to decompose this
-        subband. This is applicable to "node" elements only. The
-        default value is null. */
+    /**
+     * The horizontal analysis filter used to decompose this
+     * subband. This is applicable to "node" elements only. The
+     * default value is null.
+     */
     public AnWTFilter hFilter;
 
-    /** The vertical analysis filter used to decompose this
-        subband. This is applicable to "node" elements only. The
-        default value is null. */
+    /**
+     * The vertical analysis filter used to decompose this
+     * subband. This is applicable to "node" elements only. The
+     * default value is null.
+     */
     public AnWTFilter vFilter;
 
     /**
      * The L2-norm of the synthesis basis waveform of this subband,
      * applicable to "leafs" only. By default it is -1 (i.e. not
      * calculated yet).
-     * */
+     */
     public float l2Norm = -1.0f;
 
     /**
@@ -121,7 +131,7 @@ public class SubbandAn extends Subband {
      * contains valid data only after quantization 9See Quantizer).
      *
      * @see jj2000.j2k.quantization.quantizer.Quantizer
-     * */
+     */
     public float stepWMSE;
 
     /**
@@ -129,8 +139,9 @@ public class SubbandAn extends Subband {
      * dimensions are (0,0) and the upper left corner is (0,0).
      *
      *
-     * */
-    public SubbandAn() {
+     */
+    public SubbandAn()
+    {
     }
 
     /**
@@ -138,11 +149,13 @@ public class SubbandAn extends Subband {
      * the top-level dimensions, the number of decompositions, and the
      * decomposition tree as specified.
      *
-     * <P>This constructor just calls the same constructor of the
+     * <P>
+     * This constructor just calls the same constructor of the
      * super class, and then calculates the L2-norm (or energy weight)
      * of each leaf.
      *
-     * <P>This constructor does not initialize the value of the magBits or
+     * <P>
+     * This constructor does not initialize the value of the magBits or
      * stepWMSE member variables. This variables are normally initialized by
      * the quantizer (see Quantizer).
      *
@@ -153,7 +166,7 @@ public class SubbandAn extends Subband {
      * @param ulcx The horizontal coordinate of the upper-left corner with
      * respect to the canvas origin, in the component grid.
      *
-     * @param ulcy The vertical  coordinate of the upper-left corner with
+     * @param ulcy The vertical coordinate of the upper-left corner with
      * respect to the canvas origin, in the component grid.
      *
      * @param lvls The number of levels (or LL decompositions) in the
@@ -171,10 +184,11 @@ public class SubbandAn extends Subband {
      * @see jj2000.j2k.quantization.quantizer.Quantizer
      *
      *
-     * */
+     */
     public SubbandAn(int w, int h, int ulcx, int ulcy, int lvls,
-                     WaveletFilter hfilters[], WaveletFilter vfilters[]) {
-        super(w,h,ulcx,ulcy,lvls,hfilters,vfilters);
+        WaveletFilter hfilters[], WaveletFilter vfilters[])
+    {
+        super(w, h, ulcx, ulcy, lvls, hfilters, vfilters);
         // Caculate the L2-norms
         calcL2Norms();
     }
@@ -187,9 +201,10 @@ public class SubbandAn extends Subband {
      * @return The parent subband, or null for the root one.
      *
      *
-     * */
+     */
     @Override
-    public Subband getParent() {
+    public Subband getParent()
+    {
         return parent;
     }
 
@@ -199,9 +214,10 @@ public class SubbandAn extends Subband {
      * @return The LL child subband, or null if there are no childs.
      *
      *
-     * */
+     */
     @Override
-    public Subband getLL() {
+    public Subband getLL()
+    {
         return subb_LL;
     }
 
@@ -212,9 +228,10 @@ public class SubbandAn extends Subband {
      * @return The HL child subband, or null if there are no childs.
      *
      *
-     * */
+     */
     @Override
-    public Subband getHL() {
+    public Subband getHL()
+    {
         return subb_HL;
     }
 
@@ -225,9 +242,10 @@ public class SubbandAn extends Subband {
      * @return The LH child subband, or null if there are no childs.
      *
      *
-     * */
+     */
     @Override
-    public Subband getLH() {
+    public Subband getLH()
+    {
         return subb_LH;
     }
 
@@ -237,9 +255,10 @@ public class SubbandAn extends Subband {
      * @return The HH child subband, or null if there are no childs.
      *
      *
-     * */
+     */
     @Override
-    public Subband getHH() {
+    public Subband getHH()
+    {
         return subb_HH;
     }
 
@@ -250,7 +269,8 @@ public class SubbandAn extends Subband {
      * IllegalArgumentException is thrown if this subband is not a
      * leaf.
      *
-     * <P>It uses the initChilds() method to initialize the childs.
+     * <P>
+     * It uses the initChilds() method to initialize the childs.
      *
      * @param hfilter The horizontal wavelet filter used to decompose
      * this subband. It has to be a AnWTFilter object.
@@ -258,14 +278,15 @@ public class SubbandAn extends Subband {
      * @param vfilter The vertical wavelet filter used to decompose this
      * subband. It has to be a AnWTFilter object.
      *
-     * @return  A reference to the LL leaf (subb_LL).
+     * @return A reference to the LL leaf (subb_LL).
      *
      * @see Subband#initChilds
      *
      *
-     * */
+     */
     @Override
-    protected Subband split(WaveletFilter hfilter, WaveletFilter vfilter) {
+    protected Subband split(WaveletFilter hfilter, WaveletFilter vfilter)
+    {
         // Test that this is a node
         if (isNode) {
             throw new IllegalArgumentException();
@@ -273,8 +294,8 @@ public class SubbandAn extends Subband {
 
         // Modify this element into a node and set the filters
         isNode = true;
-        this.hFilter = (AnWTFilter) hfilter;
-        this.vFilter = (AnWTFilter) vfilter;
+        this.hFilter = (AnWTFilter)hfilter;
+        this.vFilter = (AnWTFilter)vfilter;
 
         // Create childs
         subb_LL = new SubbandAn();
@@ -302,12 +323,14 @@ public class SubbandAn extends Subband {
      * calculated yet, and then calculates the L2-norm on the return
      * path.
      *
-     * <P>The wfs argument should be a size 2 array of float arrays
+     * <P>
+     * The wfs argument should be a size 2 array of float arrays
      * (i.e. 2D array) and it must be of length 2 (or more). When
      * returning, wfs[0] will contain the line waveform, and wfs[1]
      * will contain the column waveform.
      *
-     * <P>This method can not be called on an element that ahs a
+     * <P>
+     * This method can not be called on an element that ahs a
      * non-negative value in l2Norm, since that means that we are
      * done.
      *
@@ -315,39 +338,32 @@ public class SubbandAn extends Subband {
      * will be returned.
      *
      *
-     * */
-    private void calcBasisWaveForms(float wfs[][]) {
+     */
+    private void calcBasisWaveForms(float wfs[][])
+    {
         if (l2Norm < 0) {
             // We are not finished with this element yet
             if (isNode) {
                 // We are on a node => search on childs
                 if (subb_LL.l2Norm < 0f) {
                     subb_LL.calcBasisWaveForms(wfs);
-                    wfs[0] =
-                        hFilter.getLPSynWaveForm(wfs[0],null);
-                    wfs[1] =
-                        vFilter.getLPSynWaveForm(wfs[1],null);
+                    wfs[0] = hFilter.getLPSynWaveForm(wfs[0], null);
+                    wfs[1] = vFilter.getLPSynWaveForm(wfs[1], null);
                 }
                 else if (subb_HL.l2Norm < 0f) {
                     subb_HL.calcBasisWaveForms(wfs);
-                    wfs[0] =
-                        hFilter.getHPSynWaveForm(wfs[0],null);
-                    wfs[1] =
-                        vFilter.getLPSynWaveForm(wfs[1],null);
+                    wfs[0] = hFilter.getHPSynWaveForm(wfs[0], null);
+                    wfs[1] = vFilter.getLPSynWaveForm(wfs[1], null);
                 }
                 else if (subb_LH.l2Norm < 0f) {
                     subb_LH.calcBasisWaveForms(wfs);
-                    wfs[0] =
-                        hFilter.getLPSynWaveForm(wfs[0],null);
-                    wfs[1] =
-                        vFilter.getHPSynWaveForm(wfs[1],null);
+                    wfs[0] = hFilter.getLPSynWaveForm(wfs[0], null);
+                    wfs[1] = vFilter.getHPSynWaveForm(wfs[1], null);
                 }
                 else if (subb_HH.l2Norm < 0f) {
                     subb_HH.calcBasisWaveForms(wfs);
-                    wfs[0] =
-                        hFilter.getHPSynWaveForm(wfs[0],null);
-                    wfs[1] =
-                        vFilter.getHPSynWaveForm(wfs[1],null);
+                    wfs[0] = hFilter.getHPSynWaveForm(wfs[0], null);
+                    wfs[1] = vFilter.getHPSynWaveForm(wfs[1], null);
                 }
                 else {
                     // There is an error! If all childs have
@@ -380,15 +396,17 @@ public class SubbandAn extends Subband {
      * calcBasisWaveForms() method, so that this method is used to
      * assigne the l2norm of the previously computed waveforms.
      *
-     * <P>This method can not be called on an element that ahs a
+     * <P>
+     * This method can not be called on an element that ahs a
      * non-negative value in l2Norm, since that means that we are
      * done.
      *
      * @param l2n The L2-norm to assign.
      *
      *
-     * */
-    private void assignL2Norm(float l2n) {
+     */
+    private void assignL2Norm(float l2n)
+    {
         if (l2Norm < 0) {
             // We are not finished with this element yet
             if (isNode) {
@@ -436,8 +454,9 @@ public class SubbandAn extends Subband {
      * element.
      *
      *
-     * */
-    private void calcL2Norms() {
+     */
+    private void calcL2Norms()
+    {
         int i;
         float wfs[][] = new float[2][];
         double acc;
@@ -450,16 +469,16 @@ public class SubbandAn extends Subband {
             // Compute line L2-norm, which is the product of the line
             // and column L2-norms
             acc = 0.0;
-            for (i=wfs[0].length-1; i>=0; i--) {
-                acc += wfs[0][i]*wfs[0][i];
+            for (i = wfs[0].length - 1; i >= 0; i--) {
+                acc += wfs[0][i] * wfs[0][i];
             }
-            l2n = (float) Math.sqrt(acc);
+            l2n = (float)Math.sqrt(acc);
             // Compute column L2-norm
             acc = 0.0;
-            for (i=wfs[1].length-1; i>=0; i--) {
-                acc += wfs[1][i]*wfs[1][i];
+            for (i = wfs[1].length - 1; i >= 0; i--) {
+                acc += wfs[1][i] * wfs[1][i];
             }
-            l2n *= (float) Math.sqrt(acc);
+            l2n *= (float)Math.sqrt(acc);
             // Release waveforms
             wfs[0] = null;
             wfs[1] = null;
@@ -477,7 +496,8 @@ public class SubbandAn extends Subband {
      *
      */
     @Override
-    public WaveletFilter getHorWFilter(){
+    public WaveletFilter getHorWFilter()
+    {
         return hFilter;
     }
 
@@ -490,7 +510,8 @@ public class SubbandAn extends Subband {
      *
      */
     @Override
-    public WaveletFilter getVerWFilter(){
+    public WaveletFilter getVerWFilter()
+    {
         return hFilter;
     }
 }

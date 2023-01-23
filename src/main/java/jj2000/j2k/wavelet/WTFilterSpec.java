@@ -53,21 +53,25 @@ package jj2000.j2k.wavelet;
  * synthesis filters to be used in each part of the image derive. See
  * AnWTFilterSpec and SynWTFilterSpec.
  *
- * <P>The filters to use are defined by a hierarchy. The hierarchy is:
+ * <P>
+ * The filters to use are defined by a hierarchy. The hierarchy is:
  *
- * <P>- Tile and component specific filters<br>
+ * <P>
+ * - Tile and component specific filters<br>
  * - Tile specific default filters<br>
  * - Component main default filters<br>
  * - Main default filters<br>
  *
- * <P>At the moment tiles are not supported by this class.
+ * <P>
+ * At the moment tiles are not supported by this class.
  *
  * @see jj2000.j2k.wavelet.analysis.AnWTFilterSpec
  *
  * @see jj2000.j2k.wavelet.synthesis.SynWTFilterSpec
- * */
+ */
 
-public abstract class WTFilterSpec {
+public abstract class WTFilterSpec
+{
 
     /** The identifier for "main default" specified filters */
     public final static byte FILTER_SPEC_MAIN_DEF = 0;
@@ -81,9 +85,11 @@ public abstract class WTFilterSpec {
     /** The identifier for "tile and component specific" specified filters */
     public final static byte FILTER_SPEC_TILE_COMP = 3;
 
-    /** The spec type for each tile and component. The first index is the
+    /**
+     * The spec type for each tile and component. The first index is the
      * component index, the second is the tile index. NOTE: The tile specific
-     * things are not supported yet. */
+     * things are not supported yet.
+     */
     // Use byte to save memory (no need for speed here).
     protected byte specValType[];
 
@@ -92,17 +98,19 @@ public abstract class WTFilterSpec {
      * tiles to the 'FILTER_SPEC_MAIN_DEF' spec type, for the specified number
      * of components and tiles.
      *
-     * <P>NOTE: The tile specific things are not supported yet
+     * <P>
+     * NOTE: The tile specific things are not supported yet
      *
      * @param nc The number of components
      *
-     * */
-    protected WTFilterSpec(int nc) {
+     */
+    protected WTFilterSpec(int nc)
+    {
         specValType = new byte[nc];
     }
 
     /**
-     * Returns the data type used by the filters in this object, as defined in 
+     * Returns the data type used by the filters in this object, as defined in
      * the 'DataBlk' interface.
      *
      * @return The data type of the filters in this object
@@ -110,7 +118,7 @@ public abstract class WTFilterSpec {
      * @see jj2000.j2k.image.DataBlk
      *
      *
-     * */
+     */
     public abstract int getWTDataType();
 
     /**
@@ -119,15 +127,17 @@ public abstract class WTFilterSpec {
      * 'FILTER_SPEC_MAIN_DEF', 'FILTER_SPEC_COMP_DEF', 'FILTER_SPEC_TILE_DEF',
      * 'FILTER_SPEC_TILE_COMP'.
      *
-     * <P>NOTE: The tile specific things are not supported yet
+     * <P>
+     * NOTE: The tile specific things are not supported yet
      *
      * @param n The component index
      *
      * @return The specification type for component 'n' and tile 't'.
      *
      *
-     * */
-    public byte getKerSpecType(int n) {
+     */
+    public byte getKerSpecType(int n)
+    {
         return specValType[n];
     }
 

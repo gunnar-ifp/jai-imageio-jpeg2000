@@ -66,14 +66,16 @@ import jj2000.j2k.util.MsgLogger;
 
 import com.github.jaiimageio.jpeg2000.J2KImageReadParam;
 
-/** This class is the Java Image IO plugin reader for JPEG 2000 JP2 image file
- *  format.  It has the capability to load the compressed bilevel images,
- *  color-indexed byte images, or multi-band images in byte/ushort/short/int
- *  data type.  It may subsample the image, select bands, clip the image,
- *  and shift the decoded image origin if the proper decoding parameter
- *  are set in the provided <code>J2KImageReadParam</code>.
+/**
+ * This class is the Java Image IO plugin reader for JPEG 2000 JP2 image file
+ * format. It has the capability to load the compressed bilevel images,
+ * color-indexed byte images, or multi-band images in byte/ushort/short/int
+ * data type. It may subsample the image, select bands, clip the image,
+ * and shift the decoded image origin if the proper decoding parameter
+ * are set in the provided <code>J2KImageReadParam</code>.
  */
-public class J2KImageReader extends ImageReader implements MsgLogger {
+public class J2KImageReader extends ImageReader implements MsgLogger
+{
     /** The input stream where reads from */
     private ImageInputStream iis = null;
 
@@ -95,13 +97,15 @@ public class J2KImageReader extends ImageReader implements MsgLogger {
     /** The image index for the cached metadata. */
     private int imageMetadataIndex = -1;
 
-    /** The J2K HeaderDecoder defined in jj2000 packages.  Used to extract image
-     *  header information.
+    /**
+     * The J2K HeaderDecoder defined in jj2000 packages. Used to extract image
+     * header information.
      */
     private HeaderDecoder hd;
 
-    /** The J2KReadState for this reading session based on the current input
-     *  and J2KImageReadParam.
+    /**
+     * The J2KReadState for this reading session based on the current input
+     * and J2KImageReadParam.
      */
     private J2KReadState readState = null;
 
@@ -110,17 +114,19 @@ public class J2KImageReader extends ImageReader implements MsgLogger {
      */
     private boolean logJJ2000Msg = false;
 
-    /** Wrapper for the protected method <code>computeRegions</code>.  So it
-     *  can be access from the classes which are not in <code>ImageReader</code>
-     *  hierarchy.
+    /**
+     * Wrapper for the protected method <code>computeRegions</code>. So it
+     * can be access from the classes which are not in <code>ImageReader</code>
+     * hierarchy.
      */
     public static void computeRegionsWrapper(ImageReadParam param,
-                                             boolean allowZeroDestOffset,
-                                             int srcWidth,
-                                             int srcHeight,
-                                             BufferedImage image,
-                                             Rectangle srcRegion,
-                                             Rectangle destRegion) {
+        boolean allowZeroDestOffset,
+        int srcWidth,
+        int srcHeight,
+        BufferedImage image,
+        Rectangle srcRegion,
+        Rectangle destRegion)
+    {
         if (srcRegion == null) {
             throw new IllegalArgumentException(I18N.getString("J2KImageReader0"));
         }
@@ -145,11 +151,12 @@ public class J2KImageReader extends ImageReader implements MsgLogger {
             srcRegion.translate(gridX, gridY);
             srcRegion.width -= gridX;
             srcRegion.height -= gridY;
-            if(allowZeroDestOffset) {
+            if (allowZeroDestOffset) {
                 destRegion.setLocation(param.getDestinationOffset());
-            } else {
+            }
+            else {
                 Point destOffset = param.getDestinationOffset();
-                if(destOffset.x != 0 || destOffset.y != 0) {
+                if (destOffset.x != 0 || destOffset.y != 0) {
                     destRegion.setLocation(param.getDestinationOffset());
                 }
             }
@@ -158,21 +165,21 @@ public class J2KImageReader extends ImageReader implements MsgLogger {
         // Now clip any negative destination offsets, i.e. clip
         // to the top and left of the destination image
         if (destRegion.x < 0) {
-            int delta = -destRegion.x*periodX;
+            int delta = -destRegion.x * periodX;
             srcRegion.x += delta;
             srcRegion.width -= delta;
             destRegion.x = 0;
         }
         if (destRegion.y < 0) {
-            int delta = -destRegion.y*periodY;
+            int delta = -destRegion.y * periodY;
             srcRegion.y += delta;
             srcRegion.height -= delta;
             destRegion.y = 0;
         }
 
         // Now clip the destination Region to the subsampled width and height
-        int subsampledWidth = (srcRegion.width + periodX - 1)/periodX;
-        int subsampledHeight = (srcRegion.height + periodY - 1)/periodY;
+        int subsampledWidth = (srcRegion.width + periodX - 1) / periodX;
+        int subsampledHeight = (srcRegion.height + periodY - 1) / periodY;
         destRegion.width = subsampledWidth;
         destRegion.height = subsampledHeight;
 
@@ -180,21 +187,20 @@ public class J2KImageReader extends ImageReader implements MsgLogger {
         // if there is one, taking subsampling into account
         if (image != null) {
             Rectangle destImageRect = new Rectangle(0, 0,
-                                                    image.getWidth(),
-                                                    image.getHeight());
+                image.getWidth(),
+                image.getHeight());
             destRegion.setBounds(destRegion.intersection(destImageRect));
             if (destRegion.isEmpty()) {
-                throw new IllegalArgumentException
-                    (I18N.getString("J2KImageReader2"));
+                throw new IllegalArgumentException(I18N.getString("J2KImageReader2"));
             }
 
             int deltaX = destRegion.x + subsampledWidth - image.getWidth();
             if (deltaX > 0) {
-                srcRegion.width -= deltaX*periodX;
+                srcRegion.width -= deltaX * periodX;
             }
-            int deltaY =  destRegion.y + subsampledHeight - image.getHeight();
+            int deltaY = destRegion.y + subsampledHeight - image.getHeight();
             if (deltaY > 0) {
-                srcRegion.height -= deltaY*periodY;
+                srcRegion.height -= deltaY * periodY;
             }
         }
         if (srcRegion.isEmpty() || destRegion.isEmpty()) {
@@ -202,13 +208,15 @@ public class J2KImageReader extends ImageReader implements MsgLogger {
         }
     }
 
-    /** Wrapper for the protected method <code>checkReadParamBandSettings</code>.
-     *  So it can be access from the classes which are not in
-     *  <code>ImageReader</code> hierarchy.
+    /**
+     * Wrapper for the protected method <code>checkReadParamBandSettings</code>.
+     * So it can be access from the classes which are not in
+     * <code>ImageReader</code> hierarchy.
      */
     public static void checkReadParamBandSettingsWrapper(ImageReadParam param,
-                                                  int numSrcBands,
-                                                  int numDstBands) {
+        int numSrcBands,
+        int numDstBands)
+    {
         checkReadParamBandSettings(param, numSrcBands, numDstBands);
     }
 
@@ -228,63 +236,72 @@ public class J2KImageReader extends ImageReader implements MsgLogger {
      * <code>level</code> is greater than <code>maxLevel</code>.
      */
     static Rectangle getReducedRect(Rectangle r, int maxLevel, int level,
-                                    int subX, int subY) {
-        if(r == null) {
+        int subX, int subY)
+    {
+        if (r == null) {
             throw new IllegalArgumentException("r == null!");
-        } else if(maxLevel < 0 || level < 0) {
+        }
+        else if (maxLevel < 0 || level < 0) {
             throw new IllegalArgumentException("maxLevel < 0 || level < 0!");
-        } else if(level > maxLevel) {
+        }
+        else if (level > maxLevel) {
             throw new IllegalArgumentException("level > maxLevel");
         }
 
         // At the highest level; return the parameter.
-        if(level == maxLevel && subX == 1 && subY == 1) {
+        if (level == maxLevel && subX == 1 && subY == 1) {
             return r;
         }
 
         // Resolution divisor is step*2^(maxLevel - level).
         int divisor = 1 << (maxLevel - level);
-        int divX = divisor*subX;
-        int divY = divisor*subY;
+        int divX = divisor * subX;
+        int divY = divisor * subY;
 
         // Convert upper left and lower right corners.
-        int x1 = (r.x + divX - 1)/divX;
-        int x2 = (r.x + r.width + divX - 1)/divX;
-        int y1 = (r.y + divY - 1)/divY;
-        int y2 = (r.y + r.height + divY - 1)/divY;
+        int x1 = (r.x + divX - 1) / divX;
+        int x2 = (r.x + r.width + divX - 1) / divX;
+        int y1 = (r.y + divY - 1) / divY;
+        int y2 = (r.y + r.height + divY - 1) / divY;
 
         // Create lower resolution rectangle and return.
         return new Rectangle(x1, y1, x2 - x1, y2 - y1);
     }
 
-    /** Wrapper for the protected method <code>processImageUpdate</code>
-     *  So it can be access from the classes which are not in
-     *  <code>ImageReader</code> hierarchy.
+    /**
+     * Wrapper for the protected method <code>processImageUpdate</code>
+     * So it can be access from the classes which are not in
+     * <code>ImageReader</code> hierarchy.
      */
     public void processImageUpdateWrapper(BufferedImage theImage,
-                                      int minX, int minY,
-                                      int width, int height,
-                                      int periodX, int periodY,
-                                      int[] bands) {
+        int minX, int minY,
+        int width, int height,
+        int periodX, int periodY,
+        int[] bands)
+    {
         processImageUpdate(theImage,
-                                  minX, minY,
-                                  width, height,
-                                  periodX, periodY,
-                                  bands);
+            minX, minY,
+            width, height,
+            periodX, periodY,
+            bands);
     }
 
-    /** Wrapper for the protected method <code>processImageProgress</code>
-     *  So it can be access from the classes which are not in
-     *  <code>ImageReader</code> hierarchy.
+    /**
+     * Wrapper for the protected method <code>processImageProgress</code>
+     * So it can be access from the classes which are not in
+     * <code>ImageReader</code> hierarchy.
      */
-    public void processImageProgressWrapper(float percentageDone) {
+    public void processImageProgressWrapper(float percentageDone)
+    {
         processImageProgress(percentageDone);
     }
 
-    /** Constructs <code>J2KImageReader</code> from the provided
-     *  <code>ImageReaderSpi</code>.
+    /**
+     * Constructs <code>J2KImageReader</code> from the provided
+     * <code>ImageReaderSpi</code>.
      */
-    public J2KImageReader(ImageReaderSpi originator) {
+    public J2KImageReader(ImageReaderSpi originator)
+    {
         super(originator);
 
         this.logJJ2000Msg = Boolean.getBoolean("jj2000.j2k.decoder.log");
@@ -295,88 +312,99 @@ public class J2KImageReader extends ImageReader implements MsgLogger {
     /** Overrides the method defined in the superclass. */
     @Override
     public void setInput(Object input,
-                         boolean seekForwardOnly,
-                         boolean ignoreMetadata) {
+        boolean seekForwardOnly,
+        boolean ignoreMetadata)
+    {
         super.setInput(input, seekForwardOnly, ignoreMetadata);
         this.ignoreMetadata = ignoreMetadata;
-        iis = (ImageInputStream) input; // Always works
+        iis = (ImageInputStream)input; // Always works
         imageMetadata = null;
         try {
             this.streamPosition0 = iis.getStreamPosition();
-        } catch(IOException e) {
+        }
+        catch (IOException e) {
             // XXX ignore
         }
     }
 
     /** Overrides the method defined in the superclass. */
     @Override
-    public int getNumImages(boolean allowSearch) throws IOException {
+    public int getNumImages(boolean allowSearch) throws IOException
+    {
         return 1;
     }
 
     @Override
-    public int getWidth(int imageIndex) throws IOException {
+    public int getWidth(int imageIndex) throws IOException
+    {
         checkIndex(imageIndex);
         readHeader();
         return width;
     }
 
     @Override
-    public int getHeight(int imageIndex) throws IOException {
+    public int getHeight(int imageIndex) throws IOException
+    {
         checkIndex(imageIndex);
         readHeader();
         return height;
     }
 
     @Override
-    public int getTileGridXOffset(int imageIndex) throws IOException {
+    public int getTileGridXOffset(int imageIndex) throws IOException
+    {
         checkIndex(imageIndex);
         readHeader();
         return hd.getTilingOrigin(null).x;
     }
 
     @Override
-    public int getTileGridYOffset(int imageIndex) throws IOException {
+    public int getTileGridYOffset(int imageIndex) throws IOException
+    {
         checkIndex(imageIndex);
         readHeader();
         return hd.getTilingOrigin(null).y;
     }
 
     @Override
-    public int getTileWidth(int imageIndex) throws IOException {
+    public int getTileWidth(int imageIndex) throws IOException
+    {
         checkIndex(imageIndex);
         readHeader();
         return hd.getNomTileWidth();
     }
 
     @Override
-    public int getTileHeight(int imageIndex) throws IOException {
+    public int getTileHeight(int imageIndex) throws IOException
+    {
         checkIndex(imageIndex);
         readHeader();
         return hd.getNomTileHeight();
     }
 
-    private void checkIndex(int imageIndex) {
+    private void checkIndex(int imageIndex)
+    {
         if (imageIndex != 0) {
             throw new IndexOutOfBoundsException(I18N.getString("J2KImageReader4"));
         }
     }
 
-    public void readHeader() {
+    public void readHeader()
+    {
         if (gotHeader)
             return;
 
         if (readState == null) {
             try {
                 iis.seek(streamPosition0);
-            } catch(IOException e) {
+            }
+            catch (IOException e) {
                 // XXX ignore
             }
 
-            readState =
-                new J2KReadState(iis,
-                                 new J2KImageReadParamJava(getDefaultReadParam()),
-                                 this);
+            readState = new J2KReadState(iis,
+                new J2KImageReadParamJava(getDefaultReadParam()),
+                this);
         }
 
         hd = readState.getHeader();
@@ -388,26 +416,29 @@ public class J2KImageReader extends ImageReader implements MsgLogger {
 
     @Override
     public Iterator getImageTypes(int imageIndex)
-        throws IOException {
+        throws IOException
+    {
         checkIndex(imageIndex);
         readHeader();
         if (readState != null) {
             ArrayList list = new ArrayList();
             list.add(new ImageTypeSpecifier(readState.getColorModel(),
-                                            readState.getSampleModel()));
+                readState.getSampleModel()));
             return list.iterator();
         }
         return null;
     }
 
     @Override
-    public ImageReadParam getDefaultReadParam() {
+    public ImageReadParam getDefaultReadParam()
+    {
         return new J2KImageReadParam();
     }
 
     @Override
     public IIOMetadata getImageMetadata(int imageIndex)
-        throws IOException {
+        throws IOException
+    {
         checkIndex(imageIndex);
         if (ignoreMetadata)
             return null;
@@ -421,13 +452,15 @@ public class J2KImageReader extends ImageReader implements MsgLogger {
     }
 
     @Override
-    public IIOMetadata getStreamMetadata() throws IOException {
+    public IIOMetadata getStreamMetadata() throws IOException
+    {
         return null;
     }
 
     @Override
     public BufferedImage read(int imageIndex, ImageReadParam param)
-        throws IOException {
+        throws IOException
+    {
         checkIndex(imageIndex);
         clearAbortRequest();
         processImageStarted(imageIndex);
@@ -441,28 +474,29 @@ public class J2KImageReader extends ImageReader implements MsgLogger {
             imageMetadata = new J2KMetadata();
             iis.seek(streamPosition0);
             readState = new J2KReadState(iis,
-                                         (J2KImageReadParamJava)param,
-                                         imageMetadata,
-                                         this);
-        } else {
+                (J2KImageReadParamJava)param,
+                imageMetadata,
+                this);
+        }
+        else {
             iis.seek(streamPosition0);
             readState = new J2KReadState(iis,
-                                         (J2KImageReadParamJava)param,
-                                         this);
+                (J2KImageReadParamJava)param,
+                this);
         }
 
         BufferedImage bi = readState.readBufferedImage();
         if (abortRequested())
             processReadAborted();
-        else
-            processImageComplete();
+        else processImageComplete();
         return bi;
     }
 
     @Override
     public RenderedImage readAsRenderedImage(int imageIndex,
-                                             ImageReadParam param)
-                                             throws IOException {
+        ImageReadParam param)
+        throws IOException
+    {
         checkIndex(imageIndex);
         RenderedImage ri = null;
         clearAbortRequest();
@@ -476,33 +510,34 @@ public class J2KImageReader extends ImageReader implements MsgLogger {
             if (imageMetadata == null)
                 imageMetadata = new J2KMetadata();
             ri = new J2KRenderedImage(iis,
-                                        (J2KImageReadParamJava)param,
-                                        imageMetadata,
-                                        this);
+                (J2KImageReadParamJava)param,
+                imageMetadata,
+                this);
         }
-        else
-            ri = new J2KRenderedImage(iis, (J2KImageReadParamJava)param, this);
+        else ri = new J2KRenderedImage(iis, (J2KImageReadParamJava)param, this);
         if (abortRequested())
             processReadAborted();
-        else
-            processImageComplete();
+        else processImageComplete();
         return ri;
     }
 
     @Override
-    public boolean canReadRaster() {
+    public boolean canReadRaster()
+    {
         return true;
     }
 
     @Override
-    public boolean isRandomAccessEasy(int imageIndex) throws IOException {
+    public boolean isRandomAccessEasy(int imageIndex) throws IOException
+    {
         checkIndex(imageIndex);
         return false;
     }
 
     @Override
     public Raster readRaster(int imageIndex,
-                             ImageReadParam param) throws IOException {
+        ImageReadParam param) throws IOException
+    {
         checkIndex(imageIndex);
         processImageStarted(imageIndex);
 
@@ -515,26 +550,27 @@ public class J2KImageReader extends ImageReader implements MsgLogger {
             imageMetadata = new J2KMetadata();
             iis.seek(streamPosition0);
             readState = new J2KReadState(iis,
-                                         (J2KImageReadParamJava)param,
-                                         imageMetadata,
-                                         this);
-        } else {
+                (J2KImageReadParamJava)param,
+                imageMetadata,
+                this);
+        }
+        else {
             iis.seek(streamPosition0);
             readState = new J2KReadState(iis,
-                                         (J2KImageReadParamJava)param,
-                                         this);
+                (J2KImageReadParamJava)param,
+                this);
         }
 
         Raster ras = readState.readAsRaster();
         if (abortRequested())
             processReadAborted();
-        else
-            processImageComplete();
+        else processImageComplete();
         return ras;
     }
 
     @Override
-    public boolean isImageTiled(int imageIndex) {
+    public boolean isImageTiled(int imageIndex)
+    {
         checkIndex(imageIndex);
         readHeader();
         if (readState != null) {
@@ -547,7 +583,8 @@ public class J2KImageReader extends ImageReader implements MsgLogger {
     }
 
     @Override
-    public void reset() {
+    public void reset()
+    {
         // reset local Java structures
         super.reset();
 
@@ -558,56 +595,62 @@ public class J2KImageReader extends ImageReader implements MsgLogger {
         System.gc();
     }
 
-    /** This method wraps the protected method <code>abortRequested</code>
-     *  to allow the abortions be monitored by <code>J2KReadState</code>.
+    /**
+     * This method wraps the protected method <code>abortRequested</code>
+     * to allow the abortions be monitored by <code>J2KReadState</code>.
      */
-    public boolean getAbortRequest() {
+    public boolean getAbortRequest()
+    {
         return abortRequested();
     }
 
     private ImageTypeSpecifier getImageType(int imageIndex)
-        throws IOException {
+        throws IOException
+    {
         checkIndex(imageIndex);
         readHeader();
         if (readState != null) {
             return new ImageTypeSpecifier(readState.getColorModel(),
-                                          readState.getSampleModel());
+                readState.getSampleModel());
         }
         return null;
     }
 
     // --- Begin jj2000.j2k.util.MsgLogger implementation ---
     @Override
-    public void flush() {
+    public void flush()
+    {
         // Do nothing.
     }
 
     @Override
-    public void println(String str, int flind, int ind) {
+    public void println(String str, int flind, int ind)
+    {
         printmsg(INFO, str);
     }
 
     @Override
-    public void printmsg(int sev, String msg) {
-        if(logJJ2000Msg) {
+    public void printmsg(int sev, String msg)
+    {
+        if (logJJ2000Msg) {
             String msgSev;
-            switch(sev) {
-            case ERROR:
-                msgSev = "ERROR";
-                break;
-            case INFO:
-                msgSev = "INFO";
-                break;
-            case LOG:
-                msgSev = "LOG";
-                break;
-            case WARNING:
-            default:
-                msgSev = "WARNING";
-                break;
+            switch (sev) {
+                case ERROR:
+                    msgSev = "ERROR";
+                    break;
+                case INFO:
+                    msgSev = "INFO";
+                    break;
+                case LOG:
+                    msgSev = "LOG";
+                    break;
+                case WARNING:
+                default:
+                    msgSev = "WARNING";
+                    break;
             }
 
-            processWarningOccurred("[JJ2000 "+msgSev+"] "+msg);
+            processWarningOccurred("[JJ2000 " + msgSev + "] " + msg);
         }
     }
     // --- End jj2000.j2k.util.MsgLogger implementation ---

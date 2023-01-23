@@ -54,12 +54,14 @@ import jj2000.j2k.image.DataBlk;
  * This is an implementation of the 'CBlkWTData' abstract class for signed 32
  * bit integer data.
  *
- * <P>The methods in this class are declared final, so that they can
+ * <P>
+ * The methods in this class are declared final, so that they can
  * be inlined by inlining compilers.
  *
  * @see CBlkWTData
- * */
-public class CBlkWTDataInt extends CBlkWTData {
+ */
+public class CBlkWTDataInt extends CBlkWTData
+{
 
     /** The array where the data is stored */
     public int[] data;
@@ -73,7 +75,8 @@ public class CBlkWTDataInt extends CBlkWTData {
      *
      */
     @Override
-    public final int getDataType() {
+    public final int getDataType()
+    {
         return DataBlk.TYPE_INT;
     }
 
@@ -88,7 +91,8 @@ public class CBlkWTDataInt extends CBlkWTData {
      *
      */
     @Override
-    public final Object getData() {
+    public final Object getData()
+    {
         return data;
     }
 
@@ -99,8 +103,9 @@ public class CBlkWTDataInt extends CBlkWTData {
      * @return The array of data or null if there is no data.
      *
      *
-     * */
-    public final int[] getDataInt() {
+     */
+    public final int[] getDataInt()
+    {
         return data;
     }
 
@@ -113,10 +118,11 @@ public class CBlkWTDataInt extends CBlkWTData {
      * @param arr The data array to use. Must be an int array.
      *
      *
-     * */
+     */
     @Override
-    public final void setData(Object arr) {
-        data = (int[]) arr;
+    public final void setData(Object arr)
+    {
+        data = (int[])arr;
     }
 
     /**
@@ -127,8 +133,9 @@ public class CBlkWTDataInt extends CBlkWTData {
      * @param arr The data array to use.
      *
      *
-     * */
-    public final void setDataInt(int[] arr) {
+     */
+    public final void setDataInt(int[] arr)
+    {
         data = arr;
     }
 

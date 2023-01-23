@@ -52,28 +52,32 @@ import javax.imageio.metadata.IIOMetadataNode;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-/** This class is defined to represent a Color Specification Box of JPEG JP2
- *  file format.  A Channel Definition Box has a length, and a fixed type
- *  of "colr".  Its content contains the method to define the color space,
- *  the precedence and approximation accuracy (0 for JP2 files), the
- *  enumerated color space, and the ICC color profile if any.
+/**
+ * This class is defined to represent a Color Specification Box of JPEG JP2
+ * file format. A Channel Definition Box has a length, and a fixed type
+ * of "colr". Its content contains the method to define the color space,
+ * the precedence and approximation accuracy (0 for JP2 files), the
+ * enumerated color space, and the ICC color profile if any.
  */
-public class ColorSpecificationBox extends Box {
+public class ColorSpecificationBox extends Box
+{
     /** The enumerated color space defined in JP2 file format. */
     public static final int ECS_sRGB = 16;
     public static final int ECS_GRAY = 17;
     public static final int ECS_YCC = 18;
 
     /** Cache the element names for this box's xml definition */
-    private static String[] elementNames = {"Method", "Precedence",
-                                            "ApproximationAccuracy",
-                                            "EnumeratedColorSpace",
-                                            "ICCProfile"};
+    private static String[] elementNames = { "Method", "Precedence",
+        "ApproximationAccuracy",
+        "EnumeratedColorSpace",
+        "ICCProfile" };
 
-    /** This method will be called by the getNativeNodeForSimpleBox of the
-     *  class Box to get the element names.
+    /**
+     * This method will be called by the getNativeNodeForSimpleBox of the
+     * class Box to get the element names.
      */
-    public static String[] getElementNames() {
+    public static String[] getElementNames()
+    {
         return elementNames;
     }
 
@@ -85,7 +89,8 @@ public class ColorSpecificationBox extends Box {
     private ICC_Profile profile;
 
     /** Computes the length of this box when profile is present. */
-    private static int computeLength(byte m, ICC_Profile profile) {
+    private static int computeLength(byte m, ICC_Profile profile)
+    {
         int ret = 15;
         if (m == 2 && profile != null) {
             ret += profile.getData().length;
@@ -93,11 +98,13 @@ public class ColorSpecificationBox extends Box {
         return ret;
     }
 
-    /** Creates a <code>ColorSpecificationBox</code> from the provided data
-     *  elements.
+    /**
+     * Creates a <code>ColorSpecificationBox</code> from the provided data
+     * elements.
      */
     public ColorSpecificationBox(byte m, byte p, byte a, int ecs,
-                                 ICC_Profile profile) {
+        ICC_Profile profile)
+    {
         super(computeLength(m, profile), 0x636F6C72, null);
         this.method = m;
         this.precedence = p;
@@ -106,17 +113,21 @@ public class ColorSpecificationBox extends Box {
         this.profile = profile;
     }
 
-    /** Creates a <code>ColorSpecificationBox</code> from the provided byte
-     *  array.
+    /**
+     * Creates a <code>ColorSpecificationBox</code> from the provided byte
+     * array.
      */
-    public ColorSpecificationBox(byte[] data) {
+    public ColorSpecificationBox(byte[] data)
+    {
         super(8 + data.length, 0x636F6C72, data);
     }
 
-    /** Constructs a <code>ColorSpecificationBox</code> based on the provided
-     *  <code>org.w3c.dom.Node</code>.
+    /**
+     * Constructs a <code>ColorSpecificationBox</code> based on the provided
+     * <code>org.w3c.dom.Node</code>.
      */
-    public ColorSpecificationBox(Node node) throws IIOInvalidTreeException {
+    public ColorSpecificationBox(Node node) throws IIOInvalidTreeException
+    {
         super(node);
         NodeList children = node.getChildNodes();
 
@@ -142,53 +153,60 @@ public class ColorSpecificationBox extends Box {
 
             if ("ICCProfile".equals(name)) {
                 if (child instanceof IIOMetadataNode)
-                    profile =
-                        (ICC_Profile)((IIOMetadataNode)child).getUserObject();
-		else {
-		    String value = node.getNodeValue();
-		    if (value != null)
-			profile = ICC_Profile.getInstance(Box.parseByteArray(value));
-		}
+                    profile = (ICC_Profile)((IIOMetadataNode)child).getUserObject();
+                else {
+                    String value = node.getNodeValue();
+                    if (value != null)
+                        profile = ICC_Profile.getInstance(Box.parseByteArray(value));
+                }
             }
         }
     }
 
     /** Returns the method to define the color space. */
-    public byte getMethod() {
+    public byte getMethod()
+    {
         return method;
     }
 
     /** Returns <code>Precedence</code>. */
-    public byte getPrecedence() {
+    public byte getPrecedence()
+    {
         return precedence;
     }
 
     /** Returns <code>ApproximationAccuracy</code>. */
-    public byte getApproximationAccuracy() {
+    public byte getApproximationAccuracy()
+    {
         return approximation;
     }
 
     /** Returns the enumerated color space. */
-    public int getEnumeratedColorSpace() {
+    public int getEnumeratedColorSpace()
+    {
         return ecs;
     }
 
     /** Returns the ICC color profile in this color specification box. */
-    public ICC_Profile getICCProfile() {
+    public ICC_Profile getICCProfile()
+    {
         return profile;
     }
 
-    /** Creates an <code>IIOMetadataNode</code> from this color specification
-     *  box.  The format of this node is defined in the XML dtd and xsd
-     *  for the JP2 image file.
+    /**
+     * Creates an <code>IIOMetadataNode</code> from this color specification
+     * box. The format of this node is defined in the XML dtd and xsd
+     * for the JP2 image file.
      */
     @Override
-    public IIOMetadataNode getNativeNode() {
+    public IIOMetadataNode getNativeNode()
+    {
         return getNativeNodeForSimpleBox();
     }
 
     @Override
-    protected void parse(byte[] data) {
+    protected void parse(byte[] data)
+    {
         method = data[0];
         precedence = data[1];
         approximation = data[2];
@@ -196,14 +214,15 @@ public class ColorSpecificationBox extends Box {
             byte[] proData = new byte[data.length - 3];
             System.arraycopy(data, 3, proData, 0, data.length - 3);
             profile = ICC_Profile.getInstance(proData);
-        } else
-            ecs = ((data[3] & 0xFF) << 24) | ((data[4] & 0xFF) << 16) |
-                  ((data[5] & 0xFF) << 8) | (data[6] & 0xFF);
+        }
+        else ecs = ((data[3] & 0xFF) << 24) | ((data[4] & 0xFF) << 16) |
+            ((data[5] & 0xFF) << 8) | (data[6] & 0xFF);
 
     }
 
     @Override
-    protected void compose() {
+    protected void compose()
+    {
         if (data != null)
             return;
         int len = 7;

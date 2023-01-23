@@ -57,15 +57,18 @@ import jj2000.j2k.image.DataBlk;
  * specifically. Implementations that work on int data should inherit
  * from this class.
  *
- * <P>See the AnWTFilter class for details such as
+ * <P>
+ * See the AnWTFilter class for details such as
  * normalization, how to split odd-length signals, etc.
  *
- * <P>The advantage of using the specialized method is that no casts
+ * <P>
+ * The advantage of using the specialized method is that no casts
  * are performed.
  *
  * @see AnWTFilter
- * */
-public abstract class AnWTFilterInt extends AnWTFilter {
+ */
+public abstract class AnWTFilterInt extends AnWTFilter
+{
 
     /**
      * A specific version of the analyze_lpf() method that works on int
@@ -107,11 +110,10 @@ public abstract class AnWTFilterInt extends AnWTFilter {
      *
      *
      *
-     * */
-    public abstract
-        void analyze_lpf(int inSig[], int inOff, int inLen, int inStep,
-                     int lowSig[], int lowOff, int lowStep,
-                     int highSig[], int highOff, int highStep);
+     */
+    public abstract void analyze_lpf(int inSig[], int inOff, int inLen, int inStep,
+        int lowSig[], int lowOff, int lowStep,
+        int highSig[], int highOff, int highStep);
 
     /**
      * The general version of the analyze_lpf() method, it just calls the
@@ -153,16 +155,17 @@ public abstract class AnWTFilterInt extends AnWTFilter {
      *
      *
      *
-     * */
+     */
 
     @Override
     public void analyze_lpf(Object inSig, int inOff, int inLen, int inStep,
-                    Object lowSig, int lowOff, int lowStep,
-                    Object highSig, int highOff, int highStep) {
+        Object lowSig, int lowOff, int lowStep,
+        Object highSig, int highOff, int highStep)
+    {
 
         analyze_lpf((int[])inSig, inOff, inLen, inStep,
-                (int[])lowSig, lowOff, lowStep,
-                (int[])highSig, highOff, highStep);
+            (int[])lowSig, lowOff, lowStep,
+            (int[])highSig, highOff, highStep);
     }
 
     /**
@@ -205,11 +208,11 @@ public abstract class AnWTFilterInt extends AnWTFilter {
      *
      *
      *
-     * */
-    public abstract
-        void analyze_hpf(int inSig[], int inOff, int inLen, int inStep,
-                     int lowSig[], int lowOff, int lowStep,
-                     int highSig[], int highOff, int highStep);
+     */
+    public abstract void analyze_hpf(int inSig[], int inOff, int inLen, int inStep,
+        int lowSig[], int lowOff, int lowStep,
+        int highSig[], int highOff, int highStep);
+
     /**
      * The general version of the analyze_hpf() method, it just calls the
      * specialized version. See the description of the analyze_hpf()
@@ -250,17 +253,19 @@ public abstract class AnWTFilterInt extends AnWTFilter {
      *
      *
      *
-     * */
+     */
 
     @Override
     public void analyze_hpf(Object inSig, int inOff, int inLen, int inStep,
-                    Object lowSig, int lowOff, int lowStep,
-                    Object highSig, int highOff, int highStep) {
+        Object lowSig, int lowOff, int lowStep,
+        Object highSig, int highOff, int highStep)
+    {
 
         analyze_hpf((int[])inSig, inOff, inLen, inStep,
-                (int[])lowSig, lowOff, lowStep,
-                (int[])highSig, highOff, highStep);
+            (int[])lowSig, lowOff, lowStep,
+            (int[])highSig, highOff, highStep);
     }
+
     /**
      * Returns the type of data on which this filter works, as defined
      * in the DataBlk interface, which is always TYPE_INT for this
@@ -271,9 +276,10 @@ public abstract class AnWTFilterInt extends AnWTFilter {
      * @see jj2000.j2k.image.DataBlk
      *
      *
-     * */
+     */
     @Override
-    public int getDataType() {
+    public int getDataType()
+    {
         return DataBlk.TYPE_INT;
     }
 

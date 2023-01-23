@@ -41,49 +41,56 @@
  * */
 package jj2000.j2k.codestream;
 
-/** 
+/**
  * Class that holds precinct coordinates and references to contained
- * code-blocks in each subband. 
- * */
-public class PrecInfo {
-    
+ * code-blocks in each subband.
+ */
+public class PrecInfo
+{
+
     /** Precinct horizontal upper-left coordinate in the reference grid */
     public int rgulx;
-    
+
     /** Precinct vertical upper-left coordinate in the reference grid */
     public int rguly;
-    
+
     /** Precinct width reported in the reference grid */
     public int rgw;
 
     /** Precinct height reported in the reference grid */
     public int rgh;
 
-    /** Precinct horizontal upper-left coordinate in the corresponding
-     * resolution level*/
+    /**
+     * Precinct horizontal upper-left coordinate in the corresponding
+     * resolution level
+     */
     public int ulx;
 
-    /** Precinct vertical upper-left coordinate in the corresponding
-     * resolution level*/
+    /**
+     * Precinct vertical upper-left coordinate in the corresponding
+     * resolution level
+     */
     public int uly;
 
     /** Precinct width in the corresponding resolution level */
     public int w;
-    
+
     /** Precinct height in the corresponding resolution level */
     public int h;
 
     /** Resolution level index */
     public int r;
 
-    /** Code-blocks belonging to this precinct in each subbands of the
-     * resolution level */
+    /**
+     * Code-blocks belonging to this precinct in each subbands of the
+     * resolution level
+     */
     public CBlkCoordInfo[][][] cblk;
 
     /** Number of code-blocks in each subband belonging to this precinct */
     public int[] nblk;
 
-    /** 
+    /**
      * Class constructor.
      *
      * @param r Resolution level index.
@@ -95,9 +102,10 @@ public class PrecInfo {
      * @param rguly Precinct horizontal offset in the image reference grid.
      * @param rgw Precinct width in the reference grid.
      * @param rgh Precinct height in the reference grid.
-     * */
-    public PrecInfo(int r,int ulx,int uly,int w,int h,int rgulx,int rguly,
-                    int rgw,int rgh) {
+     */
+    public PrecInfo(int r, int ulx, int uly, int w, int h, int rgulx, int rguly,
+        int rgw, int rgh)
+    {
         this.r = r;
         this.ulx = ulx;
         this.uly = uly;
@@ -108,23 +116,25 @@ public class PrecInfo {
         this.rgw = rgw;
         this.rgh = rgh;
 
-        if (r==0) {
+        if (r == 0) {
             cblk = new CBlkCoordInfo[1][][];
             nblk = new int[1];
-        } else {
+        }
+        else {
             cblk = new CBlkCoordInfo[4][][];
             nblk = new int[4];
         }
     }
 
-    /** 
+    /**
      * Returns PrecInfo object information in a String
      *
-     * @return PrecInfo information 
-     * */
+     * @return PrecInfo information
+     */
     @Override
-    public String toString() {
-        return "ulx="+ulx+",uly="+uly+",w="+w+",h="+h+",rgulx="+rgulx+
-            ",rguly="+rguly+",rgw="+rgw+",rgh="+rgh;
+    public String toString()
+    {
+        return "ulx=" + ulx + ",uly=" + uly + ",w=" + w + ",h=" + h + ",rgulx=" + rgulx +
+            ",rguly=" + rguly + ",rgw=" + rgw + ",rgh=" + rgh;
     }
 }

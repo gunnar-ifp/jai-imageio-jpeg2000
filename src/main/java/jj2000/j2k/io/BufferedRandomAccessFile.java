@@ -50,14 +50,15 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 
 /**
- * This class defines a Buffered Random Access File.  It implements the
+ * This class defines a Buffered Random Access File. It implements the
  * <code>BinaryDataInput</code> and <code>BinaryDataOutput</code> interfaces so that
  * binary data input/output can be performed. This class is abstract since no
  * assumption is done about the byte ordering type (little Endian, big
  * Endian). So subclasses will have to implement methods like
  * <code>readShort()</code>, <code>writeShort()</code>, <code>readFloat()</code>, ...
  *
- * <P><code>BufferedRandomAccessFile</code> (BRAF for short) is a
+ * <P>
+ * <code>BufferedRandomAccessFile</code> (BRAF for short) is a
  * <code>RandomAccessFile</code> containing an extra buffer. When the BRAF is
  * accessed, it checks if the requested part of the file is in the buffer or
  * not. If that is the case, the read/write is done on the buffer. If not, the
@@ -68,57 +69,58 @@ import java.io.RandomAccessFile;
  * @see BinaryDataOutput
  * @see BinaryDataInput
  * @see BEBufferedRandomAccessFile
- * */
+ */
 public abstract class BufferedRandomAccessFile
-    implements RandomAccessIO, EndianType {
+    implements RandomAccessIO, EndianType
+{
 
     /**
      * The name of the current file
-     * */
+     */
     private String fileName;
 
     /**
      * Whether the opened file is read only or not (defined by the constructor
      * arguments)
-     * */
+     */
     private boolean isReadOnly = true;
 
     /**
      * The RandomAccessFile associated with the buffer
-     * */
+     */
     private RandomAccessFile theFile;
 
     /**
      * Buffer of bytes containing the part of the file that is currently being
      * accessed
-     * */
+     */
     protected byte[] byteBuffer;
 
     /**
      * Boolean keeping track of whether the byte buffer has been changed since
      * it was read.
-     * */
+     */
     protected boolean byteBufferChanged;
 
     /**
      * The current offset of the buffer (which will differ from the offset of
      * the file)
-     * */
+     */
     protected int offset;
 
     /**
      * The current position in the byte-buffer
-     * */
+     */
     protected int pos;
 
     /**
      * The maximum number of bytes that can be read from the buffer
-     * */
+     */
     protected int maxByte;
 
     /**
      * Whether the end of the file is in the current buffer or not
-     * */
+     */
     protected boolean isEOFInBuffer;
 
     /* The endianess of the class */
@@ -130,30 +132,31 @@ public abstract class BufferedRandomAccessFile
      * @param file The file associated with the buffer
      *
      * @param mode "r" for read, "rw" or "rw+" for read and write mode ("rw+"
-     *             opens the file for update whereas "rw" removes it
-     *             before. So the 2 modes are different only if the file
-     *             already exists).
+     * opens the file for update whereas "rw" removes it
+     * before. So the 2 modes are different only if the file
+     * already exists).
      *
      * @param bufferSize The number of bytes to buffer
      *
      * @exception java.io.IOException If an I/O error ocurred.
-     * */
+     */
     protected BufferedRandomAccessFile(File file,
-				       String mode,
-				       int bufferSize) throws IOException{
+        String mode,
+        int bufferSize) throws IOException
+    {
 
-	fileName = file.getName();
-	if(mode.equals("rw") || mode.equals("rw+")){ // mode read / write
-	    isReadOnly = false;
-	    if(mode.equals("rw")){ // mode read / (over)write
-		if(file.exists()) // Output file already exists
-		    file.delete();
-	    }
-	    mode = "rw";
-	}
-	theFile=new RandomAccessFile(file,mode);
-	byteBuffer=new byte[bufferSize];
-	readNewBuffer(0);
+        fileName = file.getName();
+        if (mode.equals("rw") || mode.equals("rw+")) { // mode read / write
+            isReadOnly = false;
+            if (mode.equals("rw")) { // mode read / (over)write
+                if (file.exists()) // Output file already exists
+                    file.delete();
+            }
+            mode = "rw";
+        }
+        theFile = new RandomAccessFile(file, mode);
+        byteBuffer = new byte[bufferSize];
+        readNewBuffer(0);
     }
 
     /**
@@ -163,16 +166,17 @@ public abstract class BufferedRandomAccessFile
      * @param file The file associated with the buffer
      *
      * @param mode "r" for read, "rw" or "rw+" for read and write mode
-     *             ("rw+" opens the file for update whereas "rw" removes
-     *             it before. So the 2 modes are different only if the
-     *             file already exists).
+     * ("rw+" opens the file for update whereas "rw" removes
+     * it before. So the 2 modes are different only if the
+     * file already exists).
      *
      * @exception java.io.IOException If an I/O error ocurred.
-     * */
+     */
     protected BufferedRandomAccessFile(File file,
-				       String mode ) throws IOException{
+        String mode) throws IOException
+    {
 
-	this(file, mode, 512);
+        this(file, mode, 512);
     }
 
     /**
@@ -181,18 +185,19 @@ public abstract class BufferedRandomAccessFile
      * @param name The name of the file associated with the buffer
      *
      * @param mode "r" for read, "rw" or "rw+" for read and write mode
-     *             ("rw+" opens the file for update whereas "rw" removes
-     *             it before. So the 2 modes are different only if the
-     *             file already exists).
+     * ("rw+" opens the file for update whereas "rw" removes
+     * it before. So the 2 modes are different only if the
+     * file already exists).
      *
      * @param bufferSize The number of bytes to buffer
      *
      * @exception java.io.IOException If an I/O error ocurred.
-     * */
+     */
     protected BufferedRandomAccessFile(String name,
-				       String mode,
-				       int bufferSize) throws IOException{
-	this(new File(name), mode, bufferSize);
+        String mode,
+        int bufferSize) throws IOException
+    {
+        this(new File(name), mode, bufferSize);
     }
 
     /**
@@ -202,16 +207,17 @@ public abstract class BufferedRandomAccessFile
      * @param name The name of the file associated with the buffer
      *
      * @param mode "r" for read, "rw" or "rw+" for read and write mode
-     *             ("rw+" opens the file for update whereas "rw" removes
-     *             it before. So the 2 modes are different only if the
-     *             file already exists).
+     * ("rw+" opens the file for update whereas "rw" removes
+     * it before. So the 2 modes are different only if the
+     * file already exists).
      *
      * @exception java.io.IOException If an I/O error ocurred.
-     * */
+     */
     protected BufferedRandomAccessFile(String name,
-				       String mode ) throws IOException{
+        String mode) throws IOException
+    {
 
-	this(name, mode, 512);
+        this(name, mode, 512);
     }
 
     /**
@@ -222,58 +228,62 @@ public abstract class BufferedRandomAccessFile
      * @param off The offset where to move to.
      *
      * @exception java.io.IOException If an I/O error ocurred.
-     * */
-    protected final void readNewBuffer(int off) throws IOException{
+     */
+    protected final void readNewBuffer(int off) throws IOException
+    {
 
-	/* If the buffer have changed. We need to write it to
-	 * the file before reading a new buffer.
-	 */
-	if(byteBufferChanged){
-	    flush();
-	}
+        /* If the buffer have changed. We need to write it to
+         * the file before reading a new buffer.
+         */
+        if (byteBufferChanged) {
+            flush();
+        }
         // Don't allow to seek beyond end of file if reading only
         if (isReadOnly && off >= theFile.length()) {
             throw new EOFException();
         }
         // Set new offset
-	offset = off;
+        offset = off;
 
         theFile.seek(offset);
 
-	maxByte = theFile.read(byteBuffer,0,byteBuffer.length);
-	pos=0;
+        maxByte = theFile.read(byteBuffer, 0, byteBuffer.length);
+        pos = 0;
 
-	if(maxByte<byteBuffer.length){ // Not enough data in input file.
-	    isEOFInBuffer = true;
-	    if(maxByte==-1){
-		maxByte++;
-	    }
-	}else{
-	    isEOFInBuffer = false;
-	}
+        if (maxByte < byteBuffer.length) { // Not enough data in input file.
+            isEOFInBuffer = true;
+            if (maxByte == -1) {
+                maxByte++;
+            }
+        }
+        else {
+            isEOFInBuffer = false;
+        }
     }
 
     /**
      * Closes the buffered random access file
      *
      * @exception java.io.IOException If an I/O error ocurred.
-     * */
+     */
     @Override
-    public void close() throws IOException{
-	/* If the buffer has been changed, it need to be saved before
-	 * closing
-	 */
-	flush();
-	byteBuffer = null; // Release the byte-buffer reference
-	theFile.close();
+    public void close() throws IOException
+    {
+        /* If the buffer has been changed, it need to be saved before
+         * closing
+         */
+        flush();
+        byteBuffer = null; // Release the byte-buffer reference
+        theFile.close();
     }
 
     /**
      * Returns the current offset in the file
-     * */
+     */
     @Override
-    public int getPos(){
-	return (offset+pos);
+    public int getPos()
+    {
+        return (offset + pos);
     }
 
     /**
@@ -283,21 +293,22 @@ public abstract class BufferedRandomAccessFile
      * @return The length of the stream, in bytes.
      *
      * @exception java.io.IOException If an I/O error ocurred.
-     * */
+     */
     @Override
-    public int length() throws IOException{
-	int len;
+    public int length() throws IOException
+    {
+        int len;
 
-	len = (int)theFile.length();
+        len = (int)theFile.length();
 
-	// If the position in the buffer is not past the end of the file,
-	// the length of theFile is the length of the stream
-	if( (offset+maxByte)<=len ){
-	    return(len);
-	}
-	else{ // If not, the file is extended due to the buffering
-	    return (offset+maxByte);
-	}
+        // If the position in the buffer is not past the end of the file,
+        // the length of theFile is the length of the stream
+        if ((offset + maxByte) <= len) {
+            return (len);
+        }
+        else { // If not, the file is extended due to the buffering
+            return (offset + maxByte);
+        }
     }
 
     /**
@@ -310,21 +321,22 @@ public abstract class BufferedRandomAccessFile
      * @exception EOFException If in read-only and seeking beyond EOF.
      *
      * @exception java.io.IOException If an I/O error ocurred.
-     * */
+     */
     @Override
-    public void seek(int off) throws IOException{
-	/* If the new offset is within the buffer, only the pos value needs
-	 * to be modified. Else, the buffer must be moved. */
-	if( (off>=offset)&&(off<(offset+byteBuffer.length)) ){
-            if (isReadOnly && isEOFInBuffer && off > offset+maxByte) {
+    public void seek(int off) throws IOException
+    {
+        /* If the new offset is within the buffer, only the pos value needs
+         * to be modified. Else, the buffer must be moved. */
+        if ((off >= offset) && (off < (offset + byteBuffer.length))) {
+            if (isReadOnly && isEOFInBuffer && off > offset + maxByte) {
                 // We are seeking beyond EOF in read-only mode!
                 throw new EOFException();
             }
-	    pos = off-offset;
-	}
-	else{
-	    readNewBuffer(off);
-	}
+            pos = off - offset;
+        }
+        else {
+            readNewBuffer(off);
+        }
     }
 
     /**
@@ -336,21 +348,22 @@ public abstract class BufferedRandomAccessFile
      * @exception java.io.IOException If an I/O error ocurred.
      *
      * @exception java.io.EOFException If the end of file was reached
-     * */
+     */
     @Override
-    public final int read() throws IOException, EOFException{
-	if(pos<maxByte){ // The byte can be read from the buffer
-	    // In Java, the bytes are always signed.
-            return (byteBuffer[pos++]&0xFF);
-	}
-	else if(isEOFInBuffer){ // EOF is reached
-            pos = maxByte+1; // Set position to EOF
-	    throw new EOFException();
-	}
-	else { // End of the buffer is reached
-	    readNewBuffer(offset+pos);
-	    return read();
-	}
+    public final int read() throws IOException, EOFException
+    {
+        if (pos < maxByte) { // The byte can be read from the buffer
+            // In Java, the bytes are always signed.
+            return (byteBuffer[pos++] & 0xFF);
+        }
+        else if (isEOFInBuffer) { // EOF is reached
+            pos = maxByte + 1; // Set position to EOF
+            throw new EOFException();
+        }
+        else { // End of the buffer is reached
+            readNewBuffer(offset + pos);
+            return read();
+        }
     }
 
     /**
@@ -370,27 +383,28 @@ public abstract class BufferedRandomAccessFile
      * getting all the necessary data.
      *
      * @exception IOException If an I/O error ocurred.
-     * */
+     */
     @Override
     public final void readFully(byte b[], int off, int len)
-        throws IOException {
+        throws IOException
+    {
         int clen; // current length to read
         while (len > 0) {
             // There still is some data to read
-            if (pos<maxByte) { // We can read some data from buffer
-                clen = maxByte-pos;
+            if (pos < maxByte) { // We can read some data from buffer
+                clen = maxByte - pos;
                 if (clen > len) clen = len;
-                System.arraycopy(byteBuffer,pos,b,off,clen);
+                System.arraycopy(byteBuffer, pos, b, off, clen);
                 pos += clen;
                 off += clen;
                 len -= clen;
             }
             else if (isEOFInBuffer) {
-                pos = maxByte+1; // Set position to EOF
+                pos = maxByte + 1; // Set position to EOF
                 throw new EOFException();
             }
             else { // Buffer empty => get more data
-                readNewBuffer(offset+pos);
+                readNewBuffer(offset + pos);
             }
         }
     }
@@ -403,26 +417,27 @@ public abstract class BufferedRandomAccessFile
      * written.
      *
      * @exception java.io.IOException If an I/O error ocurred.
-     * */
+     */
     @Override
-    public final void write(int b) throws IOException{
-	// As long as pos is less than the length of the buffer we can write
-	// to the buffer. If the position is after the buffer a new buffer is
-	// needed
-	if(pos<byteBuffer.length){
-	    if(isReadOnly)
-		throw new IOException("File is read only");
-	    byteBuffer[pos]=(byte)b;
-	    if(pos>=maxByte){
-		maxByte=pos+1;
-	    }
-	    pos++;
-	    byteBufferChanged =true;
-	}
-	else{
-	    readNewBuffer(offset+pos);
-	    write(b);
-	}
+    public final void write(int b) throws IOException
+    {
+        // As long as pos is less than the length of the buffer we can write
+        // to the buffer. If the position is after the buffer a new buffer is
+        // needed
+        if (pos < byteBuffer.length) {
+            if (isReadOnly)
+                throw new IOException("File is read only");
+            byteBuffer[pos] = (byte)b;
+            if (pos >= maxByte) {
+                maxByte = pos + 1;
+            }
+            pos++;
+            byteBufferChanged = true;
+        }
+        else {
+            readNewBuffer(offset + pos);
+            write(b);
+        }
     }
 
     /**
@@ -432,25 +447,26 @@ public abstract class BufferedRandomAccessFile
      * @param b The byte to write.
      *
      * @exception java.io.IOException If an I/O error ocurred.
-     * */
-    public final void write(byte b) throws IOException{
-	// As long as pos is less than the length of the buffer we can write
-	// to the buffer. If the position is after the buffer a new buffer is
-	// needed
-	if(pos<byteBuffer.length){
-	    if(isReadOnly)
-		throw new IOException("File is read only");
-	    byteBuffer[pos]=b;
-	    if(pos>=maxByte){
-		maxByte=pos+1;
-	    }
-	    pos++;
-	    byteBufferChanged =true;
-	}
-	else{
-	    readNewBuffer(offset+pos);
-	    write(b);
-	}
+     */
+    public final void write(byte b) throws IOException
+    {
+        // As long as pos is less than the length of the buffer we can write
+        // to the buffer. If the position is after the buffer a new buffer is
+        // needed
+        if (pos < byteBuffer.length) {
+            if (isReadOnly)
+                throw new IOException("File is read only");
+            byteBuffer[pos] = b;
+            if (pos >= maxByte) {
+                maxByte = pos + 1;
+            }
+            pos++;
+            byteBufferChanged = true;
+        }
+        else {
+            readNewBuffer(offset + pos);
+            write(b);
+        }
     }
 
     /**
@@ -464,14 +480,15 @@ public abstract class BufferedRandomAccessFile
      * @param length The number of bytes from b to write
      *
      * @exception java.io.IOException If an I/O error ocurred.
-     * */
+     */
     public final void write(byte[] b, int offset, int length)
-        throws IOException{
-        int i,stop;
-        stop = offset+length;
-        if(stop > b.length)
+        throws IOException
+    {
+        int i, stop;
+        stop = offset + length;
+        if (stop > b.length)
             throw new ArrayIndexOutOfBoundsException(b.length);
-        for(i=offset ; i<stop ; i++){
+        for (i = offset; i < stop; i++) {
             write(b[i]);
         }
     }
@@ -481,7 +498,8 @@ public abstract class BufferedRandomAccessFile
      * significant bits) to the output. Prior to writing, the output
      * should be realigned at the byte level.
      *
-     * <P>Signed or unsigned data can be written. To write a signed
+     * <P>
+     * Signed or unsigned data can be written. To write a signed
      * value just pass the <code>byte</code> value as an argument. To
      * write unsigned data pass the <code>int</code> value as an argument
      * (it will be automatically casted, and only the 8 least
@@ -490,10 +508,11 @@ public abstract class BufferedRandomAccessFile
      * @param v The value to write to the output
      *
      * @exception java.io.IOException If an I/O error ocurred.
-     * */
+     */
     @Override
-    public final void writeByte(int v) throws IOException{
-	write(v);
+    public final void writeByte(int v) throws IOException
+    {
+        write(v);
     }
 
     /**
@@ -502,13 +521,14 @@ public abstract class BufferedRandomAccessFile
      * at the byte level.
      *
      * @exception java.io.IOException If an I/O error ocurred.
-     * */
+     */
     @Override
-    public final void flush() throws IOException{
-        if(byteBufferChanged){
-	    theFile.seek(offset);
-	    theFile.write(byteBuffer,0,maxByte);
-	    byteBufferChanged = false;
+    public final void flush() throws IOException
+    {
+        if (byteBufferChanged) {
+            theFile.seek(offset);
+            theFile.write(byteBuffer, 0, maxByte);
+            byteBufferChanged = false;
         }
     }
 
@@ -523,21 +543,22 @@ public abstract class BufferedRandomAccessFile
      * getting all the necessary data.
      *
      * @exception java.io.IOException If an I/O error ocurred.
-     * */
+     */
     @Override
-    public final byte readByte() throws EOFException, IOException {
-	if(pos<maxByte){ // The byte can be read from the buffer
-	    // In Java, the bytes are always signed.
+    public final byte readByte() throws EOFException, IOException
+    {
+        if (pos < maxByte) { // The byte can be read from the buffer
+            // In Java, the bytes are always signed.
             return byteBuffer[pos++];
-	}
-	else if(isEOFInBuffer){ // EOF is reached
-            pos = maxByte+1; // Set position to EOF
-	    throw new EOFException();
-	}
-	else { // End of the buffer is reached
-	    readNewBuffer(offset+pos);
-	    return readByte();
-	}
+        }
+        else if (isEOFInBuffer) { // EOF is reached
+            pos = maxByte + 1; // Set position to EOF
+            throw new EOFException();
+        }
+        else { // End of the buffer is reached
+            readNewBuffer(offset + pos);
+            return readByte();
+        }
     }
 
     /**
@@ -553,9 +574,10 @@ public abstract class BufferedRandomAccessFile
      * getting all the necessary data.
      *
      * @exception java.io.IOException If an I/O error ocurred.
-     * */
+     */
     @Override
-    public final int readUnsignedByte() throws EOFException, IOException{
+    public final int readUnsignedByte() throws EOFException, IOException
+    {
         return read();
     }
 
@@ -569,10 +591,11 @@ public abstract class BufferedRandomAccessFile
      * <code>EndianType.LITTLE_ENDIAN</code>
      *
      * @see EndianType
-     * */
+     */
     @Override
-    public int getByteOrdering(){
-	return byteOrdering;
+    public int getByteOrdering()
+    {
+        return byteOrdering;
     }
 
     /**
@@ -585,29 +608,31 @@ public abstract class BufferedRandomAccessFile
      * all the bytes could be skipped.
      *
      * @exception java.io.IOException If an I/O error ocurred.
-     * */
+     */
     @Override
-    public int skipBytes(int n)throws EOFException, IOException{
-	if(n<0)
-	    throw new IllegalArgumentException("Can not skip negative number "+
-					       "of bytes");
-	if(n <= (maxByte-pos)){
-	    pos += n;
-	    return n;
-	}
-	else{
-	    seek(offset+pos+n);
-	    return n;
-	}
+    public int skipBytes(int n) throws EOFException, IOException
+    {
+        if (n < 0)
+            throw new IllegalArgumentException("Can not skip negative number " +
+                "of bytes");
+        if (n <= (maxByte - pos)) {
+            pos += n;
+            return n;
+        }
+        else {
+            seek(offset + pos + n);
+            return n;
+        }
     }
 
     /**
      * Returns a string of information about the file
-     * */
+     */
     @Override
-    public String toString(){
-	return "BufferedRandomAccessFile: "+fileName+" ("+
-	    ((isReadOnly)?"read only":"read/write")+
-	    ")";
+    public String toString()
+    {
+        return "BufferedRandomAccessFile: " + fileName + " (" +
+            ((isReadOnly) ? "read only" : "read/write") +
+            ")";
     }
 }

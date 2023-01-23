@@ -55,8 +55,9 @@ import jj2000.j2k.image.invcomptransf.InvCompTransf;
  *
  * @see ModuleSpec
  *
- * */
-public class CompTransfSpec extends ModuleSpec{
+ */
+public class CompTransfSpec extends ModuleSpec
+{
 
     /**
      * Constructs an empty 'CompTransfSpec' with specified number of
@@ -73,8 +74,9 @@ public class CompTransfSpec extends ModuleSpec{
      * component specific or both.
      *
      */
-    public CompTransfSpec(int nt, int nc, byte type){
-	super(nt, nc, type);
+    public CompTransfSpec(int nt, int nc, byte type)
+    {
+        super(nt, nc, type);
     }
 
 
@@ -86,15 +88,16 @@ public class CompTransfSpec extends ModuleSpec{
      * tile.
      *
      */
-    public boolean isCompTransfUsed(){
-        if( ((Integer)def).intValue() != InvCompTransf.NONE ){
+    public boolean isCompTransfUsed()
+    {
+        if (((Integer)def).intValue() != InvCompTransf.NONE) {
             return true;
         }
 
-        if(tileDef!=null){
-            for(int t=nTiles-1; t>=0; t--){
-                if(tileDef[t]!=null &&
-                   ( ((Integer)tileDef[t]).intValue() != InvCompTransf.NONE) ){
+        if (tileDef != null) {
+            for (int t = nTiles - 1; t >= 0; t--) {
+                if (tileDef[t] != null &&
+                    (((Integer)tileDef[t]).intValue() != InvCompTransf.NONE)) {
                     return true;
                 }
             }

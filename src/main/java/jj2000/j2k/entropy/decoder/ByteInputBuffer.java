@@ -60,26 +60,32 @@ import java.io.InputStream;
  * to the ByteArrayInputStream class, but adds the possibility to add data to
  * the stream after the creation of the object.
  *
- * <P>Unlike the ByteArrayInputStream this class is not thread safe (i.e. no
+ * <P>
+ * Unlike the ByteArrayInputStream this class is not thread safe (i.e. no
  * two threads can use the same object at the same time, but different objects
  * may be used in different threads).
  *
- * <P>This class can modify the contents of the buffer given to the
+ * <P>
+ * This class can modify the contents of the buffer given to the
  * constructor, when the addByteArray() method is called.
  *
  * @see InputStream
- * */
-public class ByteInputBuffer {
+ */
+public class ByteInputBuffer
+{
 
     /** The byte array containing the data */
     private byte buf[];
 
-    /** The index one greater than the last valid character in the input
-     *  stream buffer */
+    /**
+     * The index one greater than the last valid character in the input
+     * stream buffer
+     */
     private int count;
 
-    /** The index of the next character to read from the input stream buffer
-     * */
+    /**
+     * The index of the next character to read from the input stream buffer
+     */
     private int pos;
 
     /**
@@ -88,7 +94,8 @@ public class ByteInputBuffer {
      *
      * @param buf the input buffer.
      */
-    public ByteInputBuffer(byte buf[]){
+    public ByteInputBuffer(byte buf[])
+    {
         this.buf = buf;
         count = buf.length;
     }
@@ -98,7 +105,8 @@ public class ByteInputBuffer {
      * specified byte array. Up to length characters are to be read
      * from the byte array, starting at the indicated offset.
      *
-     * <P>The byte array is not copied.
+     * <P>
+     * The byte array is not copied.
      *
      * @param buf the input buffer.
      *
@@ -108,10 +116,11 @@ public class ByteInputBuffer {
      * @param length the maximum number of bytes to read from the
      * buffer.
      */
-    public ByteInputBuffer(byte buf[], int offset, int length) {
+    public ByteInputBuffer(byte buf[], int offset, int length)
+    {
         this.buf = buf;
         pos = offset;
-        count = offset+length;
+        count = offset + length;
     }
 
     /**
@@ -121,7 +130,8 @@ public class ByteInputBuffer {
      * 'off+len', where 'off' and 'len' are the offset and length of the
      * current byte buffer.
      *
-     * <P>The byte array is not copied.
+     * <P>
+     * The byte array is not copied.
      *
      * @param buf the input buffer. If null it is the current input buffer.
      *
@@ -131,25 +141,28 @@ public class ByteInputBuffer {
      *
      * @param length the maximum number of bytes to read frmo the buffer.
      */
-    public void setByteArray(byte buf[], int offset, int length) {
+    public void setByteArray(byte buf[], int offset, int length)
+    {
         // In same buffer?
         if (buf == null) {
-            if (length < 0 || count+length>this.buf.length) {
+            if (length < 0 || count + length > this.buf.length) {
                 throw new IllegalArgumentException();
             }
             if (offset < 0) {
                 pos = count;
                 count += length;
-            } else {
-                count = offset+length;
+            }
+            else {
+                count = offset + length;
                 pos = offset;
             }
-        } else { // New input buffer
-            if (offset < 0 || length < 0 || offset+length > buf.length) {
+        }
+        else { // New input buffer
+            if (offset < 0 || length < 0 || offset + length > buf.length) {
                 throw new IllegalArgumentException();
             }
             this.buf = buf;
-            count = offset+length;
+            count = offset + length;
             pos = offset;
         }
     }
@@ -167,31 +180,34 @@ public class ByteInputBuffer {
      * @param len The number of elements to add to the array.
      *
      *
-     * */
-    public synchronized void addByteArray(byte data[], int off, int len) {
+     */
+    public synchronized void addByteArray(byte data[], int off, int len)
+    {
         // Check integrity
-        if (len < 0 || off < 0 || len+off > buf.length) {
+        if (len < 0 || off < 0 || len + off > buf.length) {
             throw new IllegalArgumentException();
         }
         // Copy new data
-        if (count+len <= buf.length) { // Enough place in 'buf'
-            System.arraycopy(data,off,buf,count,len);
+        if (count + len <= buf.length) { // Enough place in 'buf'
+            System.arraycopy(data, off, buf, count, len);
             count += len;
-        } else {
-            if (count-pos+len <= buf.length) {
+        }
+        else {
+            if (count - pos + len <= buf.length) {
                 // Enough place in 'buf' if we move input data
                 // Move buffer
-                System.arraycopy(buf,pos,buf,0,count-pos);
-            } else { // Not enough place in 'buf', use new buffer
-                byte [] oldbuf = buf;
-                buf = new byte[count-pos+len];
+                System.arraycopy(buf, pos, buf, 0, count - pos);
+            }
+            else { // Not enough place in 'buf', use new buffer
+                byte[] oldbuf = buf;
+                buf = new byte[count - pos + len];
                 // Copy buffer
-                System.arraycopy(oldbuf,count,buf,0,count-pos);
+                System.arraycopy(oldbuf, count, buf, 0, count - pos);
             }
             count -= pos;
             pos = 0;
             // Copy new data
-            System.arraycopy(data,off,buf,count,len);
+            System.arraycopy(data, off, buf, count, len);
             count += len;
         }
     }
@@ -202,18 +218,21 @@ public class ByteInputBuffer {
      * available because the end of the stream has been reached, the
      * EOFException exception is thrown.
      *
-     * <P>This method is not synchronized, so it is not thread safe.
+     * <P>
+     * This method is not synchronized, so it is not thread safe.
      *
      * @return The byte read in the range 0-255.
      *
      * @exception EOFException If the end of the stream is reached.
      *
      *
-     * */
-    public int readChecked() throws IOException {
+     */
+    public int readChecked() throws IOException
+    {
         if (pos < count) {
             return buf[pos++] & 0xFF;
-        } else {
+        }
+        else {
             throw new EOFException();
         }
     }
@@ -223,17 +242,20 @@ public class ByteInputBuffer {
      * returned as an int in the range 0 to 255. If no byte is available
      * because the end of the stream has been reached, -1 is returned.
      *
-     * <P>This method is not synchronized, so it is not thread safe.
+     * <P>
+     * This method is not synchronized, so it is not thread safe.
      *
      * @return The byte read in the range 0-255, or -1 if the end of stream
      * has been reached.
      *
      *
-     * */
-    public int read() {
+     */
+    public int read()
+    {
         if (pos < count) {
             return buf[pos++] & 0xFF;
-        } else {
+        }
+        else {
             return -1;
         }
     }

@@ -61,31 +61,37 @@ import jj2000.j2k.io.RandomAccessIO;
  * be limited to a specified size. The data is read into the cache on a as
  * needed basis, blocking only when necessary.
  *
- * <P>The cache grows automatically as necessary. However, if the data length
+ * <P>
+ * The cache grows automatically as necessary. However, if the data length
  * is known prior to the creation of a ISRandomAccessIO object, it is best to
  * specify that as the initial in-memory buffer size. That will minimize data
  * copying and multiple allocation.
  *
- * <P>Multi-byte data is read in big-endian order. The in-memory buffer
+ * <P>
+ * Multi-byte data is read in big-endian order. The in-memory buffer
  * storage is released when 'close()' is called. This class can only be used
  * for data input, not output. The wrapped InputStream is closed when all the
  * input data is cached or when 'close()' is called.
  *
- * <P>If an out of memory condition is encountered when growing the
+ * <P>
+ * If an out of memory condition is encountered when growing the
  * in-memory buffer an IOException is thrown instead of an
  * OutOfMemoryError. The exception message is "Out of memory to cache input
  * data".
  *
- * <P>This class is intended for use as a "quick and dirty" way to give
+ * <P>
+ * This class is intended for use as a "quick and dirty" way to give
  * network connectivity to RandomAccessIO based classes. It is not intended as
  * an efficient means of implementing network connectivity. Doing such
  * requires reimplementing the RandomAccessIO based classes to directly use
  * network connections.
  *
- * <P>This class does not use temporary files as buffers, because that would
+ * <P>
+ * This class does not use temporary files as buffers, because that would
  * preclude the use in unsigned applets.
- * */
-public class ISRandomAccessIO implements RandomAccessIO {
+ */
+public class ISRandomAccessIO implements RandomAccessIO
+{
 
     /** The InputStream that is wrapped */
     private InputStream is;
@@ -124,7 +130,8 @@ public class ISRandomAccessIO implements RandomAccessIO {
      *
      * @param maxsize The maximum size for the cache buffer, in bytes.
      */
-    public ISRandomAccessIO(InputStream is, int size, int inc, int maxsize) {
+    public ISRandomAccessIO(InputStream is, int size, int inc, int maxsize)
+    {
         if (size < 0 || inc <= 0 || maxsize <= 0 || is == null) {
             throw new IllegalArgumentException();
         }
@@ -149,8 +156,9 @@ public class ISRandomAccessIO implements RandomAccessIO {
      * @param is The input from where to get the data.
      *
      */
-    public ISRandomAccessIO(InputStream is) {
-        this(is,1<<18,1<<18,Integer.MAX_VALUE);
+    public ISRandomAccessIO(InputStream is)
+    {
+        this(is, 1 << 18, 1 << 18, Integer.MAX_VALUE);
     }
 
     /**
@@ -161,21 +169,23 @@ public class ISRandomAccessIO implements RandomAccessIO {
      * @exception IOException If the maximum cache size is reached or if not
      * enough memory is available to grow the buffer.
      */
-    private void growBuffer() throws IOException {
+    private void growBuffer() throws IOException
+    {
         byte newbuf[];
-        int effinc;           // effective increment
+        int effinc; // effective increment
 
         effinc = inc;
-        if (buf.length+effinc > maxsize) effinc = maxsize-buf.length;
+        if (buf.length + effinc > maxsize) effinc = maxsize - buf.length;
         if (effinc <= 0) {
-            throw new IOException("Reached maximum cache size ("+maxsize+")");
+            throw new IOException("Reached maximum cache size (" + maxsize + ")");
         }
         try {
-            newbuf = new byte[buf.length+inc];
-        } catch (OutOfMemoryError e) {
+            newbuf = new byte[buf.length + inc];
+        }
+        catch (OutOfMemoryError e) {
             throw new IOException("Out of memory to cache input data");
         }
-        System.arraycopy(buf,0,newbuf,0,len);
+        System.arraycopy(buf, 0, newbuf, 0, len);
         buf = newbuf;
     }
 
@@ -188,8 +198,9 @@ public class ISRandomAccessIO implements RandomAccessIO {
      *
      * @exception IOException An I/O error occurred, out of meory to grow
      * cache or maximum cache size reached.
-     * */
-    private void readInput() throws IOException {
+     */
+    private void readInput() throws IOException
+    {
         int n;
         int b;
         int k;
@@ -200,13 +211,13 @@ public class ISRandomAccessIO implements RandomAccessIO {
 //        may need reflection to call this method
 //        n = is.available(); /* how much can we read without blocking? */
         n = 0; /* how much can we read without blocking? */
-        if (n == 0) n = 1;  /* read at least one byte (even if it blocks) */
-        while (len+n > buf.length) { /* Ensure buffer size */
+        if (n == 0) n = 1; /* read at least one byte (even if it blocks) */
+        while (len + n > buf.length) { /* Ensure buffer size */
             growBuffer();
         }
         /* Read the data. Loop to be sure that we do read 'n' bytes */
         do {
-            k = is.read(buf,len,n);
+            k = is.read(buf, len, n);
             if (k > 0) { /* Some data was read */
                 len += k;
                 n -= k;
@@ -223,9 +234,11 @@ public class ISRandomAccessIO implements RandomAccessIO {
      * not already closed. The memory used by the cache is released.
      *
      * @exception IOException If an I/O error occurs while closing the
-     * underlying InputStream.  */
+     * underlying InputStream.
+     */
     @Override
-    public void close() throws IOException {
+    public void close() throws IOException
+    {
         buf = null;
         if (!complete) {
             is.close();
@@ -239,9 +252,10 @@ public class ISRandomAccessIO implements RandomAccessIO {
      * byte in the stream is in position 0.
      *
      * @exception IOException If an I/O error occurred.
-     * */
+     */
     @Override
-    public int getPos() throws IOException {
+    public int getPos() throws IOException
+    {
         return pos;
     }
 
@@ -260,9 +274,10 @@ public class ISRandomAccessIO implements RandomAccessIO {
      * known.
      *
      * @exception IOException If an I/O error ocurred.
-     * */
+     */
     @Override
-    public void seek(int off) throws IOException {
+    public void seek(int off) throws IOException
+    {
         if (complete) { /* we know the length, check seek is within length */
             if (off > len) {
                 throw new EOFException();
@@ -281,7 +296,8 @@ public class ISRandomAccessIO implements RandomAccessIO {
      * @exception IOException If an I/O error ocurred.
      */
     @Override
-    public int length() throws IOException {
+    public int length() throws IOException
+    {
         if (Integer.MAX_VALUE != maxsize)
             return maxsize - 1;
         while (!complete) { // read until we reach EOF
@@ -301,7 +317,8 @@ public class ISRandomAccessIO implements RandomAccessIO {
      *
      */
     @Override
-    public int read() throws IOException {
+    public int read() throws IOException
+    {
         if (pos < len) { // common, fast case
             return 0xFF & buf[pos++];
         }
@@ -311,7 +328,8 @@ public class ISRandomAccessIO implements RandomAccessIO {
         }
         if (pos == len) {
             throw new EOFException();
-        } else if (pos > len) {
+        }
+        else if (pos > len) {
             throw new IOException("Position beyond EOF");
         }
         return 0xFF & buf[pos++];
@@ -335,22 +353,23 @@ public class ISRandomAccessIO implements RandomAccessIO {
      *
      * @exception IOException If an I/O error ocurred.
      *
-     * */
+     */
     @Override
-    public void readFully(byte b[], int off, int n) throws IOException {
-        if (pos+n <= len) { // common, fast case
-            System.arraycopy(buf,pos,b,off,n);
+    public void readFully(byte b[], int off, int n) throws IOException
+    {
+        if (pos + n <= len) { // common, fast case
+            System.arraycopy(buf, pos, b, off, n);
             pos += n;
             return;
         }
         // general case
-        while (!complete && pos+n > len) {
+        while (!complete && pos + n > len) {
             readInput();
         }
-        if (pos+n > len) {
+        if (pos + n > len) {
             throw new EOFException();
         }
-        System.arraycopy(buf,pos,b,off,n);
+        System.arraycopy(buf, pos, b, off, n);
         pos += n;
     }
 
@@ -365,7 +384,8 @@ public class ISRandomAccessIO implements RandomAccessIO {
      *
      */
     @Override
-    public int getByteOrdering() {
+    public int getByteOrdering()
+    {
         return EndianType.BIG_ENDIAN;
     }
 
@@ -379,14 +399,15 @@ public class ISRandomAccessIO implements RandomAccessIO {
      * getting all the necessary data.
      *
      * @exception IOException If an I/O error ocurred.
-     * */
+     */
     @Override
-    public byte readByte() throws IOException {
+    public byte readByte() throws IOException
+    {
         if (pos < len) { // common, fast case
             return buf[pos++];
         }
         // general case
-        return (byte) read();
+        return (byte)read();
     }
 
     /**
@@ -399,9 +420,10 @@ public class ISRandomAccessIO implements RandomAccessIO {
      * getting all the necessary data.
      *
      * @exception IOException If an I/O error ocurred.
-     * */
+     */
     @Override
-    public int readUnsignedByte() throws IOException {
+    public int readUnsignedByte() throws IOException
+    {
         if (pos < len) { // common, fast case
             return 0xFF & buf[pos++];
         }
@@ -419,14 +441,15 @@ public class ISRandomAccessIO implements RandomAccessIO {
      * getting all the necessary data.
      *
      * @exception IOException If an I/O error ocurred.
-     * */
+     */
     @Override
-    public short readShort() throws IOException {
-        if (pos+1 < len) { // common, fast case
-            return (short) ((buf[pos++]<<8) | (0xFF & buf[pos++]));
+    public short readShort() throws IOException
+    {
+        if (pos + 1 < len) { // common, fast case
+            return (short)((buf[pos++] << 8) | (0xFF & buf[pos++]));
         }
         // general case
-        return (short) ((read()<<8) | read());
+        return (short)((read() << 8) | read());
     }
 
     /**
@@ -439,14 +462,15 @@ public class ISRandomAccessIO implements RandomAccessIO {
      * getting all the necessary data.
      *
      * @exception IOException If an I/O error ocurred.
-     * */
+     */
     @Override
-    public int readUnsignedShort() throws IOException {
-        if (pos+1 < len) { // common, fast case
-            return ((0xFF & buf[pos++])<<8) | (0xFF & buf[pos++]);
+    public int readUnsignedShort() throws IOException
+    {
+        if (pos + 1 < len) { // common, fast case
+            return ((0xFF & buf[pos++]) << 8) | (0xFF & buf[pos++]);
         }
         // general case
-        return (read()<<8) | read();
+        return (read() << 8) | read();
     }
 
     /**
@@ -459,15 +483,16 @@ public class ISRandomAccessIO implements RandomAccessIO {
      * getting all the necessary data.
      *
      * @exception IOException If an I/O error ocurred.
-     * */
+     */
     @Override
-    public int readInt() throws IOException {
-        if (pos+3 < len) { // common, fast case
-            return ((buf[pos++]<<24) | ((0xFF & buf[pos++])<<16)
-                    | ((0xFF & buf[pos++])<<8) | (0xFF & buf[pos++]));
+    public int readInt() throws IOException
+    {
+        if (pos + 3 < len) { // common, fast case
+            return ((buf[pos++] << 24) | ((0xFF & buf[pos++]) << 16)
+                | ((0xFF & buf[pos++]) << 8) | (0xFF & buf[pos++]));
         }
         // general case
-        return (read()<<24) | (read()<<16) | (read()<<8) | read();
+        return (read() << 24) | (read() << 16) | (read() << 8) | read();
     }
 
     /**
@@ -480,17 +505,18 @@ public class ISRandomAccessIO implements RandomAccessIO {
      * getting all the necessary data.
      *
      * @exception IOException If an I/O error ocurred.
-     * */
+     */
     @Override
-    public long readUnsignedInt() throws IOException {
-        if (pos+3 < len) { // common, fast case
+    public long readUnsignedInt() throws IOException
+    {
+        if (pos + 3 < len) { // common, fast case
             return (0xFFFFFFFFL
-                    & ((buf[pos++]<<24) | ((0xFF & buf[pos++])<<16)
-                             | ((0xFF & buf[pos++])<<8) | (0xFF & buf[pos++])));
+                & ((buf[pos++] << 24) | ((0xFF & buf[pos++]) << 16)
+                    | ((0xFF & buf[pos++]) << 8) | (0xFF & buf[pos++])));
         }
         // general case
         return (0xFFFFFFFFL
-                & ((read()<<24) | (read()<<16) | (read()<<8) | read()));
+            & ((read() << 24) | (read() << 16) | (read() << 8) | read()));
     }
 
     /**
@@ -503,28 +529,29 @@ public class ISRandomAccessIO implements RandomAccessIO {
      * getting all the necessary data.
      *
      * @exception IOException If an I/O error ocurred.
-     * */
+     */
     @Override
-    public long readLong() throws IOException {
-        if (pos+7 < len) { // common, fast case
-            return (((long)buf[pos++]<<56)
-                    | ((long)(0xFF&buf[pos++])<<48)
-                    | ((long)(0xFF&buf[pos++])<<40)
-                    | ((long)(0xFF&buf[pos++])<<32)
-                    | ((long)(0xFF&buf[pos++])<<24)
-                    | ((long)(0xFF&buf[pos++])<<16)
-                    | ((long)(0xFF&buf[pos++])<<8)
-                    | 0xFF&buf[pos++]);
+    public long readLong() throws IOException
+    {
+        if (pos + 7 < len) { // common, fast case
+            return (((long)buf[pos++] << 56)
+                | ((long)(0xFF & buf[pos++]) << 48)
+                | ((long)(0xFF & buf[pos++]) << 40)
+                | ((long)(0xFF & buf[pos++]) << 32)
+                | ((long)(0xFF & buf[pos++]) << 24)
+                | ((long)(0xFF & buf[pos++]) << 16)
+                | ((long)(0xFF & buf[pos++]) << 8)
+                | 0xFF & buf[pos++]);
         }
         // general case
-        return (((long)read()<<56)
-                | ((long)read()<<48)
-                | ((long)read()<<40)
-                | ((long)read()<<32)
-                | ((long)read()<<24)
-                | ((long)read()<<16)
-                | ((long)read()<<8)
-                | read());
+        return (((long)read() << 56)
+            | ((long)read() << 48)
+            | ((long)read() << 40)
+            | ((long)read() << 32)
+            | ((long)read() << 24)
+            | ((long)read() << 16)
+            | ((long)read() << 8)
+            | read());
     }
 
     /**
@@ -537,18 +564,19 @@ public class ISRandomAccessIO implements RandomAccessIO {
      * getting all the necessary data.
      *
      * @exception IOException If an I/O error ocurred.
-     * */
+     */
     @Override
-    public float readFloat() throws IOException {
-        if (pos+3 < len) { // common, fast case
-            return Float.intBitsToFloat((buf[pos++]<<24)
-                                        | ((0xFF & buf[pos++])<<16)
-                                        | ((0xFF & buf[pos++])<<8)
-                                        | (0xFF & buf[pos++]));
+    public float readFloat() throws IOException
+    {
+        if (pos + 3 < len) { // common, fast case
+            return Float.intBitsToFloat((buf[pos++] << 24)
+                | ((0xFF & buf[pos++]) << 16)
+                | ((0xFF & buf[pos++]) << 8)
+                | (0xFF & buf[pos++]));
         }
         // general case
-        return Float.intBitsToFloat((read()<<24) | (read()<<16)
-                                    | (read()<<8) | read());
+        return Float.intBitsToFloat((read() << 24) | (read() << 16)
+            | (read() << 8) | read());
     }
 
     /**
@@ -561,28 +589,29 @@ public class ISRandomAccessIO implements RandomAccessIO {
      * getting all the necessary data.
      *
      * @exception IOException If an I/O error ocurred.
-     * */
+     */
     @Override
-    public double readDouble() throws IOException {
-        if (pos+7 < len) { // common, fast case
-            return Double.longBitsToDouble(((long)buf[pos++]<<56)
-                                           | ((long)(0xFF&buf[pos++])<<48)
-                                           | ((long)(0xFF&buf[pos++])<<40)
-                                           | ((long)(0xFF&buf[pos++])<<32)
-                                           | ((long)(0xFF&buf[pos++])<<24)
-                                           | ((long)(0xFF&buf[pos++])<<16)
-                                           | ((long)(0xFF&buf[pos++])<<8)
-                                           | 0xFF&buf[pos++]);
+    public double readDouble() throws IOException
+    {
+        if (pos + 7 < len) { // common, fast case
+            return Double.longBitsToDouble(((long)buf[pos++] << 56)
+                | ((long)(0xFF & buf[pos++]) << 48)
+                | ((long)(0xFF & buf[pos++]) << 40)
+                | ((long)(0xFF & buf[pos++]) << 32)
+                | ((long)(0xFF & buf[pos++]) << 24)
+                | ((long)(0xFF & buf[pos++]) << 16)
+                | ((long)(0xFF & buf[pos++]) << 8)
+                | 0xFF & buf[pos++]);
         }
         // general case
-        return Double.longBitsToDouble(((long)read()<<56)
-                                       | ((long)read()<<48)
-                                       | ((long)read()<<40)
-                                       | ((long)read()<<32)
-                                       | ((long)read()<<24)
-                                       | ((long)read()<<16)
-                                       | ((long)read()<<8)
-                                       | read());
+        return Double.longBitsToDouble(((long)read() << 56)
+            | ((long)read() << 48)
+            | ((long)read() << 40)
+            | ((long)read() << 32)
+            | ((long)read() << 24)
+            | ((long)read() << 16)
+            | ((long)read() << 8)
+            | read());
     }
 
     /**
@@ -596,11 +625,12 @@ public class ISRandomAccessIO implements RandomAccessIO {
      * all the bytes could be skipped.
      *
      * @exception IOException If an I/O error ocurred.
-     * */
+     */
     @Override
-    public int skipBytes(int n) throws IOException {
+    public int skipBytes(int n) throws IOException
+    {
         if (complete) { /* we know the length, check skip is within length */
-            if (pos+n > len) {
+            if (pos + n > len) {
                 throw new EOFException();
             }
         }
@@ -612,14 +642,16 @@ public class ISRandomAccessIO implements RandomAccessIO {
      * Does nothing since this class does not implement data output.
      */
     @Override
-    public void flush() { /* no-op */
+    public void flush()
+    { /* no-op */
     }
 
     /**
      * Throws an IOException since this class does not implement data output.
      */
     @Override
-    public void write(int b) throws IOException {
+    public void write(int b) throws IOException
+    {
         throw new IOException("read-only");
     }
 
@@ -627,7 +659,8 @@ public class ISRandomAccessIO implements RandomAccessIO {
      * Throws an IOException since this class does not implement data output.
      */
     @Override
-    public void writeByte(int v) throws IOException {
+    public void writeByte(int v) throws IOException
+    {
         throw new IOException("read-only");
     }
 
@@ -635,7 +668,8 @@ public class ISRandomAccessIO implements RandomAccessIO {
      * Throws an IOException since this class does not implement data output.
      */
     @Override
-    public void writeShort(int v) throws IOException {
+    public void writeShort(int v) throws IOException
+    {
         throw new IOException("read-only");
     }
 
@@ -643,7 +677,8 @@ public class ISRandomAccessIO implements RandomAccessIO {
      * Throws an IOException since this class does not implement data output.
      */
     @Override
-    public void writeInt(int v) throws IOException {
+    public void writeInt(int v) throws IOException
+    {
         throw new IOException("read-only");
     }
 
@@ -651,7 +686,8 @@ public class ISRandomAccessIO implements RandomAccessIO {
      * Throws an IOException since this class does not implement data output.
      */
     @Override
-    public void writeLong(long v) throws IOException {
+    public void writeLong(long v) throws IOException
+    {
         throw new IOException("read-only");
     }
 
@@ -659,7 +695,8 @@ public class ISRandomAccessIO implements RandomAccessIO {
      * Throws an IOException since this class does not implement data output.
      */
     @Override
-    public void writeFloat(float v) throws IOException {
+    public void writeFloat(float v) throws IOException
+    {
         throw new IOException("read-only");
     }
 
@@ -667,7 +704,8 @@ public class ISRandomAccessIO implements RandomAccessIO {
      * Throws an IOException since this class does not implement data output.
      */
     @Override
-    public void writeDouble(double v) throws IOException {
+    public void writeDouble(double v) throws IOException
+    {
         throw new IOException("read-only");
     }
 }

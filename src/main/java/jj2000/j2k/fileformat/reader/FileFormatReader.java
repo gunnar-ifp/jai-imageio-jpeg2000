@@ -80,16 +80,17 @@ import com.github.jaiimageio.jpeg2000.impl.XMLBox;
  * finds the first valid codestream.
  *
  * @see jj2000.j2k.fileformat.writer.FileFormatWriter
- * */
-public class FileFormatReader implements FileFormatBoxes{
+ */
+public class FileFormatReader implements FileFormatBoxes
+{
 
     /** The random access from which the file format boxes are read */
     private RandomAccessIO in;
 
-    /** The positions of the codestreams in the fileformat*/
+    /** The positions of the codestreams in the fileformat */
     private Vector codeStreamPos;
 
-    /** The lengths of the codestreams in the fileformat*/
+    /** The lengths of the codestreams in the fileformat */
     private Vector codeStreamLength;
 
     /** Create a IndexColorModel from the palette box if there is one */
@@ -120,7 +121,7 @@ public class FileFormatReader implements FileFormatBoxes{
     private byte[] maps;
 
     /** Channel definitions */
-    private short[] channels ;
+    private short[] channels;
     private short[] cType;
     private short[] associations;
 
@@ -134,8 +135,9 @@ public class FileFormatReader implements FileFormatBoxes{
      * The constructor of the FileFormatReader
      *
      * @param in The RandomAccessIO from which to read the file format
-     * */
-    public FileFormatReader(RandomAccessIO in, J2KMetadata metadata){
+     */
+    public FileFormatReader(RandomAccessIO in, J2KMetadata metadata)
+    {
         this.in = in;
         this.metadata = metadata;
     }
@@ -149,19 +151,20 @@ public class FileFormatReader implements FileFormatBoxes{
      * @exception java.io.IOException If an I/O error ocurred.
      *
      * @exception java.io.EOFException If end of file is reached
-     * */
-    public void readFileFormat() throws IOException, EOFException {
+     */
+    public void readFileFormat() throws IOException, EOFException
+    {
 
-        int foundCodeStreamBoxes=0;
+        int foundCodeStreamBoxes = 0;
         int box;
         int length;
-        long longLength=0;
+        long longLength = 0;
         int pos;
         short marker;
-        boolean jp2HeaderBoxFound=false;
+        boolean jp2HeaderBoxFound = false;
         boolean lastBoxFound = false;
 
-        try{
+        try {
 
             // Go through the randomaccessio and find the first
             // contiguous codestream box. Check also that the File Format is
@@ -171,17 +174,17 @@ public class FileFormatReader implements FileFormatBoxes{
 
             // Make sure that the first 12 bytes is the JP2_SIGNATURE_BOX
             // or if not that the first 2 bytes is the SOC marker
-            if(in.readInt() != 0x0000000c ||
-               in.readInt() != JP2_SIGNATURE_BOX ||
-               in.readInt() != 0x0d0a870a){ // Not a JP2 file
+            if (in.readInt() != 0x0000000c ||
+                in.readInt() != JP2_SIGNATURE_BOX ||
+                in.readInt() != 0x0d0a870a) { // Not a JP2 file
                 in.seek(pos);
 
                 marker = in.readShort();
-                if(marker != Markers.SOC) //Standard syntax marker found
-                    throw new Error("File is neither valid JP2 file nor "+
-                                    "valid JPEG 2000 codestream");
+                if (marker != Markers.SOC) //Standard syntax marker found
+                    throw new Error("File is neither valid JP2 file nor " +
+                        "valid JPEG 2000 codestream");
                 in.seek(pos);
-                if(codeStreamPos == null)
+                if (codeStreamPos == null)
                     codeStreamPos = new Vector();
                 codeStreamPos.addElement(Integer.valueOf(pos));
                 return;
@@ -192,109 +195,112 @@ public class FileFormatReader implements FileFormatBoxes{
 
             // Read all remaining boxes
             int inputLength = in.length();
-            while(!lastBoxFound){
+            while (!lastBoxFound) {
                 pos = in.getPos();
                 length = in.readInt();
-                int remainingLength = inputLength - (pos+length);
-                if(remainingLength >=0 && remainingLength < 4)
+                int remainingLength = inputLength - (pos + length);
+                if (remainingLength >= 0 && remainingLength < 4)
                     lastBoxFound = true;
 
                 box = in.readInt();
                 if (length == 0) {
                     lastBoxFound = true;
-                    length = inputLength-in.getPos();
-                } else if(length == 1) {
+                    length = inputLength - in.getPos();
+                }
+                else if (length == 1) {
                     longLength = in.readLong();
                     throw new IOException("File too long.");
-                } else longLength = 0;
+                }
+                else longLength = 0;
 
                 pos = in.getPos();
                 length -= 8;
 
-                switch(box){
-                case FILE_TYPE_BOX:
-                    readFileTypeBox(length + 8, longLength);
-                    break;
-                case CONTIGUOUS_CODESTREAM_BOX:
-                    if(!jp2HeaderBoxFound)
-                        throw new Error("Invalid JP2 file: JP2Header box not "+
-                                        "found before Contiguous codestream "+
-                                        "box ");
-                    readContiguousCodeStreamBox(length + 8, longLength);
-                    break;
-                case JP2_HEADER_BOX:
-                    if(jp2HeaderBoxFound)
-                        throw new Error("Invalid JP2 file: Multiple "+
-                                        "JP2Header boxes found");
-                    readJP2HeaderBox(length + 8);
-                    jp2HeaderBoxFound = true;
-                    length = 0;
-                    break;
-                case IMAGE_HEADER_BOX:
-                    readImageHeaderBox(length);
-                    break;
-                case INTELLECTUAL_PROPERTY_BOX:
-                    readIntPropertyBox(length);
-                    break;
-                case XML_BOX:
-                    readXMLBox(length);
-                    break;
-                case UUID_INFO_BOX:
-                    length = 0;
-                    break;
-                case UUID_BOX:
-                    readUUIDBox(length);
-                    break;
-                case UUID_LIST_BOX:
-                    readUUIDListBox(length);
-                    break;
-                case URL_BOX:
-                    readURLBox(length);
-                    break;
-                case PALETTE_BOX:
-                    readPaletteBox(length + 8);
-                    break;
-                case BITS_PER_COMPONENT_BOX:
-                    readBitsPerComponentBox(length);
-                    break;
-                case COMPONENT_MAPPING_BOX:
-                    readComponentMappingBox(length);
-                    break;
-                case COLOUR_SPECIFICATION_BOX:
-                    readColourSpecificationBox(length);
-                    break;
-                case CHANNEL_DEFINITION_BOX:
-                    readChannelDefinitionBox(length);
-                    break;
-                case RESOLUTION_BOX:
-                    length = 0;
-                    break;
-                case CAPTURE_RESOLUTION_BOX:
-                case DEFAULT_DISPLAY_RESOLUTION_BOX:
-                    readResolutionBox(box, length);
-                    break;
-                default:
-                    if (metadata != null) {
-                        byte[] data = new byte[length];
-                        in.readFully(data, 0, length);
-                        metadata.addNode(new Box(length + 8,
-                                                 box,
-                                                 longLength,
-                                                 data));
-                    }
+                switch (box) {
+                    case FILE_TYPE_BOX:
+                        readFileTypeBox(length + 8, longLength);
+                        break;
+                    case CONTIGUOUS_CODESTREAM_BOX:
+                        if (!jp2HeaderBoxFound)
+                            throw new Error("Invalid JP2 file: JP2Header box not " +
+                                "found before Contiguous codestream " +
+                                "box ");
+                        readContiguousCodeStreamBox(length + 8, longLength);
+                        break;
+                    case JP2_HEADER_BOX:
+                        if (jp2HeaderBoxFound)
+                            throw new Error("Invalid JP2 file: Multiple " +
+                                "JP2Header boxes found");
+                        readJP2HeaderBox(length + 8);
+                        jp2HeaderBoxFound = true;
+                        length = 0;
+                        break;
+                    case IMAGE_HEADER_BOX:
+                        readImageHeaderBox(length);
+                        break;
+                    case INTELLECTUAL_PROPERTY_BOX:
+                        readIntPropertyBox(length);
+                        break;
+                    case XML_BOX:
+                        readXMLBox(length);
+                        break;
+                    case UUID_INFO_BOX:
+                        length = 0;
+                        break;
+                    case UUID_BOX:
+                        readUUIDBox(length);
+                        break;
+                    case UUID_LIST_BOX:
+                        readUUIDListBox(length);
+                        break;
+                    case URL_BOX:
+                        readURLBox(length);
+                        break;
+                    case PALETTE_BOX:
+                        readPaletteBox(length + 8);
+                        break;
+                    case BITS_PER_COMPONENT_BOX:
+                        readBitsPerComponentBox(length);
+                        break;
+                    case COMPONENT_MAPPING_BOX:
+                        readComponentMappingBox(length);
+                        break;
+                    case COLOUR_SPECIFICATION_BOX:
+                        readColourSpecificationBox(length);
+                        break;
+                    case CHANNEL_DEFINITION_BOX:
+                        readChannelDefinitionBox(length);
+                        break;
+                    case RESOLUTION_BOX:
+                        length = 0;
+                        break;
+                    case CAPTURE_RESOLUTION_BOX:
+                    case DEFAULT_DISPLAY_RESOLUTION_BOX:
+                        readResolutionBox(box, length);
+                        break;
+                    default:
+                        if (metadata != null) {
+                            byte[] data = new byte[length];
+                            in.readFully(data, 0, length);
+                            metadata.addNode(new Box(length + 8,
+                                box,
+                                longLength,
+                                data));
+                        }
                 }
-                if(!lastBoxFound)
-                    in.seek(pos+length);
+                if (!lastBoxFound)
+                    in.seek(pos + length);
             }
-        }catch( EOFException e ){
-            throw new Error("EOF reached before finding Contiguous "+
-                            "Codestream Box");
+        }
+        catch (EOFException e) {
+            throw new Error("EOF reached before finding Contiguous " +
+                "Codestream Box");
         }
 
-        if(codeStreamPos.size() == 0){
-          // Not a valid JP2 file or codestream
-          throw new Error("Invalid JP2 file: Contiguous codestream box "+
-                          "missing");
+        if (codeStreamPos.size() == 0) {
+            // Not a valid JP2 file or codestream
+            throw new Error("Invalid JP2 file: Contiguous codestream box " +
+                "missing");
         }
 
         return;
@@ -308,21 +314,22 @@ public class FileFormatReader implements FileFormatBoxes{
      * @exception java.io.IOException If an I/O error ocurred.
      *
      * @exception java.io.EOFException If the end of file was reached
-     * */
+     */
     public boolean readFileTypeBox(int length, long longLength)
-        throws IOException, EOFException {
+        throws IOException, EOFException
+    {
         int nComp;
-        boolean foundComp=false;
+        boolean foundComp = false;
 
         // Check for XLBox
-        if(length == 1) { // Box has 8 byte length;
+        if (length == 1) { // Box has 8 byte length;
             longLength = in.readLong();
             throw new IOException("File too long.");
         }
 
         // Check that this is a correct DBox value
         // Read Brand field
-        if(in.readInt() != FT_BR)
+        if (in.readInt() != FT_BR)
             return false;
 
         // Read MinV field
@@ -330,13 +337,13 @@ public class FileFormatReader implements FileFormatBoxes{
 
         // Check that there is at least one FT_BR entry in in
         // compatibility list
-        nComp = (length - 16)/4; // Number of compatibilities.
+        nComp = (length - 16) / 4; // Number of compatibilities.
         int[] comp = new int[nComp];
-        for(int i=0; i < nComp; i++){
-            if((comp[i] = in.readInt()) == FT_BR)
+        for (int i = 0; i < nComp; i++) {
+            if ((comp[i] = in.readInt()) == FT_BR)
                 foundComp = true;
         }
-        if(!foundComp)
+        if (!foundComp)
             return false;
 
         if (metadata != null)
@@ -355,19 +362,21 @@ public class FileFormatReader implements FileFormatBoxes{
      * @exception java.io.IOException If an I/O error ocurred.
      *
      * @exception java.io.EOFException If the end of file was reached
-     * */
+     */
     public boolean readJP2HeaderBox(int length)
-        throws IOException, EOFException {
+        throws IOException, EOFException
+    {
 
-        if(length == 0) // This can not be last box
+        if (length == 0) // This can not be last box
             throw new Error("Zero-length of JP2Header Box");
 
         // Here the JP2Header data (DBox) would be read if we were to use it
         return true;
     }
 
-   /**
+    /**
      * This method reads the Image Header box
+     * 
      * @param length The length of the JP2Header box
      *
      * @return false if the JP2Header box was not found or invalid else true
@@ -375,11 +384,12 @@ public class FileFormatReader implements FileFormatBoxes{
      * @exception java.io.IOException If an I/O error ocurred.
      *
      * @exception java.io.EOFException If the end of file was reached
-     * */
+     */
     public boolean readImageHeaderBox(int length)
-        throws IOException, EOFException {
+        throws IOException, EOFException
+    {
 
-        if(length == 0) // This can not be last box
+        if (length == 0) // This can not be last box
             throw new Error("Zero-length of JP2Header Box");
 
         // Here the JP2Header data (DBox) would be read if we were to use it
@@ -396,13 +406,13 @@ public class FileFormatReader implements FileFormatBoxes{
         if (metadata != null) {
 
             metadata.addNode(new HeaderBox(height, width, numComp, bitDepth,
-                                           compressionType, unknownColor,
-                                           intelProp));
+                compressionType, unknownColor,
+                intelProp));
         }
         return true;
     }
 
-     /**
+    /**
      * This method skips the Contiguous codestream box and adds position
      * of contiguous codestream to a vector
      *
@@ -416,20 +426,21 @@ public class FileFormatReader implements FileFormatBoxes{
      * @exception java.io.IOException If an I/O error ocurred.
      *
      * @exception java.io.EOFException If the end of file was reached
-     * */
+     */
     public boolean readContiguousCodeStreamBox(int length,
-                                               long longLength)
-        throws IOException, EOFException {
+        long longLength)
+        throws IOException, EOFException
+    {
 
         // Add new codestream position to position vector
         int ccpos = in.getPos();
 
-        if(codeStreamPos == null)
+        if (codeStreamPos == null)
             codeStreamPos = new Vector();
         codeStreamPos.addElement(Integer.valueOf(ccpos));
 
         // Add new codestream length to length vector
-        if(codeStreamLength == null)
+        if (codeStreamLength == null)
             codeStreamLength = new Vector();
         codeStreamLength.addElement(Integer.valueOf(length));
 
@@ -438,8 +449,9 @@ public class FileFormatReader implements FileFormatBoxes{
 
     /**
      * This method reads the contents of the Intellectual property box
-     * */
-    public void readIntPropertyBox(int length) throws IOException {
+     */
+    public void readIntPropertyBox(int length) throws IOException
+    {
         if (metadata != null) {
             byte[] data = new byte[length];
             in.readFully(data, 0, length);
@@ -450,7 +462,8 @@ public class FileFormatReader implements FileFormatBoxes{
     /**
      * This method reads the contents of the XML box
      */
-    public void readXMLBox(int length) throws IOException {
+    public void readXMLBox(int length) throws IOException
+    {
         if (metadata != null) {
             byte[] data = new byte[length];
             in.readFully(data, 0, length);
@@ -461,7 +474,8 @@ public class FileFormatReader implements FileFormatBoxes{
     /**
      * This method reads the contents of the XML box
      */
-    public void readURLBox(int length) throws IOException {
+    public void readURLBox(int length) throws IOException
+    {
         if (metadata != null) {
             byte[] data = new byte[length];
             in.readFully(data, 0, length);
@@ -472,7 +486,8 @@ public class FileFormatReader implements FileFormatBoxes{
     /**
      * This method reads the contents of the Intellectual property box
      */
-    public void readUUIDBox(int length) throws IOException {
+    public void readUUIDBox(int length) throws IOException
+    {
         if (metadata != null) {
             byte[] data = new byte[length];
             in.readFully(data, 0, length);
@@ -482,8 +497,9 @@ public class FileFormatReader implements FileFormatBoxes{
 
     /**
      * This method reads the contents of the UUID List box
-     * */
-    public void readUUIDListBox(int length) throws IOException {
+     */
+    public void readUUIDListBox(int length) throws IOException
+    {
         if (metadata != null) {
             byte[] data = new byte[length];
             in.readFully(data, 0, length);
@@ -492,7 +508,8 @@ public class FileFormatReader implements FileFormatBoxes{
     }
 
     /** This method reads the content of the palette box */
-    public void readPaletteBox(int length) throws IOException {
+    public void readPaletteBox(int length) throws IOException
+    {
         // Get current position in file
         int pos = in.getPos();
 
@@ -506,12 +523,12 @@ public class FileFormatReader implements FileFormatBoxes{
 
         lut = new byte[numComp][lutSize];
 
-        for (int n=0; n < lutSize; n++) {
+        for (int n = 0; n < lutSize; n++) {
             for (int c = 0; c < numComp; c++) {
                 int depth = 1 + (compSize[c] & 0x7F);
                 if (depth > 32)
                     depth = 32;
-                int numBytes = (depth + 7)>>3;
+                int numBytes = (depth + 7) >> 3;
                 int mask = (1 << depth) - 1;
                 byte[] buf = new byte[numBytes];
                 in.readFully(buf, 0, numBytes);
@@ -529,9 +546,11 @@ public class FileFormatReader implements FileFormatBoxes{
         }
     }
 
-    /** Read the component mapping channel.
+    /**
+     * Read the component mapping channel.
      */
-    public void readComponentMappingBox(int length)throws IOException {
+    public void readComponentMappingBox(int length) throws IOException
+    {
         int num = length / 4;
 
         comps = new short[num];
@@ -555,7 +574,8 @@ public class FileFormatReader implements FileFormatBoxes{
      * @exception java.io.IOException If an I/O error ocurred.
      *
      */
-    public void readChannelDefinitionBox(int length)throws IOException {
+    public void readChannelDefinitionBox(int length) throws IOException
+    {
         int num = in.readShort();
         channels = new short[num];
         cType = new short[num];
@@ -571,9 +591,11 @@ public class FileFormatReader implements FileFormatBoxes{
         }
     }
 
-    /** Read the bits per component.
+    /**
+     * Read the bits per component.
      */
-    public void readBitsPerComponentBox(int length)throws IOException {
+    public void readBitsPerComponentBox(int length) throws IOException
+    {
         bitDepths = new byte[length];
         in.readFully(bitDepths, 0, length);
 
@@ -582,9 +604,11 @@ public class FileFormatReader implements FileFormatBoxes{
         }
     }
 
-    /** Read the color specifications.
+    /**
+     * Read the color specifications.
      */
-    public void readColourSpecificationBox(int length)throws IOException {
+    public void readColourSpecificationBox(int length) throws IOException
+    {
         // read METHOD field
         byte method = in.readByte();
 
@@ -598,19 +622,22 @@ public class FileFormatReader implements FileFormatBoxes{
             byte[] data = new byte[length - 3];
             in.readFully(data, 0, data.length);
             profile = ICC_Profile.getInstance(data);
-        } else  // read EnumCS field
-            colorSpaceType = in.readInt();
+        }
+        else // read EnumCS field
+        colorSpaceType = in.readInt();
 
         if (metadata != null) {
             metadata.addNode(new ColorSpecificationBox(method, prec, approx,
-                                                       colorSpaceType,
-                                                       profile));
+                colorSpaceType,
+                profile));
         }
     }
 
-    /** Read the resolution.
+    /**
+     * Read the resolution.
      */
-    public void readResolutionBox(int type, int length)throws IOException {
+    public void readResolutionBox(int type, int length) throws IOException
+    {
         byte[] data = new byte[length];
         in.readFully(data, 0, length);
         if (metadata != null) {
@@ -623,12 +650,13 @@ public class FileFormatReader implements FileFormatBoxes{
      * codestreams in the file
      *
      * @return The positions of the contiguous codestreams in the file
-     * */
-    public long[] getCodeStreamPos(){
+     */
+    public long[] getCodeStreamPos()
+    {
         int size = codeStreamPos.size();
         long[] pos = new long[size];
-        for(int i=0 ; i<size ; i++)
-            pos[i]=((Integer)(codeStreamPos.elementAt(i))).longValue();
+        for (int i = 0; i < size; i++)
+            pos[i] = ((Integer)(codeStreamPos.elementAt(i))).longValue();
         return pos;
     }
 
@@ -637,8 +665,9 @@ public class FileFormatReader implements FileFormatBoxes{
      * the file
      *
      * @return The position of the first contiguous codestream in the file
-     * */
-    public int getFirstCodeStreamPos(){
+     */
+    public int getFirstCodeStreamPos()
+    {
         return ((Integer)(codeStreamPos.elementAt(0))).intValue();
     }
 
@@ -647,15 +676,17 @@ public class FileFormatReader implements FileFormatBoxes{
      * the file
      *
      * @return The length of the first contiguous codestream in the file
-     * */
-    public int getFirstCodeStreamLength(){
+     */
+    public int getFirstCodeStreamLength()
+    {
         return ((Integer)(codeStreamLength.elementAt(0))).intValue();
     }
 
     /**
      * Returns the color model created from the palette box.
      */
-    public ColorModel getColorModel() {
+    public ColorModel getColorModel()
+    {
         // Check 'numComp' instance variable here in case there is an
         // embedded palette such as in the pngsuite images pp0n2c16.png
         // and pp0n6a08.png.
@@ -671,16 +702,17 @@ public class FileFormatReader implements FileFormatBoxes{
             }
             if (numComp == 3)
                 colorModel = new IndexColorModel(maxDepth, lut[0].length,
-                                                 lut[maps[0]],
-                                                 lut[maps[1]],
-                                                 lut[maps[2]]);
+                    lut[maps[0]],
+                    lut[maps[1]],
+                    lut[maps[2]]);
             else if (numComp == 4)
                 colorModel = new IndexColorModel(maxDepth, lut[0].length,
-                                                 lut[maps[0]],
-                                                 lut[maps[1]],
-                                                 lut[maps[2]],
-                                                 lut[maps[3]]);
-        } else if (channels != null){
+                    lut[maps[0]],
+                    lut[maps[1]],
+                    lut[maps[2]],
+                    lut[maps[3]]);
+        }
+        else if (channels != null) {
             boolean hasAlpha = false;
             int alphaChannel = numComp - 1;
 
@@ -689,7 +721,7 @@ public class FileFormatReader implements FileFormatBoxes{
                     hasAlpha = true;
             }
 
-            boolean[] isPremultiplied = new boolean[] {false};
+            boolean[] isPremultiplied = new boolean[] { false };
 
             if (hasAlpha) {
                 isPremultiplied = new boolean[alphaChannel];
@@ -720,13 +752,12 @@ public class FileFormatReader implements FileFormatBoxes{
             for (int i = 0; i < numComp; i++)
                 if (bitDepths != null)
                     bits[i] = (bitDepths[i] & 0x7F) + 1;
-                else
-                    bits[i] = (bitDepth &0x7F) + 1;
+                else bits[i] = (bitDepth & 0x7F) + 1;
 
             int maxBitDepth = 1 + (bitDepth & 0x7F);
-	    boolean isSigned = (bitDepth & 0x80) == 0x80;
-	    if (bitDepths != null)
-		isSigned = (bitDepths[0]  & 0x80) == 0x80;
+            boolean isSigned = (bitDepth & 0x80) == 0x80;
+            if (bitDepths != null)
+                isSigned = (bitDepths[0] & 0x80) == 0x80;
 
             if (bitDepths != null)
                 for (int i = 0; i < numComp; i++)
@@ -747,11 +778,11 @@ public class FileFormatReader implements FileFormatBoxes{
 
             if (cs != null) {
                 colorModel = new ComponentColorModel(cs,
-                                                 bits,
-                                                 hasAlpha,
-                                                 isPremultiplied[0],
-                                                 hasAlpha ? Transparency.TRANSLUCENT : Transparency.OPAQUE ,
-                                                 type);
+                    bits,
+                    hasAlpha,
+                    isPremultiplied[0],
+                    hasAlpha ? Transparency.TRANSLUCENT : Transparency.OPAQUE,
+                    type);
             }
         }
         return colorModel;

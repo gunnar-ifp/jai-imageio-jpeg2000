@@ -50,19 +50,23 @@ import javax.imageio.metadata.IIOMetadataNode;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-/** This class is defined to represent a Data Entry URL Box of JPEG JP2
- *  file format.  A Data Entry URL Box has a length, and a fixed type
- *  of "url ".  Its content are a one-byte version, a three-byte flags and
- *  a URL pertains to the UUID List box within its UUID Info superbox.
+/**
+ * This class is defined to represent a Data Entry URL Box of JPEG JP2
+ * file format. A Data Entry URL Box has a length, and a fixed type
+ * of "url ". Its content are a one-byte version, a three-byte flags and
+ * a URL pertains to the UUID List box within its UUID Info superbox.
  */
-public class DataEntryURLBox extends Box {
+public class DataEntryURLBox extends Box
+{
     /** Cache the element names for this box's xml definition */
-    private static String[] elementNames = {"Version", "Flags", "URL"};
+    private static String[] elementNames = { "Version", "Flags", "URL" };
 
-    /** This method will be called by the getNativeNodeForSimpleBox of the
-     *  class Box to get the element names.
+    /**
+     * This method will be called by the getNativeNodeForSimpleBox of the
+     * class Box to get the element names.
      */
-    public static String[] getElementNames() {
+    public static String[] getElementNames()
+    {
         return elementNames;
     }
 
@@ -72,12 +76,14 @@ public class DataEntryURLBox extends Box {
     private String url;
 
     /** Constructs a <code>DataEntryURLBox</code> from its content data. */
-    public DataEntryURLBox(byte[] data) {
+    public DataEntryURLBox(byte[] data)
+    {
         super(8 + data.length, 0x75726C20, data);
     }
 
     /** Constructs a <code>DataEntryURLBox</code> from its data elements. */
-    public DataEntryURLBox(byte version, byte[] flags, String url) {
+    public DataEntryURLBox(byte version, byte[] flags, String url)
+    {
         super(12 + url.length(), 0x75726C20, null);
         this.version = version;
         this.flags = flags;
@@ -85,7 +91,8 @@ public class DataEntryURLBox extends Box {
     }
 
     /** Constructs a <code>DataEntryURLBox</code> from a Node. */
-    public DataEntryURLBox(Node node) throws IIOInvalidTreeException {
+    public DataEntryURLBox(Node node) throws IIOInvalidTreeException
+    {
         super(node);
         NodeList children = node.getChildNodes();
 
@@ -109,7 +116,8 @@ public class DataEntryURLBox extends Box {
 
     /** Parses the content of this box from its content byte array. */
     @Override
-    protected void parse(byte[] data) {
+    protected void parse(byte[] data)
+    {
         version = data[0];
         flags = new byte[3];
         flags[0] = data[1];
@@ -119,32 +127,38 @@ public class DataEntryURLBox extends Box {
         url = new String(data, 4, data.length - 4);
     }
 
-    /** Creates an <code>IIOMetadataNode</code> from this data entry URL
-     *  box.  The format of this node is defined in the XML dtd and xsd
-     *  for the JP2 image file.
+    /**
+     * Creates an <code>IIOMetadataNode</code> from this data entry URL
+     * box. The format of this node is defined in the XML dtd and xsd
+     * for the JP2 image file.
      */
     @Override
-    public IIOMetadataNode getNativeNode() {
+    public IIOMetadataNode getNativeNode()
+    {
         return getNativeNodeForSimpleBox();
     }
 
     /** Returns the <code>Version</code> data element. */
-    public byte getVersion() {
+    public byte getVersion()
+    {
         return version;
     }
 
     /** Returns the <code>Flags</code> data element. */
-    public byte[] getFlags() {
+    public byte[] getFlags()
+    {
         return flags;
     }
 
     /** Returns the <code>URL</code> data element. */
-    public String getURL() {
+    public String getURL()
+    {
         return url;
     }
 
     @Override
-    protected void compose() {
+    protected void compose()
+    {
         if (data != null)
             return;
         data = new byte[4 + url.length()];

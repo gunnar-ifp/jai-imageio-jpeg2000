@@ -43,6 +43,7 @@
  * Copyright (c) 1999/2000 JJ2000 Partners.
  * */
 package jj2000.j2k.image;
+
 import java.awt.Point;
 
 import jj2000.j2k.NoNextElementException;
@@ -58,43 +59,56 @@ import jj2000.j2k.util.MsgLogger;
  * the 'BlkImgDataSrc' interface. See the 'ImgData' interface for a
  * description of the canvas and tiling.
  *
- * <p>All tiles produced are rectangular, non-overlapping and their union
+ * <p>
+ * All tiles produced are rectangular, non-overlapping and their union
  * covers all the image. However, the tiling may not be uniform, depending on
  * the nominal tile size, tiling origin, component subsampling and other
  * factors. Therefore it might not be assumed that all tiles are of the same
- * width and height.</p>
+ * width and height.
+ * </p>
  *
- * <p>The nominal dimension of the tiles is the maximal one, in the reference
- * grid. All the components of the image have the same number of tiles.</p>
+ * <p>
+ * The nominal dimension of the tiles is the maximal one, in the reference
+ * grid. All the components of the image have the same number of tiles.
+ * </p>
  *
  * @see ImgData
  * @see BlkImgDataSrc
- * */
-public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
+ */
+public class Tiler extends ImgDataAdapter implements BlkImgDataSrc
+{
 
     /** The source of image data */
     private BlkImgDataSrc src = null;
 
-    /** Horizontal coordinate of the upper left hand reference grid point.*/
+    /** Horizontal coordinate of the upper left hand reference grid point. */
     private int x0siz;
 
-    /** Vertical coordinate of the upper left hand reference grid point.*/
+    /** Vertical coordinate of the upper left hand reference grid point. */
     private int y0siz;
 
-    /** The horizontal coordinate of the tiling origin in the canvas system,
-     * on the reference grid. */
+    /**
+     * The horizontal coordinate of the tiling origin in the canvas system,
+     * on the reference grid.
+     */
     private int xt0siz;
 
-    /** The vertical coordinate of the tiling origin in the canvas system, on
-     * the reference grid. */
+    /**
+     * The vertical coordinate of the tiling origin in the canvas system, on
+     * the reference grid.
+     */
     private int yt0siz;
 
-    /** The nominal width of the tiles, on the reference grid. If 0 then there
-     * is no tiling in that direction. */
+    /**
+     * The nominal width of the tiles, on the reference grid. If 0 then there
+     * is no tiling in that direction.
+     */
     private int xtsiz;
 
-    /** The nominal height of the tiles, on the reference grid. If 0 then
-     * there is no tiling in that direction. */
+    /**
+     * The nominal height of the tiles, on the reference grid. If 0 then
+     * there is no tiling in that direction.
+     */
     private int ytsiz;
 
     /** The number of tiles in the horizontal direction. */
@@ -109,12 +123,16 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
     /** The component height in the current active tile, for each component */
     private int compH[] = null;
 
-    /** The horizontal coordinates of the upper-left corner of the components
-     * in the current tile */
+    /**
+     * The horizontal coordinates of the upper-left corner of the components
+     * in the current tile
+     */
     private int tcx0[] = null;
 
-    /** The vertical coordinates of the upper-left corner of the components in
-     * the current tile. */
+    /**
+     * The vertical coordinates of the upper-left corner of the components in
+     * the current tile.
+     */
     private int tcy0[] = null;
 
     /** The horizontal index of the current tile */
@@ -159,8 +177,9 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      *
      * @exception IllegalArgumentException If src is tiled or "canvased", or
      * if the arguments do not satisfy the specified constraints.
-     * */
-    public Tiler(BlkImgDataSrc src,int ax,int ay,int px,int py,int nw,int nh) {
+     */
+    public Tiler(BlkImgDataSrc src, int ax, int ay, int px, int py, int nw, int nh)
+    {
         super(src);
 
         // Initialize
@@ -175,47 +194,46 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
         // Verify that input is not tiled
 /*
 	if (src.getNumTiles()!=1) {
-            throw new IllegalArgumentException("Source is tiled");
-        }
+    throw new IllegalArgumentException("Source is tiled");
+}
 */
         // Verify that source is not "canvased"
 /*
-        if (src.getImgULX()!=0 || src.getImgULY()!=0) {
-            throw new IllegalArgumentException("Source is \"canvased\"");
-        }
+if (src.getImgULX()!=0 || src.getImgULY()!=0) {
+    throw new IllegalArgumentException("Source is \"canvased\"");
+}
 */
         // Verify that arguments satisfy trivial requirements
-        if (x0siz<0 || y0siz<0 || xt0siz<0 || yt0siz<0 || xtsiz<0 || ytsiz<0
-            || xt0siz>x0siz || yt0siz>y0siz) {
-            throw new IllegalArgumentException("Invalid image origin, "+
-                                               "tiling origin or nominal "+
-                                               "tile size");
+        if (x0siz < 0 || y0siz < 0 || xt0siz < 0 || yt0siz < 0 || xtsiz < 0 || ytsiz < 0
+            || xt0siz > x0siz || yt0siz > y0siz) {
+            throw new IllegalArgumentException("Invalid image origin, " +
+                "tiling origin or nominal " +
+                "tile size");
         }
 
         // If no tiling has been specified, creates a unique tile with maximum
         // dimension.
-        if (xtsiz==0) xtsiz = x0siz+src.getImgWidth()-xt0siz;
-        if (ytsiz==0) ytsiz = y0siz+src.getImgHeight()-yt0siz;
+        if (xtsiz == 0) xtsiz = x0siz + src.getImgWidth() - xt0siz;
+        if (ytsiz == 0) ytsiz = y0siz + src.getImgHeight() - yt0siz;
 
         // Automatically adjusts xt0siz,yt0siz so that tile (0,0) always
         // overlaps with the image.
-        if (x0siz-xt0siz>=xtsiz) {
-            xt0siz += ((x0siz-xt0siz)/xtsiz)*xtsiz;
+        if (x0siz - xt0siz >= xtsiz) {
+            xt0siz += ((x0siz - xt0siz) / xtsiz) * xtsiz;
         }
-        if (y0siz-yt0siz>=ytsiz) {
-            yt0siz += ((y0siz-yt0siz)/ytsiz)*ytsiz;
+        if (y0siz - yt0siz >= ytsiz) {
+            yt0siz += ((y0siz - yt0siz) / ytsiz) * ytsiz;
         }
-        if (x0siz-xt0siz>=xtsiz || y0siz-yt0siz>=ytsiz) {
-            FacilityManager.getMsgLogger().
-                printmsg(MsgLogger.INFO,"Automatically adjusted tiling "+
-                         "origin to equivalent one ("+xt0siz+","+
-                         yt0siz+") so that "+
-                         "first tile overlaps the image");
+        if (x0siz - xt0siz >= xtsiz || y0siz - yt0siz >= ytsiz) {
+            FacilityManager.getMsgLogger().printmsg(MsgLogger.INFO, "Automatically adjusted tiling " +
+                "origin to equivalent one (" + xt0siz + "," +
+                yt0siz + ") so that " +
+                "first tile overlaps the image");
         }
 
         // Calculate the number of tiles
-        ntX = (int)Math.ceil((x0siz+src.getImgWidth() - xt0siz)/(double)xtsiz);
-        ntY = (int)Math.ceil((y0siz+src.getImgHeight() - yt0siz)/(double)ytsiz);
+        ntX = (int)Math.ceil((x0siz + src.getImgWidth() - xt0siz) / (double)xtsiz);
+        ntY = (int)Math.ceil((y0siz + src.getImgHeight() - yt0siz) / (double)ytsiz);
     }
 
     /**
@@ -223,9 +241,10 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      * tile's width without accounting for any component subsampling.
      *
      * @return The total current tile width in pixels.
-     * */
+     */
     @Override
-    public final int getTileWidth() {
+    public final int getTileWidth()
+    {
         return tileW;
     }
 
@@ -234,9 +253,10 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      * tile's width without accounting for any component subsampling.
      *
      * @return The total current tile height in pixels.
-     * */
+     */
     @Override
-    public final int getTileHeight() {
+    public final int getTileHeight()
+    {
         return tileH;
     }
 
@@ -248,13 +268,14 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      * @param c The index of the component, from 0 to N-1.
      *
      * @return The width of specified tile-component.
-     * */
+     */
     @Override
-    public final int getTileCompWidth(int t,int c) {
-        if(t!=getTileIdx()) {
-            throw new Error("Asking the width of a tile-component which is "+
-                            "not in the current tile (call setTile() or "+
-                            "nextTile() methods before).");
+    public final int getTileCompWidth(int t, int c)
+    {
+        if (t != getTileIdx()) {
+            throw new Error("Asking the width of a tile-component which is " +
+                "not in the current tile (call setTile() or " +
+                "nextTile() methods before).");
         }
         return compW[c];
     }
@@ -267,13 +288,14 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      * @param c The index of the component, from 0 to N-1.
      *
      * @return The height of specified tile-component.
-     * */
+     */
     @Override
-    public final int getTileCompHeight(int t,int c) {
-        if(t!=getTileIdx()) {
-            throw new Error("Asking the width of a tile-component which is "+
-                            "not in the current tile (call setTile() or "+
-                            "nextTile() methods before).");
+    public final int getTileCompHeight(int t, int c)
+    {
+        if (t != getTileIdx()) {
+            throw new Error("Asking the width of a tile-component which is " +
+                "not in the current tile (call setTile() or " +
+                "nextTile() methods before).");
         }
         return compH[c];
     }
@@ -291,9 +313,10 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      *
      * @return The position of the fixed-point, which is the same as the
      * number of fractional bits. For floating-point data 0 is returned.
-     * */
+     */
     @Override
-    public int getFixedPoint(int c) {
+    public int getFixedPoint(int c)
+    {
         return src.getFixedPoint(c);
     }
 
@@ -303,28 +326,36 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      * returned, as a reference to the internal data, if any, instead of as a
      * copy, therefore the returned data should not be modified.
      *
-     * <p>The rectangular area to return is specified by the 'ulx', 'uly', 'w'
+     * <p>
+     * The rectangular area to return is specified by the 'ulx', 'uly', 'w'
      * and 'h' members of the 'blk' argument, relative to the current
      * tile. These members are not modified by this method. The 'offset' and
      * 'scanw' of the returned data can be arbitrary. See the 'DataBlk'
-     * class.</p>
+     * class.
+     * </p>
      *
-     * <p>This method, in general, is more efficient than the 'getCompData()'
+     * <p>
+     * This method, in general, is more efficient than the 'getCompData()'
      * method since it may not copy the data. However if the array of returned
      * data is to be modified by the caller then the other method is probably
-     * preferable.</p>
+     * preferable.
+     * </p>
      *
-     * <p>If the data array in <code>blk</code> is <code>null</code>, then a new one
+     * <p>
+     * If the data array in <code>blk</code> is <code>null</code>, then a new one
      * is created if necessary. The implementation of this interface may
      * choose to return the same array or a new one, depending on what is more
      * efficient. Therefore, the data array in <code>blk</code> prior to the
      * method call should not be considered to contain the returned data, a
      * new array may have been created. Instead, get the array from
-     * <code>blk</code> after the method has returned.</p>
+     * <code>blk</code> after the method has returned.
+     * </p>
      *
-     * <p>The returned data may have its 'progressive' attribute set. In this
+     * <p>
+     * The returned data may have its 'progressive' attribute set. In this
      * case the returned data is only an approximation of the "final"
-     * data.</p>
+     * data.
+     * </p>
      *
      * @param blk Its coordinates and dimensions specify the area to return,
      * relative to the current tile. Some fields in this object are modified
@@ -335,23 +366,24 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      * @return The requested DataBlk
      *
      * @see #getCompData
-     * */
+     */
     @Override
-    public final DataBlk getInternCompData(DataBlk blk,int c) {
+    public final DataBlk getInternCompData(DataBlk blk, int c)
+    {
         // Check that block is inside tile
-        if (blk.ulx<0 || blk.uly<0 || blk.w>compW[c] || blk.h>compH[c]) {
+        if (blk.ulx < 0 || blk.uly < 0 || blk.w > compW[c] || blk.h > compH[c]) {
             throw new IllegalArgumentException("Block is outside the tile");
         }
         // Translate to the sources coordinates
-        int incx = (int)Math.ceil(x0siz/(double)src.getCompSubsX(c));
-        int incy = (int)Math.ceil(y0siz/(double)src.getCompSubsY(c));
+        int incx = (int)Math.ceil(x0siz / (double)src.getCompSubsX(c));
+        int incy = (int)Math.ceil(y0siz / (double)src.getCompSubsY(c));
         blk.ulx -= incx;
         blk.uly -= incy;
-        blk = src.getInternCompData(blk,c);
+        blk = src.getInternCompData(blk, c);
         // Translate back to the tiled coordinates
         blk.ulx += incx;
         blk.uly += incy;
-	return blk;
+        return blk;
     }
 
     /**
@@ -360,25 +392,33 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      * returned, as a copy of the internal data, therefore the returned data
      * can be modified "in place".
      *
-     * <p>The rectangular area to return is specified by the 'ulx', 'uly', 'w'
+     * <p>
+     * The rectangular area to return is specified by the 'ulx', 'uly', 'w'
      * and 'h' members of the 'blk' argument, relative to the current
      * tile. These members are not modified by this method. The 'offset' of
      * the returned data is 0, and the 'scanw' is the same as the block's
-     * width. See the 'DataBlk' class.</p>
+     * width. See the 'DataBlk' class.
+     * </p>
      *
-     * <p>This method, in general, is less efficient than the
+     * <p>
+     * This method, in general, is less efficient than the
      * 'getInternCompData()' method since, in general, it copies the
      * data. However if the array of returned data is to be modified by the
-     * caller then this method is preferable.</p>
+     * caller then this method is preferable.
+     * </p>
      *
-     * <p>If the data array in 'blk' is 'null', then a new one is created. If
+     * <p>
+     * If the data array in 'blk' is 'null', then a new one is created. If
      * the data array is not 'null' then it is reused, and it must be large
      * enough to contain the block's data. Otherwise an 'ArrayStoreException'
-     * or an 'IndexOutOfBoundsException' is thrown by the Java system.</p>
+     * or an 'IndexOutOfBoundsException' is thrown by the Java system.
+     * </p>
      *
-     * <p>The returned data may have its 'progressive' attribute set. In this
+     * <p>
+     * The returned data may have its 'progressive' attribute set. In this
      * case the returned data is only an approximation of the "final"
-     * data.</p>
+     * data.
+     * </p>
      *
      * @param blk Its coordinates and dimensions specify the area to return,
      * relative to the current tile. If it contains a non-null data array,
@@ -391,23 +431,24 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      * @return The requested DataBlk
      *
      * @see #getInternCompData
-     * */
+     */
     @Override
-    public final DataBlk getCompData(DataBlk blk,int c) {
+    public final DataBlk getCompData(DataBlk blk, int c)
+    {
         // Check that block is inside tile
-        if (blk.ulx<0 || blk.uly<0 || blk.w>compW[c] || blk.h>compH[c]) {
+        if (blk.ulx < 0 || blk.uly < 0 || blk.w > compW[c] || blk.h > compH[c]) {
             throw new IllegalArgumentException("Block is outside the tile");
         }
         // Translate to the source's coordinates
-        int incx = (int)Math.ceil(x0siz/(double)src.getCompSubsX(c));
-        int incy = (int)Math.ceil(y0siz/(double)src.getCompSubsY(c));
+        int incx = (int)Math.ceil(x0siz / (double)src.getCompSubsX(c));
+        int incy = (int)Math.ceil(y0siz / (double)src.getCompSubsY(c));
         blk.ulx -= incx;
         blk.uly -= incy;
-        blk = src.getCompData(blk,c);
+        blk = src.getCompData(blk, c);
         // Translate back to the tiled coordinates
         blk.ulx += incx;
         blk.uly += incy;
-	return blk;
+        return blk;
     }
 
     /**
@@ -418,13 +459,14 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      * @param x The horizontal index of the tile.
      *
      * @param y The vertical index of the new tile.
-     * */
+     */
     @Override
-    public final void setTile(int x,int y) {
+    public final void setTile(int x, int y)
+    {
         src.setTile(x, y);
 
         // Check tile indexes
-        if (x<0 || y<0 || x>=ntX || y>=ntY) {
+        if (x < 0 || y < 0 || x >= ntX || y >= ntY) {
             throw new IllegalArgumentException("Tile's indexes out of bounds");
         }
 
@@ -432,27 +474,25 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
         tx = x;
         ty = y;
         // Calculate tile origins
-        int tx0 = (x!=0) ? xt0siz+x*xtsiz : x0siz;
-        int ty0 = (y!=0) ? yt0siz+y*ytsiz : y0siz;
-        int tx1 = (x!=ntX-1) ? (xt0siz+(x+1)*xtsiz) :
-            (x0siz+src.getImgWidth());
-        int ty1 = (y!=ntY-1) ? (yt0siz+(y+1)*ytsiz) :
-            (y0siz+src.getImgHeight());
+        int tx0 = (x != 0) ? xt0siz + x * xtsiz : x0siz;
+        int ty0 = (y != 0) ? yt0siz + y * ytsiz : y0siz;
+        int tx1 = (x != ntX - 1) ? (xt0siz + (x + 1) * xtsiz) : (x0siz + src.getImgWidth());
+        int ty1 = (y != ntY - 1) ? (yt0siz + (y + 1) * ytsiz) : (y0siz + src.getImgHeight());
         // Set general variables
         tileW = tx1 - tx0;
         tileH = ty1 - ty0;
         // Set component specific variables
         int nc = src.getNumComps();
-        if(compW==null) compW = new int[nc];
-        if(compH==null) compH = new int[nc];
-        if(tcx0==null) tcx0 = new int[nc];
-        if(tcy0==null) tcy0 = new int[nc];
-        for (int i=0; i<nc ; i++) {
-            tcx0[i] = (int)Math.ceil(tx0/(double)src.getCompSubsX(i));
-            tcy0[i] = (int)Math.ceil(ty0/(double)src.getCompSubsY(i));
-	    compW[i] = (int)Math.ceil(tx1/(double)src.getCompSubsX(i)) -
+        if (compW == null) compW = new int[nc];
+        if (compH == null) compH = new int[nc];
+        if (tcx0 == null) tcx0 = new int[nc];
+        if (tcy0 == null) tcy0 = new int[nc];
+        for (int i = 0; i < nc; i++) {
+            tcx0[i] = (int)Math.ceil(tx0 / (double)src.getCompSubsX(i));
+            tcy0[i] = (int)Math.ceil(ty0 / (double)src.getCompSubsY(i));
+            compW[i] = (int)Math.ceil(tx1 / (double)src.getCompSubsX(i)) -
                 tcx0[i];
-	    compH[i] = (int)Math.ceil(ty1/(double)src.getCompSubsY(i)) -
+            compH[i] = (int)Math.ceil(ty1 / (double)src.getCompSubsY(i)) -
                 tcy0[i];
         }
     }
@@ -461,15 +501,18 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      * Advances to the next tile, in standard scan-line order (by rows then
      * columns). An NoNextElementException is thrown if the current tile is
      * the last one (i.e. there is no next tile).
-     * */
+     */
     @Override
-    public final void nextTile() {
-        if (tx==ntX-1 && ty==ntY-1) { // Already at last tile
+    public final void nextTile()
+    {
+        if (tx == ntX - 1 && ty == ntY - 1) { // Already at last tile
             throw new NoNextElementException();
-        } else if (tx<ntX-1) { // If not at end of current tile line
-            setTile(tx+1,ty);
-        } else { // First tile at next line
-            setTile(0,ty+1);
+        }
+        else if (tx < ntX - 1) { // If not at end of current tile line
+            setTile(tx + 1, ty);
+        }
+        else { // First tile at next line
+            setTile(0, ty + 1);
         }
     }
 
@@ -480,15 +523,17 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      * information. If null a new one is created and returned.
      *
      * @return The current tile's horizontal and vertical indexes..
-     * */
+     */
     @Override
-    public final Point getTile(Point co) {
+    public final Point getTile(Point co)
+    {
         if (co != null) {
             co.x = tx;
             co.y = ty;
             return co;
-        } else {
-            return new Point(tx,ty);
+        }
+        else {
+            return new Point(tx, ty);
         }
     }
 
@@ -497,10 +542,11 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      * order.
      *
      * @return The current tile's index (starts at 0).
-     * */
+     */
     @Override
-    public final int getTileIdx() {
-        return ty*ntX+tx;
+    public final int getTileIdx()
+    {
+        return ty * ntX + tx;
     }
 
     /**
@@ -508,9 +554,10 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      * specified component in the current tile.
      *
      * @param c The component index.
-     * */
+     */
     @Override
-    public final int getCompULX(int c) {
+    public final int getCompULX(int c)
+    {
         return tcx0[c];
     }
 
@@ -519,21 +566,24 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      * specified component in the current tile.
      *
      * @param c The component index.
-     * */
+     */
     @Override
-    public final int getCompULY(int c) {
+    public final int getCompULY(int c)
+    {
         return tcy0[c];
     }
 
     /** Returns the horizontal tile partition offset in the reference grid */
     @Override
-    public int getTilePartULX() {
+    public int getTilePartULX()
+    {
         return xt0siz;
     }
 
     /** Returns the vertical tile partition offset in the reference grid */
     @Override
-    public int getTilePartULY() {
+    public int getTilePartULY()
+    {
         return yt0siz;
     }
 
@@ -543,9 +593,10 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      *
      * @return The horizontal coordinate of the image origin in the canvas
      * system, on the reference grid.
-     * */
+     */
     @Override
-    public final int getImgULX() {
+    public final int getImgULX()
+    {
         return x0siz;
     }
 
@@ -555,9 +606,10 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      *
      * @return The vertical coordinate of the image origin in the canvas
      * system, on the reference grid.
-     * */
+     */
     @Override
-    public final int getImgULY() {
+    public final int getImgULY()
+    {
         return y0siz;
     }
 
@@ -569,15 +621,17 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      *
      * @return The number of tiles in the horizontal (Point.x) and vertical
      * (Point.y) directions.
-     * */
+     */
     @Override
-    public final Point getNumTiles(Point co) {
+    public final Point getNumTiles(Point co)
+    {
         if (co != null) {
             co.x = ntX;
             co.y = ntY;
             return co;
-        } else {
-            return new Point(ntX,ntY);
+        }
+        else {
+            return new Point(ntX, ntY);
         }
     }
 
@@ -585,19 +639,21 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      * Returns the total number of tiles in the image.
      *
      * @return The total number of tiles in the image.
-     * */
+     */
     @Override
-    public final int getNumTiles() {
-        return ntX*ntY;
+    public final int getNumTiles()
+    {
+        return ntX * ntY;
     }
 
     /**
      * Returns the nominal width of the tiles in the reference grid.
      *
      * @return The nominal tile width, in the reference grid.
-     * */
+     */
     @Override
-    public final int getNomTileWidth() {
+    public final int getNomTileWidth()
+    {
         return xtsiz;
     }
 
@@ -605,9 +661,10 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      * Returns the nominal width of the tiles in the reference grid.
      *
      * @return The nominal tile width, in the reference grid.
-     * */
+     */
     @Override
-    public final int getNomTileHeight() {
+    public final int getNomTileHeight()
+    {
         return ytsiz;
     }
 
@@ -622,14 +679,16 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      * the reference grid.
      *
      * @see ImgData
-     * */
-    public final Point getTilingOrigin(Point co) {
+     */
+    public final Point getTilingOrigin(Point co)
+    {
         if (co != null) {
             co.x = xt0siz;
             co.y = yt0siz;
             return co;
-        } else {
-            return new Point(xt0siz,yt0siz);
+        }
+        else {
+            return new Point(xt0siz, yt0siz);
         }
     }
 
@@ -637,11 +696,12 @@ public class Tiler extends ImgDataAdapter implements BlkImgDataSrc {
      * Returns a String object representing Tiler's informations
      *
      * @return Tiler's infos in a string
-     * */
+     */
     @Override
-    public String toString() {
-	return "Tiler: source= "+src+
-	    "\n"+getNumTiles()+" tile(s), nominal width="+xtsiz+
-	    ", nominal height="+ytsiz;
+    public String toString()
+    {
+        return "Tiler: source= " + src +
+            "\n" + getNumTiles() + " tile(s), nominal width=" + xtsiz +
+            ", nominal height=" + ytsiz;
     }
 }

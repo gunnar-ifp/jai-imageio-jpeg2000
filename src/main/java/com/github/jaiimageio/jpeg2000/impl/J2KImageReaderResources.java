@@ -44,13 +44,17 @@
  */
 package com.github.jaiimageio.jpeg2000.impl;
 
-public class J2KImageReaderResources {
+public class J2KImageReaderResources
+{
     static final Object[][] contents = {
     };
 
-    public J2KImageReaderResources() {}
+    public J2KImageReaderResources()
+    {
+    }
 
-    public Object[][] getContents() {
+    public Object[][] getContents()
+    {
         return contents;
     }
 }

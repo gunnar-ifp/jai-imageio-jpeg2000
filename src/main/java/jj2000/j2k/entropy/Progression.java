@@ -60,7 +60,8 @@ import jj2000.j2k.codestream.ProgressionType;
  * @see ProgressionType
  *
  */
-public class Progression implements ProgressionType{
+public class Progression implements ProgressionType
+{
 
     /** Progression type as defined in ProgressionType interface */
     public int type;
@@ -99,40 +100,42 @@ public class Progression implements ProgressionType{
      * @param lye The layer index end
      *
      */
-    public Progression(int type,int cs,int ce,int rs,int re,int lye){
-	this.type = type;
-	this.cs = cs;
-	this.ce = ce;
-	this.rs = rs;
-	this.re = re;
-	this.lye = lye;
+    public Progression(int type, int cs, int ce, int rs, int re, int lye)
+    {
+        this.type = type;
+        this.cs = cs;
+        this.ce = ce;
+        this.rs = rs;
+        this.re = re;
+        this.lye = lye;
     }
 
     @Override
-    public String toString(){
-	String str =  "type= ";
-	switch(type){
-	case LY_RES_COMP_POS_PROG:
-	    str += "layer, ";
-	    break;
-	case RES_LY_COMP_POS_PROG:
-	    str += "res, ";
-	    break;
-	case RES_POS_COMP_LY_PROG:
-	    str += "res-pos, ";
-	    break;
-	case POS_COMP_RES_LY_PROG:
-	    str += "pos-comp, ";
-	    break;
-	case COMP_POS_RES_LY_PROG:
-	    str += "pos-comp, ";
-	    break;
-	default:
-	    throw new Error("Unknown progression type");
-	}
-	str += "comp.: "+cs+"-"+ce+", ";
-	str += "res.: "+rs+"-"+re+", ";
-	str += "layer: up to "+lye;
-	return str;
+    public String toString()
+    {
+        String str = "type= ";
+        switch (type) {
+            case LY_RES_COMP_POS_PROG:
+                str += "layer, ";
+                break;
+            case RES_LY_COMP_POS_PROG:
+                str += "res, ";
+                break;
+            case RES_POS_COMP_LY_PROG:
+                str += "res-pos, ";
+                break;
+            case POS_COMP_RES_LY_PROG:
+                str += "pos-comp, ";
+                break;
+            case COMP_POS_RES_LY_PROG:
+                str += "pos-comp, ";
+                break;
+            default:
+                throw new Error("Unknown progression type");
+        }
+        str += "comp.: " + cs + "-" + ce + ", ";
+        str += "res.: " + rs + "-" + re + ", ";
+        str += "layer: up to " + lye;
+        return str;
     }
 }

@@ -54,8 +54,9 @@ import jj2000.j2k.ModuleSpec;
  *
  * @see ModuleSpec
  *
- * */
-public class SynWTFilterSpec extends ModuleSpec {
+ */
+public class SynWTFilterSpec extends ModuleSpec
+{
 
     /**
      * Constructs a new 'SynWTFilterSpec' for the specified number of
@@ -68,8 +69,9 @@ public class SynWTFilterSpec extends ModuleSpec {
      * @param type the type of the specification module i.e. tile specific,
      * component specific or both.
      *
-     * */
-    public SynWTFilterSpec(int nt, int nc, byte type){
+     */
+    public SynWTFilterSpec(int nt, int nc, byte type)
+    {
         super(nt, nc, type);
     }
 
@@ -85,17 +87,19 @@ public class SynWTFilterSpec extends ModuleSpec {
      *
      * @see jj2000.j2k.image.DataBlk
      *
-     * */
-    public int getWTDataType(int t,int c){
-	SynWTFilter[][] an = (SynWTFilter[][])getSpec(t,c);
-	return an[0][0].getDataType();
+     */
+    public int getWTDataType(int t, int c)
+    {
+        SynWTFilter[][] an = (SynWTFilter[][])getSpec(t, c);
+        return an[0][0].getDataType();
     }
 
     /**
      * Returns the horizontal analysis filters to be used in component 'n' and
      * tile 't'.
      *
-     * <P>The horizontal analysis filters are returned in an array of
+     * <P>
+     * The horizontal analysis filters are returned in an array of
      * SynWTFilter. Each element contains the horizontal filter for each
      * resolution level starting with resolution level 1 (i.e. the analysis
      * filter to go from resolution level 1 to resolution level 0). If there
@@ -110,17 +114,19 @@ public class SynWTFilterSpec extends ModuleSpec {
      * tile 't'.
      *
      *
-     * */
-    public SynWTFilter[] getHFilters(int t, int c) {
-	SynWTFilter[][] an = (SynWTFilter[][])getSpec(t,c);
-	return an[0];
+     */
+    public SynWTFilter[] getHFilters(int t, int c)
+    {
+        SynWTFilter[][] an = (SynWTFilter[][])getSpec(t, c);
+        return an[0];
     }
 
     /**
      * Returns the vertical analysis filters to be used in component 'n' and
      * tile 't'.
      *
-     * <P>The vertical analysis filters are returned in an array of
+     * <P>
+     * The vertical analysis filters are returned in an array of
      * SynWTFilter. Each element contains the vertical filter for each
      * resolution level starting with resolution level 1 (i.e. the analysis
      * filter to go from resolution level 1 to resolution level 0). If there
@@ -135,39 +141,41 @@ public class SynWTFilterSpec extends ModuleSpec {
      * tile 't'.
      *
      *
-     * */
-    public SynWTFilter[] getVFilters(int t,int c) {
-	SynWTFilter[][] an = (SynWTFilter[][])getSpec(t,c);
-	return an[1];
+     */
+    public SynWTFilter[] getVFilters(int t, int c)
+    {
+        SynWTFilter[][] an = (SynWTFilter[][])getSpec(t, c);
+        return an[1];
     }
 
     /** Debugging method */
     @Override
-    public String toString(){
-	String str = "";
-	SynWTFilter[][] an;
+    public String toString()
+    {
+        String str = "";
+        SynWTFilter[][] an;
 
-	str += "nTiles="+nTiles+"\nnComp="+nComp+"\n\n";
+        str += "nTiles=" + nTiles + "\nnComp=" + nComp + "\n\n";
 
-	for(int t=0; t<nTiles; t++){
-	    for(int c=0; c<nComp; c++){
-		an = (SynWTFilter[][])getSpec(t,c);
+        for (int t = 0; t < nTiles; t++) {
+            for (int c = 0; c < nComp; c++) {
+                an = (SynWTFilter[][])getSpec(t, c);
 
-		str += "(t:"+t+",c:"+c+")\n";
+                str += "(t:" + t + ",c:" + c + ")\n";
 
-		// Horizontal filters
-		str += "\tH:";
-		for(int i=0; i<an[0].length; i++)
-		    str += " "+an[0][i];
-		// Horizontal filters
-		str += "\n\tV:";
-		for(int i=0; i<an[1].length; i++)
-		    str += " "+an[1][i];
-		str += "\n";
-	    }
-	}
+                // Horizontal filters
+                str += "\tH:";
+                for (int i = 0; i < an[0].length; i++)
+                    str += " " + an[0][i];
+                // Horizontal filters
+                str += "\n\tV:";
+                for (int i = 0; i < an[1].length; i++)
+                    str += " " + an[1][i];
+                str += "\n";
+            }
+        }
 
-	return str;
+        return str;
     }
 
     /**
@@ -179,17 +187,17 @@ public class SynWTFilterSpec extends ModuleSpec {
      * @param c The index of the component
      *
      */
-    public boolean isReversible(int t,int c){
-	// Note: no need to buffer the result since this method is
-	// normally called once per tile-component.
-	SynWTFilter[]
-	    hfilter = getHFilters(t,c),
-	    vfilter = getVFilters(t,c);
+    public boolean isReversible(int t, int c)
+    {
+        // Note: no need to buffer the result since this method is
+        // normally called once per tile-component.
+        SynWTFilter[] hfilter = getHFilters(t, c),
+            vfilter = getVFilters(t, c);
 
-	// As soon as a filter is not reversible, false can be returned
-	for(int i=hfilter.length-1; i>=0; i--)
-	    if(!hfilter[i].isReversible() || !vfilter[i].isReversible())
-		return false;
-	return true;
+        // As soon as a filter is not reversible, false can be returned
+        for (int i = hfilter.length - 1; i >= 0; i--)
+            if (!hfilter[i].isReversible() || !vfilter[i].isReversible())
+                return false;
+        return true;
     }
 }

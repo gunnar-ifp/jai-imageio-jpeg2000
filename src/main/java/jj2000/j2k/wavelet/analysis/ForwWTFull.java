@@ -44,6 +44,7 @@
  * Copyright (c) 1999/2000 JJ2000 Partners.
  * */
 package jj2000.j2k.wavelet.analysis;
+
 import java.awt.Point;
 
 import jj2000.j2k.IntegerSpec;
@@ -61,14 +62,18 @@ import jj2000.j2k.wavelet.Subband;
 import jj2000.j2k.wavelet.WaveletTransform;
 
 import com.github.jaiimageio.jpeg2000.impl.J2KImageWriteParamJava;
+
 /**
  * This class implements the ForwardWT with the full-page approach to be used
  * either with integer or floating-point filters
- * */
-public class ForwWTFull extends ForwardWT {
+ */
+public class ForwWTFull extends ForwardWT
+{
 
-    /** Boolean to know if one are currently dealing with int or float
-        data. */
+    /**
+     * Boolean to know if one are currently dealing with int or float
+     * data.
+     */
     private boolean intData;
 
     /**
@@ -78,21 +83,26 @@ public class ForwWTFull extends ForwardWT {
      * the tile index (in lexicographical order) and the second index is the
      * component index.
      *
-     * <P>The subband tree for a component in the current tile is created on
+     * <P>
+     * The subband tree for a component in the current tile is created on
      * the first call to getSubbandTree() for that component, in the current
      * tile. Before that the element in 'subbTrees' is null.
-     * */
+     */
     private SubbandAn subbTrees[][];
 
     /** The source of image data */
     private BlkImgDataSrc src;
 
-    /** The horizontal coordinate of the code-block partition origin on the
-        reference grid */
+    /**
+     * The horizontal coordinate of the code-block partition origin on the
+     * reference grid
+     */
     private int cb0x;
 
-    /** The vertical coordinate of the code-block partition on the reference
-        grid */
+    /**
+     * The vertical coordinate of the code-block partition on the reference
+     * grid
+     */
     private int cb0y;
 
     /** The number of decomposition levels specification */
@@ -113,20 +123,22 @@ public class ForwWTFull extends ForwardWT {
     /**
      * The horizontal index of the last code-block "sent" in the current
      * subband in each component. It should be -1 if none have been sent yet.
-     * */
+     */
     private int lastn[];
 
     /**
      * The vertical index of the last code-block "sent" in the current subband
      * in each component. It should be 0 if none have been sent yet.
-     * */
+     */
     private int lastm[];
 
     /** The subband being dealt with in each component */
     SubbandAn currentSubband[];
 
-    /** Cache object to avoid excessive allocation/deallocation. This variable
-     * makes the class inheritently thread unsafe. */
+    /**
+     * Cache object to avoid excessive allocation/deallocation. This variable
+     * makes the class inheritently thread unsafe.
+     */
     Point ncblks;
 
     /**
@@ -145,24 +157,25 @@ public class ForwWTFull extends ForwardWT {
      * origin with respect to the canvas origin, on the reference grid.
      *
      * @see ForwardWT
-     * */
-    public ForwWTFull(BlkImgDataSrc src,J2KImageWriteParamJava wp,int pox,int poy) {
+     */
+    public ForwWTFull(BlkImgDataSrc src, J2KImageWriteParamJava wp, int pox, int poy)
+    {
         super(src);
-        this.src  = src;
+        this.src = src;
 
-        this.cb0x  = cb0x;
-        this.cb0y  = cb0y;
-        this.dls  = wp.getDecompositionLevel();
-	this.filters = wp.getFilters();
+        this.cb0x = cb0x;
+        this.cb0y = cb0y;
+        this.dls = wp.getDecompositionLevel();
+        this.filters = wp.getFilters();
         this.cblks = wp.getCodeBlockSize();
         this.pss = wp.getPrecinctPartition();
 
-	int ncomp = src.getNumComps();
-	int ntiles = src.getNumTiles();
+        int ncomp = src.getNumComps();
+        int ntiles = src.getNumTiles();
 
         currentSubband = new SubbandAn[ncomp];
         decomposedComps = new DataBlk[ncomp];
-	subbTrees = new SubbandAn[ntiles][ncomp];
+        subbTrees = new SubbandAn[ntiles][ncomp];
         lastn = new int[ncomp];
         lastm = new int[ncomp];
     }
@@ -174,9 +187,10 @@ public class ForwWTFull extends ForwardWT {
      * @param c The index of the component.
      *
      * @return WT_IMPL_FULL
-     * */
+     */
     @Override
-    public int getImplementationType(int c) {
+    public int getImplementationType(int c)
+    {
         return WaveletTransform.WT_IMPL_FULL;
     }
 
@@ -191,10 +205,11 @@ public class ForwWTFull extends ForwardWT {
      *
      * @return The number of decompositions applied to the LL band (0 for no
      * wavelet transform).
-     * */
+     */
     @Override
-    public int getDecompLevels(int t,int c) {
-        return ((Integer)dls.getTileCompVal(t,c)).intValue();
+    public int getDecompLevels(int t, int c)
+    {
+        return ((Integer)dls.getTileCompVal(t, c)).intValue();
     }
 
     /**
@@ -206,9 +221,10 @@ public class ForwWTFull extends ForwardWT {
      * @param c The index of the component.
      *
      * @return The wavelet decomposition.
-     * */
+     */
     @Override
-    public int getDecomp(int t,int c) {
+    public int getDecomp(int t, int c)
+    {
         return WT_DECOMP_DYADIC;
     }
 
@@ -221,10 +237,12 @@ public class ForwWTFull extends ForwardWT {
      * there are less elements in the array than the number of resolution
      * levels, then the last one is assumed to repeat itself.
      *
-     * <P>The returned filters are applicable only to the specified component
+     * <P>
+     * The returned filters are applicable only to the specified component
      * and in the current tile.
      *
-     * <P>The resolution level of a subband is the resolution level to which a
+     * <P>
+     * The resolution level of a subband is the resolution level to which a
      * subband contributes, which is different from its decomposition level.
      *
      * @param t The index of the tile for which to return the filters.
@@ -232,10 +250,11 @@ public class ForwWTFull extends ForwardWT {
      * @param c The index of the component for which to return the filters.
      *
      * @return The horizontal analysis wavelet filters used in each level.
-     * */
+     */
     @Override
-    public AnWTFilter[] getHorAnWaveletFilters(int t,int c) {
-        return filters.getHFilters(t,c);
+    public AnWTFilter[] getHorAnWaveletFilters(int t, int c)
+    {
+        return filters.getHFilters(t, c);
     }
 
     /**
@@ -247,10 +266,12 @@ public class ForwWTFull extends ForwardWT {
      * there are less elements in the array than the number of resolution
      * levels, then the last one is assumed to repeat itself.
      *
-     * <P>The returned filters are applicable only to the specified component
+     * <P>
+     * The returned filters are applicable only to the specified component
      * and in the current tile.
      *
-     * <P>The resolution level of a subband is the resolution level to which a
+     * <P>
+     * The resolution level of a subband is the resolution level to which a
      * subband contributes, which is different from its decomposition level.
      *
      * @param t The index of the tile for which to return the filters.
@@ -258,10 +279,11 @@ public class ForwWTFull extends ForwardWT {
      * @param c The index of the component for which to return the filters.
      *
      * @return The vertical analysis wavelet filters used in each level.
-     * */
+     */
     @Override
-    public AnWTFilter[] getVertAnWaveletFilters(int t,int c) {
-        return filters.getVFilters(t,c);
+    public AnWTFilter[] getVertAnWaveletFilters(int t, int c)
+    {
+        return filters.getVFilters(t, c);
     }
 
     /**
@@ -274,27 +296,30 @@ public class ForwWTFull extends ForwardWT {
      * @param c The index of the component.
      *
      * @return true is the wavelet transform is reversible, false if not.
-     * */
+     */
     @Override
-    public boolean isReversible(int t,int c) {
-	return filters.isReversible(t,c);
+    public boolean isReversible(int t, int c)
+    {
+        return filters.isReversible(t, c);
     }
 
     /**
      * Returns the horizontal offset of the code-block partition. Allowable
      * values are 0 and 1, nothing else.
-     * */
+     */
     @Override
-    public int getCbULX() {
+    public int getCbULX()
+    {
         return cb0x;
     }
 
     /**
      * Returns the vertical offset of the code-block partition. Allowable
      * values are 0 and 1, nothing else.
-     * */
+     */
     @Override
-    public int getCbULY() {
+    public int getCbULY()
+    {
         return cb0y;
     }
 
@@ -311,9 +336,10 @@ public class ForwWTFull extends ForwardWT {
      *
      * @return The position of the fixed-point, which is the same as the
      * number of fractional bits. For floating-point data 0 is returned.
-     * */
+     */
     @Override
-    public int getFixedPoint(int c) {
+    public int getFixedPoint(int c)
+    {
         return src.getFixedPoint(c);
     }
 
@@ -327,19 +353,25 @@ public class ForwWTFull extends ForwardWT {
      * have been returned for the current tile calls to this method will
      * return 'null'.
      *
-     * <p>When changing the current tile (through 'setTile()' or 'nextTile()')
+     * <p>
+     * When changing the current tile (through 'setTile()' or 'nextTile()')
      * this method will always return the first code-block, as if this method
-     * was never called before for the new current tile.</p>
+     * was never called before for the new current tile.
+     * </p>
      *
-     * <p>The data returned by this method is the data in the internal buffer
+     * <p>
+     * The data returned by this method is the data in the internal buffer
      * of this object, and thus can not be modified by the caller. The
      * 'offset' and 'scanw' of the returned data have, in general, some
      * non-zero value. The 'magbits' of the returned data is not set by this
-     * method and should be ignored. See the 'CBlkWTData' class.</p>
+     * method and should be ignored. See the 'CBlkWTData' class.
+     * </p>
      *
-     * <p>The 'ulx' and 'uly' members of the returned 'CBlkWTData' object
+     * <p>
+     * The 'ulx' and 'uly' members of the returned 'CBlkWTData' object
      * contain the coordinates of the top-left corner of the block, with
-     * respect to the tile, not the subband.</p>
+     * respect to the tile, not the subband.
+     * </p>
      *
      * @param c The component for which to return the next code-block.
      *
@@ -350,29 +382,31 @@ public class ForwWTFull extends ForwardWT {
      * null if all code-blocks for the current tile have been returned.
      *
      * @see CBlkWTData
-     * */
+     */
     @Override
-    public CBlkWTData getNextInternCodeBlock(int c, CBlkWTData cblk) {
-        int cbm,cbn,cn,cm;
+    public CBlkWTData getNextInternCodeBlock(int c, CBlkWTData cblk)
+    {
+        int cbm, cbn, cn, cm;
         int acb0x, acb0y;
         SubbandAn sb;
-        intData = (filters.getWTDataType(tIdx,c)==DataBlk.TYPE_INT);
+        intData = (filters.getWTDataType(tIdx, c) == DataBlk.TYPE_INT);
 
         //If the source image has not been decomposed 
-        if(decomposedComps[c]==null) {
-            int k,w,h;
+        if (decomposedComps[c] == null) {
+            int k, w, h;
             DataBlk bufblk;
             Object dst_data;
 
-            w = getTileCompWidth(tIdx,c);
-            h = getTileCompHeight(tIdx,c);
+            w = getTileCompWidth(tIdx, c);
+            h = getTileCompHeight(tIdx, c);
 
             //Get the source image data
-            if(intData) {
-                decomposedComps[c] = new DataBlkInt(0,0,w,h);
+            if (intData) {
+                decomposedComps[c] = new DataBlkInt(0, 0, w, h);
                 bufblk = new DataBlkInt();
-            } else {
-                decomposedComps[c] = new DataBlkFloat(0,0,w,h);
+            }
+            else {
+                decomposedComps[c] = new DataBlkFloat(0, 0, w, h);
                 bufblk = new DataBlkFloat();
             }
 
@@ -384,17 +418,17 @@ public class ForwWTFull extends ForwardWT {
             bufblk.w = w;
             bufblk.h = 1;
             int kk = getCompULY(c);
-            for (k=0; k<h; k++,kk++) {
+            for (k = 0; k < h; k++, kk++) {
                 bufblk.uly = kk;
                 bufblk.ulx = lstart;
-                bufblk = src.getInternCompData(bufblk,c);
-                System.arraycopy(bufblk.getData(),bufblk.offset,
-                                 dst_data,k*w,w);
+                bufblk = src.getInternCompData(bufblk, c);
+                System.arraycopy(bufblk.getData(), bufblk.offset,
+                    dst_data, k * w, w);
             }
 
             //Decompose source image
             waveletTreeDecomposition(decomposedComps[c],
-                                     getAnSubbandTree(tIdx,c),c);
+                getAnSubbandTree(tIdx, c), c);
 
             // Make the first subband the current one
             currentSubband[c] = getNextSubband(c);
@@ -424,7 +458,7 @@ public class ForwWTFull extends ForwardWT {
             currentSubband[c] = getNextSubband(c);
             lastn[c] = -1;
             lastm[c] = 0;
-            if ( currentSubband[c] == null ) {
+            if (currentSubband[c] == null) {
                 // We don't need the transformed data any more (a priori)
                 decomposedComps[c] = null;
                 // All code-blocks from all subbands in the current
@@ -443,27 +477,28 @@ public class ForwWTFull extends ForwardWT {
         acb0x = cb0x;
         acb0y = cb0y;
         switch (currentSubband[c].sbandIdx) {
-        case Subband.WT_ORIENT_LL:
-            // No need to project since all low-pass => nothing to do
-            break;
-        case Subband.WT_ORIENT_HL:
-            acb0x = 0;
-            break;
-        case Subband.WT_ORIENT_LH:
-            acb0y = 0;
-            break;
-        case Subband.WT_ORIENT_HH:
-            acb0x = 0;
-            acb0y = 0;
-            break;
-        default:
-            throw new Error("Internal JJ2000 error");
+            case Subband.WT_ORIENT_LL:
+                // No need to project since all low-pass => nothing to do
+                break;
+            case Subband.WT_ORIENT_HL:
+                acb0x = 0;
+                break;
+            case Subband.WT_ORIENT_LH:
+                acb0y = 0;
+                break;
+            case Subband.WT_ORIENT_HH:
+                acb0x = 0;
+                acb0y = 0;
+                break;
+            default:
+                throw new Error("Internal JJ2000 error");
         }
         // Initialize output code-block
-        if (cblk==null) {
+        if (cblk == null) {
             if (intData) {
                 cblk = new CBlkWTDataInt();
-            } else {
+            }
+            else {
                 cblk = new CBlkWTDataFloat();
             }
         }
@@ -479,39 +514,43 @@ public class ForwWTFull extends ForwardWT {
         // and divisor must be positive, we ensure that by adding the divisor
         // to the dividend and then substracting 1 to the result of the
         // division
-        cn = (sb.ulcx-acb0x+sb.nomCBlkW)/sb.nomCBlkW-1;
-        cm = (sb.ulcy-acb0y+sb.nomCBlkH)/sb.nomCBlkH-1;
+        cn = (sb.ulcx - acb0x + sb.nomCBlkW) / sb.nomCBlkW - 1;
+        cm = (sb.ulcy - acb0y + sb.nomCBlkH) / sb.nomCBlkH - 1;
         if (cbn == 0) { // Left-most code-block, starts where subband starts
             cblk.ulx = sb.ulx;
-        } else {
+        }
+        else {
             // Calculate starting canvas coordinate and convert to subb. coords
-            cblk.ulx = (cn+cbn)*sb.nomCBlkW - (sb.ulcx-acb0x) + sb.ulx;
+            cblk.ulx = (cn + cbn) * sb.nomCBlkW - (sb.ulcx - acb0x) + sb.ulx;
         }
         if (cbm == 0) { // Bottom-most code-block, starts where subband starts
             cblk.uly = sb.uly;
-        } else {
-            cblk.uly = (cm+cbm)*sb.nomCBlkH - (sb.ulcy-acb0y) + sb.uly;
         }
-        if (cbn < ncblks.x-1) {
+        else {
+            cblk.uly = (cm + cbm) * sb.nomCBlkH - (sb.ulcy - acb0y) + sb.uly;
+        }
+        if (cbn < ncblks.x - 1) {
             // Calculate where next code-block starts => width
-            cblk.w = (cn+cbn+1)*sb.nomCBlkW - (sb.ulcx-acb0x) + sb.ulx -
+            cblk.w = (cn + cbn + 1) * sb.nomCBlkW - (sb.ulcx - acb0x) + sb.ulx -
                 cblk.ulx;
-        } else { // Right-most code-block, ends where subband ends
-            cblk.w = sb.ulx+sb.w-cblk.ulx;
         }
-        if (cbm < ncblks.y-1) {
+        else { // Right-most code-block, ends where subband ends
+            cblk.w = sb.ulx + sb.w - cblk.ulx;
+        }
+        if (cbm < ncblks.y - 1) {
             // Calculate where next code-block starts => height
-            cblk.h = (cm+cbm+1)*sb.nomCBlkH - (sb.ulcy-acb0y) + sb.uly -
+            cblk.h = (cm + cbm + 1) * sb.nomCBlkH - (sb.ulcy - acb0y) + sb.uly -
                 cblk.uly;
-        } else { // Bottom-most code-block, ends where subband ends
-            cblk.h = sb.uly+sb.h-cblk.uly;
+        }
+        else { // Bottom-most code-block, ends where subband ends
+            cblk.h = sb.uly + sb.h - cblk.uly;
         }
         cblk.wmseScaling = 1f;
 
         // Since we are in getNextInternCodeBlock() we can return a
         // reference to the internal buffer, no need to copy. Just initialize
         // the 'offset' and 'scanw'
-        cblk.offset = cblk.uly*decomposedComps[c].w+cblk.ulx;
+        cblk.offset = cblk.uly * decomposedComps[c].w + cblk.ulx;
         cblk.scanw = decomposedComps[c].w;
 
         // For the data just put a reference to our buffer
@@ -529,18 +568,21 @@ public class ForwWTFull extends ForwardWT {
      * the code-blocks have been returned for the current tile calls to this
      * method will return 'null'.
      *
-     * <P>When changing the current tile (through 'setTile()' or 'nextTile()')
+     * <P>
+     * When changing the current tile (through 'setTile()' or 'nextTile()')
      * this method will always return the first code-block, as if this method
      * was never called before for the new current tile.
      *
-     * <P>The data returned by this method is always a copy of the internal
+     * <P>
+     * The data returned by this method is always a copy of the internal
      * data of this object, and it can be modified "in place" without
      * any problems after being returned. The 'offset' of the returned data is
-     * 0, and the 'scanw' is the same as the code-block width.  The 'magbits'
+     * 0, and the 'scanw' is the same as the code-block width. The 'magbits'
      * of the returned data is not set by this method and should be
      * ignored. See the 'CBlkWTData' class.
      *
-     * <P>The 'ulx' and 'uly' members of the returned 'CBlkWTData' object
+     * <P>
+     * The 'ulx' and 'uly' members of the returned 'CBlkWTData' object
      * contain the coordinates of the top-left corner of the block, with
      * respect to the tile, not the subband.
      *
@@ -555,20 +597,21 @@ public class ForwWTFull extends ForwardWT {
      * null if all code-blocks for the current tile have been returned.
      *
      * @see CBlkWTData
-     * */
+     */
     @Override
-    public CBlkWTData getNextCodeBlock(int c, CBlkWTData cblk) {
+    public CBlkWTData getNextCodeBlock(int c, CBlkWTData cblk)
+    {
         // We can not directly use getNextInternCodeBlock() since that returns
         // a reference to the internal buffer, we have to copy that data
 
-        int j,k;
+        int j, k;
         int w;
         Object dst_data; // a int[] or float[] object
         int[] dst_data_int;
         float[] dst_data_float;
         Object src_data; // a int[] or float[] object
 
-	intData = (filters.getWTDataType(tIdx,c)==DataBlk.TYPE_INT);
+        intData = (filters.getWTDataType(tIdx, c) == DataBlk.TYPE_INT);
 
         dst_data = null;
 
@@ -578,7 +621,7 @@ public class ForwWTFull extends ForwardWT {
         }
 
         // Get the next code-block
-        cblk = getNextInternCodeBlock(c,cblk);
+        cblk = getNextInternCodeBlock(c, cblk);
 
         if (cblk == null) {
             return null; // No more code-blocks in current tile for component
@@ -587,25 +630,25 @@ public class ForwWTFull extends ForwardWT {
 
         // Ensure size of output buffer
         if (intData) { // int data
-            dst_data_int = (int[]) dst_data;
-            if (dst_data_int == null || dst_data_int.length < cblk.w*cblk.h) {
-                dst_data = new int[cblk.w*cblk.h];
+            dst_data_int = (int[])dst_data;
+            if (dst_data_int == null || dst_data_int.length < cblk.w * cblk.h) {
+                dst_data = new int[cblk.w * cblk.h];
             }
         }
         else { // float data
-            dst_data_float = (float[]) dst_data;
+            dst_data_float = (float[])dst_data;
             if (dst_data_float == null ||
-                dst_data_float.length < cblk.w*cblk.h) {
-                dst_data = new float[cblk.w*cblk.h];
+                dst_data_float.length < cblk.w * cblk.h) {
+                dst_data = new float[cblk.w * cblk.h];
             }
         }
 
         // Copy data line by line
         src_data = cblk.getData();
         w = cblk.w;
-        for (j = w*(cblk.h-1), k = cblk.offset+(cblk.h-1)*cblk.scanw;
-             j >= 0; j -= w, k -= cblk.scanw) {
-            System.arraycopy(src_data,k,dst_data,j,w);
+        for (j = w * (cblk.h - 1), k = cblk.offset + (cblk.h - 1) * cblk.scanw;
+            j >= 0; j -= w, k -= cblk.scanw) {
+            System.arraycopy(src_data, k, dst_data, j, w);
         }
         cblk.setData(dst_data);
         cblk.offset = 0;
@@ -624,10 +667,11 @@ public class ForwWTFull extends ForwardWT {
      * @param c The index of the component for which to return the data type.
      *
      * @return Current data type
-     * */
+     */
     @Override
-    public int getDataType(int t,int c){
-	return filters.getWTDataType(t,c);
+    public int getDataType(int t, int c)
+    {
+        return filters.getWTDataType(t, c);
     }
 
     /**
@@ -639,7 +683,8 @@ public class ForwWTFull extends ForwardWT {
      * @return Its returns the next subband that will be used to get the next
      * code-block to return by the getNext[Intern]CodeBlock method.
      **/
-    private SubbandAn getNextSubband(int c) {
+    private SubbandAn getNextSubband(int c)
+    {
         int down = 1;
         int up = 0;
         int direction = down;
@@ -647,10 +692,10 @@ public class ForwWTFull extends ForwardWT {
 
         nextsb = currentSubband[c];
         //If it is the first call to this method
-        if(nextsb == null) {
-            nextsb = this.getAnSubbandTree(tIdx,c);
+        if (nextsb == null) {
+            nextsb = this.getAnSubbandTree(tIdx, c);
             //If there is no decomposition level then send the whole image
-            if(!nextsb.isNode) {
+            if (!nextsb.isNode) {
                 return nextsb;
             }
         }
@@ -658,28 +703,28 @@ public class ForwWTFull extends ForwardWT {
         //Find the next subband to send
         do {
             //If the current subband is null then break
-            if(nextsb == null) {
+            if (nextsb == null) {
                 break;
             }
 
             //If the current subband is a leaf then select the next leaf to
             //send or go up in the decomposition tree if the leaf was a LL
             //one.
-            else if(!nextsb.isNode) {
+            else if (!nextsb.isNode) {
                 switch (nextsb.orientation) {
-                    case Subband.WT_ORIENT_HH :
+                    case Subband.WT_ORIENT_HH:
                         nextsb = (SubbandAn)nextsb.getParent().getLH();
                         direction = down;
                         break;
-                    case Subband.WT_ORIENT_LH :
+                    case Subband.WT_ORIENT_LH:
                         nextsb = (SubbandAn)nextsb.getParent().getHL();
                         direction = down;
                         break;
-                    case Subband.WT_ORIENT_HL :
+                    case Subband.WT_ORIENT_HL:
                         nextsb = (SubbandAn)nextsb.getParent().getLL();
                         direction = down;
                         break;
-                    case Subband.WT_ORIENT_LL :
+                    case Subband.WT_ORIENT_LL:
                         nextsb = (SubbandAn)nextsb.getParent();
                         direction = up;
                         break;
@@ -687,30 +732,30 @@ public class ForwWTFull extends ForwardWT {
             }
 
             //Else if the current subband is a node
-            else if(nextsb.isNode) {
+            else if (nextsb.isNode) {
                 //If the direction is down the select the HH subband of the
                 //current node.
-                if(direction == down) {
+                if (direction == down) {
                     nextsb = (SubbandAn)nextsb.getHH();
                 }
                 //Else the direction is up the select the next node to cover
                 //or still go up in the decomposition tree if the node is a LL
                 //subband
-                else if(direction == up) {
+                else if (direction == up) {
                     switch (nextsb.orientation) {
-                        case Subband.WT_ORIENT_HH :
+                        case Subband.WT_ORIENT_HH:
                             nextsb = (SubbandAn)nextsb.getParent().getLH();
                             direction = down;
                             break;
-                        case Subband.WT_ORIENT_LH :
+                        case Subband.WT_ORIENT_LH:
                             nextsb = (SubbandAn)nextsb.getParent().getHL();
                             direction = down;
                             break;
-                        case Subband.WT_ORIENT_HL :
+                        case Subband.WT_ORIENT_HL:
                             nextsb = (SubbandAn)nextsb.getParent().getLL();
                             direction = down;
                             break;
-                        case Subband.WT_ORIENT_LL :
+                        case Subband.WT_ORIENT_LL:
                             nextsb = (SubbandAn)nextsb.getParent();
                             direction = up;
                             break;
@@ -718,10 +763,10 @@ public class ForwWTFull extends ForwardWT {
                 }
             }
 
-            if(nextsb == null) {
+            if (nextsb == null) {
                 break;
             }
-        } while(nextsb.isNode);
+        } while (nextsb.isNode);
         return nextsb;
     }
 
@@ -735,13 +780,14 @@ public class ForwWTFull extends ForwardWT {
      * subband in the whole band to decompose.
      *
      * @param c The index of the current component to decompose
-     * */
+     */
     private void waveletTreeDecomposition(DataBlk band,
-                                          SubbandAn subband, int c) {
+        SubbandAn subband, int c)
+    {
 
         //If the current subband is a leaf then nothing to be done (a leaf is
         //not decomposed).
-        if(!subband.isNode)
+        if (!subband.isNode)
             return;
 
         else {
@@ -768,9 +814,10 @@ public class ForwWTFull extends ForwardWT {
      * in the whole band to decompose.
      *
      * @param c The index of the current component to decompose
-     * */
+     */
     private void wavelet2DDecomposition(DataBlk band,
-        SubbandAn subband, int c) {
+        SubbandAn subband, int c)
+    {
 
         int ulx, uly, w, h;
         int band_w, band_h;
@@ -787,58 +834,58 @@ public class ForwWTFull extends ForwardWT {
         band_w = getTileCompWidth(tIdx, c);
         band_h = getTileCompHeight(tIdx, c);
 
-        if ( intData ) {
+        if (intData) {
             //Perform the decompositions if the filter is implemented with an
             //integer arithmetic.
             int i, j;
             int offset;
-            int[] tmpVector = new int[java.lang.Math.max(w,h)];
+            int[] tmpVector = new int[java.lang.Math.max(w, h)];
 
             int[] data = ((DataBlkInt)band).getDataInt();
 
             //Perform the vertical decomposition
-            if (subband.ulcy%2==0) { // Even start index => use LPF
-                for(j=0; j<w; j++) {
-                    offset = uly*band_w + ulx+j;
-                    for(i=0; i<h; i++)
-                        tmpVector[i] = data[offset+(i*band_w)];
+            if (subband.ulcy % 2 == 0) { // Even start index => use LPF
+                for (j = 0; j < w; j++) {
+                    offset = uly * band_w + ulx + j;
+                    for (i = 0; i < h; i++)
+                        tmpVector[i] = data[offset + (i * band_w)];
                     subband.vFilter.analyze_lpf(tmpVector, 0, h, 1,
-                                             data, offset, band_w,
-                                             data, offset+((h+1)/2)*band_w,
-                                             band_w);
+                        data, offset, band_w,
+                        data, offset + ((h + 1) / 2) * band_w,
+                        band_w);
                 }
             }
             else { // Odd start index => use HPF
-                for(j=0; j<w; j++) {
-                    offset = uly*band_w + ulx+j;
-                    for(i=0; i<h; i++)
-                        tmpVector[i] = data[offset+(i*band_w)];
+                for (j = 0; j < w; j++) {
+                    offset = uly * band_w + ulx + j;
+                    for (i = 0; i < h; i++)
+                        tmpVector[i] = data[offset + (i * band_w)];
                     subband.vFilter.analyze_hpf(tmpVector, 0, h, 1,
-                                             data, offset, band_w,
-                                             data, offset+(h/2)*band_w,
-                                             band_w);
+                        data, offset, band_w,
+                        data, offset + (h / 2) * band_w,
+                        band_w);
                 }
             }
 
             //Perform the horizontal decomposition.
-            if (subband.ulcx%2==0) { // Even start index => use LPF
-                for(i=0; i<h; i++) {
-                    offset = (uly+i)*band_w + ulx;
-                    for(j=0; j<w; j++)
-                        tmpVector[j] = data[offset+j];
+            if (subband.ulcx % 2 == 0) { // Even start index => use LPF
+                for (i = 0; i < h; i++) {
+                    offset = (uly + i) * band_w + ulx;
+                    for (j = 0; j < w; j++)
+                        tmpVector[j] = data[offset + j];
                     subband.hFilter.analyze_lpf(tmpVector, 0, w, 1,
-                                             data, offset, 1,
-                                             data, offset+(w+1)/2, 1);
+                        data, offset, 1,
+                        data, offset + (w + 1) / 2, 1);
                 }
             }
             else { // Odd start index => use HPF
-                for(i=0; i<h; i++) {
-                    offset = (uly+i)*band_w + ulx;
-                    for(j=0; j<w; j++)
-                        tmpVector[j] = data[offset+j];
+                for (i = 0; i < h; i++) {
+                    offset = (uly + i) * band_w + ulx;
+                    for (j = 0; j < w; j++)
+                        tmpVector[j] = data[offset + j];
                     subband.hFilter.analyze_hpf(tmpVector, 0, w, 1,
-                                             data, offset, 1,
-                                             data, offset+w/2, 1);
+                        data, offset, 1,
+                        data, offset + w / 2, 1);
                 }
             }
         }
@@ -847,51 +894,51 @@ public class ForwWTFull extends ForwardWT {
             //float arithmetic.
             int i, j;
             int offset;
-            float[] tmpVector = new float[java.lang.Math.max(w,h)];
-            float[]data = ((DataBlkFloat)band).getDataFloat();
+            float[] tmpVector = new float[java.lang.Math.max(w, h)];
+            float[] data = ((DataBlkFloat)band).getDataFloat();
 
             //Perform the vertical decomposition.
-            if (subband.ulcy%2==0) { // Even start index => use LPF
-                for(j=0; j<w; j++) {
-                    offset = uly*band_w + ulx+j;
-                    for(i=0; i<h; i++)
-                        tmpVector[i] = data[offset+(i*band_w)];
+            if (subband.ulcy % 2 == 0) { // Even start index => use LPF
+                for (j = 0; j < w; j++) {
+                    offset = uly * band_w + ulx + j;
+                    for (i = 0; i < h; i++)
+                        tmpVector[i] = data[offset + (i * band_w)];
                     subband.vFilter.analyze_lpf(tmpVector, 0, h, 1,
-                                             data, offset, band_w,
-                                             data, offset+((h+1)/2)*band_w,
-                                             band_w);
+                        data, offset, band_w,
+                        data, offset + ((h + 1) / 2) * band_w,
+                        band_w);
                 }
             }
             else { // Odd start index => use HPF
-                for(j=0; j<w; j++) {
-                    offset = uly*band_w + ulx+j;
-                    for(i=0; i<h; i++)
-                        tmpVector[i] = data[offset+(i*band_w)];
+                for (j = 0; j < w; j++) {
+                    offset = uly * band_w + ulx + j;
+                    for (i = 0; i < h; i++)
+                        tmpVector[i] = data[offset + (i * band_w)];
                     subband.vFilter.analyze_hpf(tmpVector, 0, h, 1,
-                                             data, offset, band_w,
-                                             data, offset+(h/2)*band_w,
-                                             band_w);
+                        data, offset, band_w,
+                        data, offset + (h / 2) * band_w,
+                        band_w);
                 }
             }
             //Perform the horizontal decomposition.
-            if (subband.ulcx%2==0) { // Even start index => use LPF
-                for(i=0; i<h; i++) {
-                    offset = (uly+i)*band_w + ulx;
-                    for(j=0; j<w; j++)
-                        tmpVector[j] = data[offset+j];
+            if (subband.ulcx % 2 == 0) { // Even start index => use LPF
+                for (i = 0; i < h; i++) {
+                    offset = (uly + i) * band_w + ulx;
+                    for (j = 0; j < w; j++)
+                        tmpVector[j] = data[offset + j];
                     subband.hFilter.analyze_lpf(tmpVector, 0, w, 1,
-                                             data, offset, 1,
-                                             data, offset+(w+1)/2, 1);
+                        data, offset, 1,
+                        data, offset + (w + 1) / 2, 1);
                 }
             }
             else { // Odd start index => use HPF
-                for(i=0; i<h; i++) {
-                    offset = (uly+i)*band_w + ulx;
-                    for(j=0; j<w; j++)
-                        tmpVector[j] = data[offset+j];
+                for (i = 0; i < h; i++) {
+                    offset = (uly + i) * band_w + ulx;
+                    for (j = 0; j < w; j++)
+                        tmpVector[j] = data[offset + j];
                     subband.hFilter.analyze_hpf(tmpVector, 0, w, 1,
-                                             data, offset, 1,
-                                             data, offset+w/2, 1);
+                        data, offset, 1,
+                        data, offset + w / 2, 1);
                 }
             }
         }
@@ -900,24 +947,26 @@ public class ForwWTFull extends ForwardWT {
     /**
      * Changes the current tile, given the new coordinates.
      *
-     * <P>This method resets the 'subbTrees' array, and recalculates the
+     * <P>
+     * This method resets the 'subbTrees' array, and recalculates the
      * values of the 'reversible' array. It also resets the decomposed
      * component buffers.
      *
      * @param x The horizontal coordinate of the tile.
      *
      * @param y The vertical coordinate of the new tile.
-     * */
+     */
     @Override
-    public void setTile(int x, int y) {
+    public void setTile(int x, int y)
+    {
         int i;
 
         // Change tile
-        super.setTile(x,y);
+        super.setTile(x, y);
 
         // Reset the decomposed component buffers.
         if (decomposedComps != null) {
-            for (i=decomposedComps.length-1; i>=0; i--) {
+            for (i = decomposedComps.length - 1; i >= 0; i--) {
                 decomposedComps[i] = null;
                 currentSubband[i] = null;
             }
@@ -930,19 +979,21 @@ public class ForwWTFull extends ForwardWT {
      * columns). An NoNextElementException is thrown if the current tile is
      * the last one (i.e. there is no next tile).
      *
-     * <P>This method resets the 'subbTrees' array, and recalculates the
+     * <P>
+     * This method resets the 'subbTrees' array, and recalculates the
      * values of the 'reversible' array. It also resets the decomposed
      * component buffers.
-     * */
+     */
     @Override
-    public void nextTile() {
+    public void nextTile()
+    {
         int i;
 
         // Change tile
         super.nextTile();
         // Reset the decomposed component buffers
         if (decomposedComps != null) {
-            for (i=decomposedComps.length-1; i>=0; i--) {
+            for (i = decomposedComps.length - 1; i >= 0; i--) {
                 decomposedComps[i] = null;
                 currentSubband[i] = null;
             }
@@ -962,22 +1013,22 @@ public class ForwWTFull extends ForwardWT {
      *
      * @see SubbandAn
      * @see Subband
-     * */
+     */
     @Override
-    public SubbandAn getAnSubbandTree(int t,int c) {
+    public SubbandAn getAnSubbandTree(int t, int c)
+    {
         if (subbTrees[t][c] == null) {
-            subbTrees[t][c] =
-                new SubbandAn(getTileCompWidth(tIdx, c),getTileCompHeight(tIdx, c),
-                              getCompULX(c),getCompULY(c),
-                              getDecompLevels(t,c),
-                              getHorAnWaveletFilters(t,c),
-                              getVertAnWaveletFilters(t,c));
-            initSubbandsFields(t,c,subbTrees[t][c]);
+            subbTrees[t][c] = new SubbandAn(getTileCompWidth(tIdx, c), getTileCompHeight(tIdx, c),
+                getCompULX(c), getCompULY(c),
+                getDecompLevels(t, c),
+                getHorAnWaveletFilters(t, c),
+                getVertAnWaveletFilters(t, c));
+            initSubbandsFields(t, c, subbTrees[t][c]);
         }
         return subbTrees[t][c];
     }
 
-    /** 
+    /**
      * Initialises subbands fields, such as number of code-blocks and
      * code-blocks dimension, in the subband tree. The nominal code-block
      * width/height depends on the precincts dimensions if used.
@@ -987,20 +1038,21 @@ public class ForwWTFull extends ForwardWT {
      * @param c The component index
      *
      * @param sb The subband tree to be initialised.
-     * */
-    private void initSubbandsFields(int t,int c,Subband sb) {
-        int cbw = cblks.getCBlkWidth(ModuleSpec.SPEC_TILE_COMP,t,c);
-        int cbh = cblks.getCBlkHeight(ModuleSpec.SPEC_TILE_COMP,t,c);
+     */
+    private void initSubbandsFields(int t, int c, Subband sb)
+    {
+        int cbw = cblks.getCBlkWidth(ModuleSpec.SPEC_TILE_COMP, t, c);
+        int cbh = cblks.getCBlkHeight(ModuleSpec.SPEC_TILE_COMP, t, c);
 
         if (!sb.isNode) {
             // Code-blocks dimension
             int ppx, ppy;
             int ppxExp, ppyExp, cbwExp, cbhExp;
-            ppx = pss.getPPX(t,c,sb.resLvl);
-            ppy = pss.getPPY(t,c,sb.resLvl);
+            ppx = pss.getPPX(t, c, sb.resLvl);
+            ppy = pss.getPPY(t, c, sb.resLvl);
 
-            if (ppx!=Markers.PRECINCT_PARTITION_DEF_SIZE
-                 || ppy!=Markers.PRECINCT_PARTITION_DEF_SIZE ) {
+            if (ppx != Markers.PRECINCT_PARTITION_DEF_SIZE
+                || ppy != Markers.PRECINCT_PARTITION_DEF_SIZE) {
 
                 ppxExp = MathUtil.log2(ppx);
                 ppyExp = MathUtil.log2(ppy);
@@ -1010,27 +1062,24 @@ public class ForwWTFull extends ForwardWT {
                 // Precinct partition is used
                 switch (sb.resLvl) {
                     case 0:
-                        sb.nomCBlkW = ( cbwExp<ppxExp ?
-                            (1<<cbwExp) : (1<<ppxExp) );
-                        sb.nomCBlkH = ( cbhExp<ppyExp ?
-                            (1<<cbhExp) : (1<<ppyExp) );
+                        sb.nomCBlkW = (cbwExp < ppxExp ? (1 << cbwExp) : (1 << ppxExp));
+                        sb.nomCBlkH = (cbhExp < ppyExp ? (1 << cbhExp) : (1 << ppyExp));
                         break;
 
                     default:
-                        sb.nomCBlkW = ( cbwExp<ppxExp-1 ?
-                            (1<<cbwExp) : (1<<(ppxExp-1)) );
-                        sb.nomCBlkH = ( cbhExp<ppyExp-1 ?
-                            (1<<cbhExp) : (1<<(ppyExp-1)) );
+                        sb.nomCBlkW = (cbwExp < ppxExp - 1 ? (1 << cbwExp) : (1 << (ppxExp - 1)));
+                        sb.nomCBlkH = (cbhExp < ppyExp - 1 ? (1 << cbhExp) : (1 << (ppyExp - 1)));
                         break;
                 }
-            } else {
+            }
+            else {
                 sb.nomCBlkW = cbw;
                 sb.nomCBlkH = cbh;
             }
 
             // Number of code-blocks
-            if(sb.numCb==null) sb.numCb = new Point();
-            if(sb.w!=0 && sb.h!=0) {
+            if (sb.numCb == null) sb.numCb = new Point();
+            if (sb.w != 0 && sb.h != 0) {
                 int acb0x = cb0x;
                 int acb0y = cb0y;
                 int tmp;
@@ -1041,44 +1090,46 @@ public class ForwWTFull extends ForwardWT {
                 // to the high-pass side (through the floor operator) as 0,
                 // always.
                 switch (sb.sbandIdx) {
-                case Subband.WT_ORIENT_LL:
-                    // No need to project since all low-pass => nothing to do
-                    break;
-                case Subband.WT_ORIENT_HL:
-                    acb0x = 0;
-                    break;
-                case Subband.WT_ORIENT_LH:
-                    acb0y = 0;
-                    break;
-                case Subband.WT_ORIENT_HH:
-                    acb0x = 0;
-                    acb0y = 0;
-                    break;
-                default:
-                    throw new Error("Internal JJ2000 error");
+                    case Subband.WT_ORIENT_LL:
+                        // No need to project since all low-pass => nothing to do
+                        break;
+                    case Subband.WT_ORIENT_HL:
+                        acb0x = 0;
+                        break;
+                    case Subband.WT_ORIENT_LH:
+                        acb0y = 0;
+                        break;
+                    case Subband.WT_ORIENT_HH:
+                        acb0x = 0;
+                        acb0y = 0;
+                        break;
+                    default:
+                        throw new Error("Internal JJ2000 error");
                 }
-                if(sb.ulcx-acb0x<0 || sb.ulcy-acb0y<0) {
-                    throw new IllegalArgumentException("Invalid code-blocks "+
-                                                       "partition origin or "+
-                                                       "image offset in the "+
-                                                       "reference grid.");
+                if (sb.ulcx - acb0x < 0 || sb.ulcy - acb0y < 0) {
+                    throw new IllegalArgumentException("Invalid code-blocks " +
+                        "partition origin or " +
+                        "image offset in the " +
+                        "reference grid.");
                 }
                 // NOTE: when calculating "floor()" by integer division the
                 // dividend and divisor must be positive, we ensure that by
                 // adding the divisor to the dividend and then substracting 1
                 // to the result of the division
-                tmp = sb.ulcx-acb0x+sb.nomCBlkW;
-                sb.numCb.x = (tmp+sb.w-1)/sb.nomCBlkW - (tmp/sb.nomCBlkW-1);
-                tmp = sb.ulcy-acb0y+sb.nomCBlkH;
-                sb.numCb.y = (tmp+sb.h-1)/sb.nomCBlkH - (tmp/sb.nomCBlkH-1);
-            } else {
+                tmp = sb.ulcx - acb0x + sb.nomCBlkW;
+                sb.numCb.x = (tmp + sb.w - 1) / sb.nomCBlkW - (tmp / sb.nomCBlkW - 1);
+                tmp = sb.ulcy - acb0y + sb.nomCBlkH;
+                sb.numCb.y = (tmp + sb.h - 1) / sb.nomCBlkH - (tmp / sb.nomCBlkH - 1);
+            }
+            else {
                 sb.numCb.x = sb.numCb.y = 0;
             }
-        } else {
-            initSubbandsFields(t,c,sb.getLL());
-            initSubbandsFields(t,c,sb.getHL());
-            initSubbandsFields(t,c,sb.getLH());
-            initSubbandsFields(t,c,sb.getHH());
+        }
+        else {
+            initSubbandsFields(t, c, sb.getLL());
+            initSubbandsFields(t, c, sb.getHL());
+            initSubbandsFields(t, c, sb.getLH());
+            initSubbandsFields(t, c, sb.getHH());
         }
     }
 

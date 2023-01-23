@@ -57,7 +57,8 @@ import jj2000.j2k.wavelet.Subband;
  * necessary for forward wavelet data (i.e. data that is produced by a forward
  * wavelet transform).
  */
-public interface ForwWTDataProps extends ImgData {
+public interface ForwWTDataProps extends ImgData
+{
 
     /**
      * Returns the reversibility of the given tile-component. Data is
@@ -71,8 +72,8 @@ public interface ForwWTDataProps extends ImgData {
      * @return true is the data is reversible, false if not.
      *
      *
-     * */
-    public boolean isReversible(int t,int c);
+     */
+    public boolean isReversible(int t, int c);
 
     /**
      * Returns a reference to the root of subband tree structure representing
@@ -87,18 +88,18 @@ public interface ForwWTDataProps extends ImgData {
      * @see SubbandAn
      *
      * @see Subband
-     * */
-    public SubbandAn getAnSubbandTree(int t,int c);
+     */
+    public SubbandAn getAnSubbandTree(int t, int c);
 
     /**
      * Returns the horizontal offset of the code-block partition. Allowable
      * values are 0 and 1, nothing else.
-     * */
+     */
     public int getCbULX();
 
     /**
      * Returns the vertical offset of the code-block partition. Allowable
      * values are 0 and 1, nothing else.
-     * */
+     */
     public int getCbULY();
 }

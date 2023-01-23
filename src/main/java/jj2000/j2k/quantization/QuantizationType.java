@@ -55,13 +55,15 @@ package jj2000.j2k.quantization;
  * other quantization type may be defined in JPEG 2000 extensions (for
  * instance Trellis Coded Quantization).
  *
- * <P>This interface defines the constants only. In order to use the
+ * <P>
+ * This interface defines the constants only. In order to use the
  * constants in any other class you can either use the fully qualified
  * name (e.g., <code>QuantizationType.Q_TYPE_SCALAR_DZ</code>) or declare
  * this interface in the implements clause of the class and then
  * access the identifier directly.
- * */
-public interface QuantizationType {
+ */
+public interface QuantizationType
+{
 
     /** The ID of the scalar deadzone dequantizer */
     public final static int Q_TYPE_SCALAR_DZ = 0;

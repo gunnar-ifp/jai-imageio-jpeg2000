@@ -66,11 +66,12 @@ import org.w3c.dom.NodeList;
 import com.github.jaiimageio.impl.common.ImageUtil;
 
 /**
- * This class is defined to create the box of JP2 file format.  A box has
- *  a length, a type, an optional extra length and its content.  The subclasses
- *  should explain the content information.
+ * This class is defined to create the box of JP2 file format. A box has
+ * a length, a type, an optional extra length and its content. The subclasses
+ * should explain the content information.
  */
-public class Box {
+public class Box
+{
     /** The table to link tag names for all the JP2 boxes. */
     private static Hashtable names = new Hashtable();
 
@@ -83,7 +84,7 @@ public class Box {
         // children for the boxes other than
         //JPEG2000SignatureBox/JPEG2000FileTypeBox
         names.put(Integer.valueOf(0x6A703269),
-                              "JPEG2000IntellectualPropertyRightsBox");
+            "JPEG2000IntellectualPropertyRightsBox");
         names.put(Integer.valueOf(0x786D6C20), "JPEG2000XMLBox");
         names.put(Integer.valueOf(0x75756964), "JPEG2000UUIDBox");
         names.put(Integer.valueOf(0x75696E66), "JPEG2000UUIDInfoBox");
@@ -106,16 +107,17 @@ public class Box {
         // Children of JPEG2000ResolutionBox
         names.put(Integer.valueOf(0x72657363), "JPEG2000CaptureResolutionBox");
         names.put(Integer.valueOf(0x72657364),
-                              "JPEG2000DefaultDisplayResolutionBox");
+            "JPEG2000DefaultDisplayResolutionBox");
 
         // Children of JPEG2000UUIDInfoBox
         names.put(Integer.valueOf(0x756c7374), "JPEG2000UUIDListBox");
         names.put(Integer.valueOf(0x75726c20), "JPEG2000DataEntryURLBox");
     }
 
-    /** A Hashtable contains the class names for each type of the boxes.
-     *  This table will be used to construct a Box object from a Node object
-     *  by using reflection.
+    /**
+     * A Hashtable contains the class names for each type of the boxes.
+     * This table will be used to construct a Box object from a Node object
+     * by using reflection.
      */
     private static Hashtable boxClasses = new Hashtable();
 
@@ -151,25 +153,30 @@ public class Box {
         boxClasses.put(Integer.valueOf(0x75726c20), DataEntryURLBox.class);
     }
 
-    /** Returns the XML tag name defined in JP2 XML xsd/dtd for the box
-     *  with the provided <code>type</code>. If the <code>type</code> is
+    /**
+     * Returns the XML tag name defined in JP2 XML xsd/dtd for the box
+     * with the provided <code>type</code>. If the <code>type</code> is
      * not known, the string <code>"unknown"</code> is returned.
      */
-    public static String getName(int type) {
+    public static String getName(int type)
+    {
         String name = (String)names.get(Integer.valueOf(type));
         return name == null ? "unknown" : name;
     }
 
-    /** Returns the Box class for the box with the provided <code>type</code>.
+    /**
+     * Returns the Box class for the box with the provided <code>type</code>.
      */
-    public static Class getBoxClass(int type) {
+    public static Class getBoxClass(int type)
+    {
         if (type == 0x6a703268 || type == 0x72657320)
             return null;
         return (Class)boxClasses.get(Integer.valueOf(type));
     }
 
     /** Returns the type String based on the provided name. */
-    public static String getTypeByName(String name) {
+    public static String getTypeByName(String name)
+    {
         Enumeration keys = names.keys();
         while (keys.hasMoreElements()) {
             Integer i = (Integer)keys.nextElement();
@@ -179,31 +186,36 @@ public class Box {
         return null;
     }
 
-    /** Creates a <code>Box</code> object with the provided <code>type</code>
-     *  based on the provided Node object based on reflection.
+    /**
+     * Creates a <code>Box</code> object with the provided <code>type</code>
+     * based on the provided Node object based on reflection.
      */
     public static Box createBox(int type,
-                                Node node) throws IIOInvalidTreeException {
+        Node node) throws IIOInvalidTreeException
+    {
         Class boxClass = (Class)boxClasses.get(Integer.valueOf(type));
 
         try {
             // gets the constructor with <code>Node</code parameter
-            Constructor cons =
-                boxClass.getConstructor(new Class[] {Node.class});
+            Constructor cons = boxClass.getConstructor(new Class[] { Node.class });
             if (cons != null) {
-                return (Box)cons.newInstance(new Object[]{node});
+                return (Box)cons.newInstance(new Object[] { node });
             }
-        } catch(NoSuchMethodException e) {
+        }
+        catch (NoSuchMethodException e) {
             // If exception throws, create a <code>Box</code> instance.
             e.printStackTrace();
             return new Box(node);
-        } catch(InvocationTargetException e) {
+        }
+        catch (InvocationTargetException e) {
             e.printStackTrace();
             return new Box(node);
-        } catch (IllegalAccessException e) {
+        }
+        catch (IllegalAccessException e) {
             e.printStackTrace();
             return new Box(node);
-        } catch (InstantiationException e) {
+        }
+        catch (InstantiationException e) {
             e.printStackTrace();
             return new Box(node);
         }
@@ -212,100 +224,109 @@ public class Box {
     }
 
     /** Extracts the value of the attribute from name. */
-    public static Object getAttribute(Node node, String name) {
+    public static Object getAttribute(Node node, String name)
+    {
         NamedNodeMap map = node.getAttributes();
         node = map.getNamedItem(name);
         return (node != null) ? node.getNodeValue() : null;
     }
 
     /** Parses the byte array expressed by a string. */
-    public static byte[] parseByteArray(String value) {
-	if (value == null)
-	    return null;
+    public static byte[] parseByteArray(String value)
+    {
+        if (value == null)
+            return null;
 
         StringTokenizer token = new StringTokenizer(value);
         int count = token.countTokens();
 
         byte[] buf = new byte[count];
         int i = 0;
-        while(token.hasMoreElements()) {
+        while (token.hasMoreElements()) {
             buf[i++] = Byte.parseByte(token.nextToken());
         }
         return buf;
     }
 
     /** Parses the integer array expressed a string. */
-    protected static int[] parseIntArray(String value) {
-	if (value == null)
-	    return null;
+    protected static int[] parseIntArray(String value)
+    {
+        if (value == null)
+            return null;
 
         StringTokenizer token = new StringTokenizer(value);
         int count = token.countTokens();
 
         int[] buf = new int[count];
         int i = 0;
-        while(token.hasMoreElements()) {
+        while (token.hasMoreElements()) {
             buf[i++] = Integer.valueOf(token.nextToken()).intValue();
         }
         return buf;
     }
 
-    /** Gets its <code>String</code> value from an <code>IIOMetadataNode</code>.
+    /**
+     * Gets its <code>String</code> value from an <code>IIOMetadataNode</code>.
      */
-    protected static String getStringElementValue(Node node) {
+    protected static String getStringElementValue(Node node)
+    {
 
-        if (node instanceof IIOMetadataNode) { 
-            Object obj = ((IIOMetadataNode)node).getUserObject(); 
-            if (obj instanceof String) 
-                return (String)obj; 
+        if (node instanceof IIOMetadataNode) {
+            Object obj = ((IIOMetadataNode)node).getUserObject();
+            if (obj instanceof String)
+                return (String)obj;
         }
 
-	return node.getNodeValue();
+        return node.getNodeValue();
     }
 
     /** Gets its byte value from an <code>IIOMetadataNode</code>. */
-    protected static byte getByteElementValue(Node node) {	
-	if (node instanceof IIOMetadataNode) {
-	    Object obj = ((IIOMetadataNode)node).getUserObject();
-	    if (obj instanceof Byte)
-		return ((Byte)obj).byteValue();
-	}
+    protected static byte getByteElementValue(Node node)
+    {
+        if (node instanceof IIOMetadataNode) {
+            Object obj = ((IIOMetadataNode)node).getUserObject();
+            if (obj instanceof Byte)
+                return ((Byte)obj).byteValue();
+        }
 
-	String value = node.getNodeValue();
-	if (value != null)
-	    return Byte.parseByte(value);
-	return (byte)0;
+        String value = node.getNodeValue();
+        if (value != null)
+            return Byte.parseByte(value);
+        return (byte)0;
     }
 
     /** Gets its integer value from an <code>IIOMetadataNode</code>. */
-    protected static int getIntElementValue(Node node) {
+    protected static int getIntElementValue(Node node)
+    {
         if (node instanceof IIOMetadataNode) {
             Object obj = ((IIOMetadataNode)node).getUserObject();
             if (obj instanceof Integer)
                 return ((Integer)obj).intValue();
         }
 
-	String value = node.getNodeValue();
-	if (value != null)
-	    return Integer.valueOf(value).intValue();
-	return 0;
+        String value = node.getNodeValue();
+        if (value != null)
+            return Integer.valueOf(value).intValue();
+        return 0;
     }
 
     /** Gets its short value from an <code>IIOMetadataNode</code>. */
-    protected static short getShortElementValue(Node node) {
+    protected static short getShortElementValue(Node node)
+    {
         if (node instanceof IIOMetadataNode) {
             Object obj = ((IIOMetadataNode)node).getUserObject();
             if (obj instanceof Short)
                 return ((Short)obj).shortValue();
         }
         String value = node.getNodeValue();
-	if (value != null)
-	    return Short.parseShort(value);
-	return (short)0;
+        if (value != null)
+            return Short.parseShort(value);
+        return (short)0;
     }
 
     /** Gets the byte array from an <code>IIOMetadataNode</code>. */
-    protected static byte[] getByteArrayElementValue(Node node) {
+    protected static byte[] getByteArrayElementValue(Node node)
+    {
         if (node instanceof IIOMetadataNode) {
             Object obj = ((IIOMetadataNode)node).getUserObject();
             if (obj instanceof byte[])
@@ -316,7 +337,8 @@ public class Box {
     }
 
     /** Gets the integer array from an <code>IIOMetadataNode</code>. */
-    protected static int[] getIntArrayElementValue(Node node) {
+    protected static int[] getIntArrayElementValue(Node node)
+    {
         if (node instanceof IIOMetadataNode) {
             Object obj = ((IIOMetadataNode)node).getUserObject();
             if (obj instanceof int[])
@@ -326,20 +348,24 @@ public class Box {
         return parseIntArray(node.getNodeValue());
     }
 
-    /** Copies that four bytes of an integer into the byte array.  Necessary
-     *  for the subclasses to compose the content array from the data elements
+    /**
+     * Copies that four bytes of an integer into the byte array. Necessary
+     * for the subclasses to compose the content array from the data elements
      */
-    public static void copyInt(byte[] data, int pos, int value) {
+    public static void copyInt(byte[] data, int pos, int value)
+    {
         data[pos++] = (byte)(value >> 24);
         data[pos++] = (byte)(value >> 16);
         data[pos++] = (byte)(value >> 8);
         data[pos++] = (byte)(value & 0xFF);
     }
 
-    /** Converts the box type from integer to string. This is necessary because
-     *  type is defined as String in xsd/dtd and integer in the box classes.
+    /**
+     * Converts the box type from integer to string. This is necessary because
+     * type is defined as String in xsd/dtd and integer in the box classes.
      */
-    public static String getTypeString(int type) {
+    public static String getTypeString(int type)
+    {
         byte[] buf = new byte[4];
         for (int i = 3; i >= 0; i--) {
             buf[i] = (byte)(type & 0xFF);
@@ -350,14 +376,15 @@ public class Box {
     }
 
     /**
-     * Converts the box type from integer to string.  This is necessary because
-     *  type is defined as String in xsd/dtd and integer in the box classes.
+     * Converts the box type from integer to string. This is necessary because
+     * type is defined as String in xsd/dtd and integer in the box classes.
      */
-    public static int getTypeInt(String s) {
+    public static int getTypeInt(String s)
+    {
         byte[] buf = s.getBytes();
         int t = buf[0];
         for (int i = 1; i < 4; i++) {
-            t = (t <<8) | buf[i];
+            t = (t << 8) | buf[i];
         }
 
         return t;
@@ -369,26 +396,29 @@ public class Box {
     protected int type;
     protected byte[] data;
 
-    /** Constructs a <code>Box</code> instance using the provided
-     *  the box type and the box content in byte array format.
+    /**
+     * Constructs a <code>Box</code> instance using the provided
+     * the box type and the box content in byte array format.
      *
      * @param length The provided box length.
      * @param type The provided box type.
      * @param data The provided box content in a byte array.
      *
      * @throws IllegalArgumentException If the length of the content byte array
-     *         is not length - 8.
+     * is not length - 8.
      */
-    public Box(int length, int type, byte[] data) {
+    public Box(int length, int type, byte[] data)
+    {
         this.type = type;
         setLength(length);
         setContent(data);
     }
 
-    /** Constructs a <code>Box</code> instance using the provided
-     *  the box type, the box extra length, and the box content in byte
-     *  array format.  In this case, the length of the box is set to 1,
-     *  which indicates the extra length is meaningful.
+    /**
+     * Constructs a <code>Box</code> instance using the provided
+     * the box type, the box extra length, and the box content in byte
+     * array format. In this case, the length of the box is set to 1,
+     * which indicates the extra length is meaningful.
      *
      * @param length The provided box length.
      * @param type The provided box type.
@@ -396,9 +426,10 @@ public class Box {
      * @param data The provided box content in a byte array.
      *
      * @throws IllegalArgumentException If the length of the content byte array
-     *         is not extra length - 16.
+     * is not extra length - 16.
      */
-    public Box(int length, int type, long extraLength, byte[] data) {
+    public Box(int length, int type, long extraLength, byte[] data)
+    {
         this.type = type;
         setLength(length);
         if (length == 1)
@@ -406,25 +437,28 @@ public class Box {
         setContent(data);
     }
 
-    /** Constructs a <code>Box</code> instance from the provided <code>
-     *  ImageInputStream</code> at the specified position.
+    /**
+     * Constructs a <code>Box</code> instance from the provided <code>
+      *  ImageInputStream</code> at the specified position.
      *
      * @param iis The <code>ImageInputStream</code> contains the box.
      * @param pos The position from where to read the box.
      * @throws IOException If any IOException is thrown in the called read
-     *         methods.
+     * methods.
      */
-    public Box(ImageInputStream iis, int pos) throws IOException {
+    public Box(ImageInputStream iis, int pos) throws IOException
+    {
         read(iis, pos);
     }
 
     /**
-     * Constructs a Box from an "unknown" Node.  This node has at
+     * Constructs a Box from an "unknown" Node. This node has at
      * least the attribute "Type", and may have the attribute "Length",
-     * "ExtraLength" and a child "Content".  The child node content is a
+     * "ExtraLength" and a child "Content". The child node content is a
      * IIOMetaDataNode with a byte[] user object.
      */
-    public Box(Node node) throws IIOInvalidTreeException {
+    public Box(Node node) throws IIOInvalidTreeException
+    {
         NodeList children = node.getChildNodes();
 
         String value = (String)Box.getAttribute(node, "Type");
@@ -443,30 +477,34 @@ public class Box {
         for (int i = 0; i < children.getLength(); i++) {
             Node child = children.item(i);
             if ("Content".equals(child.getNodeName())) {
-		if (child instanceof IIOMetadataNode) {
-		    IIOMetadataNode cnode = (IIOMetadataNode)child;
-		    try {
-			data = (byte[])cnode.getUserObject();
-		    } catch (Exception e) {
-		    }
-		}else  {
-		    data = getByteArrayElementValue(child);
-		}
+                if (child instanceof IIOMetadataNode) {
+                    IIOMetadataNode cnode = (IIOMetadataNode)child;
+                    try {
+                        data = (byte[])cnode.getUserObject();
+                    }
+                    catch (Exception e) {
+                    }
+                }
+                else {
+                    data = getByteArrayElementValue(child);
+                }
 
-		if (data == null) {
-		    value = node.getNodeValue();
-		    if (value != null)
-			data = value.getBytes();
-		}
+                if (data == null) {
+                    value = node.getNodeValue();
+                    if (value != null)
+                        data = value.getBytes();
+                }
             }
         }
     }
 
-    /** Creates an <code>IIOMetadataNode</code> from this
-     *  box.  The format of this node is defined in the XML dtd and xsd
-     *  for the JP2 image file.
+    /**
+     * Creates an <code>IIOMetadataNode</code> from this
+     * box. The format of this node is defined in the XML dtd and xsd
+     * for the JP2 image file.
      */
-    public IIOMetadataNode getNativeNode() {
+    public IIOMetadataNode getNativeNode()
+    {
         String name = Box.getName(getType());
         if (name == null)
             name = "unknown";
@@ -475,23 +513,25 @@ public class Box {
         setDefaultAttributes(node);
         IIOMetadataNode child = new IIOMetadataNode("Content");
         child.setUserObject(data);
-	child.setNodeValue(ImageUtil.convertObjectToString(data));
+        child.setNodeValue(ImageUtil.convertObjectToString(data));
         node.appendChild(child);
 
         return node;
     }
 
-    /** Creates an <code>IIOMetadataNode</code> from this
-     *  box.  The format of this node is defined in the XML dtd and xsd
-     *  for the JP2 image file.
+    /**
+     * Creates an <code>IIOMetadataNode</code> from this
+     * box. The format of this node is defined in the XML dtd and xsd
+     * for the JP2 image file.
      *
-     *  This method is designed for the types of boxes whose XML tree
-     *  only has 2 levels.
+     * This method is designed for the types of boxes whose XML tree
+     * only has 2 levels.
      */
-    protected IIOMetadataNode getNativeNodeForSimpleBox() {
+    protected IIOMetadataNode getNativeNodeForSimpleBox()
+    {
         try {
             Method m = this.getClass().getMethod("getElementNames",
-                                                 (Class[])null);
+                (Class[])null);
             String[] elementNames = (String[])m.invoke(null, (Object[])null);
 
             IIOMetadataNode node = new IIOMetadataNode(Box.getName(getType()));
@@ -499,22 +539,25 @@ public class Box {
             for (int i = 0; i < elementNames.length; i++) {
                 IIOMetadataNode child = new IIOMetadataNode(elementNames[i]);
                 m = this.getClass().getMethod("get" + elementNames[i],
-                                              (Class[])null);
-		Object obj = m.invoke(this, (Object[])null);
+                    (Class[])null);
+                Object obj = m.invoke(this, (Object[])null);
                 child.setUserObject(obj);
-		child.setNodeValue(ImageUtil.convertObjectToString(obj));
+                child.setNodeValue(ImageUtil.convertObjectToString(obj));
                 node.appendChild(child);
             }
             return node;
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new IllegalArgumentException(I18N.getString("Box0"));
         }
     }
 
-    /** Sets the default attributes, "Length", "Type", and "ExtraLength", to
-     *  the provided <code>IIOMetadataNode</code>.
+    /**
+     * Sets the default attributes, "Length", "Type", and "ExtraLength", to
+     * the provided <code>IIOMetadataNode</code>.
      */
-    protected void setDefaultAttributes(IIOMetadataNode node) {
+    protected void setDefaultAttributes(IIOMetadataNode node)
+    {
         node.setAttribute("Length", Integer.toString(length));
         node.setAttribute("Type", getTypeString(type));
 
@@ -524,46 +567,54 @@ public class Box {
     }
 
     /** Returns the box length. */
-    public int getLength() {
+    public int getLength()
+    {
         return length;
     }
 
     /** Returns the box type. */
-    public int getType() {
+    public int getType()
+    {
         return type;
     }
 
     /** Returns the box extra length. */
-    public long getExtraLength() {
+    public long getExtraLength()
+    {
         return extraLength;
     }
 
     /** Returns the box content in byte array. */
-    public byte[] getContent() {
+    public byte[] getContent()
+    {
         if (data == null)
             compose();
         return data;
     }
 
     /** Sets the box length to the provided value. */
-    public void setLength(int length) {
+    public void setLength(int length)
+    {
         this.length = length;
     }
 
     /** Sets the box extra length length to the provided value. */
-    public void setExtraLength(long extraLength) {
+    public void setExtraLength(long extraLength)
+    {
         if (length != 1)
             throw new IllegalArgumentException(I18N.getString("Box1"));
         this.extraLength = extraLength;
     }
 
-    /** Sets the box content.  If the content length is not length -8 or
-     *  extra length - 16, IllegalArgumentException will be thrown.
+    /**
+     * Sets the box content. If the content length is not length -8 or
+     * extra length - 16, IllegalArgumentException will be thrown.
      */
-    public void setContent(byte[] data) {
+    public void setContent(byte[] data)
+    {
         if (data != null &&
-            ((length ==1 && (extraLength - 16 != data.length)) ||
-            (length != 1 && length - 8 != data.length)))
+            ((length == 1 && (extraLength - 16 != data.length)) ||
+                (length != 1 && length - 8 != data.length)))
             throw new IllegalArgumentException(I18N.getString("Box2"));
         this.data = data;
         if (data != null)
@@ -571,29 +622,33 @@ public class Box {
     }
 
     /** Writes this box instance into a <code>ImageOutputStream</code>. */
-    public void write(ImageOutputStream ios) throws IOException {
+    public void write(ImageOutputStream ios) throws IOException
+    {
         ios.writeInt(length);
         ios.writeInt(type);
         if (length == 1) {
             ios.writeLong(extraLength);
             ios.write(data, 0, (int)extraLength);
-        } else if (data != null)
+        }
+        else if (data != null)
             ios.write(data, 0, length);
     }
 
-    /** Reads a box from the <code>ImageInputStream</code>. at the provided
-     *  position.
+    /**
+     * Reads a box from the <code>ImageInputStream</code>. at the provided
+     * position.
      */
-    public void read(ImageInputStream iis, int pos) throws IOException {
+    public void read(ImageInputStream iis, int pos) throws IOException
+    {
         iis.mark();
         iis.seek(pos);
         length = iis.readInt();
         type = iis.readInt();
         int dataLength = 0;
-        if(length == 0) {
+        if (length == 0) {
             // Length unknown at time of stream creation.
             long streamLength = iis.length();
-            if(streamLength != -1)
+            if (streamLength != -1)
                 // Calculate box length from known stream length.
                 dataLength = (int)(streamLength - iis.getStreamPosition());
             else {
@@ -606,37 +661,45 @@ public class Box {
                     iis.readFully(buf);
                     dataLength += bufLen;
                     savePos = iis.getStreamPosition();
-                } catch(EOFException eofe) {
+                }
+                catch (EOFException eofe) {
                     iis.seek(savePos);
-                    while(iis.read() != -1) dataLength++;
+                    while (iis.read() != -1) dataLength++;
                 }
                 iis.seek(dataPos);
             }
-        } else if(length == 1) {
+        }
+        else if (length == 1) {
             // Length given by XL parameter.
             extraLength = iis.readLong();
             dataLength = (int)(extraLength - 16);
-        } else if(length >= 8 && length < (1 << 32)) {
+        }
+        else if (length >= 8 && length < (1 << 32)) {
             // Length given by L parameter.
             dataLength = length - 8;
-        } else {
+        }
+        else {
             // Illegal value for L parameter.
-            throw new IIOException("Illegal value "+length+
-                                   " for box length parameter.");
+            throw new IIOException("Illegal value " + length +
+                " for box length parameter.");
         }
         data = new byte[dataLength];
         iis.readFully(data);
         iis.reset();
     }
 
-    /** Parses the data elements from the byte array.  The subclasses should
-     *  override this method.
+    /**
+     * Parses the data elements from the byte array. The subclasses should
+     * override this method.
      */
-    protected void parse(byte[] data) {
+    protected void parse(byte[] data)
+    {
     }
 
-    /** Composes the content byte array from the data elements.
+    /**
+     * Composes the content byte array from the data elements.
      */
-    protected void compose() {
+    protected void compose()
+    {
     }
 }

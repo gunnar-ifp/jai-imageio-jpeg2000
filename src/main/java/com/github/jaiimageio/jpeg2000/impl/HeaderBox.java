@@ -50,8 +50,9 @@ import javax.imageio.metadata.IIOMetadataNode;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-/** This class is defined to represent an Image Header Box of JPEG JP2 file
- *  format.  An Image Header Box has a length, and a fixed type of "ihdr".
+/**
+ * This class is defined to represent an Image Header Box of JPEG JP2 file
+ * format. An Image Header Box has a length, and a fixed type of "ihdr".
  *
  * The content of an image header box contains the width/height, number of
  * image components, the bit depth (coded with sign/unsign information),
@@ -59,20 +60,23 @@ import org.w3c.dom.NodeList;
  * space is known or not, and a flag to indicate whether the intellectual
  * property information included in this file.
  */
-public class HeaderBox extends Box {
+public class HeaderBox extends Box
+{
     /** Cache the element names for this box's xml definition */
-    private static String[] elementNames = {"Height",
-                                            "Width",
-                                            "NumComponents",
-                                            "BitDepth",
-                                            "CompressionType",
-                                            "UnknownColorspace",
-                                            "IntellectualProperty"};
+    private static String[] elementNames = { "Height",
+        "Width",
+        "NumComponents",
+        "BitDepth",
+        "CompressionType",
+        "UnknownColorspace",
+        "IntellectualProperty" };
 
-    /** This method will be called by the getNativeNodeForSimpleBox of the
-     *  class Box to get the element names.
+    /**
+     * This method will be called by the getNativeNodeForSimpleBox of the
+     * class Box to get the element names.
      */
-    public static String[] getElementNames() {
+    public static String[] getElementNames()
+    {
         return elementNames;
     }
 
@@ -87,7 +91,8 @@ public class HeaderBox extends Box {
 
     /** Create an Image Header Box from the element values. */
     public HeaderBox(int height, int width, int numComp, int bitDepth,
-                     int compressionType, int unknownColor, int intelProp) {
+        int compressionType, int unknownColor, int intelProp)
+    {
         super(22, 0x69686472, null);
         this.height = height;
         this.width = width;
@@ -99,12 +104,14 @@ public class HeaderBox extends Box {
     }
 
     /** Create an Image Header Box using the content data. */
-    public HeaderBox(byte[] data) {
+    public HeaderBox(byte[] data)
+    {
         super(8 + data.length, 0x69686472, data);
     }
 
     /** Constructs an Image Header Box from a Node. */
-    public HeaderBox(Node node) throws IIOInvalidTreeException {
+    public HeaderBox(Node node) throws IIOInvalidTreeException
+    {
         super(node);
         NodeList children = node.getChildNodes();
 
@@ -144,15 +151,16 @@ public class HeaderBox extends Box {
 
     /** Parse the data elements from the byte array of the content. */
     @Override
-    protected void parse(byte[] data) {
+    protected void parse(byte[] data)
+    {
         height = ((data[0] & 0xFF) << 24) |
-                 ((data[1] & 0xFF) << 16) |
-                 ((data[2] & 0xFF) << 8) |
-                 (data[3]& 0xFF);
+            ((data[1] & 0xFF) << 16) |
+            ((data[2] & 0xFF) << 8) |
+            (data[3] & 0xFF);
         width = ((data[4] & 0xFF) << 24) |
-                ((data[5] & 0xFF) << 16) |
-                ((data[6] & 0xFF) << 8) |
-                (data[7] & 0xFF);
+            ((data[5] & 0xFF) << 16) |
+            ((data[6] & 0xFF) << 8) |
+            (data[7] & 0xFF);
         numComp = (short)(((data[8] & 0xFF) << 8) | (data[9] & 0xFF));
         bitDepth = data[10];
         compressionType = data[11];
@@ -161,51 +169,61 @@ public class HeaderBox extends Box {
     }
 
     /** Returns the height of the image. */
-    public int getHeight() {
+    public int getHeight()
+    {
         return height;
     }
 
     /** Returns the width of the image. */
-    public int getWidth() {
+    public int getWidth()
+    {
         return width;
     }
 
     /** Returns the number of image components. */
-    public short getNumComponents() {
+    public short getNumComponents()
+    {
         return numComp;
     }
 
     /** Returns the compression type. */
-    public byte getCompressionType() {
+    public byte getCompressionType()
+    {
         return compressionType;
     }
 
     /** Returns the bit depth for all the image components. */
-    public byte getBitDepth() {
+    public byte getBitDepth()
+    {
         return bitDepth;
     }
 
     /** Returns the <code>UnknowColorspace</code> flag. */
-    public byte getUnknownColorspace() {
+    public byte getUnknownColorspace()
+    {
         return unknownColor;
     }
 
     /** Returns the <code>IntellectualProperty</code> flag. */
-    public byte getIntellectualProperty() {
+    public byte getIntellectualProperty()
+    {
         return intelProp;
     }
 
-    /** Creates an <code>IIOMetadataNode</code> from this image header box.
-     *  The format of this node is defined in the XML dtd and xsd
-     *  for the JP2 image file.
+    /**
+     * Creates an <code>IIOMetadataNode</code> from this image header box.
+     * The format of this node is defined in the XML dtd and xsd
+     * for the JP2 image file.
      */
     @Override
-    public IIOMetadataNode getNativeNode() {
+    public IIOMetadataNode getNativeNode()
+    {
         return getNativeNodeForSimpleBox();
     }
 
     @Override
-    protected void compose() {
+    protected void compose()
+    {
         if (data != null)
             return;
         data = new byte[14];

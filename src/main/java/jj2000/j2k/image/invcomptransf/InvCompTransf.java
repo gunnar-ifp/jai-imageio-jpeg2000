@@ -63,9 +63,10 @@ import jj2000.j2k.wavelet.synthesis.SynWTFilterSpec;
  * Transformation) and ICT (Irreversible Component Transformation).
  *
  * @see ModuleSpec
- * */
+ */
 public class InvCompTransf extends ImgDataAdapter
-    implements BlkImgDataSrc{
+    implements BlkImgDataSrc
+{
 
     /** Identifier for no component transformation. Value is 0. */
     public static final int NONE = 0;
@@ -73,16 +74,22 @@ public class InvCompTransf extends ImgDataAdapter
     /** The prefix for inverse component transformation options: 'M' */
     public final static char OPT_PREFIX = 'M';
 
-    /** The list of parameters that is accepted by the inverse
-     * component transformation module. They start with 'M'. */
-    private final static String [][] pinfo = null;
+    /**
+     * The list of parameters that is accepted by the inverse
+     * component transformation module. They start with 'M'.
+     */
+    private final static String[][] pinfo = null;
 
-    /** Identifier for the Inverse Reversible Component Transformation
-        (INV_RCT). Value is 1. */
+    /**
+     * Identifier for the Inverse Reversible Component Transformation
+     * (INV_RCT). Value is 1.
+     */
     public static final int INV_RCT = 1;
 
-    /** Identifier for the Inverse Irreversible Component
-        Transformation (INV_ICT). Value is 2 */
+    /**
+     * Identifier for the Inverse Irreversible Component
+     * Transformation (INV_ICT). Value is 2
+     */
     public static final int INV_ICT = 2;
 
     /** The source of image data */
@@ -94,8 +101,10 @@ public class InvCompTransf extends ImgDataAdapter
     /** The wavelet filter specifications */
     private SynWTFilterSpec wfs;
 
-    /** The type of the current component transformation JPEG 2000
-     * part I only support NONE, FORW_RCT and FORW_ICT types*/
+    /**
+     * The type of the current component transformation JPEG 2000
+     * part I only support NONE, FORW_RCT and FORW_ICT types
+     */
     private int transfType = NONE;
 
     /** Buffer for each component of output data */
@@ -110,15 +119,19 @@ public class InvCompTransf extends ImgDataAdapter
     /** Block used to request component 2 */
     private DataBlk block2;
 
-    /** Data block used only to store coordinates and progressiveness
-	of the buffered blocks */
+    /**
+     * Data block used only to store coordinates and progressiveness
+     * of the buffered blocks
+     */
     private DataBlkInt dbi = new DataBlkInt();
 
     /** The bit-depths of un-transformed components */
     private int utdepth[];
 
-    /** Flag indicating whether the decoder should skip the component 
-     * transform*/
+    /**
+     * Flag indicating whether the decoder should skip the component
+     * transform
+     */
     private boolean noCompTransf = false;
 
     /**
@@ -131,11 +144,12 @@ public class InvCompTransf extends ImgDataAdapter
      * @param decSpec The decoder specifications
      *
      * @see BlkImgDataSrc
-     * */
+     */
     public InvCompTransf(BlkImgDataSrc imgSrc, DecoderSpecs decSpec,
-                         int[] utdepth) {
+        int[] utdepth)
+    {
         super(imgSrc);
-	this.cts = decSpec.cts;
+        this.cts = decSpec.cts;
         this.wfs = decSpec.wfs;
         src = imgSrc;
         this.utdepth = utdepth;
@@ -153,8 +167,9 @@ public class InvCompTransf extends ImgDataAdapter
      *
      * @return the options name, their synopsis and their explanation,
      * or null if no options are supported.
-     * */
-    public static String[][] getParameterInfo() {
+     */
+    public static String[][] getParameterInfo()
+    {
         return pinfo;
     }
 
@@ -164,19 +179,20 @@ public class InvCompTransf extends ImgDataAdapter
      * ICT" or "No component transformation" depending on the current tile.
      *
      * @return A descriptive string
-     * */
+     */
     @Override
-    public String toString() {
-        switch(transfType){
-        case INV_RCT:
-	    return "Inverse RCT";
-        case INV_ICT:
-	    return "Inverse ICT";
-        case NONE:
-	    return "No component transformation";
-        default:
-            throw new IllegalArgumentException("Non JPEG 2000 part I"+
-                                               " component transformation");
+    public String toString()
+    {
+        switch (transfType) {
+            case INV_RCT:
+                return "Inverse RCT";
+            case INV_ICT:
+                return "Inverse ICT";
+            case NONE:
+                return "No component transformation";
+            default:
+                throw new IllegalArgumentException("Non JPEG 2000 part I" +
+                    " component transformation");
         }
     }
 
@@ -188,17 +204,18 @@ public class InvCompTransf extends ImgDataAdapter
      *
      * @return Reversibility of component transformation in current
      * tile
-     * */
-    public boolean isReversible(){
-        switch(transfType){
-        case NONE:
-        case INV_RCT:
-            return true;
-        case INV_ICT:
-            return false;
-        default:
-            throw new IllegalArgumentException("Non JPEG 2000 part I"+
-                                               " component transformation");
+     */
+    public boolean isReversible()
+    {
+        switch (transfType) {
+            case NONE:
+            case INV_RCT:
+                return true;
+            case INV_ICT:
+                return false;
+            default:
+                throw new IllegalArgumentException("Non JPEG 2000 part I" +
+                    " component transformation");
         }
     }
 
@@ -211,18 +228,20 @@ public class InvCompTransf extends ImgDataAdapter
      * and 0 should be returned. Position 0 is the position of the least
      * significant bit in the data.
      *
-     * <P>This default implementation assumes that the number of fractional
+     * <P>
+     * This default implementation assumes that the number of fractional
      * bits is not modified by the component mixer.
      *
      * @param c The index of the component.
      *
      * @return The value of the fixed point position of the source since the
      * color transform does not affect it.
-     * */
-     @Override
-    public int getFixedPoint(int c) {
-         return src.getFixedPoint(c);
-     }
+     */
+    @Override
+    public int getFixedPoint(int c)
+    {
+        return src.getFixedPoint(c);
+    }
 
     /**
      * Calculates the bitdepths of the transformed components, given the
@@ -237,9 +256,9 @@ public class InvCompTransf extends ImgDataAdapter
      * array, otherwise a new array is allocated and returned.
      *
      * @return The bitdepth of each transformed component.
-     * */
-    public static
-        int[] calcMixedBitDepths(int utdepth[], int ttype, int tdepth[]) {
+     */
+    public static int[] calcMixedBitDepths(int utdepth[], int ttype, int tdepth[])
+    {
 
         if (utdepth.length < 3 && ttype != NONE) {
             throw new IllegalArgumentException();
@@ -250,46 +269,43 @@ public class InvCompTransf extends ImgDataAdapter
         }
 
         switch (ttype) {
-        case NONE:
-            System.arraycopy(utdepth,0,tdepth,0,utdepth.length);
-            break;
-        case INV_RCT:
-            if (utdepth.length >3) {
-                System.arraycopy(utdepth,3,tdepth,3,utdepth.length-3);
-            }
-            // The formulas are:
-            // tdepth[0] = ceil(log2(2^(utdepth[0])+2^utdepth[1]+
-            //                        2^(utdepth[2])))-2+1
-            // tdepth[1] = ceil(log2(2^(utdepth[0])+2^(utdepth[1])-1))+1
-            // tdepth[2] = ceil(log2(2^(utdepth[1])+2^(utdepth[2])-1))+1
-            // The MathUtil.log2(x) function calculates floor(log2(x)), so we
-            // use 'MathUtil.log2(2*x-1)+1', which calculates ceil(log2(x))
-            // for any x>=1, x integer.
-            tdepth[0] = MathUtil.log2((1<<utdepth[0])+(2<<utdepth[1])+
-                                      (1<<utdepth[2])-1)-2+1;
-            tdepth[1] = MathUtil.log2((1<<utdepth[2])+(1<<utdepth[1])-1)+1;
-            tdepth[2] = MathUtil.log2((1<<utdepth[0])+(1<<utdepth[1])-1)+1;
-            break;
-        case INV_ICT:
-            if (utdepth.length >3) {
-                System.arraycopy(utdepth,3,tdepth,3,utdepth.length-3);
-            }
-            // The MathUtil.log2(x) function calculates floor(log2(x)), so we
-            // use 'MathUtil.log2(2*x-1)+1', which calculates ceil(log2(x))
-            // for any x>=1, x integer.
-            tdepth[0] =
-                MathUtil.log2((int)Math.floor((1<<utdepth[0])*0.299072+
-                                              (1<<utdepth[1])*0.586914+
-                                              (1<<utdepth[2])*0.114014)-1)+1;
-            tdepth[1] =
-                MathUtil.log2((int)Math.floor((1<<utdepth[0])*0.168701+
-                                              (1<<utdepth[1])*0.331299+
-                                              (1<<utdepth[2])*0.5)-1)+1;
-            tdepth[2] =
-                MathUtil.log2((int)Math.floor((1<<utdepth[0])*0.5+
-                                              (1<<utdepth[1])*0.418701+
-                                              (1<<utdepth[2])*0.081299)-1)+1;
-            break;
+            case NONE:
+                System.arraycopy(utdepth, 0, tdepth, 0, utdepth.length);
+                break;
+            case INV_RCT:
+                if (utdepth.length > 3) {
+                    System.arraycopy(utdepth, 3, tdepth, 3, utdepth.length - 3);
+                }
+                // The formulas are:
+                // tdepth[0] = ceil(log2(2^(utdepth[0])+2^utdepth[1]+
+                //                        2^(utdepth[2])))-2+1
+                // tdepth[1] = ceil(log2(2^(utdepth[0])+2^(utdepth[1])-1))+1
+                // tdepth[2] = ceil(log2(2^(utdepth[1])+2^(utdepth[2])-1))+1
+                // The MathUtil.log2(x) function calculates floor(log2(x)), so we
+                // use 'MathUtil.log2(2*x-1)+1', which calculates ceil(log2(x))
+                // for any x>=1, x integer.
+                tdepth[0] = MathUtil.log2((1 << utdepth[0]) + (2 << utdepth[1]) +
+                    (1 << utdepth[2]) - 1) - 2 + 1;
+                tdepth[1] = MathUtil.log2((1 << utdepth[2]) + (1 << utdepth[1]) - 1) + 1;
+                tdepth[2] = MathUtil.log2((1 << utdepth[0]) + (1 << utdepth[1]) - 1) + 1;
+                break;
+            case INV_ICT:
+                if (utdepth.length > 3) {
+                    System.arraycopy(utdepth, 3, tdepth, 3, utdepth.length - 3);
+                }
+                // The MathUtil.log2(x) function calculates floor(log2(x)), so we
+                // use 'MathUtil.log2(2*x-1)+1', which calculates ceil(log2(x))
+                // for any x>=1, x integer.
+                tdepth[0] = MathUtil.log2((int)Math.floor((1 << utdepth[0]) * 0.299072 +
+                    (1 << utdepth[1]) * 0.586914 +
+                    (1 << utdepth[2]) * 0.114014) - 1) + 1;
+                tdepth[1] = MathUtil.log2((int)Math.floor((1 << utdepth[0]) * 0.168701 +
+                    (1 << utdepth[1]) * 0.331299 +
+                    (1 << utdepth[2]) * 0.5) - 1) + 1;
+                tdepth[2] = MathUtil.log2((int)Math.floor((1 << utdepth[0]) * 0.5 +
+                    (1 << utdepth[1]) * 0.418701 +
+                    (1 << utdepth[2]) * 0.081299) - 1) + 1;
+                break;
         }
 
         return tdepth;
@@ -305,9 +321,10 @@ public class InvCompTransf extends ImgDataAdapter
      * @param c The index of the component.
      *
      * @return The bitdepth of un-transformed component 'c'.
-     * */
+     */
     @Override
-    public int getNomRangeBits(int c) {
+    public int getNomRangeBits(int c)
+    {
         return utdepth[c];
     }
 
@@ -316,7 +333,8 @@ public class InvCompTransf extends ImgDataAdapter
      * tile. If no component transformation has been requested by the user,
      * data are not modified.
      *
-     * <P>This method calls the getInternCompData() method, but respects the
+     * <P>
+     * This method calls the getInternCompData() method, but respects the
      * definitions of the getCompData() method defined in the BlkImgDataSrc
      * interface.
      *
@@ -328,17 +346,18 @@ public class InvCompTransf extends ImgDataAdapter
      * @return The requested DataBlk
      *
      * @see BlkImgDataSrc#getCompData
-     * */
+     */
     @Override
-    public DataBlk getCompData(DataBlk blk, int c){
+    public DataBlk getCompData(DataBlk blk, int c)
+    {
         // If requesting a component whose index is greater than 3 or there is
         // no transform return a copy of data (getInternCompData returns the
         // actual data in those cases)
-        if (c>=3 || transfType == NONE) {
-            return src.getCompData(blk,c);
+        if (c >= 3 || transfType == NONE) {
+            return src.getCompData(blk, c);
         }
         else { // We can use getInternCompData (since data is a copy anyways)
-            return getInternCompData(blk,c);
+            return getInternCompData(blk, c);
         }
     }
 
@@ -357,24 +376,25 @@ public class InvCompTransf extends ImgDataAdapter
      * @param c Index of the output component.
      *
      * @return The requested DataBlk
-     * */
+     */
     @Override
-    public DataBlk getInternCompData(DataBlk blk, int c){
+    public DataBlk getInternCompData(DataBlk blk, int c)
+    {
         // if specified in the command line that no component transform should
         // be made, return original data
-        if(noCompTransf)
-            return src.getInternCompData(blk,c);
+        if (noCompTransf)
+            return src.getInternCompData(blk, c);
 
-        switch(transfType){
-        case NONE:
-	    return src.getInternCompData(blk,c);
-        case INV_RCT:
-	    return invRCT(blk,c);
-        case INV_ICT:
-	    return invICT(blk,c);
-        default:
-            throw new IllegalArgumentException("Non JPEG 2000 part I"+
-                                               " component transformation");
+        switch (transfType) {
+            case NONE:
+                return src.getInternCompData(blk, c);
+            case INV_RCT:
+                return invRCT(blk, c);
+            case INV_ICT:
+                return invICT(blk, c);
+            default:
+                throw new IllegalArgumentException("Non JPEG 2000 part I" +
+                    " component transformation");
         }
     }
 
@@ -388,57 +408,58 @@ public class InvCompTransf extends ImgDataAdapter
      * @param c The index of the requested component
      *
      * @return Data of requested component
-     * */
-    private DataBlk invRCT(DataBlk blk,int c){
+     */
+    private DataBlk invRCT(DataBlk blk, int c)
+    {
         // If the component number is three or greater, return original data
-        if (c>=3 && c < getNumComps()) {
+        if (c >= 3 && c < getNumComps()) {
             // Requesting a component whose index is greater than 3
-            return src.getInternCompData(blk,c);
+            return src.getInternCompData(blk, c);
         }
 
         // If asking a component for the first time for this block,
-	// do transform for the 3 components
-        if ((outdata[c] == null)||
-	    (dbi.ulx > blk.ulx) || (dbi.uly > blk.uly) ||
-            (dbi.ulx+dbi.w < blk.ulx+blk.w) ||
-            (dbi.uly+dbi.h < blk.uly+blk.h)) {
-	    int k,k0,k1,k2,mink,i;
-	    int w = blk.w; //width of output block
-	    int h = blk.h; //height of ouput block
+        // do transform for the 3 components
+        if ((outdata[c] == null) ||
+            (dbi.ulx > blk.ulx) || (dbi.uly > blk.uly) ||
+            (dbi.ulx + dbi.w < blk.ulx + blk.w) ||
+            (dbi.uly + dbi.h < blk.uly + blk.h)) {
+            int k, k0, k1, k2, mink, i;
+            int w = blk.w; //width of output block
+            int h = blk.h; //height of ouput block
 
             //Reference to output block data array
-            outdata[c] = (int[]) blk.getData();
+            outdata[c] = (int[])blk.getData();
 
             //Create data array of blk if necessary
-            if(outdata[c] == null || outdata[c].length!=h*w){
+            if (outdata[c] == null || outdata[c].length != h * w) {
                 outdata[c] = new int[h * w];
                 blk.setData(outdata[c]);
             }
 
-	    outdata[(c+1)%3] = new int[outdata[c].length];
-	    outdata[(c+2)%3] = new int[outdata[c].length];
+            outdata[(c + 1) % 3] = new int[outdata[c].length];
+            outdata[(c + 2) % 3] = new int[outdata[c].length];
 
-	    if(block0==null || block0.getDataType()!=DataBlk.TYPE_INT)
-		block0 = new DataBlkInt();
-	    if(block1==null || block1.getDataType()!=DataBlk.TYPE_INT)
-		block1 = new DataBlkInt();
-	    if(block2==null || block2.getDataType()!=DataBlk.TYPE_INT)
-		block2 = new DataBlkInt();
-	    block0.w = block1.w = block2.w = blk.w;
-	    block0.h = block1.h = block2.h = blk.h;
-	    block0.ulx = block1.ulx = block2.ulx = blk.ulx;
-	    block0.uly = block1.uly = block2.uly = blk.uly;
+            if (block0 == null || block0.getDataType() != DataBlk.TYPE_INT)
+                block0 = new DataBlkInt();
+            if (block1 == null || block1.getDataType() != DataBlk.TYPE_INT)
+                block1 = new DataBlkInt();
+            if (block2 == null || block2.getDataType() != DataBlk.TYPE_INT)
+                block2 = new DataBlkInt();
+            block0.w = block1.w = block2.w = blk.w;
+            block0.h = block1.h = block2.h = blk.h;
+            block0.ulx = block1.ulx = block2.ulx = blk.ulx;
+            block0.uly = block1.uly = block2.uly = blk.uly;
 
-            int data0[],data1[],data2[]; // input data arrays
+            int data0[], data1[], data2[]; // input data arrays
 
             // Fill in buffer blocks (to be read only)
             // Returned blocks may have different size and position
             block0 = src.getInternCompData(block0, 0);
-            data0 = (int[]) block0.getData();
+            data0 = (int[])block0.getData();
             block1 = src.getInternCompData(block1, 1);
-            data1 = (int[]) block1.getData();
+            data1 = (int[])block1.getData();
             block2 = src.getInternCompData(block2, 2);
-            data2 = (int[]) block2.getData();
+            data2 = (int[])block2.getData();
 
             // Set the progressiveness of the output data
             blk.progressive = block0.progressive || block1.progressive ||
@@ -446,46 +467,46 @@ public class InvCompTransf extends ImgDataAdapter
             blk.offset = 0;
             blk.scanw = w;
 
-	    // set attributes of the DataBlk used for buffering
-	    dbi.progressive = blk.progressive;
-	    dbi.ulx = blk.ulx;
-	    dbi.uly = blk.uly;
+            // set attributes of the DataBlk used for buffering
+            dbi.progressive = blk.progressive;
+            dbi.ulx = blk.ulx;
+            dbi.uly = blk.uly;
             dbi.w = blk.w;
             dbi.h = blk.h;
 
             // Perform conversion
 
             // Initialize general indexes
-            k = w*h-1;
-            k0 = block0.offset+(h-1)*block0.scanw+w-1;
-            k1 = block1.offset+(h-1)*block1.scanw+w-1;
-            k2 = block2.offset+(h-1)*block2.scanw+w-1;
+            k = w * h - 1;
+            k0 = block0.offset + (h - 1) * block0.scanw + w - 1;
+            k1 = block1.offset + (h - 1) * block1.scanw + w - 1;
+            k2 = block2.offset + (h - 1) * block2.scanw + w - 1;
 
-	    for( i = h-1; i >=0; i--){
-		for(mink = k-w; k > mink; k--, k0--, k1--, k2--){
-		    outdata[1][k] = (data0[k0] - ((data1[k1]+data2[k2])>>2) );
-		    outdata[0][k] = data2[k2] + outdata[1][k];
-		    outdata[2][k] = data1[k1] + outdata[1][k];
-		}
-		// Jump to beggining of previous line in input
-		k0 -= block0.scanw - w;
-		k1 -= block1.scanw - w;
-		k2 -= block2.scanw - w;
-	    }
-	    outdata[c] = null;
+            for (i = h - 1; i >= 0; i--) {
+                for (mink = k - w; k > mink; k--, k0--, k1--, k2--) {
+                    outdata[1][k] = (data0[k0] - ((data1[k1] + data2[k2]) >> 2));
+                    outdata[0][k] = data2[k2] + outdata[1][k];
+                    outdata[2][k] = data1[k1] + outdata[1][k];
+                }
+                // Jump to beggining of previous line in input
+                k0 -= block0.scanw - w;
+                k1 -= block1.scanw - w;
+                k2 -= block2.scanw - w;
+            }
+            outdata[c] = null;
         }
-	else if((c>=0)&&(c<=3)){ //Asking for the 2nd or 3rd block component
-	    blk.setData(outdata[c]);
-	    blk.progressive = dbi.progressive;
-            blk.offset = (blk.uly-dbi.uly)*dbi.w+blk.ulx-dbi.ulx;
+        else if ((c >= 0) && (c <= 3)) { //Asking for the 2nd or 3rd block component
+            blk.setData(outdata[c]);
+            blk.progressive = dbi.progressive;
+            blk.offset = (blk.uly - dbi.uly) * dbi.w + blk.ulx - dbi.ulx;
             blk.scanw = dbi.w;
-	    outdata[c] = null;
-	}
+            outdata[c] = null;
+        }
         else {
             // Requesting a non valid component index
             throw new IllegalArgumentException();
         }
-	return blk;
+        return blk;
     }
 
     /**
@@ -498,40 +519,41 @@ public class InvCompTransf extends ImgDataAdapter
      * @param c The index of the requested component
      *
      * @return Data of requested component
-     * */
-    private DataBlk invICT(DataBlk blk,int c){
-        if(c>=3 && c<getNumComps()) {
+     */
+    private DataBlk invICT(DataBlk blk, int c)
+    {
+        if (c >= 3 && c < getNumComps()) {
             // Requesting a component whose index is greater than 3            
-            int k,k0,k1,k2,mink,i;
+            int k, k0, k1, k2, mink, i;
             int w = blk.w; //width of output block
             int h = blk.h; //height of ouput block
 
             int outdata[]; // array of output data
 
             //Reference to output block data array
-            outdata = (int[]) blk.getData();
+            outdata = (int[])blk.getData();
 
             //Create data array of blk if necessary
-            if( outdata == null ) {
+            if (outdata == null) {
                 outdata = new int[h * w];
                 blk.setData(outdata);
             }
 
             // Variables
-            DataBlkFloat indb = new DataBlkFloat(blk.ulx,blk.uly,w,h);
+            DataBlkFloat indb = new DataBlkFloat(blk.ulx, blk.uly, w, h);
             float indata[]; // input data array
 
             // Get the input data
             // (returned block may be larger than requested one)
-            src.getInternCompData(indb,c);
-            indata = (float[]) indb.getData();
+            src.getInternCompData(indb, c);
+            indata = (float[])indb.getData();
 
             // Copy the data converting from int to int
-            k = w*h-1;
-            k0 = indb.offset+(h-1)*indb.scanw+w-1;
-            for (i=h-1; i >=0; i--) {
-                for (mink = k-w; k > mink; k--, k0--) {
-                    outdata[k] = (int) (indata[k0]);
+            k = w * h - 1;
+            k0 = indb.offset + (h - 1) * indb.scanw + w - 1;
+            for (i = h - 1; i >= 0; i--) {
+                for (mink = k - w; k > mink; k--, k0--) {
+                    outdata[k] = (int)(indata[k0]);
                 }
                 // Jump to beggining of previous line in input
                 k0 -= indb.scanw - w;
@@ -544,48 +566,48 @@ public class InvCompTransf extends ImgDataAdapter
         }
 
         // If asking a component for the first time for this block,
-	// do transform for the 3 components
-        else if((outdata[c] == null)||
-	    (dbi.ulx > blk.ulx) || (dbi.uly > blk.uly) ||
-            (dbi.ulx+dbi.w < blk.ulx+blk.w) ||
-            (dbi.uly+dbi.h < blk.uly+blk.h)) {
-	    int k,k0,k1,k2,mink,i;
-	    int w = blk.w; //width of output block
-	    int h = blk.h; //height of ouput block
+        // do transform for the 3 components
+        else if ((outdata[c] == null) ||
+            (dbi.ulx > blk.ulx) || (dbi.uly > blk.uly) ||
+            (dbi.ulx + dbi.w < blk.ulx + blk.w) ||
+            (dbi.uly + dbi.h < blk.uly + blk.h)) {
+            int k, k0, k1, k2, mink, i;
+            int w = blk.w; //width of output block
+            int h = blk.h; //height of ouput block
 
-	    //Reference to output block data array
-	    outdata[c] = (int[]) blk.getData();
+            //Reference to output block data array
+            outdata[c] = (int[])blk.getData();
 
-	    //Create data array of blk if necessary
-	    if(outdata[c] == null || outdata[c].length!=w*h){
-		outdata[c] = new int[h * w];
-		blk.setData(outdata[c]);
-	    }
+            //Create data array of blk if necessary
+            if (outdata[c] == null || outdata[c].length != w * h) {
+                outdata[c] = new int[h * w];
+                blk.setData(outdata[c]);
+            }
 
-	    outdata[(c+1)%3] = new int[outdata[c].length];
-	    outdata[(c+2)%3] = new int[outdata[c].length];
+            outdata[(c + 1) % 3] = new int[outdata[c].length];
+            outdata[(c + 2) % 3] = new int[outdata[c].length];
 
-	    if(block0==null || block0.getDataType()!=DataBlk.TYPE_FLOAT)
-		block0 = new DataBlkFloat();
-	    if(block2==null || block2.getDataType()!=DataBlk.TYPE_FLOAT)
-		block2 = new DataBlkFloat();
-	    if(block1==null || block1.getDataType()!=DataBlk.TYPE_FLOAT)
-		block1 = new DataBlkFloat();
-	    block0.w = block2.w = block1.w = blk.w;
-	    block0.h = block2.h = block1.h = blk.h;
-	    block0.ulx = block2.ulx = block1.ulx = blk.ulx;
-	    block0.uly = block2.uly = block1.uly = blk.uly;
+            if (block0 == null || block0.getDataType() != DataBlk.TYPE_FLOAT)
+                block0 = new DataBlkFloat();
+            if (block2 == null || block2.getDataType() != DataBlk.TYPE_FLOAT)
+                block2 = new DataBlkFloat();
+            if (block1 == null || block1.getDataType() != DataBlk.TYPE_FLOAT)
+                block1 = new DataBlkFloat();
+            block0.w = block2.w = block1.w = blk.w;
+            block0.h = block2.h = block1.h = blk.h;
+            block0.ulx = block2.ulx = block1.ulx = blk.ulx;
+            block0.uly = block2.uly = block1.uly = blk.uly;
 
-            float data0[],data1[],data2[]; // input data arrays
+            float data0[], data1[], data2[]; // input data arrays
 
             // Fill in buffer blocks (to be read only)
             // Returned blocks may have different size and position
             block0 = src.getInternCompData(block0, 0);
-            data0  = (float[]) block0.getData();
+            data0 = (float[])block0.getData();
             block2 = src.getInternCompData(block2, 1);
-            data2 = (float[]) block2.getData();
+            data2 = (float[])block2.getData();
             block1 = src.getInternCompData(block1, 2);
-            data1 = (float[]) block1.getData();
+            data1 = (float[])block1.getData();
 
             // Set the progressiveness of the output data
             blk.progressive = block0.progressive || block1.progressive ||
@@ -593,88 +615,90 @@ public class InvCompTransf extends ImgDataAdapter
             blk.offset = 0;
             blk.scanw = w;
 
-	    // set attributes of the DataBlk used for buffering
-	    dbi.progressive = blk.progressive;
-	    dbi.ulx = blk.ulx;
-	    dbi.uly = blk.uly;
+            // set attributes of the DataBlk used for buffering
+            dbi.progressive = blk.progressive;
+            dbi.ulx = blk.ulx;
+            dbi.uly = blk.uly;
             dbi.w = blk.w;
             dbi.h = blk.h;
 
             //Perform conversion
 
             // Initialize general indexes
-            k = w*h-1;
-            k0 = block0.offset+(h-1)*block0.scanw+w-1;
-            k2 = block2.offset+(h-1)*block2.scanw+w-1;
-            k1 = block1.offset+(h-1)*block1.scanw+w-1;
+            k = w * h - 1;
+            k0 = block0.offset + (h - 1) * block0.scanw + w - 1;
+            k2 = block2.offset + (h - 1) * block2.scanw + w - 1;
+            k1 = block1.offset + (h - 1) * block1.scanw + w - 1;
 
-	    for( i = h-1; i >=0; i--){
-		for(mink = k-w; k > mink; k--, k0--, k2--, k1--){
-  		    outdata[0][k] = (int)(data0[k0]+1.402f*data1[k1]+0.5f);
-  		    outdata[1][k] =
-  			(int) (data0[k0]-0.34413f*data2[k2]-0.71414f*data1[k1]
-                               + 0.5f);
-  		    outdata[2][k] = (int)(data0[k0]+1.772f*data2[k2]+0.5f);
-		}
-		// Jump to beggining of previous line in input
-		k0 -= block0.scanw - w;
-		k2 -= block2.scanw - w;
-		k1 -= block1.scanw - w;
-  	    }
-	    outdata[c] = null;
+            for (i = h - 1; i >= 0; i--) {
+                for (mink = k - w; k > mink; k--, k0--, k2--, k1--) {
+                    outdata[0][k] = (int)(data0[k0] + 1.402f * data1[k1] + 0.5f);
+                    outdata[1][k] = (int)(data0[k0] - 0.34413f * data2[k2] - 0.71414f * data1[k1]
+                        + 0.5f);
+                    outdata[2][k] = (int)(data0[k0] + 1.772f * data2[k2] + 0.5f);
+                }
+                // Jump to beggining of previous line in input
+                k0 -= block0.scanw - w;
+                k2 -= block2.scanw - w;
+                k1 -= block1.scanw - w;
+            }
+            outdata[c] = null;
         }
-        else if((c>=0)&&(c<=3)){//Asking for the 2nd or 3rd block component
+        else if ((c >= 0) && (c <= 3)) {//Asking for the 2nd or 3rd block component
             blk.setData(outdata[c]);
             blk.progressive = dbi.progressive;
-            blk.offset = (blk.uly-dbi.uly)*dbi.w+blk.ulx-dbi.ulx;
+            blk.offset = (blk.uly - dbi.uly) * dbi.w + blk.ulx - dbi.ulx;
             blk.scanw = dbi.w;
             outdata[c] = null;
-        } else {
+        }
+        else {
             // Requesting a non valid component index
             throw new IllegalArgumentException();
         }
-	return blk;
+        return blk;
     }
 
-        /**
+    /**
      * Changes the current tile, given the new indexes. An
      * IllegalArgumentException is thrown if the indexes do not
      * correspond to a valid tile.
      *
-     * <P>This default implementation changes the tile in the source
+     * <P>
+     * This default implementation changes the tile in the source
      * and re-initializes properly component transformation variables..
      *
      * @param x The horizontal index of the tile.
      *
      * @param y The vertical index of the new tile.
      *
-     * */
+     */
     @Override
-    public void setTile(int x, int y) {
-        src.setTile(x,y);
-	tIdx = getTileIdx(); // index of the current tile
+    public void setTile(int x, int y)
+    {
+        src.setTile(x, y);
+        tIdx = getTileIdx(); // index of the current tile
 
         // initializations
-        if( ((Integer)cts.getTileDef(tIdx)).intValue()==NONE )
+        if (((Integer)cts.getTileDef(tIdx)).intValue() == NONE)
             transfType = NONE;
         else {
-            int nc = src.getNumComps()> 3 ? 3 : src.getNumComps();
+            int nc = src.getNumComps() > 3 ? 3 : src.getNumComps();
             int rev = 0;
-            for(int c=0; c<nc; c++)
-                rev += (wfs.isReversible(tIdx,c)?1:0);
-            if(rev==3){
+            for (int c = 0; c < nc; c++)
+                rev += (wfs.isReversible(tIdx, c) ? 1 : 0);
+            if (rev == 3) {
                 // All WT are reversible
                 transfType = INV_RCT;
             }
-            else if(rev==0){
+            else if (rev == 0) {
                 // All WT irreversible
                 transfType = INV_ICT;
             }
-            else{
+            else {
                 // Error
-                throw new IllegalArgumentException("Wavelet transformation and "+
-                                                   "component transformation"+
-                                                   " not coherent in tile"+tIdx);
+                throw new IllegalArgumentException("Wavelet transformation and " +
+                    "component transformation" +
+                    " not coherent in tile" + tIdx);
             }
         }
     }
@@ -684,37 +708,39 @@ public class InvCompTransf extends ImgDataAdapter
      * then columns). An NoNextElementException is thrown if the
      * current tile is the last one (i.e. there is no next tile).
      *
-     * <P>This default implementation just advances to the next tile
+     * <P>
+     * This default implementation just advances to the next tile
      * in the source and re-initializes properly component
      * transformation variables.
      *
-     * */
+     */
     @Override
-    public void nextTile() {
+    public void nextTile()
+    {
         src.nextTile();
-	tIdx = getTileIdx(); // index of the current tile
+        tIdx = getTileIdx(); // index of the current tile
 
         // initializations
-        if( ((Integer)cts.getTileDef(tIdx)).intValue()==NONE )
+        if (((Integer)cts.getTileDef(tIdx)).intValue() == NONE)
             transfType = NONE;
         else {
             int nc = src.getNumComps() > 3 ? 3 : src.getNumComps();
             int rev = 0;
-            for(int c=0; c<nc; c++)
-                rev += (wfs.isReversible(tIdx,c)?1:0);
-            if(rev==3){
+            for (int c = 0; c < nc; c++)
+                rev += (wfs.isReversible(tIdx, c) ? 1 : 0);
+            if (rev == 3) {
                 // All WT are reversible
                 transfType = INV_RCT;
             }
-            else if(rev==0){
+            else if (rev == 0) {
                 // All WT irreversible
                 transfType = INV_ICT;
             }
-            else{
+            else {
                 // Error
-                throw new IllegalArgumentException("Wavelet transformation and "+
-                                                   "component transformation"+
-                                                   " not coherent in tile"+tIdx);
+                throw new IllegalArgumentException("Wavelet transformation and " +
+                    "component transformation" +
+                    " not coherent in tile" + tIdx);
             }
         }
     }

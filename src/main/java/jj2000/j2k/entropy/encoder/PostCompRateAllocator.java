@@ -54,13 +54,15 @@ import jj2000.j2k.codestream.writer.HeaderEncoder;
 import jj2000.j2k.image.ImgDataAdapter;
 
 import com.github.jaiimageio.jpeg2000.impl.J2KImageWriteParamJava;
+
 /**
  * This is the abstract class from which post-compression rate allocators
  * which generate layers should inherit. The source of data is a
  * 'CodedCBlkDataSrcEnc' which delivers entropy coded blocks with
  * rate-distortion statistics.
  *
- * <P>The post compression rate allocator implementation should create the
+ * <P>
+ * The post compression rate allocator implementation should create the
  * layers, according to a rate allocation policy, and send the packets to a
  * CodestreamWriter. Since the rate allocator sends the packets to the bit
  * stream then it should output the packets to the bit stream in the order
@@ -69,60 +71,64 @@ import com.github.jaiimageio.jpeg2000.impl.J2KImageWriteParamJava;
  * @see CodedCBlkDataSrcEnc
  *
  * @see jj2000.j2k.codestream.writer.CodestreamWriter
- * */
-public abstract class PostCompRateAllocator extends ImgDataAdapter {
+ */
+public abstract class PostCompRateAllocator extends ImgDataAdapter
+{
 
     /** The prefix for rate allocation options: 'A' */
     public final static char OPT_PREFIX = 'A';
 
-    /** The list of parameters that is accepted for entropy coding. Options
-     * for entropy coding start with 'R'. */
-    private final static String [][] pinfo = {
-        { "Aptype", "[<tile idx>] res|layer|res-pos|"+
-          "pos-comp|comp-pos [res_start comp_start layer_end res_end "+
-          "comp_end "+
-          "prog] [[res_start comp_start ly_end res_end comp_end prog] ...] ["+
-          "[<tile-component idx>] ...]",
-          "Specifies which type of progression should be used when "+
-          "generating "+
-          "the codestream. The 'res' value generates a resolution "+
-          "progressive codestream with the number of layers specified by "+
-	  "'Alayers' option. The 'layer' value generates a layer progressive "+
-	  "codestream with multiple layers. In any case the rate-allocation "+
-          "algorithm optimizes for best quality in each layer. The quality "+
-          "measure is mean squared error (MSE) or a weighted version of it "+
-          "(WMSE). If no progression type is specified or imposed by other "+
-          "modules, the default value is 'layer'.\n"+
-          "It is also possible to describe progression order changes. In "+
-          "this case, 'res_start' is the index (from 0) of the first "+
-          "resolution "+
-	  "level, 'comp_start' is the index (from 0) of the first component, "+
-          "'ly_end' is the index (from 0) of the first layer not included, "+
-	  "'res_end' is the index (from 0) of the first resolution level not "+
-	  "included, 'comp_end' is index (from 0) of the first component not "+
-	  "included and 'prog' is the progression type to be used "+
-          "for the rest of the tile/image. Several progression order changes "+
-          "can be specified, one after the other."
-          , null},
+    /**
+     * The list of parameters that is accepted for entropy coding. Options
+     * for entropy coding start with 'R'.
+     */
+    private final static String[][] pinfo = {
+        { "Aptype", "[<tile idx>] res|layer|res-pos|" +
+            "pos-comp|comp-pos [res_start comp_start layer_end res_end " +
+            "comp_end " +
+            "prog] [[res_start comp_start ly_end res_end comp_end prog] ...] [" +
+            "[<tile-component idx>] ...]",
+            "Specifies which type of progression should be used when " +
+                "generating " +
+                "the codestream. The 'res' value generates a resolution " +
+                "progressive codestream with the number of layers specified by " +
+                "'Alayers' option. The 'layer' value generates a layer progressive " +
+                "codestream with multiple layers. In any case the rate-allocation " +
+                "algorithm optimizes for best quality in each layer. The quality " +
+                "measure is mean squared error (MSE) or a weighted version of it " +
+                "(WMSE). If no progression type is specified or imposed by other " +
+                "modules, the default value is 'layer'.\n" +
+                "It is also possible to describe progression order changes. In " +
+                "this case, 'res_start' is the index (from 0) of the first " +
+                "resolution " +
+                "level, 'comp_start' is the index (from 0) of the first component, " +
+                "'ly_end' is the index (from 0) of the first layer not included, " +
+                "'res_end' is the index (from 0) of the first resolution level not " +
+                "included, 'comp_end' is index (from 0) of the first component not " +
+                "included and 'prog' is the progression type to be used " +
+                "for the rest of the tile/image. Several progression order changes " +
+                "can be specified, one after the other.",
+            null },
         { "Alayers", "<rate> [+<layers>] [<rate [+<layers>] [...]]",
-          "Explicitly specifies the codestream layer formation parameters. "+
-          "The <rate> parameter specifies the bitrate to which the first "+
-          "layer should be optimized. The <layers> parameter, if present, "+
-          "specifies the number of extra layers that should be added for "+
-          "scalability. These extra layers are not optimized. "+
-          "Any extra <rate> and <layers> parameters add more layers, in the "+
-          "same way. An additional layer is always added at the end, which"+
-          " is "+
-          "optimized to the overall target bitrate of the bit stream. Any "+
-          "layers (optimized or not) whose target bitrate is higher that the "+
-          "overall target bitrate are silently ignored. The bitrates of the "+
-          "extra layers that are added through the <layers> parameter are "+
-          "approximately log-spaced between the other target bitrates. If "+
-          "several <rate> [+<layers>] constructs appear the <rate>"+
-          " parameters "+
-          "must appear in increasing order. The rate allocation algorithm "+
-          "ensures that all coded layers have a minimal reasonable size, if "+
-          "not these layers are silently ignored.","0.015 +20 2.0 +10"}
+            "Explicitly specifies the codestream layer formation parameters. " +
+                "The <rate> parameter specifies the bitrate to which the first " +
+                "layer should be optimized. The <layers> parameter, if present, " +
+                "specifies the number of extra layers that should be added for " +
+                "scalability. These extra layers are not optimized. " +
+                "Any extra <rate> and <layers> parameters add more layers, in the " +
+                "same way. An additional layer is always added at the end, which" +
+                " is " +
+                "optimized to the overall target bitrate of the bit stream. Any " +
+                "layers (optimized or not) whose target bitrate is higher that the " +
+                "overall target bitrate are silently ignored. The bitrates of the " +
+                "extra layers that are added through the <layers> parameter are " +
+                "approximately log-spaced between the other target bitrates. If " +
+                "several <rate> [+<layers>] constructs appear the <rate>" +
+                " parameters " +
+                "must appear in increasing order. The rate allocation algorithm " +
+                "ensures that all coded layers have a minimal reasonable size, if " +
+                "not these layers are silently ignored.",
+            "0.015 +20 2.0 +10" }
     };
 
     /** The source of entropy coded data */
@@ -150,9 +156,10 @@ public abstract class PostCompRateAllocator extends ImgDataAdapter {
      * @param bw The packet bit stream writer.
      *
      * @see ProgressionType
-     * */
+     */
     public PostCompRateAllocator(CodedCBlkDataSrcEnc src, int nl,
-                                 CodestreamWriter bw, J2KImageWriteParamJava wp) {
+        CodestreamWriter bw, J2KImageWriteParamJava wp)
+    {
         super(src);
         this.src = src;
         this.wp = wp;
@@ -164,9 +171,10 @@ public abstract class PostCompRateAllocator extends ImgDataAdapter {
      * Keep a reference to the header encoder.
      *
      * @param headEnc The header encoder
-     * */
-    public void setHeaderEncoder(HeaderEncoder headEnc){
-	this.headEnc = headEnc;
+     */
+    public void setHeaderEncoder(HeaderEncoder headEnc)
+    {
+        this.headEnc = headEnc;
     }
 
     /**
@@ -177,7 +185,7 @@ public abstract class PostCompRateAllocator extends ImgDataAdapter {
      * change.
      *
      * @see #runAndWrite
-     * */
+     */
     public abstract void initialize() throws IOException;
 
     /**
@@ -185,15 +193,16 @@ public abstract class PostCompRateAllocator extends ImgDataAdapter {
      * bit stream. This must be called after the initialize() method.
      *
      * @see #initialize
-     * */
+     */
     public abstract void runAndWrite() throws IOException;
 
     /**
      * Returns the number of layers that are actually generated.
      *
      * @return The number of layers generated.
-     * */
-    public int getNumLayers() {
+     */
+    public int getNumLayers()
+    {
         return numLayers;
     }
 
@@ -209,8 +218,9 @@ public abstract class PostCompRateAllocator extends ImgDataAdapter {
      *
      * @return the options name, their synopsis and their explanation,
      * or null if no options are supported.
-     * */
-    public static String[][] getParameterInfo() {
+     */
+    public static String[][] getParameterInfo()
+    {
         return pinfo;
     }
 
@@ -228,14 +238,15 @@ public abstract class PostCompRateAllocator extends ImgDataAdapter {
      *
      * @param bw The bit stream writer object, where the bit stream data will
      * be written.
-     * */
+     */
     public static PostCompRateAllocator createInstance(CodedCBlkDataSrcEnc src,
-                                                       float rate,
-                                                       CodestreamWriter bw,
-                                                       J2KImageWriteParamJava wp){
+        float rate,
+        CodestreamWriter bw,
+        J2KImageWriteParamJava wp)
+    {
         String lyropt = wp.getLayers();
         if (lyropt == null) {
-            if(wp.getROIs().getSpecified() == null) {
+            if (wp.getROIs().getSpecified() == null) {
                 lyropt = "res";
             }
             else {
@@ -244,16 +255,16 @@ public abstract class PostCompRateAllocator extends ImgDataAdapter {
         }
 
         // Construct the layer specification from the Alayers option
-        LayersInfo lyrs = parseAlayers(lyropt,rate);
+        LayersInfo lyrs = parseAlayers(lyropt, rate);
 
-	int nTiles = wp.getNumTiles();
-	int nComp = wp.getNumComponents();
-	int numLayers = lyrs.getTotNumLayers();
+        int nTiles = wp.getNumTiles();
+        int nComp = wp.getNumComponents();
+        int numLayers = lyrs.getTotNumLayers();
 
         // Parse the Progression type
-	wp.setProgressionType(lyrs, wp.getProgressionName());
+        wp.setProgressionType(lyrs, wp.getProgressionName());
 
-        return new EBCOTRateAllocator(src,lyrs,bw,wp);
+        return new EBCOTRateAllocator(src, lyrs, bw, wp);
     }
 
     /**
@@ -264,11 +275,12 @@ public abstract class PostCompRateAllocator extends ImgDataAdapter {
      * @param rate The overall target bitrate
      *
      * @return The layer specification.
-     * */
-    private static LayersInfo parseAlayers(String params, float rate) {
+     */
+    private static LayersInfo parseAlayers(String params, float rate)
+    {
         LayersInfo lyrs;
         StreamTokenizer stok;
-        boolean islayer,ratepending;
+        boolean islayer, ratepending;
         float r;
 
         lyrs = new LayersInfo(rate);
@@ -279,92 +291,88 @@ public abstract class PostCompRateAllocator extends ImgDataAdapter {
             stok.nextToken();
         }
         catch (IOException e) {
-            throw new Error("An IOException has ocurred where it "+
-                            "should never occur");
+            throw new Error("An IOException has ocurred where it " +
+                "should never occur");
         }
         ratepending = false;
         islayer = false;
         r = 0; // to keep compiler happy
         while (stok.ttype != StreamTokenizer.TT_EOF) {
-            switch(stok.ttype) {
-            case StreamTokenizer.TT_NUMBER:
-                if (islayer) { // layer parameter
-                    try {
-                        lyrs.addOptPoint(r,(int)stok.nval);
-                    }
-                    catch (IllegalArgumentException e) {
-                        throw new
-                            IllegalArgumentException("Error in 'Alayers' "+
-                                                     "option: "+e.getMessage());
-                    }
-                    ratepending = false;
-                    islayer = false;
-                }
-                else { // rate parameter
-                    if (ratepending) { // Add pending rate parameter
+            switch (stok.ttype) {
+                case StreamTokenizer.TT_NUMBER:
+                    if (islayer) { // layer parameter
                         try {
-                            lyrs.addOptPoint(r,0);
+                            lyrs.addOptPoint(r, (int)stok.nval);
                         }
                         catch (IllegalArgumentException e) {
-                            throw new
-                                IllegalArgumentException("Error in 'Alayers' "+
-                                                         "option: "+
-                                                         e.getMessage());
+                            throw new IllegalArgumentException("Error in 'Alayers' " +
+                                "option: " + e.getMessage());
                         }
+                        ratepending = false;
+                        islayer = false;
                     }
-                    // Now store new rate parameter
-                    r = (float) stok.nval;
-                    ratepending = true;
-                }
-                break;
-            case '+':
-                if (!ratepending || islayer) {
-                    throw new
-                        IllegalArgumentException("Layer parameter without "+
-                                                 "previous rate parameter "+
-                                                 "in 'Alayers' option");
-                }
-                islayer = true; // Next number is layer parameter
-                break;
-            case StreamTokenizer.TT_WORD:
-                try {
-                    stok.nextToken();
-                } catch(IOException e) {
-                    throw new Error("An IOException has ocurred where it "+
-                                    "should never occur");
-                }
-                if (stok.ttype != StreamTokenizer.TT_EOF) {
-                    throw new
-                        IllegalArgumentException("'sl' argument of "+
-                                                 "'-Alayers' option must be "+
-                                                 "used alone.");
-                }
-                break;
-            default:
-                throw new IllegalArgumentException("Error parsing 'Alayers' "+
-                                                   "option");
+                    else { // rate parameter
+                        if (ratepending) { // Add pending rate parameter
+                            try {
+                                lyrs.addOptPoint(r, 0);
+                            }
+                            catch (IllegalArgumentException e) {
+                                throw new IllegalArgumentException("Error in 'Alayers' " +
+                                    "option: " +
+                                    e.getMessage());
+                            }
+                        }
+                        // Now store new rate parameter
+                        r = (float)stok.nval;
+                        ratepending = true;
+                    }
+                    break;
+                case '+':
+                    if (!ratepending || islayer) {
+                        throw new IllegalArgumentException("Layer parameter without " +
+                            "previous rate parameter " +
+                            "in 'Alayers' option");
+                    }
+                    islayer = true; // Next number is layer parameter
+                    break;
+                case StreamTokenizer.TT_WORD:
+                    try {
+                        stok.nextToken();
+                    }
+                    catch (IOException e) {
+                        throw new Error("An IOException has ocurred where it " +
+                            "should never occur");
+                    }
+                    if (stok.ttype != StreamTokenizer.TT_EOF) {
+                        throw new IllegalArgumentException("'sl' argument of " +
+                            "'-Alayers' option must be " +
+                            "used alone.");
+                    }
+                    break;
+                default:
+                    throw new IllegalArgumentException("Error parsing 'Alayers' " +
+                        "option");
             }
             try {
                 stok.nextToken();
             }
             catch (IOException e) {
-                throw new Error("An IOException has ocurred where it "+
-                                "should never occur");
+                throw new Error("An IOException has ocurred where it " +
+                    "should never occur");
             }
         }
         if (islayer) {
-            throw new IllegalArgumentException("Error parsing 'Alayers' "+
-                                               "option");
+            throw new IllegalArgumentException("Error parsing 'Alayers' " +
+                "option");
         }
         if (ratepending) {
             try {
-                lyrs.addOptPoint(r,0);
+                lyrs.addOptPoint(r, 0);
             }
             catch (IllegalArgumentException e) {
-                throw new
-                    IllegalArgumentException("Error in 'Alayers' "+
-                                             "option: "+
-                                             e.getMessage());
+                throw new IllegalArgumentException("Error in 'Alayers' " +
+                    "option: " +
+                    e.getMessage());
             }
         }
         return lyrs;

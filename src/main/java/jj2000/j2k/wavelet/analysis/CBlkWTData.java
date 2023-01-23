@@ -52,23 +52,27 @@ import jj2000.j2k.image.DataBlk;
  * component. Subclasses should implement the different types of storage
  * (<code>int</code>, <code>float</code>, etc.).
  *
- * <P>The data is always stored in one array, of the type matching the data
+ * <P>
+ * The data is always stored in one array, of the type matching the data
  * type (i.e. for 'int' it's an 'int[]'). The data should be stored in the
  * array in standard scan-line order. That is the samples go from the top-left
  * corner of the code-block to the lower-right corner by line and then column.
  *
- * <P>The member variable 'offset' gives the index in the array of the first
+ * <P>
+ * The member variable 'offset' gives the index in the array of the first
  * data element (i.e. the top-left coefficient). The member variable 'scanw'
  * gives the width of the scan that is used to store the data, that can be
  * different from the width of the block. Element '(x,y)' of the code-block
  * (i.e. '(0,0)' is the top-left coefficient), will appear at position
  * 'offset+y*scanw+x' in the array of data.
  *
- * <P>The classes <code>CBlkWTDataInt</code> and <code>CBlkWTDataFloat</code>
+ * <P>
+ * The classes <code>CBlkWTDataInt</code> and <code>CBlkWTDataFloat</code>
  * provide implementations for <code>int</code> and <code>float</code> types
  * respectively.
  *
- * <P>The types of data are the same as those defined by the 'DataBlk' class.
+ * <P>
+ * The types of data are the same as those defined by the 'DataBlk' class.
  *
  * @see CBlkWTDataSrc
  *
@@ -79,8 +83,9 @@ import jj2000.j2k.image.DataBlk;
  * @see CBlkWTDataInt
  *
  * @see CBlkWTDataFloat
- * */
-public abstract class CBlkWTData {
+ */
+public abstract class CBlkWTData
+{
 
     /** The horizontal coordinate of the upper-left corner of the code-block */
     public int ulx;
@@ -109,29 +114,35 @@ public abstract class CBlkWTData {
     /** The width of the scanlines used to store the data in the array */
     public int scanw;
 
-    /** The number of magnitude bits in the integer representation. This is
-     * only used for quantized wavelet data. */
+    /**
+     * The number of magnitude bits in the integer representation. This is
+     * only used for quantized wavelet data.
+     */
     public int magbits;
 
-    /** The WMSE scaling factor (multiplicative) to apply to the distortion
-     * measures of the data of this code-block. By default it is 1.*/
+    /**
+     * The WMSE scaling factor (multiplicative) to apply to the distortion
+     * measures of the data of this code-block. By default it is 1.
+     */
     public float wmseScaling = 1f;
 
-    /** The value by which the absolute value of the data has to be divided in
+    /**
+     * The value by which the absolute value of the data has to be divided in
      * order to get the real absolute value. This value is useful to obtain
      * the complement of 2 representation of a coefficient that is currently
-     * using the sign-magnitude representation. */
+     * using the sign-magnitude representation.
+     */
     public double convertFactor = 1.0;
 
     /**
      * The quantization step size of the code-block. The value is updated by
      * the quantizer module
-     * */
+     */
     public double stepSize = 1.0;
 
     /**
      * Number of ROI coefficients in the code-block
-     * */
+     */
     public int nROIcoeff = 0;
 
     /** Number of ROI magnitude bit-planes */
@@ -144,7 +155,7 @@ public abstract class CBlkWTData {
      * @return The data type of the object, as defined in the DataBlk class.
      *
      * @see DataBlk
-     * */
+     */
     public abstract int getDataType();
 
     /**
@@ -152,7 +163,8 @@ public abstract class CBlkWTData {
      * returned array is of the type returned by <code>getDataType()</code> (e.g.,
      * for <code>TYPE_INT</code>, it is a <code>int[]</code>).
      *
-     * <P>Each implementing class should provide a type specific equivalent
+     * <P>
+     * Each implementing class should provide a type specific equivalent
      * method (e.g., <code>getDataInt()</code> in <code>DataBlkInt</code>) which
      * returns an array of the correct type explicitely and not through an
      * <code>Object</code>.
@@ -161,7 +173,7 @@ public abstract class CBlkWTData {
      * data.
      *
      * @see #getDataType
-     * */
+     */
     public abstract Object getData();
 
     /**
@@ -170,10 +182,12 @@ public abstract class CBlkWTData {
      * for <code>TYPE_INT</code>, it should be a <code>int[]</code>). If the wrong
      * type of array is given a <code>ClassCastException</code> will be thrown.
      *
-     * <P>The size of the array is not necessarily checked for consistency
+     * <P>
+     * The size of the array is not necessarily checked for consistency
      * with <code>w</code> and <code>h</code> or any other fields.
      *
-     * <P>Each implementing class should provide a type specific equivalent
+     * <P>
+     * Each implementing class should provide a type specific equivalent
      * method (e.g., <code>setDataInt()</code> in <code>DataBlkInt</code>) which takes
      * an array of the correct type explicetely and not through an
      * <code>Object</code>.
@@ -181,38 +195,38 @@ public abstract class CBlkWTData {
      * @param arr The new data array to use
      *
      * @see #getDataType
-     * */
+     */
     public abstract void setData(Object arr);
 
     /**
      * Returns a string of informations about the DataBlk
      *
      * @return Block dimensions and progressiveness in a string
-     * */
+     */
     @Override
-    public String toString(){
-	String typeString = "";
-	switch(getDataType()){
-	case  DataBlk.TYPE_BYTE:
-	    typeString = "Unsigned Byte";
-	    break;
-	case  DataBlk.TYPE_SHORT:
-	    typeString = "Short";
-	    break;
-	case  DataBlk.TYPE_INT:
-	    typeString = "Integer";
-	    break;
-	case  DataBlk.TYPE_FLOAT:
-	    typeString = "Float";
-	    break;
-	}
+    public String toString()
+    {
+        String typeString = "";
+        switch (getDataType()) {
+            case DataBlk.TYPE_BYTE:
+                typeString = "Unsigned Byte";
+                break;
+            case DataBlk.TYPE_SHORT:
+                typeString = "Short";
+                break;
+            case DataBlk.TYPE_INT:
+                typeString = "Integer";
+                break;
+            case DataBlk.TYPE_FLOAT:
+                typeString = "Float";
+                break;
+        }
 
-	return
-	    "CBlkWTData: "+
-	    "ulx= " + ulx + ", uly= " + uly +
-	    ", code-block("+m+","+n+"), width= "+w+
-	    ", height= "+h+", offset= "+offset+", scan-width="+scanw+
-	    ", type= "+typeString + ", sb= "+sb+", num. ROI coeff="+
-            nROIcoeff+", num. ROI bit-planes="+nROIbp;
+        return "CBlkWTData: " +
+            "ulx= " + ulx + ", uly= " + uly +
+            ", code-block(" + m + "," + n + "), width= " + w +
+            ", height= " + h + ", offset= " + offset + ", scan-width=" + scanw +
+            ", type= " + typeString + ", sb= " + sb + ", num. ROI coeff=" +
+            nROIcoeff + ", num. ROI bit-planes=" + nROIbp;
     }
 }

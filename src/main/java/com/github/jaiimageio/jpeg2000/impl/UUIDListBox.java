@@ -52,37 +52,45 @@ import org.w3c.dom.NodeList;
 
 import com.github.jaiimageio.impl.common.ImageUtil;
 
-/** This class is defined to represent a UUID list Box of JPEG JP2
- *  file format.  This type of box has a length, a type of "ulst".  Its
- *  contents include the number of UUID entry and a list of 16-byte UUIDs.
+/**
+ * This class is defined to represent a UUID list Box of JPEG JP2
+ * file format. This type of box has a length, a type of "ulst". Its
+ * contents include the number of UUID entry and a list of 16-byte UUIDs.
  */
-public class UUIDListBox extends Box {
+public class UUIDListBox extends Box
+{
     /** The data elements of this box. */
     private short num;
     private byte[][] uuids;
 
-    /** Constructs a <code>UUIDListBox</code> from the provided uuid number
-     *  and uuids.  The provided uuids should have a size of 16; otherwise,
-     *  <code>Exception</code> may thrown in later the process.  The provided
-     *  number should consistent with the size of the uuid array.
+    /**
+     * Constructs a <code>UUIDListBox</code> from the provided uuid number
+     * and uuids. The provided uuids should have a size of 16; otherwise,
+     * <code>Exception</code> may thrown in later the process. The provided
+     * number should consistent with the size of the uuid array.
      */
-    public UUIDListBox(short num, byte[][] uuids) {
+    public UUIDListBox(short num, byte[][] uuids)
+    {
         super(10 + (uuids.length << 4), 0x756c7374, null);
         this.num = num;
         this.uuids = uuids;
     }
 
-    /** Constructs a <code>UUIDListBox</code> from the provided content
-     *  data array.
+    /**
+     * Constructs a <code>UUIDListBox</code> from the provided content
+     * data array.
      */
-    public UUIDListBox(byte[] data) {
+    public UUIDListBox(byte[] data)
+    {
         super(8 + data.length, 0x756c7374, data);
     }
 
-    /** Constructs a <code>UUIDListBox</code> based on the provided
-     *  <code>org.w3c.dom.Node</code>.
+    /**
+     * Constructs a <code>UUIDListBox</code> based on the provided
+     * <code>org.w3c.dom.Node</code>.
      */
-    public UUIDListBox(Node node) throws IIOInvalidTreeException {
+    public UUIDListBox(Node node) throws IIOInvalidTreeException
+    {
         super(node);
         NodeList children = node.getChildNodes();
         int index = 0;
@@ -95,10 +103,10 @@ public class UUIDListBox extends Box {
                 uuids = new byte[num][];
             }
 
-	}
+        }
 
-	for (int i = 0; i < children.getLength(); i++) {
-	    Node child = children.item(i);
+        for (int i = 0; i < children.getLength(); i++) {
+            Node child = children.item(i);
 
             if ("UUID".equals(child.getNodeName()) && index < num) {
                 uuids[index++] = Box.getByteArrayElementValue(child);
@@ -108,7 +116,8 @@ public class UUIDListBox extends Box {
 
     /** Parses the data elements from the provided content data array. */
     @Override
-    protected void parse(byte[] data) {
+    protected void parse(byte[] data)
+    {
         num = (short)(((data[0] & 0xFF) << 8) | (data[1] & 0xFF));
 
         uuids = new byte[num][];
@@ -120,24 +129,26 @@ public class UUIDListBox extends Box {
         }
     }
 
-    /** Creates an <code>IIOMetadataNode</code> from this UUID list
-     *  box.  The format of this node is defined in the XML dtd and xsd
-     *  for the JP2 image file.
+    /**
+     * Creates an <code>IIOMetadataNode</code> from this UUID list
+     * box. The format of this node is defined in the XML dtd and xsd
+     * for the JP2 image file.
      */
     @Override
-    public IIOMetadataNode getNativeNode() {
+    public IIOMetadataNode getNativeNode()
+    {
         IIOMetadataNode node = new IIOMetadataNode(Box.getName(getType()));
         setDefaultAttributes(node);
 
         IIOMetadataNode child = new IIOMetadataNode("NumberUUID");
         child.setUserObject(Short.valueOf(num));
-	child.setNodeValue("" + num);
+        child.setNodeValue("" + num);
         node.appendChild(child);
 
         for (int i = 0; i < num; i++) {
             child = new IIOMetadataNode("UUID");
             child.setUserObject(uuids[i]);
-	    child.setNodeValue(ImageUtil.convertObjectToString(uuids[i]));
+            child.setNodeValue(ImageUtil.convertObjectToString(uuids[i]));
             node.appendChild(child);
         }
 
@@ -145,7 +156,8 @@ public class UUIDListBox extends Box {
     }
 
     @Override
-    protected void compose() {
+    protected void compose()
+    {
         if (data != null)
             return;
         data = new byte[2 + num * 16];

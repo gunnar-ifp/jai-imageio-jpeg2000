@@ -42,6 +42,7 @@
  * Copyright (c) 1999/2000 JJ2000 Partners.
  * */
 package jj2000.j2k.entropy.decoder;
+
 import java.util.Arrays;
 
 import jj2000.j2k.decoder.DecoderSpecs;
@@ -67,7 +68,8 @@ import jj2000.j2k.wavelet.synthesis.SubbandSyn;
  * are used for zero-coding (ZC), contexts 11-15 are used for sign-coding (SC)
  * and contexts 16-18 are used for magnitude-refinement (MR).
  *
- * <P>This implementation also provides some timing features. They can be
+ * <P>
+ * This implementation also provides some timing features. They can be
  * enabled by setting the 'DO_TIMING' constant of this class to true and
  * recompiling. The timing uses the 'System.currentTimeMillis()' Java API
  * call, which returns wall clock time, not the actual CPU time used. The
@@ -77,21 +79,25 @@ import jj2000.j2k.wavelet.synthesis.SubbandSyn;
  * places). When timing is disabled ('DO_TIMING' is false) there is no penalty
  * if the compiler performs some basic optimizations. Even if not the penalty
  * should be negligeable.
- * */
+ */
 public class StdEntropyDecoder extends EntropyDecoder
-    implements StdEntropyCoderOptions {
+    implements StdEntropyCoderOptions
+{
 
     /** The bit based input for arithmetic coding bypass (i.e. raw) coding */
     private ByteToBitInput bin;
 
-    /** The MQ decoder to use. It has in as the underlying source of coded
-     * data. */
+    /**
+     * The MQ decoder to use. It has in as the underlying source of coded
+     * data.
+     */
     private MQDecoder mq;
 
     /** The decoder spec */
     private DecoderSpecs decSpec;
 
-    /** The options that are turned on, as flag bits. The options are
+    /**
+     * The options that are turned on, as flag bits. The options are
      * 'OPT_TERM_PASS', 'OPT_RESET_MQ', 'OPT_VERT_STR_CAUSAL', 'OPT_BYPASS' and
      * 'OPT_SEG_SYMBOLS' as defined in the StdEntropyCoderOptions interface
      *
@@ -99,30 +105,35 @@ public class StdEntropyDecoder extends EntropyDecoder
      **/
     private int options;
 
-    /** Flag to indicate if we should try to detect errors or just ignore any
-     * error resilient information */
+    /**
+     * Flag to indicate if we should try to detect errors or just ignore any
+     * error resilient information
+     */
     private final boolean doer;
 
-    /** Flag to indicate if we should be verbose about bit stream errors
-        detected with the error resilience options */
+    /**
+     * Flag to indicate if we should be verbose about bit stream errors
+     * detected with the error resilience options
+     */
     private final boolean verber;
 
     /** Number of bits used for the Zero Coding lookup table */
     private static final int ZC_LUT_BITS = 8;
 
     /** Zero Coding context lookup tables for the LH global orientation */
-    private static final int ZC_LUT_LH[] = new int[1<<ZC_LUT_BITS];
+    private static final int ZC_LUT_LH[] = new int[1 << ZC_LUT_BITS];
 
     /** Zero Coding context lookup tables for the HL global orientation */
-    private static final int ZC_LUT_HL[] = new int[1<<ZC_LUT_BITS];
+    private static final int ZC_LUT_HL[] = new int[1 << ZC_LUT_BITS];
 
     /** Zero Coding context lookup tables for the HH global orientation */
-    private static final int ZC_LUT_HH[] = new int[1<<ZC_LUT_BITS];
+    private static final int ZC_LUT_HH[] = new int[1 << ZC_LUT_BITS];
 
     /** Number of bits used for the Sign Coding lookup table */
     private static final int SC_LUT_BITS = 9;
 
-    /** Sign Coding context lookup table. The index into the table is a 9 bit
+    /**
+     * Sign Coding context lookup table. The index into the table is a 9 bit
      * index, which correspond the the value in the 'state' array shifted by
      * 'SC_SHIFT'. Bits 8-5 are the signs of the horizontal-left,
      * horizontal-right, vertical-up and vertical-down neighbors,
@@ -130,24 +141,27 @@ public class StdEntropyDecoder extends EntropyDecoder
      * are the significance of the horizontal-left, horizontal-right,
      * vertical-up and vertical-down neighbors, respectively. The least 4 bits
      * of the value in the lookup table define the context number and the sign
-     * bit defines the "sign predictor". */
-    private static final int SC_LUT[] = new int[1<<SC_LUT_BITS];
+     * bit defines the "sign predictor".
+     */
+    private static final int SC_LUT[] = new int[1 << SC_LUT_BITS];
 
     /** The mask to obtain the context index from the 'SC_LUT' */
-    private static final int SC_LUT_MASK = (1<<4)-1;
+    private static final int SC_LUT_MASK = (1 << 4) - 1;
 
-    /** The shift to obtain the sign predictor from the 'SC_LUT'. It must be
-     * an unsigned shift. */
+    /**
+     * The shift to obtain the sign predictor from the 'SC_LUT'. It must be
+     * an unsigned shift.
+     */
     private static final int SC_SPRED_SHIFT = 31;
 
     /** The sign bit for int data */
-    private static final int INT_SIGN_BIT = 1<<31;
+    private static final int INT_SIGN_BIT = 1 << 31;
 
     /** The number of bits used for the Magnitude Refinement lookup table */
     private static final int MR_LUT_BITS = 9;
 
     /** Magnitude Refinement context lookup table */
-    private static final int MR_LUT[] = new int[1<<MR_LUT_BITS];
+    private static final int MR_LUT[] = new int[1 << MR_LUT_BITS];
 
     /** The number of contexts used */
     private static final int NUM_CTXTS = 19;
@@ -155,16 +169,20 @@ public class StdEntropyDecoder extends EntropyDecoder
     /** The RLC context */
     private static final int RLC_CTXT = 1;
 
-    /** The UNIFORM context (with a uniform probability distribution which
-     * does not adapt) */
+    /**
+     * The UNIFORM context (with a uniform probability distribution which
+     * does not adapt)
+     */
     private static final int UNIF_CTXT = 0;
 
     /** The initial states for the MQ coder */
-    private static final int MQ_INIT[] = {46, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0,
-                                          0, 0, 0, 0, 0, 0, 0, 0};
+    private static final int MQ_INIT[] = { 46, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0 };
 
-    /** The 4 symbol segmentation marker (decimal 10, which is binary sequence
-        1010) */
+    /**
+     * The 4 symbol segmentation marker (decimal 10, which is binary sequence
+     * 1010)
+     */
     private static final int SEG_SYMBOL = 10;
 
     /**
@@ -178,7 +196,8 @@ public class StdEntropyDecoder extends EntropyDecoder
      * size of the state array is increased by 1 on each side (top, bottom,
      * left, right) to handle boundary conditions without any special logic.
      *
-     * <P>The state of a coefficient is stored in the following way in the
+     * <P>
+     * The state of a coefficient is stored in the following way in the
      * lower 16 bits, where bit 0 is the least significant bit. Bit 15 is the
      * significance of a coefficient (0 if non-significant, 1 otherwise). Bit
      * 14 is the visited state (i.e. if a coefficient has been coded in the
@@ -194,184 +213,258 @@ public class StdEntropyDecoder extends EntropyDecoder
      * up-right, down-left and down-right; 1 for significant, 0 for non
      * significant).
      *
-     * <P>The upper 16 bits the state is stored as in the lower 16 bits,
+     * <P>
+     * The upper 16 bits the state is stored as in the lower 16 bits,
      * but with the bits shifted up by 16.
      *
-     * <P>The lower 16 bits are referred to as "row 1" ("R1") while the upper
+     * <P>
+     * The lower 16 bits are referred to as "row 1" ("R1") while the upper
      * 16 bits are referred to as "row 2" ("R2").
-     * */
+     */
     private final int state[];
 
-    /** The separation between the upper and lower bits in the state array: 16
-     * */
+    /**
+     * The separation between the upper and lower bits in the state array: 16
+     */
     private static final int STATE_SEP = 16;
 
     /** The flag bit for the significance in the state array, for row 1. */
-    private static final int STATE_SIG_R1 = 1<<15;
+    private static final int STATE_SIG_R1 = 1 << 15;
 
     /** The flag bit for the "visited" bit in the state array, for row 1. */
-    private static final int STATE_VISITED_R1 = 1<<14;
+    private static final int STATE_VISITED_R1 = 1 << 14;
 
-    /** The flag bit for the "not zero context" bit in the state array, for
+    /**
+     * The flag bit for the "not zero context" bit in the state array, for
      * row 1. This bit is always the OR of bits STATE_H_L_R1, STATE_H_R_R1,
      * STATE_V_U_R1, STATE_V_D_R1, STATE_D_UL_R1, STATE_D_UR_R1, STATE_D_DL_R1
-     * and STATE_D_DR_R1. */
-    private static final int STATE_NZ_CTXT_R1 = 1<<13;
+     * and STATE_D_DR_R1.
+     */
+    private static final int STATE_NZ_CTXT_R1 = 1 << 13;
 
-    /** The flag bit for the horizontal-left sign in the state array, for row
-     * 1. This bit can only be set if the STATE_H_L_R1 is also set. */
-    private static final int STATE_H_L_SIGN_R1 = 1<<12;
+    /**
+     * The flag bit for the horizontal-left sign in the state array, for row
+     * 1. This bit can only be set if the STATE_H_L_R1 is also set.
+     */
+    private static final int STATE_H_L_SIGN_R1 = 1 << 12;
 
-    /** The flag bit for the horizontal-right sign in the state array, for
-     * row 1. This bit can only be set if the STATE_H_R_R1 is also set. */
-    private static final int STATE_H_R_SIGN_R1 = 1<<11;
+    /**
+     * The flag bit for the horizontal-right sign in the state array, for
+     * row 1. This bit can only be set if the STATE_H_R_R1 is also set.
+     */
+    private static final int STATE_H_R_SIGN_R1 = 1 << 11;
 
-    /** The flag bit for the vertical-up sign in the state array, for row
-     * 1. This bit can only be set if the STATE_V_U_R1 is also set. */
-    private static final int STATE_V_U_SIGN_R1 = 1<<10;
+    /**
+     * The flag bit for the vertical-up sign in the state array, for row
+     * 1. This bit can only be set if the STATE_V_U_R1 is also set.
+     */
+    private static final int STATE_V_U_SIGN_R1 = 1 << 10;
 
-    /** The flag bit for the vertical-down sign in the state array, for row
-     * 1. This bit can only be set if the STATE_V_D_R1 is also set. */
-    private static final int STATE_V_D_SIGN_R1 = 1<<9;
+    /**
+     * The flag bit for the vertical-down sign in the state array, for row
+     * 1. This bit can only be set if the STATE_V_D_R1 is also set.
+     */
+    private static final int STATE_V_D_SIGN_R1 = 1 << 9;
 
-    /** The flag bit for the previous MR primitive applied in the state array,
-        for row 1. */
-    private static final int STATE_PREV_MR_R1 = 1<<8;
+    /**
+     * The flag bit for the previous MR primitive applied in the state array,
+     * for row 1.
+     */
+    private static final int STATE_PREV_MR_R1 = 1 << 8;
 
-    /** The flag bit for the horizontal-left significance in the state array,
-        for row 1. */
-    private static final int STATE_H_L_R1 = 1<<7;
+    /**
+     * The flag bit for the horizontal-left significance in the state array,
+     * for row 1.
+     */
+    private static final int STATE_H_L_R1 = 1 << 7;
 
-    /** The flag bit for the horizontal-right significance in the state array,
-        for row 1. */
-    private static final int STATE_H_R_R1 = 1<<6;
+    /**
+     * The flag bit for the horizontal-right significance in the state array,
+     * for row 1.
+     */
+    private static final int STATE_H_R_R1 = 1 << 6;
 
-    /** The flag bit for the vertical-up significance in the state array, for
-     row 1.  */
-    private static final int STATE_V_U_R1 = 1<<5;
+    /**
+     * The flag bit for the vertical-up significance in the state array, for
+     * row 1.
+     */
+    private static final int STATE_V_U_R1 = 1 << 5;
 
-    /** The flag bit for the vertical-down significance in the state array,
-     for row 1.  */
-    private static final int STATE_V_D_R1 = 1<<4;
+    /**
+     * The flag bit for the vertical-down significance in the state array,
+     * for row 1.
+     */
+    private static final int STATE_V_D_R1 = 1 << 4;
 
-    /** The flag bit for the diagonal up-left significance in the state array,
-        for row 1. */
-    private static final int STATE_D_UL_R1 = 1<<3;
+    /**
+     * The flag bit for the diagonal up-left significance in the state array,
+     * for row 1.
+     */
+    private static final int STATE_D_UL_R1 = 1 << 3;
 
-    /** The flag bit for the diagonal up-right significance in the state
-        array, for row 1.*/
-    private static final int STATE_D_UR_R1 = 1<<2;
+    /**
+     * The flag bit for the diagonal up-right significance in the state
+     * array, for row 1.
+     */
+    private static final int STATE_D_UR_R1 = 1 << 2;
 
-    /** The flag bit for the diagonal down-left significance in the state
-        array, for row 1. */
-    private static final int STATE_D_DL_R1 = 1<<1;
+    /**
+     * The flag bit for the diagonal down-left significance in the state
+     * array, for row 1.
+     */
+    private static final int STATE_D_DL_R1 = 1 << 1;
 
-    /** The flag bit for the diagonal down-right significance in the state
-        array , for row 1.*/
+    /**
+     * The flag bit for the diagonal down-right significance in the state
+     * array , for row 1.
+     */
     private static final int STATE_D_DR_R1 = 1;
 
     /** The flag bit for the significance in the state array, for row 2. */
-    private static final int STATE_SIG_R2 = STATE_SIG_R1<<STATE_SEP;
+    private static final int STATE_SIG_R2 = STATE_SIG_R1 << STATE_SEP;
 
     /** The flag bit for the "visited" bit in the state array, for row 2. */
-    private static final int STATE_VISITED_R2 = STATE_VISITED_R1<<STATE_SEP;
+    private static final int STATE_VISITED_R2 = STATE_VISITED_R1 << STATE_SEP;
 
-    /** The flag bit for the "not zero context" bit in the state array, for
+    /**
+     * The flag bit for the "not zero context" bit in the state array, for
      * row 2. This bit is always the OR of bits STATE_H_L_R2, STATE_H_R_R2,
      * STATE_V_U_R2, STATE_V_D_R2, STATE_D_UL_R2, STATE_D_UR_R2, STATE_D_DL_R2
-     * and STATE_D_DR_R2. */
-    private static final int STATE_NZ_CTXT_R2 = STATE_NZ_CTXT_R1<<STATE_SEP;
+     * and STATE_D_DR_R2.
+     */
+    private static final int STATE_NZ_CTXT_R2 = STATE_NZ_CTXT_R1 << STATE_SEP;
 
-   /** The flag bit for the horizontal-left sign in the state array, for row
-     * 2. This bit can only be set if the STATE_H_L_R2 is also set. */
-    private static final int STATE_H_L_SIGN_R2 = STATE_H_L_SIGN_R1<<STATE_SEP;
+    /**
+     * The flag bit for the horizontal-left sign in the state array, for row
+     * 2. This bit can only be set if the STATE_H_L_R2 is also set.
+     */
+    private static final int STATE_H_L_SIGN_R2 = STATE_H_L_SIGN_R1 << STATE_SEP;
 
-    /** The flag bit for the horizontal-right sign in the state array, for
-     * row 2. This bit can only be set if the STATE_H_R_R2 is also set. */
-    private static final int STATE_H_R_SIGN_R2 = STATE_H_R_SIGN_R1<<STATE_SEP;
+    /**
+     * The flag bit for the horizontal-right sign in the state array, for
+     * row 2. This bit can only be set if the STATE_H_R_R2 is also set.
+     */
+    private static final int STATE_H_R_SIGN_R2 = STATE_H_R_SIGN_R1 << STATE_SEP;
 
-    /** The flag bit for the vertical-up sign in the state array, for row
-     * 2. This bit can only be set if the STATE_V_U_R2 is also set. */
-    private static final int STATE_V_U_SIGN_R2 = STATE_V_U_SIGN_R1<<STATE_SEP;
+    /**
+     * The flag bit for the vertical-up sign in the state array, for row
+     * 2. This bit can only be set if the STATE_V_U_R2 is also set.
+     */
+    private static final int STATE_V_U_SIGN_R2 = STATE_V_U_SIGN_R1 << STATE_SEP;
 
-    /** The flag bit for the vertical-down sign in the state array, for row
-     * 2. This bit can only be set if the STATE_V_D_R2 is also set. */
-    private static final int STATE_V_D_SIGN_R2 = STATE_V_D_SIGN_R1<<STATE_SEP;
+    /**
+     * The flag bit for the vertical-down sign in the state array, for row
+     * 2. This bit can only be set if the STATE_V_D_R2 is also set.
+     */
+    private static final int STATE_V_D_SIGN_R2 = STATE_V_D_SIGN_R1 << STATE_SEP;
 
-    /** The flag bit for the previous MR primitive applied in the state array,
-        for row 2. */
-    private static final int STATE_PREV_MR_R2 = STATE_PREV_MR_R1<<STATE_SEP;
+    /**
+     * The flag bit for the previous MR primitive applied in the state array,
+     * for row 2.
+     */
+    private static final int STATE_PREV_MR_R2 = STATE_PREV_MR_R1 << STATE_SEP;
 
-    /** The flag bit for the horizontal-left significance in the state array,
-        for row 2. */
-    private static final int STATE_H_L_R2 = STATE_H_L_R1<<STATE_SEP;
+    /**
+     * The flag bit for the horizontal-left significance in the state array,
+     * for row 2.
+     */
+    private static final int STATE_H_L_R2 = STATE_H_L_R1 << STATE_SEP;
 
-    /** The flag bit for the horizontal-right significance in the state array,
-        for row 2. */
-    private static final int STATE_H_R_R2 = STATE_H_R_R1<<STATE_SEP;
+    /**
+     * The flag bit for the horizontal-right significance in the state array,
+     * for row 2.
+     */
+    private static final int STATE_H_R_R2 = STATE_H_R_R1 << STATE_SEP;
 
-    /** The flag bit for the vertical-up significance in the state array, for
-     row 2.  */
-    private static final int STATE_V_U_R2 = STATE_V_U_R1<<STATE_SEP;
+    /**
+     * The flag bit for the vertical-up significance in the state array, for
+     * row 2.
+     */
+    private static final int STATE_V_U_R2 = STATE_V_U_R1 << STATE_SEP;
 
-    /** The flag bit for the vertical-down significance in the state array,
-     for row 2.  */
-    private static final int STATE_V_D_R2 = STATE_V_D_R1<<STATE_SEP;
+    /**
+     * The flag bit for the vertical-down significance in the state array,
+     * for row 2.
+     */
+    private static final int STATE_V_D_R2 = STATE_V_D_R1 << STATE_SEP;
 
-    /** The flag bit for the diagonal up-left significance in the state array,
-        for row 2. */
-    private static final int STATE_D_UL_R2 = STATE_D_UL_R1<<STATE_SEP;
+    /**
+     * The flag bit for the diagonal up-left significance in the state array,
+     * for row 2.
+     */
+    private static final int STATE_D_UL_R2 = STATE_D_UL_R1 << STATE_SEP;
 
-    /** The flag bit for the diagonal up-right significance in the state
-        array, for row 2.*/
-    private static final int STATE_D_UR_R2 = STATE_D_UR_R1<<STATE_SEP;
+    /**
+     * The flag bit for the diagonal up-right significance in the state
+     * array, for row 2.
+     */
+    private static final int STATE_D_UR_R2 = STATE_D_UR_R1 << STATE_SEP;
 
-    /** The flag bit for the diagonal down-left significance in the state
-        array, for row 2. */
-    private static final int STATE_D_DL_R2 = STATE_D_DL_R1<<STATE_SEP;
+    /**
+     * The flag bit for the diagonal down-left significance in the state
+     * array, for row 2.
+     */
+    private static final int STATE_D_DL_R2 = STATE_D_DL_R1 << STATE_SEP;
 
-    /** The flag bit for the diagonal down-right significance in the state
-        array , for row 2.*/
-    private static final int STATE_D_DR_R2 = STATE_D_DR_R1<<STATE_SEP;
+    /**
+     * The flag bit for the diagonal down-right significance in the state
+     * array , for row 2.
+     */
+    private static final int STATE_D_DR_R2 = STATE_D_DR_R1 << STATE_SEP;
 
-    /** The mask to isolate the significance bits for row 1 and 2 of the state
-     * array. */
-    private static final int SIG_MASK_R1R2 = STATE_SIG_R1|STATE_SIG_R2;
+    /**
+     * The mask to isolate the significance bits for row 1 and 2 of the state
+     * array.
+     */
+    private static final int SIG_MASK_R1R2 = STATE_SIG_R1 | STATE_SIG_R2;
 
-    /** The mask to isolate the visited bits for row 1 and 2 of the state
-     * array. */
-    private static final int VSTD_MASK_R1R2 = STATE_VISITED_R1|STATE_VISITED_R2;
+    /**
+     * The mask to isolate the visited bits for row 1 and 2 of the state
+     * array.
+     */
+    private static final int VSTD_MASK_R1R2 = STATE_VISITED_R1 | STATE_VISITED_R2;
 
-    /** The mask to isolate the bits necessary to identify RLC coding state
-     * (significant, visited and non-zero context, for row 1 and 2). */
-    private static final int RLC_MASK_R1R2 =
-        STATE_SIG_R1|STATE_SIG_R2|
-        STATE_VISITED_R1|STATE_VISITED_R2|
-        STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2;
+    /**
+     * The mask to isolate the bits necessary to identify RLC coding state
+     * (significant, visited and non-zero context, for row 1 and 2).
+     */
+    private static final int RLC_MASK_R1R2 = STATE_SIG_R1 | STATE_SIG_R2 |
+        STATE_VISITED_R1 | STATE_VISITED_R2 |
+        STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2;
 
     /** The mask to obtain the ZC_LUT index from the 'state' information */
     // This is needed because of the STATE_V_D_SIGN, STATE_V_U_SIGN,
     // STATE_H_R_SIGN, and STATE_H_L_SIGN bits.
-    private static final int ZC_MASK = (1<<8)-1;
+    private static final int ZC_MASK = (1 << 8) - 1;
 
-    /** The shift to obtain the SC index to 'SC_LUT' from the 'state'
-     * information, for row 1. */
+    /**
+     * The shift to obtain the SC index to 'SC_LUT' from the 'state'
+     * information, for row 1.
+     */
     private static final int SC_SHIFT_R1 = 4;
 
-    /** The shift to obtain the SC index to 'SC_LUT' from the state
-     * information, for row 2. */
-    private static final int SC_SHIFT_R2 = SC_SHIFT_R1+STATE_SEP;
+    /**
+     * The shift to obtain the SC index to 'SC_LUT' from the state
+     * information, for row 2.
+     */
+    private static final int SC_SHIFT_R2 = SC_SHIFT_R1 + STATE_SEP;
 
-    /** The bit mask to isolate the state bits relative to the sign coding
-     * lookup table ('SC_LUT'). */
-    private static final int SC_MASK = (1<<SC_LUT_BITS)-1;
+    /**
+     * The bit mask to isolate the state bits relative to the sign coding
+     * lookup table ('SC_LUT').
+     */
+    private static final int SC_MASK = (1 << SC_LUT_BITS) - 1;
 
-    /** The mask to obtain the MR index to 'MR_LUT' from the 'state'
-     * information. It is to be applied after the 'MR_SHIFT' */
-    private static final int MR_MASK = (1<<9)-1;
+    /**
+     * The mask to obtain the MR index to 'MR_LUT' from the 'state'
+     * information. It is to be applied after the 'MR_SHIFT'
+     */
+    private static final int MR_MASK = (1 << 9) - 1;
 
-    /** The source code-block to entropy code (avoids reallocation for each
-        code-block). */
+    /**
+     * The source code-block to entropy code (avoids reallocation for each
+     * code-block).
+     */
     private DecLyrdCBlk srcblk;
 
     /** The maximum number of bit planes to decode for any code-block */
@@ -379,12 +472,12 @@ public class StdEntropyDecoder extends EntropyDecoder
 
     /** Static initializer: initializes all the lookup tables. */
     static {
-        int i,j;
+        int i, j;
         double val, deltaMSE;
         int inter_sc_lut[];
-        int ds,us,rs,ls;
-        int dsgn,usgn,rsgn,lsgn;
-        int h,v;
+        int ds, us, rs, ls;
+        int dsgn, usgn, rsgn, lsgn;
+        int h, v;
 
         // Initialize the zero coding lookup tables
 
@@ -393,14 +486,14 @@ public class StdEntropyDecoder extends EntropyDecoder
         // - No neighbors significant
         ZC_LUT_LH[0] = 2;
         // - No horizontal or vertical neighbors significant
-        for (i=1; i<16; i++) { // Two or more diagonal coeffs significant
+        for (i = 1; i < 16; i++) { // Two or more diagonal coeffs significant
             ZC_LUT_LH[i] = 4;
         }
-        for (i=0; i<4; i++) { // Only one diagonal coeff significant
-            ZC_LUT_LH[1<<i] = 3;
+        for (i = 0; i < 4; i++) { // Only one diagonal coeff significant
+            ZC_LUT_LH[1 << i] = 3;
         }
         // - No horizontal neighbors significant, diagonal irrelevant
-        for (i=0; i<16; i++) {
+        for (i = 0; i < 16; i++) {
             // Only one vertical coeff significant
             ZC_LUT_LH[STATE_V_U_R1 | i] = 5;
             ZC_LUT_LH[STATE_V_D_R1 | i] = 5;
@@ -412,20 +505,20 @@ public class StdEntropyDecoder extends EntropyDecoder
         ZC_LUT_LH[STATE_H_R_R1] = 7;
         // - One horiz. significant, no vertical significant, one or more
         // diagonal significant
-        for (i=1; i<16; i++) {
+        for (i = 1; i < 16; i++) {
             ZC_LUT_LH[STATE_H_L_R1 | i] = 8;
             ZC_LUT_LH[STATE_H_R_R1 | i] = 8;
         }
         // - One horiz. significant, one or more vertical significant,
         // diagonal irrelevant
-        for (i=1; i<4; i++) {
-            for (j=0; j<16; j++) {
-                ZC_LUT_LH[STATE_H_L_R1 | (i<<4) | j] = 9;
-                ZC_LUT_LH[STATE_H_R_R1 | (i<<4) | j] = 9;
+        for (i = 1; i < 4; i++) {
+            for (j = 0; j < 16; j++) {
+                ZC_LUT_LH[STATE_H_L_R1 | (i << 4) | j] = 9;
+                ZC_LUT_LH[STATE_H_R_R1 | (i << 4) | j] = 9;
             }
         }
         // - Two horiz. significant, others irrelevant
-        for (i=0; i<64; i++) {
+        for (i = 0; i < 64; i++) {
             ZC_LUT_LH[STATE_H_L_R1 | STATE_H_R_R1 | i] = 10;
         }
 
@@ -434,14 +527,14 @@ public class StdEntropyDecoder extends EntropyDecoder
         // - No neighbors significant
         ZC_LUT_HL[0] = 2;
         // - No horizontal or vertical neighbors significant
-        for (i=1; i<16; i++) { // Two or more diagonal coeffs significant
+        for (i = 1; i < 16; i++) { // Two or more diagonal coeffs significant
             ZC_LUT_HL[i] = 4;
         }
-        for (i=0; i<4; i++) { // Only one diagonal coeff significant
-            ZC_LUT_HL[1<<i] = 3;
+        for (i = 0; i < 4; i++) { // Only one diagonal coeff significant
+            ZC_LUT_HL[1 << i] = 3;
         }
         // - No vertical significant, diagonal irrelevant
-        for (i=0; i<16; i++) {
+        for (i = 0; i < 16; i++) {
             // One horiz. significant
             ZC_LUT_HL[STATE_H_L_R1 | i] = 5;
             ZC_LUT_HL[STATE_H_R_R1 | i] = 5;
@@ -453,37 +546,37 @@ public class StdEntropyDecoder extends EntropyDecoder
         ZC_LUT_HL[STATE_V_D_R1] = 7;
         // - One vert. significant, horizontal non-significant, one or more
         // diag. significant
-        for (i=1; i<16; i++) {
+        for (i = 1; i < 16; i++) {
             ZC_LUT_HL[STATE_V_U_R1 | i] = 8;
             ZC_LUT_HL[STATE_V_D_R1 | i] = 8;
         }
         // - One vertical significant, one or more horizontal significant,
         // diagonal irrelevant
-        for (i=1; i<4; i++) {
-            for (j=0; j<16; j++) {
-                ZC_LUT_HL[(i<<6) | STATE_V_U_R1 | j] = 9;
-                ZC_LUT_HL[(i<<6) | STATE_V_D_R1 | j] = 9;
+        for (i = 1; i < 4; i++) {
+            for (j = 0; j < 16; j++) {
+                ZC_LUT_HL[(i << 6) | STATE_V_U_R1 | j] = 9;
+                ZC_LUT_HL[(i << 6) | STATE_V_D_R1 | j] = 9;
             }
         }
         // - Two vertical significant, others irrelevant
-        for (i=0; i<4; i++) {
-            for (j=0; j<16; j++) {
-                ZC_LUT_HL[(i<<6) | STATE_V_U_R1 | STATE_V_D_R1 | j] = 10;
+        for (i = 0; i < 4; i++) {
+            for (j = 0; j < 16; j++) {
+                ZC_LUT_HL[(i << 6) | STATE_V_U_R1 | STATE_V_D_R1 | j] = 10;
             }
         }
 
         // HH
-        int[] twoBits = {3,5,6,9,10,12}; // Figures (between 0 and 15)
+        int[] twoBits = { 3, 5, 6, 9, 10, 12 }; // Figures (between 0 and 15)
         // countaning 2 and only 2 bits on in its binary representation.
 
-        int[] oneBit  = {1,2,4,8}; // Figures (between 0 and 15)
+        int[] oneBit = { 1, 2, 4, 8 }; // Figures (between 0 and 15)
         // countaning 1 and only 1 bit on in its binary representation.
 
-        int[] twoLeast = {3,5,6,7,9,10,11,12,13,14,15}; // Figures
+        int[] twoLeast = { 3, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15 }; // Figures
         // (between 0 and 15) countaining, at least, 2 bits on in its
         // binary representation.
 
-        int[] threeLeast = {7,11,13,14,15}; // Figures
+        int[] threeLeast = { 7, 11, 13, 14, 15 }; // Figures
         // (between 0 and 15) countaining, at least, 3 bits on in its
         // binary representation.
 
@@ -491,40 +584,40 @@ public class StdEntropyDecoder extends EntropyDecoder
         ZC_LUT_HH[0] = 2;
 
         // - One horizontal+vertical significant, none diagonal
-        for(i=0; i<oneBit.length; i++)
-            ZC_LUT_HH[ oneBit[i]<<4 ] = 3;
+        for (i = 0; i < oneBit.length; i++)
+            ZC_LUT_HH[oneBit[i] << 4] = 3;
 
         // - Two or more horizontal+vertical significant, diagonal non-signif
-        for(i=0; i<twoLeast.length; i++)
-            ZC_LUT_HH[ twoLeast[i]<<4 ] = 4;
+        for (i = 0; i < twoLeast.length; i++)
+            ZC_LUT_HH[twoLeast[i] << 4] = 4;
 
         // - One diagonal significant, horiz./vert. non-significant
-        for(i=0; i<oneBit.length; i++)
-            ZC_LUT_HH[ oneBit[i] ] = 5;
+        for (i = 0; i < oneBit.length; i++)
+            ZC_LUT_HH[oneBit[i]] = 5;
 
         // - One diagonal significant, one horiz.+vert. significant
-        for(i=0; i<oneBit.length; i++)
-            for(j=0; j<oneBit.length; j++)
-                ZC_LUT_HH[ (oneBit[i]<<4) | oneBit[j] ] = 6;
+        for (i = 0; i < oneBit.length; i++)
+            for (j = 0; j < oneBit.length; j++)
+                ZC_LUT_HH[(oneBit[i] << 4) | oneBit[j]] = 6;
 
         // - One diag signif, two or more horiz+vert signif
-        for(i=0; i<twoLeast.length; i++)
-            for(j=0; j<oneBit.length; j++)
-                ZC_LUT_HH[ (twoLeast[i]<<4) | oneBit[j] ] = 7;
+        for (i = 0; i < twoLeast.length; i++)
+            for (j = 0; j < oneBit.length; j++)
+                ZC_LUT_HH[(twoLeast[i] << 4) | oneBit[j]] = 7;
 
         // - Two diagonal significant, none horiz+vert significant
-        for(i=0; i<twoBits.length; i++)
-            ZC_LUT_HH[ twoBits[i] ] = 8;
+        for (i = 0; i < twoBits.length; i++)
+            ZC_LUT_HH[twoBits[i]] = 8;
 
         // - Two diagonal significant, one or more horiz+vert significant
-        for(j=0; j<twoBits.length; j++)
-            for(i=1; i<16; i++)
-                ZC_LUT_HH[ (i<<4) | twoBits[j] ] = 9;
+        for (j = 0; j < twoBits.length; j++)
+            for (i = 1; i < 16; i++)
+                ZC_LUT_HH[(i << 4) | twoBits[j]] = 9;
 
         // - Three or more diagonal significant, horiz+vert irrelevant
-        for(i=0; i<16; i++)
-            for(j=0; j<threeLeast.length; j++)
-                ZC_LUT_HH[ (i<<4) | threeLeast[j] ] = 10;
+        for (i = 0; i < 16; i++)
+            for (j = 0; j < threeLeast.length; j++)
+                ZC_LUT_HH[(i << 4) | threeLeast[j]] = 10;
 
 
         // Initialize the SC lookup tables
@@ -534,15 +627,15 @@ public class StdEntropyDecoder extends EntropyDecoder
         // quantities. The index into this table is a 6 bit index, the top 3
         // bits are (h+1) and the low 3 bits (v+1).
         inter_sc_lut = new int[36];
-        inter_sc_lut[(2<<3)|2] = 15;
-        inter_sc_lut[(2<<3)|1] = 14;
-        inter_sc_lut[(2<<3)|0] = 13;
-        inter_sc_lut[(1<<3)|2] = 12;
-        inter_sc_lut[(1<<3)|1] = 11;
-        inter_sc_lut[(1<<3)|0] = 12 | INT_SIGN_BIT;
-        inter_sc_lut[(0<<3)|2] = 13 | INT_SIGN_BIT;
-        inter_sc_lut[(0<<3)|1] = 14 | INT_SIGN_BIT;
-        inter_sc_lut[(0<<3)|0] = 15 | INT_SIGN_BIT;
+        inter_sc_lut[(2 << 3) | 2] = 15;
+        inter_sc_lut[(2 << 3) | 1] = 14;
+        inter_sc_lut[(2 << 3) | 0] = 13;
+        inter_sc_lut[(1 << 3) | 2] = 12;
+        inter_sc_lut[(1 << 3) | 1] = 11;
+        inter_sc_lut[(1 << 3) | 0] = 12 | INT_SIGN_BIT;
+        inter_sc_lut[(0 << 3) | 2] = 13 | INT_SIGN_BIT;
+        inter_sc_lut[(0 << 3) | 1] = 14 | INT_SIGN_BIT;
+        inter_sc_lut[(0 << 3) | 0] = 15 | INT_SIGN_BIT;
 
         // Using the intermediate sign code lookup table create the final
         // one. The index into this table is a 9 bit index, the low 4 bits are
@@ -551,8 +644,8 @@ public class StdEntropyDecoder extends EntropyDecoder
         // is ignored. This index arrangement matches the state bits in the
         // 'state' array, thus direct addressing of the table can be done from
         // the sate information.
-        for (i=0; i<(1<<SC_LUT_BITS)-1; i++) {
-            ds = i & 0x01;        // significance of down neighbor
+        for (i = 0; i < (1 << SC_LUT_BITS) - 1; i++) {
+            ds = i & 0x01; // significance of down neighbor
             us = (i >> 1) & 0x01; // significance of up neighbor
             rs = (i >> 2) & 0x01; // significance of right neighbor
             ls = (i >> 3) & 0x01; // significance of left neighbor
@@ -561,14 +654,14 @@ public class StdEntropyDecoder extends EntropyDecoder
             rsgn = (i >> 7) & 0x01; // sign of right neighbor
             lsgn = (i >> 8) & 0x01; // sign of left neighbor
             // Calculate 'h' and 'v' as in VM text
-            h = ls*(1-2*lsgn)+rs*(1-2*rsgn);
+            h = ls * (1 - 2 * lsgn) + rs * (1 - 2 * rsgn);
             h = (h >= -1) ? h : -1;
             h = (h <= 1) ? h : 1;
-            v = us*(1-2*usgn)+ds*(1-2*dsgn);
+            v = us * (1 - 2 * usgn) + ds * (1 - 2 * dsgn);
             v = (v >= -1) ? v : -1;
             v = (v <= 1) ? v : 1;
             // Get context and sign predictor from 'inter_sc_lut'
-            SC_LUT[i] = inter_sc_lut[(h+1)<<3|(v+1)];
+            SC_LUT[i] = inter_sc_lut[(h + 1) << 3 | (v + 1)];
         }
         inter_sc_lut = null;
 
@@ -577,11 +670,11 @@ public class StdEntropyDecoder extends EntropyDecoder
         // None significant, prev MR off
         MR_LUT[0] = 16;
         // One or more significant, prev MR off
-        for (i=1; i<(1<<(MR_LUT_BITS-1)); i++) {
+        for (i = 1; i < (1 << (MR_LUT_BITS - 1)); i++) {
             MR_LUT[i] = 17;
         }
         // Previous MR on, significance irrelevant
-        for (; i<(1<<MR_LUT_BITS); i++) {
+        for (; i < (1 << MR_LUT_BITS); i++) {
             MR_LUT[i] = 18;
         }
     }
@@ -597,9 +690,10 @@ public class StdEntropyDecoder extends EntropyDecoder
      *
      * @param verber This flag indicates if the entropy decoder should be
      * verbose about bit stream errors that are detected and concealed.
-     * */
+     */
     public StdEntropyDecoder(CodedCBlkDataSrcDec src, DecoderSpecs decSpec,
-			     boolean doer, boolean verber, int mQuit) {
+        boolean doer, boolean verber, int mQuit)
+    {
         super(src);
 
         this.decSpec = decSpec;
@@ -619,15 +713,16 @@ public class StdEntropyDecoder extends EntropyDecoder
         */
 
         // Initialize internal variables
-        state = new int[(decSpec.cblks.getMaxCBlkWidth()+2) *
-                       ((decSpec.cblks.getMaxCBlkHeight()+1)/2+2)];
+        state = new int[(decSpec.cblks.getMaxCBlkWidth() + 2) *
+            ((decSpec.cblks.getMaxCBlkHeight() + 1) / 2 + 2)];
     }
 
     /**
      * Returns the specified code-block in the current tile for the specified
      * component, as a copy (see below).
      *
-     * <P>The returned code-block may be progressive, which is indicated by
+     * <P>
+     * The returned code-block may be progressive, which is indicated by
      * the 'progressive' variable of the returned 'DataBlk' object. If a
      * code-block is progressive it means that in a later request to this
      * method for the same code-block it is possible to retrieve data which is
@@ -636,13 +731,15 @@ public class StdEntropyDecoder extends EntropyDecoder
      * progressive then later calls to this method for the same code-block
      * will return the exact same data values.
      *
-     * <P>The data returned by this method is always a copy of the internal
+     * <P>
+     * The data returned by this method is always a copy of the internal
      * data of this object, if any, and it can be modified "in place" without
      * any problems after being returned. The 'offset' of the returned data is
      * 0, and the 'scanw' is the same as the code-block width. See the
      * 'DataBlk' class.
      *
-     * <P>The 'ulx' and 'uly' members of the returned 'DataBlk' object
+     * <P>
+     * The 'ulx' and 'uly' members of the returned 'DataBlk' object
      * contain the coordinates of the top-left corner of the block, with
      * respect to the tile, not the subband.
      *
@@ -665,33 +762,33 @@ public class StdEntropyDecoder extends EntropyDecoder
      * null if all code-blocks for the current tile have been returned.
      *
      * @see DataBlk
-     * */
+     */
     @Override
     public DataBlk getCodeBlock(int c, int m, int n, SubbandSyn sb,
-                                DataBlk cblk) {
-        int zc_lut[];     // The ZC lookup table to use
-        int out_data[];   // The outupt data buffer
-        int npasses;      // The number of coding passes to perform
-        int curbp;        // The current magnitude bit-plane (starts at 30)
-        boolean error;    // Error indicator
-        int tslen;        // Length of first terminated segment
-        int tsidx;        // Index of current terminated segment
+        DataBlk cblk)
+    {
+        int zc_lut[]; // The ZC lookup table to use
+        int out_data[]; // The outupt data buffer
+        int npasses; // The number of coding passes to perform
+        int curbp; // The current magnitude bit-plane (starts at 30)
+        boolean error; // Error indicator
+        int tslen; // Length of first terminated segment
+        int tsidx; // Index of current terminated segment
         ByteInputBuffer in = null;
 
         boolean isterm;
 
         // Get the code-block to decode
-        srcblk = src.getCodeBlock(c,m,n,sb,1,-1,srcblk);
+        srcblk = src.getCodeBlock(c, m, n, sb, 1, -1, srcblk);
 
         // Retrieve options from decSpec
-        options = ((Integer)decSpec.ecopts.
-                   getTileCompVal(tIdx,c)).intValue();
+        options = ((Integer)decSpec.ecopts.getTileCompVal(tIdx, c)).intValue();
 
         // Reset state
         Arrays.fill(state, 0);
 
         // Initialize output code-block
-        if (cblk==null) {
+        if (cblk == null) {
             cblk = new DataBlkInt();
         }
         cblk.progressive = srcblk.prog;
@@ -703,13 +800,14 @@ public class StdEntropyDecoder extends EntropyDecoder
         cblk.scanw = cblk.w;
         out_data = (int[])cblk.getData();
 
-        if (out_data == null || out_data.length < srcblk.w*srcblk.h) {
-            out_data = new int[srcblk.w*srcblk.h];
+        if (out_data == null || out_data.length < srcblk.w * srcblk.h) {
+            out_data = new int[srcblk.w * srcblk.h];
             cblk.setData(out_data);
-        } else {
+        }
+        else {
             // Set data values to 0
-            Arrays.fill(out_data,0);
-	}
+            Arrays.fill(out_data, 0);
+        }
 
         if (srcblk.nl <= 0 || srcblk.nTrunc <= 0) {
             // 0 layers => no data to decode => return all 0s
@@ -722,18 +820,18 @@ public class StdEntropyDecoder extends EntropyDecoder
         // Initialize for decoding
         npasses = srcblk.nTrunc;
         if (mq == null) {
-            in = new ByteInputBuffer(srcblk.data,0,tslen);
-            mq = new MQDecoder(in ,NUM_CTXTS,MQ_INIT);
+            in = new ByteInputBuffer(srcblk.data, 0, tslen);
+            mq = new MQDecoder(in, NUM_CTXTS, MQ_INIT);
         }
         else {
             // We always start by an MQ segment
-            mq.nextSegment(srcblk.data,0,tslen);
+            mq.nextSegment(srcblk.data, 0, tslen);
             mq.resetCtxts();
         }
         error = false;
 
         if ((options & OPT_BYPASS) != 0) {
-            if(bin==null){
+            if (bin == null) {
                 if (in == null) in = mq.getByteInputBuffer();
                 bin = new ByteToBitInput(in);
             }
@@ -741,18 +839,18 @@ public class StdEntropyDecoder extends EntropyDecoder
 
         // Choose correct ZC lookup table for global orientation
         switch (sb.orientation) {
-        case Subband.WT_ORIENT_HL:
-            zc_lut = ZC_LUT_HL;
-            break;
-        case Subband.WT_ORIENT_LH:
-        case Subband.WT_ORIENT_LL:
-            zc_lut = ZC_LUT_LH;
-            break;
-        case Subband.WT_ORIENT_HH:
-            zc_lut = ZC_LUT_HH;
-            break;
-        default:
-            throw new Error("JJ2000 internal error");
+            case Subband.WT_ORIENT_HL:
+                zc_lut = ZC_LUT_HL;
+                break;
+            case Subband.WT_ORIENT_LH:
+            case Subband.WT_ORIENT_LL:
+                zc_lut = ZC_LUT_LH;
+                break;
+            case Subband.WT_ORIENT_HH:
+                zc_lut = ZC_LUT_HH;
+                break;
+            default:
+                throw new Error("JJ2000 internal error");
         }
 
         // NOTE: we don't currently detect which is the last magnitude
@@ -766,19 +864,19 @@ public class StdEntropyDecoder extends EntropyDecoder
 
         // Loop on bit-planes and passes
 
-        curbp = 30-srcblk.skipMSBP;
+        curbp = 30 - srcblk.skipMSBP;
 
         // Check for maximum number of bitplanes quit condition
-        if(mQuit != -1 && (mQuit*3-2) < npasses){
-            npasses = mQuit*3-2;
+        if (mQuit != -1 && (mQuit * 3 - 2) < npasses) {
+            npasses = mQuit * 3 - 2;
         }
 
         // First bit-plane has only the cleanup pass
         if (curbp >= 0 && npasses > 0) {
             isterm = (options & OPT_TERM_PASS) != 0 ||
                 ((options & OPT_BYPASS) != 0 &&
-                 (31-NUM_NON_BYPASS_MS_BP-srcblk.skipMSBP)>=curbp);
-            error = cleanuppass(cblk,mq,curbp,state,zc_lut,isterm);
+                    (31 - NUM_NON_BYPASS_MS_BP - srcblk.skipMSBP) >= curbp);
+            error = cleanuppass(cblk, mq, curbp, state, zc_lut, isterm);
             npasses--;
             if (!error || !doer) curbp--;
         }
@@ -787,45 +885,45 @@ public class StdEntropyDecoder extends EntropyDecoder
         if (!error || !doer) {
             while (curbp >= 0 && npasses > 0) {
 
-                if((options & OPT_BYPASS) != 0 &&
-                   (curbp < 31-NUM_NON_BYPASS_MS_BP-srcblk.skipMSBP)){
+                if ((options & OPT_BYPASS) != 0 &&
+                    (curbp < 31 - NUM_NON_BYPASS_MS_BP - srcblk.skipMSBP)) {
                     // Use bypass decoding mode (only all bit-planes
                     // after the first 4 bit-planes).
 
                     // Here starts a new raw segment
-                    bin.setByteArray(null,-1,srcblk.tsLengths[++tsidx]);
+                    bin.setByteArray(null, -1, srcblk.tsLengths[++tsidx]);
                     isterm = (options & OPT_TERM_PASS) != 0;
-                    error = rawSigProgPass(cblk,bin,curbp,state,isterm);
+                    error = rawSigProgPass(cblk, bin, curbp, state, isterm);
                     npasses--;
                     if (npasses <= 0 || (error && doer)) break;
 
                     if ((options & OPT_TERM_PASS) != 0) {
                         // Start a new raw segment
-                        bin.setByteArray(null,-1,srcblk.tsLengths[++tsidx]);
+                        bin.setByteArray(null, -1, srcblk.tsLengths[++tsidx]);
                     }
                     isterm = (options & OPT_TERM_PASS) != 0 ||
                         ((options & OPT_BYPASS) != 0 &&
-                         (31-NUM_NON_BYPASS_MS_BP-srcblk.skipMSBP>curbp));
-                    error = rawMagRefPass(cblk,bin,curbp,state,isterm);
+                            (31 - NUM_NON_BYPASS_MS_BP - srcblk.skipMSBP > curbp));
+                    error = rawMagRefPass(cblk, bin, curbp, state, isterm);
                 }
                 else {// Do not use bypass decoding mode
                     if ((options & OPT_TERM_PASS) != 0) {
                         // Here starts a new MQ segment
-                        mq.nextSegment(null,-1,srcblk.tsLengths[++tsidx]);
+                        mq.nextSegment(null, -1, srcblk.tsLengths[++tsidx]);
                     }
                     isterm = (options & OPT_TERM_PASS) != 0;
-                    error = sigProgPass(cblk,mq,curbp,state,zc_lut,isterm);
+                    error = sigProgPass(cblk, mq, curbp, state, zc_lut, isterm);
                     npasses--;
                     if (npasses <= 0 || (error && doer)) break;
 
                     if ((options & OPT_TERM_PASS) != 0) {
                         // Here starts a new MQ segment
-                        mq.nextSegment(null,-1,srcblk.tsLengths[++tsidx]);
+                        mq.nextSegment(null, -1, srcblk.tsLengths[++tsidx]);
                     }
                     isterm = (options & OPT_TERM_PASS) != 0 ||
                         ((options & OPT_BYPASS) != 0 &&
-                         (31-NUM_NON_BYPASS_MS_BP-srcblk.skipMSBP>curbp));
-                    error = magRefPass(cblk,mq,curbp,state,isterm);
+                            (31 - NUM_NON_BYPASS_MS_BP - srcblk.skipMSBP > curbp));
+                    error = magRefPass(cblk, mq, curbp, state, isterm);
                 }
 
                 npasses--;
@@ -833,14 +931,14 @@ public class StdEntropyDecoder extends EntropyDecoder
 
                 if ((options & OPT_TERM_PASS) != 0 ||
                     ((options & OPT_BYPASS) != 0 &&
-                     (curbp < 31-NUM_NON_BYPASS_MS_BP-srcblk.skipMSBP))) {
+                        (curbp < 31 - NUM_NON_BYPASS_MS_BP - srcblk.skipMSBP))) {
                     // Here starts a new MQ segment
-                    mq.nextSegment(null,-1,srcblk.tsLengths[++tsidx]);
+                    mq.nextSegment(null, -1, srcblk.tsLengths[++tsidx]);
                 }
                 isterm = (options & OPT_TERM_PASS) != 0 ||
                     ((options & OPT_BYPASS) != 0 &&
-                     (31-NUM_NON_BYPASS_MS_BP-srcblk.skipMSBP)>=curbp);
-                error = cleanuppass(cblk,mq,curbp,state,zc_lut,isterm);
+                        (31 - NUM_NON_BYPASS_MS_BP - srcblk.skipMSBP) >= curbp);
+                error = cleanuppass(cblk, mq, curbp, state, zc_lut, isterm);
                 npasses--;
                 if (error) break;
                 // Goto next bit-plane
@@ -851,15 +949,14 @@ public class StdEntropyDecoder extends EntropyDecoder
         // If an error ocurred conceal it
         if (error && doer) {
             if (verber) {
-                FacilityManager.getMsgLogger().
-                    printmsg(MsgLogger.WARNING,
-                             "Error detected at bit-plane "+curbp+
-                             " in code-block ("+m+","+n+"), sb_idx "+
-                             sb.sbandIdx+", res. level "+sb.resLvl+
-                             ". Concealing...");
+                FacilityManager.getMsgLogger().printmsg(MsgLogger.WARNING,
+                    "Error detected at bit-plane " + curbp +
+                        " in code-block (" + m + "," + n + "), sb_idx " +
+                        sb.sbandIdx + ", res. level " + sb.resLvl +
+                        ". Concealing...");
             }
 
-            conceal(cblk,curbp);
+            conceal(cblk, curbp);
         }
 
         // Return decoded block
@@ -870,7 +967,8 @@ public class StdEntropyDecoder extends EntropyDecoder
      * Returns the specified code-block in the current tile for the specified
      * component (as a reference or copy).
      *
-     * <P>The returned code-block may be progressive, which is indicated by
+     * <P>
+     * The returned code-block may be progressive, which is indicated by
      * the 'progressive' variable of the returned 'DataBlk'
      * object. If a code-block is progressive it means that in a later request
      * to this method for the same code-block it is possible to retrieve data
@@ -879,12 +977,14 @@ public class StdEntropyDecoder extends EntropyDecoder
      * progressive then later calls to this method for the same code-block
      * will return the exact same data values.
      *
-     * <P>The data returned by this method can be the data in the internal
+     * <P>
+     * The data returned by this method can be the data in the internal
      * buffer of this object, if any, and thus can not be modified by the
      * caller. The 'offset' and 'scanw' of the returned data can be
      * arbitrary. See the 'DataBlk' class.
      *
-     * <P>The 'ulx' and 'uly' members of the returned 'DataBlk' object
+     * <P>
+     * The 'ulx' and 'uly' members of the returned 'DataBlk' object
      * contain the coordinates of the top-left corner of the block, with
      * respect to the tile, not the subband.
      *
@@ -907,11 +1007,12 @@ public class StdEntropyDecoder extends EntropyDecoder
      * null if all code-blocks for the current tile have been returned.
      *
      * @see DataBlk
-     * */
+     */
     @Override
     public DataBlk getInternCodeBlock(int c, int m, int n, SubbandSyn sb,
-                                        DataBlk cblk) {
-        return getCodeBlock(c,m,n,sb,cblk);
+        DataBlk cblk)
+    {
+        return getCodeBlock(c, m, n, sb, cblk);
     }
 
     /**
@@ -921,7 +1022,8 @@ public class StdEntropyDecoder extends EntropyDecoder
      * and SC primitives as needed. It toggles the "visited" state bit to 1
      * for all those samples.
      *
-     * <P>This method also checks for segmentation markers if those are
+     * <P>
+     * This method also checks for segmentation markers if those are
      * present and returns true if an error is detected, or false
      * otherwise. If an error is detected it means that the bit stream contains
      * some erroneous bit that have led to the decoding of incorrect
@@ -943,55 +1045,55 @@ public class StdEntropyDecoder extends EntropyDecoder
      * terminated it can be used to check error resilience.
      *
      * @return True if an error was detected in the bit stream, false otherwise.
-     * */
+     */
     private boolean sigProgPass(DataBlk cblk, MQDecoder mq, int bp,
-                                int state[], int zc_lut[], boolean isterm) {
-        int j,sj;        // The state index for line and stripe
-        int k,sk;        // The data index for line and stripe
-        int dscanw;      // The data scan-width
-        int sscanw;      // The state scan-width
-        int jstep;       // Stripe to stripe step for 'sj'
-        int kstep;       // Stripe to stripe step for 'sk'
-        int stopsk;      // The loop limit on the variable sk
-        int csj;         // Local copy (i.e. cached) of 'state[j]'
-        int setmask;     // The mask to set current and lower bit-planes to 1/2
-                         // approximation
-        int sym;         // The symbol to code
-        int ctxt;        // The context to use
-        int data[];      // The data buffer
-        int s;           // The stripe index
-        boolean causal;  // Flag to indicate if stripe-causal context
-                         // formation is to be used
-        int nstripes;    // The number of stripes in the code-block
-        int sheight;     // Height of the current stripe
-        int off_ul,off_ur,off_dr,off_dl; // offsets
-        boolean error;   // The error condition
+        int state[], int zc_lut[], boolean isterm)
+    {
+        int j, sj; // The state index for line and stripe
+        int k, sk; // The data index for line and stripe
+        int dscanw; // The data scan-width
+        int sscanw; // The state scan-width
+        int jstep; // Stripe to stripe step for 'sj'
+        int kstep; // Stripe to stripe step for 'sk'
+        int stopsk; // The loop limit on the variable sk
+        int csj; // Local copy (i.e. cached) of 'state[j]'
+        int setmask; // The mask to set current and lower bit-planes to 1/2
+                     // approximation
+        int sym; // The symbol to code
+        int ctxt; // The context to use
+        int data[]; // The data buffer
+        int s; // The stripe index
+        boolean causal; // Flag to indicate if stripe-causal context
+                        // formation is to be used
+        int nstripes; // The number of stripes in the code-block
+        int sheight; // Height of the current stripe
+        int off_ul, off_ur, off_dr, off_dl; // offsets
+        boolean error; // The error condition
 
         // Initialize local variables
         dscanw = cblk.scanw;
-        sscanw = cblk.w+2;
-        jstep = sscanw*STRIPE_HEIGHT/2-cblk.w;
-        kstep = dscanw*STRIPE_HEIGHT-cblk.w;
-        int one = 1 << bp;      // To avoid overflow when bp >= 30 (unseen, defensive)
+        sscanw = cblk.w + 2;
+        jstep = sscanw * STRIPE_HEIGHT / 2 - cblk.w;
+        kstep = dscanw * STRIPE_HEIGHT - cblk.w;
+        int one = 1 << bp; // To avoid overflow when bp >= 30 (unseen, defensive)
         int half = one >> 1;
         setmask = one | half;
-        data = (int[]) cblk.getData();
-        nstripes = (cblk.h+STRIPE_HEIGHT-1)/STRIPE_HEIGHT;
+        data = (int[])cblk.getData();
+        nstripes = (cblk.h + STRIPE_HEIGHT - 1) / STRIPE_HEIGHT;
         causal = (options & OPT_VERT_STR_CAUSAL) != 0;
 
         // Pre-calculate offsets in 'state' for diagonal neighbors
-        off_ul = -sscanw-1;  // up-left
-        off_ur =  -sscanw+1; // up-right
-        off_dr = sscanw+1;   // down-right
-        off_dl = sscanw-1;   // down-left
+        off_ul = -sscanw - 1; // up-left
+        off_ur = -sscanw + 1; // up-right
+        off_dr = sscanw + 1; // down-right
+        off_dl = sscanw - 1; // down-left
 
         // Decode stripe by stripe
         sk = cblk.offset;
-        sj = sscanw+1;
-        for (s = nstripes-1; s >= 0; s--, sk+=kstep, sj+=jstep) {
-            sheight = (s != 0) ? STRIPE_HEIGHT :
-                cblk.h-(nstripes-1)*STRIPE_HEIGHT;
-            stopsk = sk+cblk.w;
+        sj = sscanw + 1;
+        for (s = nstripes - 1; s >= 0; s--, sk += kstep, sj += jstep) {
+            sheight = (s != 0) ? STRIPE_HEIGHT : cblk.h - (nstripes - 1) * STRIPE_HEIGHT;
+            stopsk = sk + cblk.w;
             // Scan by set of 1 stripe column at a time
             for (; sk < stopsk; sk++, sj++) {
                 // Do half top of column
@@ -1000,20 +1102,19 @@ public class StdEntropyDecoder extends EntropyDecoder
                 // If any of the two samples is not significant and has a
                 // non-zero context (i.e. some neighbor is significant) we can
                 // not skip them
-                if ((((~csj) & (csj<<2)) & SIG_MASK_R1R2) != 0) {
+                if ((((~csj) & (csj << 2)) & SIG_MASK_R1R2) != 0) {
                     k = sk;
                     // Scan first row
-                    if ((csj & (STATE_SIG_R1|STATE_NZ_CTXT_R1)) ==
-                        STATE_NZ_CTXT_R1) {
+                    if ((csj & (STATE_SIG_R1 | STATE_NZ_CTXT_R1)) == STATE_NZ_CTXT_R1) {
                         // Use zero coding
-                        if (mq.decodeSymbol(zc_lut[csj&ZC_MASK]) != 0) {
+                        if (mq.decodeSymbol(zc_lut[csj & ZC_MASK]) != 0) {
                             // Became significant
                             // Use sign coding
-                            ctxt = SC_LUT[(csj>>>SC_SHIFT_R1)&SC_MASK];
+                            ctxt = SC_LUT[(csj >>> SC_SHIFT_R1) & SC_MASK];
                             sym = mq.decodeSymbol(ctxt & SC_LUT_MASK) ^
-                                (ctxt>>>SC_SPRED_SHIFT);
+                                (ctxt >>> SC_SPRED_SHIFT);
                             // Update data
-                            data[k] = (sym<<31) | setmask;
+                            data[k] = (sym << 31) | setmask;
                             // Update state information (significant bit,
                             // visited bit, neighbor significant bit of
                             // neighbors, non zero context of neighbors, sign
@@ -1021,46 +1122,40 @@ public class StdEntropyDecoder extends EntropyDecoder
                             if (!causal) {
                                 // If in causal mode do not change contexts of
                                 // previous stripe.
-                                state[j+off_ul] |=
-                                    STATE_NZ_CTXT_R2|STATE_D_DR_R2;
-                                state[j+off_ur] |=
-                                    STATE_NZ_CTXT_R2|STATE_D_DL_R2;
+                                state[j + off_ul] |= STATE_NZ_CTXT_R2 | STATE_D_DR_R2;
+                                state[j + off_ur] |= STATE_NZ_CTXT_R2 | STATE_D_DL_R2;
                             }
                             // Update sign state information of neighbors
                             if (sym != 0) {
-                                csj |= STATE_SIG_R1|STATE_VISITED_R1|
-                                    STATE_NZ_CTXT_R2|
-                                    STATE_V_U_R2|STATE_V_U_SIGN_R2;
+                                csj |= STATE_SIG_R1 | STATE_VISITED_R1 |
+                                    STATE_NZ_CTXT_R2 |
+                                    STATE_V_U_R2 | STATE_V_U_SIGN_R2;
                                 if (!causal) {
                                     // If in causal mode do not change
                                     // contexts of previous stripe.
-                                    state[j-sscanw] |= STATE_NZ_CTXT_R2|
-                                        STATE_V_D_R2|STATE_V_D_SIGN_R2;
+                                    state[j - sscanw] |= STATE_NZ_CTXT_R2 |
+                                        STATE_V_D_R2 | STATE_V_D_SIGN_R2;
                                 }
-                                state[j+1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_H_L_R1|STATE_H_L_SIGN_R1|
+                                state[j + 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_H_L_R1 | STATE_H_L_SIGN_R1 |
                                     STATE_D_UL_R2;
-                                state[j-1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_H_R_R1|STATE_H_R_SIGN_R1|
+                                state[j - 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_H_R_R1 | STATE_H_R_SIGN_R1 |
                                     STATE_D_UR_R2;
                             }
                             else {
-                                csj |= STATE_SIG_R1|STATE_VISITED_R1|
-                                    STATE_NZ_CTXT_R2|STATE_V_U_R2;
+                                csj |= STATE_SIG_R1 | STATE_VISITED_R1 |
+                                    STATE_NZ_CTXT_R2 | STATE_V_U_R2;
                                 if (!causal) {
                                     // If in causal mode do not change
                                     // contexts of previous stripe.
-                                    state[j-sscanw] |= STATE_NZ_CTXT_R2|
+                                    state[j - sscanw] |= STATE_NZ_CTXT_R2 |
                                         STATE_V_D_R2;
                                 }
-                                state[j+1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_H_L_R1|STATE_D_UL_R2;
-                                state[j-1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_H_R_R1|STATE_D_UR_R2;
+                                state[j + 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_H_L_R1 | STATE_D_UL_R2;
+                                state[j - 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_H_R_R1 | STATE_D_UR_R2;
                             }
                         }
                         else {
@@ -1072,52 +1167,47 @@ public class StdEntropyDecoder extends EntropyDecoder
                         continue;
                     }
                     // Scan second row
-                    if ((csj & (STATE_SIG_R2|STATE_NZ_CTXT_R2)) ==
-                        STATE_NZ_CTXT_R2) {
+                    if ((csj & (STATE_SIG_R2 | STATE_NZ_CTXT_R2)) == STATE_NZ_CTXT_R2) {
                         k += dscanw;
                         // Use zero coding
-                        if (mq.decodeSymbol(zc_lut[(csj>>>STATE_SEP)&
-                                                  ZC_MASK]) != 0) {
+                        if (mq.decodeSymbol(zc_lut[(csj >>> STATE_SEP) &
+                            ZC_MASK]) != 0) {
                             // Became significant
                             // Use sign coding
-                            ctxt = SC_LUT[(csj>>>SC_SHIFT_R2)&SC_MASK];
+                            ctxt = SC_LUT[(csj >>> SC_SHIFT_R2) & SC_MASK];
                             sym = mq.decodeSymbol(ctxt & SC_LUT_MASK) ^
-                                (ctxt>>>SC_SPRED_SHIFT);
+                                (ctxt >>> SC_SPRED_SHIFT);
                             // Update data
-                            data[k] = (sym<<31) | setmask;
+                            data[k] = (sym << 31) | setmask;
                             // Update state information (significant bit,
                             // visited bit, neighbor significant bit of
                             // neighbors, non zero context of neighbors, sign
                             // of neighbors)
-                            state[j+off_dl] |= STATE_NZ_CTXT_R1|STATE_D_UR_R1;
-                            state[j+off_dr] |= STATE_NZ_CTXT_R1|STATE_D_UL_R1;
+                            state[j + off_dl] |= STATE_NZ_CTXT_R1 | STATE_D_UR_R1;
+                            state[j + off_dr] |= STATE_NZ_CTXT_R1 | STATE_D_UL_R1;
                             // Update sign state information of neighbors
                             if (sym != 0) {
-                                csj |= STATE_SIG_R2|STATE_VISITED_R2|
-                                    STATE_NZ_CTXT_R1|
-                                    STATE_V_D_R1|STATE_V_D_SIGN_R1;
-                                state[j+sscanw] |= STATE_NZ_CTXT_R1|
-                                    STATE_V_U_R1|STATE_V_U_SIGN_R1;
-                                state[j+1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_D_DL_R1|
-                                    STATE_H_L_R2|STATE_H_L_SIGN_R2;
-                                state[j-1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_D_DR_R1|
-                                    STATE_H_R_R2|STATE_H_R_SIGN_R2;
+                                csj |= STATE_SIG_R2 | STATE_VISITED_R2 |
+                                    STATE_NZ_CTXT_R1 |
+                                    STATE_V_D_R1 | STATE_V_D_SIGN_R1;
+                                state[j + sscanw] |= STATE_NZ_CTXT_R1 |
+                                    STATE_V_U_R1 | STATE_V_U_SIGN_R1;
+                                state[j + 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_D_DL_R1 |
+                                    STATE_H_L_R2 | STATE_H_L_SIGN_R2;
+                                state[j - 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_D_DR_R1 |
+                                    STATE_H_R_R2 | STATE_H_R_SIGN_R2;
                             }
                             else {
-                                csj |= STATE_SIG_R2|STATE_VISITED_R2|
-                                    STATE_NZ_CTXT_R1|STATE_V_D_R1;
-                                state[j+sscanw] |= STATE_NZ_CTXT_R1|
+                                csj |= STATE_SIG_R2 | STATE_VISITED_R2 |
+                                    STATE_NZ_CTXT_R1 | STATE_V_D_R1;
+                                state[j + sscanw] |= STATE_NZ_CTXT_R1 |
                                     STATE_V_U_R1;
-                                state[j+1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_D_DL_R1|STATE_H_L_R2;
-                                state[j-1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_D_DR_R1|STATE_H_R_R2;
+                                state[j + 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_D_DL_R1 | STATE_H_L_R2;
+                                state[j - 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_D_DR_R1 | STATE_H_R_R2;
                             }
                         }
                         else {
@@ -1133,55 +1223,48 @@ public class StdEntropyDecoder extends EntropyDecoder
                 // If any of the two samples is not significant and has a
                 // non-zero context (i.e. some neighbor is significant) we can
                 // not skip them
-                if ((((~csj) & (csj<<2)) & SIG_MASK_R1R2) != 0) {
-                    k = sk+(dscanw<<1);
+                if ((((~csj) & (csj << 2)) & SIG_MASK_R1R2) != 0) {
+                    k = sk + (dscanw << 1);
                     // Scan first row
-                    if ((csj & (STATE_SIG_R1|STATE_NZ_CTXT_R1)) ==
-                        STATE_NZ_CTXT_R1) {
+                    if ((csj & (STATE_SIG_R1 | STATE_NZ_CTXT_R1)) == STATE_NZ_CTXT_R1) {
                         // Use zero coding
-                        if (mq.decodeSymbol(zc_lut[csj&ZC_MASK]) != 0) {
+                        if (mq.decodeSymbol(zc_lut[csj & ZC_MASK]) != 0) {
                             // Became significant
                             // Use sign coding
-                            ctxt = SC_LUT[(csj>>>SC_SHIFT_R1)&SC_MASK];
+                            ctxt = SC_LUT[(csj >>> SC_SHIFT_R1) & SC_MASK];
                             sym = mq.decodeSymbol(ctxt & SC_LUT_MASK) ^
-                                (ctxt>>>SC_SPRED_SHIFT);
+                                (ctxt >>> SC_SPRED_SHIFT);
                             // Update data
-                            data[k] = (sym<<31) | setmask;
+                            data[k] = (sym << 31) | setmask;
                             // Update state information (significant bit,
                             // visited bit, neighbor significant bit of
                             // neighbors, non zero context of neighbors, sign
                             // of neighbors)
-                            state[j+off_ul] |=
-                                STATE_NZ_CTXT_R2|STATE_D_DR_R2;
-                            state[j+off_ur] |=
-                                STATE_NZ_CTXT_R2|STATE_D_DL_R2;
+                            state[j + off_ul] |= STATE_NZ_CTXT_R2 | STATE_D_DR_R2;
+                            state[j + off_ur] |= STATE_NZ_CTXT_R2 | STATE_D_DL_R2;
                             // Update sign state information of neighbors
                             if (sym != 0) {
-                                csj |= STATE_SIG_R1|STATE_VISITED_R1|
-                                    STATE_NZ_CTXT_R2|
-                                    STATE_V_U_R2|STATE_V_U_SIGN_R2;
-                                state[j-sscanw] |= STATE_NZ_CTXT_R2|
-                                    STATE_V_D_R2|STATE_V_D_SIGN_R2;
-                                state[j+1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_H_L_R1|STATE_H_L_SIGN_R1|
+                                csj |= STATE_SIG_R1 | STATE_VISITED_R1 |
+                                    STATE_NZ_CTXT_R2 |
+                                    STATE_V_U_R2 | STATE_V_U_SIGN_R2;
+                                state[j - sscanw] |= STATE_NZ_CTXT_R2 |
+                                    STATE_V_D_R2 | STATE_V_D_SIGN_R2;
+                                state[j + 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_H_L_R1 | STATE_H_L_SIGN_R1 |
                                     STATE_D_UL_R2;
-                                state[j-1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_H_R_R1|STATE_H_R_SIGN_R1|
+                                state[j - 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_H_R_R1 | STATE_H_R_SIGN_R1 |
                                     STATE_D_UR_R2;
                             }
                             else {
-                                csj |= STATE_SIG_R1|STATE_VISITED_R1|
-                                    STATE_NZ_CTXT_R2|STATE_V_U_R2;
-                                state[j-sscanw] |= STATE_NZ_CTXT_R2|
+                                csj |= STATE_SIG_R1 | STATE_VISITED_R1 |
+                                    STATE_NZ_CTXT_R2 | STATE_V_U_R2;
+                                state[j - sscanw] |= STATE_NZ_CTXT_R2 |
                                     STATE_V_D_R2;
-                                state[j+1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_H_L_R1|STATE_D_UL_R2;
-                                state[j-1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_H_R_R1|STATE_D_UR_R2;
+                                state[j + 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_H_L_R1 | STATE_D_UL_R2;
+                                state[j - 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_H_R_R1 | STATE_D_UR_R2;
                             }
                         }
                         else {
@@ -1193,52 +1276,47 @@ public class StdEntropyDecoder extends EntropyDecoder
                         continue;
                     }
                     // Scan second row
-                    if ((csj & (STATE_SIG_R2|STATE_NZ_CTXT_R2)) ==
-                        STATE_NZ_CTXT_R2) {
+                    if ((csj & (STATE_SIG_R2 | STATE_NZ_CTXT_R2)) == STATE_NZ_CTXT_R2) {
                         k += dscanw;
                         // Use zero coding
-                        if (mq.decodeSymbol(zc_lut[(csj>>>STATE_SEP)&
-                                                  ZC_MASK]) != 0) {
+                        if (mq.decodeSymbol(zc_lut[(csj >>> STATE_SEP) &
+                            ZC_MASK]) != 0) {
                             // Became significant
                             // Use sign coding
-                            ctxt = SC_LUT[(csj>>>SC_SHIFT_R2)&SC_MASK];
+                            ctxt = SC_LUT[(csj >>> SC_SHIFT_R2) & SC_MASK];
                             sym = mq.decodeSymbol(ctxt & SC_LUT_MASK) ^
-                                (ctxt>>>SC_SPRED_SHIFT);
+                                (ctxt >>> SC_SPRED_SHIFT);
                             // Update data
-                            data[k] = (sym<<31) | setmask;
+                            data[k] = (sym << 31) | setmask;
                             // Update state information (significant bit,
                             // visited bit, neighbor significant bit of
                             // neighbors, non zero context of neighbors, sign
                             // of neighbors)
-                            state[j+off_dl] |= STATE_NZ_CTXT_R1|STATE_D_UR_R1;
-                            state[j+off_dr] |= STATE_NZ_CTXT_R1|STATE_D_UL_R1;
+                            state[j + off_dl] |= STATE_NZ_CTXT_R1 | STATE_D_UR_R1;
+                            state[j + off_dr] |= STATE_NZ_CTXT_R1 | STATE_D_UL_R1;
                             // Update sign state information of neighbors
                             if (sym != 0) {
-                                csj |= STATE_SIG_R2|STATE_VISITED_R2|
-                                    STATE_NZ_CTXT_R1|
-                                    STATE_V_D_R1|STATE_V_D_SIGN_R1;
-                                state[j+sscanw] |= STATE_NZ_CTXT_R1|
-                                    STATE_V_U_R1|STATE_V_U_SIGN_R1;
-                                state[j+1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_D_DL_R1|
-                                    STATE_H_L_R2|STATE_H_L_SIGN_R2;
-                                state[j-1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_D_DR_R1|
-                                    STATE_H_R_R2|STATE_H_R_SIGN_R2;
+                                csj |= STATE_SIG_R2 | STATE_VISITED_R2 |
+                                    STATE_NZ_CTXT_R1 |
+                                    STATE_V_D_R1 | STATE_V_D_SIGN_R1;
+                                state[j + sscanw] |= STATE_NZ_CTXT_R1 |
+                                    STATE_V_U_R1 | STATE_V_U_SIGN_R1;
+                                state[j + 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_D_DL_R1 |
+                                    STATE_H_L_R2 | STATE_H_L_SIGN_R2;
+                                state[j - 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_D_DR_R1 |
+                                    STATE_H_R_R2 | STATE_H_R_SIGN_R2;
                             }
                             else {
-                                csj |= STATE_SIG_R2|STATE_VISITED_R2|
-                                    STATE_NZ_CTXT_R1|STATE_V_D_R1;
-                                state[j+sscanw] |= STATE_NZ_CTXT_R1|
+                                csj |= STATE_SIG_R2 | STATE_VISITED_R2 |
+                                    STATE_NZ_CTXT_R1 | STATE_V_D_R1;
+                                state[j + sscanw] |= STATE_NZ_CTXT_R1 |
                                     STATE_V_U_R1;
-                                state[j+1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_D_DL_R1|STATE_H_L_R2;
-                                state[j-1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_D_DR_R1|STATE_H_R_R2;
+                                state[j + 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_D_DL_R1 | STATE_H_L_R2;
+                                state[j - 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_D_DR_R1 | STATE_H_R_R2;
                             }
                         }
                         else {
@@ -1250,7 +1328,7 @@ public class StdEntropyDecoder extends EntropyDecoder
             }
         }
 
- 	error = false;
+        error = false;
 
         // Check the error resilient termination
         if (isterm && (options & OPT_PRED_TERM) != 0) {
@@ -1273,10 +1351,12 @@ public class StdEntropyDecoder extends EntropyDecoder
      * SC primitives as needed. It toggles the "visited" state bit to 1 for
      * all those samples.
      *
-     * <P>This method bypasses the arithmetic coder and reads "raw" symbols
+     * <P>
+     * This method bypasses the arithmetic coder and reads "raw" symbols
      * from the bit stream.
      *
-     * <P>This method also checks for segmentation markers if those are
+     * <P>
+     * This method also checks for segmentation markers if those are
      * present and returns true if an error is detected, or false
      * otherwise. If an error is detected it measn that the bit stream contains
      * some erroneous bit that have led to the decoding of incorrect
@@ -1296,54 +1376,54 @@ public class StdEntropyDecoder extends EntropyDecoder
      * terminated it can be used to check error resilience.
      *
      * @return True if an error was detected in the bit stream, false otherwise.
-     * */
+     */
     private boolean rawSigProgPass(DataBlk cblk, ByteToBitInput bin, int bp,
-                                   int state[], boolean isterm) {
-        int j,sj;        // The state index for line and stripe
-        int k,sk;        // The data index for line and stripe
-        int dscanw;      // The data scan-width
-        int sscanw;      // The state scan-width
-        int jstep;       // Stripe to stripe step for 'sj'
-        int kstep;       // Stripe to stripe step for 'sk'
-        int stopsk;      // The loop limit on the variable sk
-        int csj;         // Local copy (i.e. cached) of 'state[j]'
-        int setmask;     // The mask to set current and lower bit-planes to 1/2
-                         // approximation
-        int sym;         // The symbol to code
-        int data[];      // The data buffer
-        int s;           // The stripe index
-        boolean causal;  // Flag to indicate if stripe-causal context
-                         // formation is to be used
-        int nstripes;    // The number of stripes in the code-block
-        int sheight;     // Height of the current stripe
-        int off_ul,off_ur,off_dr,off_dl; // offsets
-        boolean error;   // The error condition
+        int state[], boolean isterm)
+    {
+        int j, sj; // The state index for line and stripe
+        int k, sk; // The data index for line and stripe
+        int dscanw; // The data scan-width
+        int sscanw; // The state scan-width
+        int jstep; // Stripe to stripe step for 'sj'
+        int kstep; // Stripe to stripe step for 'sk'
+        int stopsk; // The loop limit on the variable sk
+        int csj; // Local copy (i.e. cached) of 'state[j]'
+        int setmask; // The mask to set current and lower bit-planes to 1/2
+                     // approximation
+        int sym; // The symbol to code
+        int data[]; // The data buffer
+        int s; // The stripe index
+        boolean causal; // Flag to indicate if stripe-causal context
+                        // formation is to be used
+        int nstripes; // The number of stripes in the code-block
+        int sheight; // Height of the current stripe
+        int off_ul, off_ur, off_dr, off_dl; // offsets
+        boolean error; // The error condition
 
         // Initialize local variables
         dscanw = cblk.scanw;
-        sscanw = cblk.w+2;
-        jstep = sscanw*STRIPE_HEIGHT/2-cblk.w;
-        kstep = dscanw*STRIPE_HEIGHT-cblk.w;
-        int one = 1 << bp;      // To avoid overflow when bp >= 30 (unseen, defensive)
+        sscanw = cblk.w + 2;
+        jstep = sscanw * STRIPE_HEIGHT / 2 - cblk.w;
+        kstep = dscanw * STRIPE_HEIGHT - cblk.w;
+        int one = 1 << bp; // To avoid overflow when bp >= 30 (unseen, defensive)
         int half = one >> 1;
         setmask = one | half;
-        data = (int[]) cblk.getData();
-        nstripes = (cblk.h+STRIPE_HEIGHT-1)/STRIPE_HEIGHT;
+        data = (int[])cblk.getData();
+        nstripes = (cblk.h + STRIPE_HEIGHT - 1) / STRIPE_HEIGHT;
         causal = (options & OPT_VERT_STR_CAUSAL) != 0;
 
         // Pre-calculate offsets in 'state' for diagonal neighbors
-        off_ul = -sscanw-1;  // up-left
-        off_ur =  -sscanw+1; // up-right
-        off_dr = sscanw+1;   // down-right
-        off_dl = sscanw-1;   // down-left
+        off_ul = -sscanw - 1; // up-left
+        off_ur = -sscanw + 1; // up-right
+        off_dr = sscanw + 1; // down-right
+        off_dl = sscanw - 1; // down-left
 
         // Decode stripe by stripe
         sk = cblk.offset;
-        sj = sscanw+1;
-        for (s = nstripes-1; s >= 0; s--, sk+=kstep, sj+=jstep) {
-            sheight = (s != 0) ? STRIPE_HEIGHT :
-                cblk.h-(nstripes-1)*STRIPE_HEIGHT;
-            stopsk = sk+cblk.w;
+        sj = sscanw + 1;
+        for (s = nstripes - 1; s >= 0; s--, sk += kstep, sj += jstep) {
+            sheight = (s != 0) ? STRIPE_HEIGHT : cblk.h - (nstripes - 1) * STRIPE_HEIGHT;
+            stopsk = sk + cblk.w;
             // Scan by set of 1 stripe column at a time
             for (; sk < stopsk; sk++, sj++) {
                 // Do half top of column
@@ -1352,18 +1432,17 @@ public class StdEntropyDecoder extends EntropyDecoder
                 // If any of the two samples is not significant and has a
                 // non-zero context (i.e. some neighbor is significant) we can
                 // not skip them
-                if ((((~csj) & (csj<<2)) & SIG_MASK_R1R2) != 0) {
+                if ((((~csj) & (csj << 2)) & SIG_MASK_R1R2) != 0) {
                     k = sk;
                     // Scan first row
-                    if ((csj & (STATE_SIG_R1|STATE_NZ_CTXT_R1)) ==
-                        STATE_NZ_CTXT_R1) {
+                    if ((csj & (STATE_SIG_R1 | STATE_NZ_CTXT_R1)) == STATE_NZ_CTXT_R1) {
                         // Use zero coding
                         if (bin.readBit() != 0) {
                             // Became significant
                             // Use sign coding
                             sym = bin.readBit();
                             // Update data
-                            data[k] = (sym<<31) | setmask;
+                            data[k] = (sym << 31) | setmask;
                             // Update state information (significant bit,
                             // visited bit, neighbor significant bit of
                             // neighbors, non zero context of neighbors, sign
@@ -1371,46 +1450,40 @@ public class StdEntropyDecoder extends EntropyDecoder
                             if (!causal) {
                                 // If in causal mode do not change contexts of
                                 // previous stripe.
-                                state[j+off_ul] |=
-                                    STATE_NZ_CTXT_R2|STATE_D_DR_R2;
-                                state[j+off_ur] |=
-                                    STATE_NZ_CTXT_R2|STATE_D_DL_R2;
+                                state[j + off_ul] |= STATE_NZ_CTXT_R2 | STATE_D_DR_R2;
+                                state[j + off_ur] |= STATE_NZ_CTXT_R2 | STATE_D_DL_R2;
                             }
                             // Update sign state information of neighbors
                             if (sym != 0) {
-                                csj |= STATE_SIG_R1|STATE_VISITED_R1|
-                                    STATE_NZ_CTXT_R2|
-                                    STATE_V_U_R2|STATE_V_U_SIGN_R2;
+                                csj |= STATE_SIG_R1 | STATE_VISITED_R1 |
+                                    STATE_NZ_CTXT_R2 |
+                                    STATE_V_U_R2 | STATE_V_U_SIGN_R2;
                                 if (!causal) {
                                     // If in causal mode do not change
                                     // contexts of previous stripe.
-                                    state[j-sscanw] |= STATE_NZ_CTXT_R2|
-                                        STATE_V_D_R2|STATE_V_D_SIGN_R2;
+                                    state[j - sscanw] |= STATE_NZ_CTXT_R2 |
+                                        STATE_V_D_R2 | STATE_V_D_SIGN_R2;
                                 }
-                                state[j+1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_H_L_R1|STATE_H_L_SIGN_R1|
+                                state[j + 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_H_L_R1 | STATE_H_L_SIGN_R1 |
                                     STATE_D_UL_R2;
-                                state[j-1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_H_R_R1|STATE_H_R_SIGN_R1|
+                                state[j - 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_H_R_R1 | STATE_H_R_SIGN_R1 |
                                     STATE_D_UR_R2;
                             }
                             else {
-                                csj |= STATE_SIG_R1|STATE_VISITED_R1|
-                                    STATE_NZ_CTXT_R2|STATE_V_U_R2;
+                                csj |= STATE_SIG_R1 | STATE_VISITED_R1 |
+                                    STATE_NZ_CTXT_R2 | STATE_V_U_R2;
                                 if (!causal) {
                                     // If in causal mode do not change
                                     // contexts of previous stripe.
-                                    state[j-sscanw] |= STATE_NZ_CTXT_R2|
+                                    state[j - sscanw] |= STATE_NZ_CTXT_R2 |
                                         STATE_V_D_R2;
                                 }
-                                state[j+1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_H_L_R1|STATE_D_UL_R2;
-                                state[j-1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_H_R_R1|STATE_D_UR_R2;
+                                state[j + 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_H_L_R1 | STATE_D_UL_R2;
+                                state[j - 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_H_R_R1 | STATE_D_UR_R2;
                             }
                         }
                         else {
@@ -1421,8 +1494,7 @@ public class StdEntropyDecoder extends EntropyDecoder
                         state[j] = csj;
                         continue;
                     }
-                    if ((csj & (STATE_SIG_R2|STATE_NZ_CTXT_R2)) ==
-                        STATE_NZ_CTXT_R2) {
+                    if ((csj & (STATE_SIG_R2 | STATE_NZ_CTXT_R2)) == STATE_NZ_CTXT_R2) {
                         k += dscanw;
                         // Use zero coding
                         if (bin.readBit() != 0) {
@@ -1430,40 +1502,36 @@ public class StdEntropyDecoder extends EntropyDecoder
                             // Use sign coding
                             sym = bin.readBit();
                             // Update data
-                            data[k] = (sym<<31) | setmask;
+                            data[k] = (sym << 31) | setmask;
                             // Update state information (significant bit,
                             // visited bit, neighbor significant bit of
                             // neighbors, non zero context of neighbors, sign
                             // of neighbors)
-                            state[j+off_dl] |= STATE_NZ_CTXT_R1|STATE_D_UR_R1;
-                            state[j+off_dr] |= STATE_NZ_CTXT_R1|STATE_D_UL_R1;
+                            state[j + off_dl] |= STATE_NZ_CTXT_R1 | STATE_D_UR_R1;
+                            state[j + off_dr] |= STATE_NZ_CTXT_R1 | STATE_D_UL_R1;
                             // Update sign state information of neighbors
                             if (sym != 0) {
-                                csj |= STATE_SIG_R2|STATE_VISITED_R2|
-                                    STATE_NZ_CTXT_R1|
-                                    STATE_V_D_R1|STATE_V_D_SIGN_R1;
-                                state[j+sscanw] |= STATE_NZ_CTXT_R1|
-                                    STATE_V_U_R1|STATE_V_U_SIGN_R1;
-                                state[j+1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_D_DL_R1|
-                                    STATE_H_L_R2|STATE_H_L_SIGN_R2;
-                                state[j-1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_D_DR_R1|
-                                    STATE_H_R_R2|STATE_H_R_SIGN_R2;
+                                csj |= STATE_SIG_R2 | STATE_VISITED_R2 |
+                                    STATE_NZ_CTXT_R1 |
+                                    STATE_V_D_R1 | STATE_V_D_SIGN_R1;
+                                state[j + sscanw] |= STATE_NZ_CTXT_R1 |
+                                    STATE_V_U_R1 | STATE_V_U_SIGN_R1;
+                                state[j + 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_D_DL_R1 |
+                                    STATE_H_L_R2 | STATE_H_L_SIGN_R2;
+                                state[j - 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_D_DR_R1 |
+                                    STATE_H_R_R2 | STATE_H_R_SIGN_R2;
                             }
                             else {
-                                csj |= STATE_SIG_R2|STATE_VISITED_R2|
-                                    STATE_NZ_CTXT_R1|STATE_V_D_R1;
-                                state[j+sscanw] |= STATE_NZ_CTXT_R1|
+                                csj |= STATE_SIG_R2 | STATE_VISITED_R2 |
+                                    STATE_NZ_CTXT_R1 | STATE_V_D_R1;
+                                state[j + sscanw] |= STATE_NZ_CTXT_R1 |
                                     STATE_V_U_R1;
-                                state[j+1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_D_DL_R1|STATE_H_L_R2;
-                                state[j-1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_D_DR_R1|STATE_H_R_R2;
+                                state[j + 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_D_DL_R1 | STATE_H_L_R2;
+                                state[j - 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_D_DR_R1 | STATE_H_R_R2;
                             }
                         }
                         else {
@@ -1479,53 +1547,46 @@ public class StdEntropyDecoder extends EntropyDecoder
                 // If any of the two samples is not significant and has a
                 // non-zero context (i.e. some neighbor is significant) we can
                 // not skip them
-                if ((((~csj) & (csj<<2)) & SIG_MASK_R1R2) != 0) {
-                    k = sk+(dscanw<<1);
+                if ((((~csj) & (csj << 2)) & SIG_MASK_R1R2) != 0) {
+                    k = sk + (dscanw << 1);
                     // Scan first row
-                    if ((csj & (STATE_SIG_R1|STATE_NZ_CTXT_R1)) ==
-                        STATE_NZ_CTXT_R1) {
+                    if ((csj & (STATE_SIG_R1 | STATE_NZ_CTXT_R1)) == STATE_NZ_CTXT_R1) {
                         // Use zero coding
                         if (bin.readBit() != 0) {
                             // Became significant
                             // Use sign coding
                             sym = bin.readBit();
                             // Update data
-                            data[k] = (sym<<31) | setmask;
+                            data[k] = (sym << 31) | setmask;
                             // Update state information (significant bit,
                             // visited bit, neighbor significant bit of
                             // neighbors, non zero context of neighbors, sign
                             // of neighbors)
-                            state[j+off_ul] |=
-                                STATE_NZ_CTXT_R2|STATE_D_DR_R2;
-                            state[j+off_ur] |=
-                                STATE_NZ_CTXT_R2|STATE_D_DL_R2;
+                            state[j + off_ul] |= STATE_NZ_CTXT_R2 | STATE_D_DR_R2;
+                            state[j + off_ur] |= STATE_NZ_CTXT_R2 | STATE_D_DL_R2;
                             // Update sign state information of neighbors
                             if (sym != 0) {
-                                csj |= STATE_SIG_R1|STATE_VISITED_R1|
-                                    STATE_NZ_CTXT_R2|
-                                    STATE_V_U_R2|STATE_V_U_SIGN_R2;
-                                state[j-sscanw] |= STATE_NZ_CTXT_R2|
-                                    STATE_V_D_R2|STATE_V_D_SIGN_R2;
-                                state[j+1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_H_L_R1|STATE_H_L_SIGN_R1|
+                                csj |= STATE_SIG_R1 | STATE_VISITED_R1 |
+                                    STATE_NZ_CTXT_R2 |
+                                    STATE_V_U_R2 | STATE_V_U_SIGN_R2;
+                                state[j - sscanw] |= STATE_NZ_CTXT_R2 |
+                                    STATE_V_D_R2 | STATE_V_D_SIGN_R2;
+                                state[j + 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_H_L_R1 | STATE_H_L_SIGN_R1 |
                                     STATE_D_UL_R2;
-                                state[j-1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_H_R_R1|STATE_H_R_SIGN_R1|
+                                state[j - 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_H_R_R1 | STATE_H_R_SIGN_R1 |
                                     STATE_D_UR_R2;
                             }
                             else {
-                                csj |= STATE_SIG_R1|STATE_VISITED_R1|
-                                    STATE_NZ_CTXT_R2|STATE_V_U_R2;
-                                state[j-sscanw] |= STATE_NZ_CTXT_R2|
+                                csj |= STATE_SIG_R1 | STATE_VISITED_R1 |
+                                    STATE_NZ_CTXT_R2 | STATE_V_U_R2;
+                                state[j - sscanw] |= STATE_NZ_CTXT_R2 |
                                     STATE_V_D_R2;
-                                state[j+1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_H_L_R1|STATE_D_UL_R2;
-                                state[j-1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_H_R_R1|STATE_D_UR_R2;
+                                state[j + 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_H_L_R1 | STATE_D_UL_R2;
+                                state[j - 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_H_R_R1 | STATE_D_UR_R2;
                             }
                         }
                         else {
@@ -1537,8 +1598,7 @@ public class StdEntropyDecoder extends EntropyDecoder
                         continue;
                     }
                     // Scan second row
-                    if ((csj & (STATE_SIG_R2|STATE_NZ_CTXT_R2)) ==
-                        STATE_NZ_CTXT_R2) {
+                    if ((csj & (STATE_SIG_R2 | STATE_NZ_CTXT_R2)) == STATE_NZ_CTXT_R2) {
                         k += dscanw;
                         // Use zero coding
                         if (bin.readBit() != 0) {
@@ -1546,40 +1606,36 @@ public class StdEntropyDecoder extends EntropyDecoder
                             // Use sign coding
                             sym = bin.readBit();
                             // Update data
-                            data[k] = (sym<<31) | setmask;
+                            data[k] = (sym << 31) | setmask;
                             // Update state information (significant bit,
                             // visited bit, neighbor significant bit of
                             // neighbors, non zero context of neighbors, sign
                             // of neighbors)
-                            state[j+off_dl] |= STATE_NZ_CTXT_R1|STATE_D_UR_R1;
-                            state[j+off_dr] |= STATE_NZ_CTXT_R1|STATE_D_UL_R1;
+                            state[j + off_dl] |= STATE_NZ_CTXT_R1 | STATE_D_UR_R1;
+                            state[j + off_dr] |= STATE_NZ_CTXT_R1 | STATE_D_UL_R1;
                             // Update sign state information of neighbors
                             if (sym != 0) {
-                                csj |= STATE_SIG_R2|STATE_VISITED_R2|
-                                    STATE_NZ_CTXT_R1|
-                                    STATE_V_D_R1|STATE_V_D_SIGN_R1;
-                                state[j+sscanw] |= STATE_NZ_CTXT_R1|
-                                    STATE_V_U_R1|STATE_V_U_SIGN_R1;
-                                state[j+1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_D_DL_R1|
-                                    STATE_H_L_R2|STATE_H_L_SIGN_R2;
-                                state[j-1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_D_DR_R1|
-                                    STATE_H_R_R2|STATE_H_R_SIGN_R2;
+                                csj |= STATE_SIG_R2 | STATE_VISITED_R2 |
+                                    STATE_NZ_CTXT_R1 |
+                                    STATE_V_D_R1 | STATE_V_D_SIGN_R1;
+                                state[j + sscanw] |= STATE_NZ_CTXT_R1 |
+                                    STATE_V_U_R1 | STATE_V_U_SIGN_R1;
+                                state[j + 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_D_DL_R1 |
+                                    STATE_H_L_R2 | STATE_H_L_SIGN_R2;
+                                state[j - 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_D_DR_R1 |
+                                    STATE_H_R_R2 | STATE_H_R_SIGN_R2;
                             }
                             else {
-                                csj |= STATE_SIG_R2|STATE_VISITED_R2|
-                                    STATE_NZ_CTXT_R1|STATE_V_D_R1;
-                                state[j+sscanw] |= STATE_NZ_CTXT_R1|
+                                csj |= STATE_SIG_R2 | STATE_VISITED_R2 |
+                                    STATE_NZ_CTXT_R1 | STATE_V_D_R1;
+                                state[j + sscanw] |= STATE_NZ_CTXT_R1 |
                                     STATE_V_U_R1;
-                                state[j+1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_D_DL_R1|STATE_H_L_R2;
-                                state[j-1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_D_DR_R1|STATE_H_R_R2;
+                                state[j + 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_D_DL_R1 | STATE_H_L_R2;
+                                state[j - 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_D_DR_R1 | STATE_H_R_R2;
                             }
                         }
                         else {
@@ -1608,7 +1664,8 @@ public class StdEntropyDecoder extends EntropyDecoder
      * have the "visited" state bit turned on, using the MR primitive. The
      * "visited" state bit is not mofified for any samples.
      *
-     * <P>This method also checks for segmentation markers if those are
+     * <P>
+     * This method also checks for segmentation markers if those are
      * present and returns true if an error is detected, or false
      * otherwise. If an error is detected it means that the bit stream contains
      * some erroneous bit that have led to the decoding of incorrect
@@ -1628,43 +1685,43 @@ public class StdEntropyDecoder extends EntropyDecoder
      * terminated it can be used to check error resilience.
      *
      * @return True if an error was detected in the bit stream, false otherwise.
-     * */
+     */
     private boolean magRefPass(DataBlk cblk, MQDecoder mq, int bp,
-                               int state[], boolean isterm) {
-        int j,sj;        // The state index for line and stripe
-        int k,sk;        // The data index for line and stripe
-        int dscanw;      // The data scan-width
-        int sscanw;      // The state scan-width
-        int jstep;       // Stripe to stripe step for 'sj'
-        int kstep;       // Stripe to stripe step for 'sk'
-        int stopsk;      // The loop limit on the variable sk
-        int csj;         // Local copy (i.e. cached) of 'state[j]'
-        int setmask;     // The mask to set lower bit-planes to 1/2 approximation
-        int resetmask;   // The mask to reset approximation bit-planes
-        int sym;         // The symbol to decode
-        int data[];      // The data buffer
-        int s;           // The stripe index
-        int nstripes;    // The number of stripes in the code-block
-        int sheight;     // Height of the current stripe
-        boolean error;   // The error condition
+        int state[], boolean isterm)
+    {
+        int j, sj; // The state index for line and stripe
+        int k, sk; // The data index for line and stripe
+        int dscanw; // The data scan-width
+        int sscanw; // The state scan-width
+        int jstep; // Stripe to stripe step for 'sj'
+        int kstep; // Stripe to stripe step for 'sk'
+        int stopsk; // The loop limit on the variable sk
+        int csj; // Local copy (i.e. cached) of 'state[j]'
+        int setmask; // The mask to set lower bit-planes to 1/2 approximation
+        int resetmask; // The mask to reset approximation bit-planes
+        int sym; // The symbol to decode
+        int data[]; // The data buffer
+        int s; // The stripe index
+        int nstripes; // The number of stripes in the code-block
+        int sheight; // Height of the current stripe
+        boolean error; // The error condition
 
         // Initialize local variables
         dscanw = cblk.scanw;
-        sscanw = cblk.w+2;
-        jstep = sscanw*STRIPE_HEIGHT/2-cblk.w;
-        kstep = dscanw*STRIPE_HEIGHT-cblk.w;
-        setmask = (1<<bp)>>1;
-        resetmask = (-1)<<(bp+1);
-        data = (int[]) cblk.getData();
-        nstripes = (cblk.h+STRIPE_HEIGHT-1)/STRIPE_HEIGHT;
+        sscanw = cblk.w + 2;
+        jstep = sscanw * STRIPE_HEIGHT / 2 - cblk.w;
+        kstep = dscanw * STRIPE_HEIGHT - cblk.w;
+        setmask = (1 << bp) >> 1;
+        resetmask = (-1) << (bp + 1);
+        data = (int[])cblk.getData();
+        nstripes = (cblk.h + STRIPE_HEIGHT - 1) / STRIPE_HEIGHT;
 
         // Decode stripe by stripe
         sk = cblk.offset;
-        sj = sscanw+1;
-        for (s = nstripes-1; s >= 0; s--, sk+=kstep, sj+=jstep) {
-            sheight = (s != 0) ? STRIPE_HEIGHT :
-                cblk.h-(nstripes-1)*STRIPE_HEIGHT;
-            stopsk = sk+cblk.w;
+        sj = sscanw + 1;
+        for (s = nstripes - 1; s >= 0; s--, sk += kstep, sj += jstep) {
+            sheight = (s != 0) ? STRIPE_HEIGHT : cblk.h - (nstripes - 1) * STRIPE_HEIGHT;
+            stopsk = sk + cblk.w;
             // Scan by set of 1 stripe column at a time
             for (; sk < stopsk; sk++, sj++) {
                 // Do half top of column
@@ -1675,13 +1732,12 @@ public class StdEntropyDecoder extends EntropyDecoder
                 if ((((csj >>> 1) & (~csj)) & VSTD_MASK_R1R2) != 0) {
                     k = sk;
                     // Scan first row
-                    if ((csj & (STATE_SIG_R1|STATE_VISITED_R1)) ==
-                        STATE_SIG_R1) {
+                    if ((csj & (STATE_SIG_R1 | STATE_VISITED_R1)) == STATE_SIG_R1) {
                         // Use MR primitive
-                        sym = mq.decodeSymbol(MR_LUT[csj&MR_MASK]);
+                        sym = mq.decodeSymbol(MR_LUT[csj & MR_MASK]);
                         // Update the data
                         data[k] &= resetmask;
-                        data[k] |= (sym<<bp)|setmask;
+                        data[k] |= (sym << bp) | setmask;
                         // Update the STATE_PREV_MR bit
                         csj |= STATE_PREV_MR_R1;
                     }
@@ -1690,15 +1746,14 @@ public class StdEntropyDecoder extends EntropyDecoder
                         continue;
                     }
                     // Scan second row
-                    if ((csj & (STATE_SIG_R2|STATE_VISITED_R2)) ==
-                        STATE_SIG_R2) {
+                    if ((csj & (STATE_SIG_R2 | STATE_VISITED_R2)) == STATE_SIG_R2) {
                         k += dscanw;
                         // Use MR primitive
-                        sym = mq.decodeSymbol(MR_LUT[(csj>>>STATE_SEP)&
-                                                    MR_MASK]);
+                        sym = mq.decodeSymbol(MR_LUT[(csj >>> STATE_SEP) &
+                            MR_MASK]);
                         // Update the data
                         data[k] &= resetmask;
-                        data[k] |= (sym<<bp)|setmask;
+                        data[k] |= (sym << bp) | setmask;
                         // Update the STATE_PREV_MR bit
                         csj |= STATE_PREV_MR_R2;
                     }
@@ -1711,15 +1766,14 @@ public class StdEntropyDecoder extends EntropyDecoder
                 // If any of the two samples is significant and not yet
                 // visited in the current bit-plane we can not skip them
                 if ((((csj >>> 1) & (~csj)) & VSTD_MASK_R1R2) != 0) {
-                    k = sk+(dscanw<<1);
+                    k = sk + (dscanw << 1);
                     // Scan first row
-                    if ((csj & (STATE_SIG_R1|STATE_VISITED_R1)) ==
-                        STATE_SIG_R1) {
+                    if ((csj & (STATE_SIG_R1 | STATE_VISITED_R1)) == STATE_SIG_R1) {
                         // Use MR primitive
-                        sym = mq.decodeSymbol(MR_LUT[csj&MR_MASK]);
+                        sym = mq.decodeSymbol(MR_LUT[csj & MR_MASK]);
                         // Update the data
                         data[k] &= resetmask;
-                        data[k] |= (sym<<bp)|setmask;
+                        data[k] |= (sym << bp) | setmask;
                         // Update the STATE_PREV_MR bit
                         csj |= STATE_PREV_MR_R1;
                     }
@@ -1728,15 +1782,14 @@ public class StdEntropyDecoder extends EntropyDecoder
                         continue;
                     }
                     // Scan second row
-                    if ((state[j] & (STATE_SIG_R2|STATE_VISITED_R2)) ==
-                        STATE_SIG_R2) {
+                    if ((state[j] & (STATE_SIG_R2 | STATE_VISITED_R2)) == STATE_SIG_R2) {
                         k += dscanw;
                         // Use MR primitive
-                        sym = mq.decodeSymbol(MR_LUT[(csj>>>STATE_SEP)&
-                                                    MR_MASK]);
+                        sym = mq.decodeSymbol(MR_LUT[(csj >>> STATE_SEP) &
+                            MR_MASK]);
                         // Update the data
                         data[k] &= resetmask;
-                        data[k] |= (sym<<bp)|setmask;
+                        data[k] |= (sym << bp) | setmask;
                         // Update the STATE_PREV_MR bit
                         csj |= STATE_PREV_MR_R2;
                     }
@@ -1745,7 +1798,7 @@ public class StdEntropyDecoder extends EntropyDecoder
             }
         }
 
- 	error = false;
+        error = false;
 
         // Check the error resilient termination
         if (isterm && (options & OPT_PRED_TERM) != 0) {
@@ -1767,10 +1820,12 @@ public class StdEntropyDecoder extends EntropyDecoder
      * have the "visited" state bit turned on, using the MR primitive. The
      * "visited" state bit is not mofified for any samples.
      *
-     * <P>This method bypasses the arithmetic coder and reads "raw" symbols
+     * <P>
+     * This method bypasses the arithmetic coder and reads "raw" symbols
      * from the bit stream.
      *
-     * <P>This method also checks for segmentation markers if those are
+     * <P>
+     * This method also checks for segmentation markers if those are
      * present and returns true if an error is detected, or false
      * otherwise. If an error is detected it measn that the bit stream contains
      * some erroneous bit that have led to the decoding of incorrect
@@ -1790,43 +1845,43 @@ public class StdEntropyDecoder extends EntropyDecoder
      * terminated it can be used to check error resilience.
      *
      * @return True if an error was detected in the bit stream, false otherwise.
-     * */
+     */
     private boolean rawMagRefPass(DataBlk cblk, ByteToBitInput bin, int bp,
-                                  int state[], boolean isterm) {
-        int j,sj;        // The state index for line and stripe
-        int k,sk;        // The data index for line and stripe
-        int dscanw;      // The data scan-width
-        int sscanw;      // The state scan-width
-        int jstep;       // Stripe to stripe step for 'sj'
-        int kstep;       // Stripe to stripe step for 'sk'
-        int stopsk;      // The loop limit on the variable sk
-        int csj;         // Local copy (i.e. cached) of 'state[j]'
-        int setmask;     // The mask to set lower bit-planes to 1/2 approximation
-        int resetmask;   // The mask to reset approximation bit-planes
-        int sym;         // The symbol to decode
-        int data[];      // The data buffer
-        int s;           // The stripe index
-        int nstripes;    // The number of stripes in the code-block
-        int sheight;     // Height of the current stripe
-        boolean error;   // The error condition
+        int state[], boolean isterm)
+    {
+        int j, sj; // The state index for line and stripe
+        int k, sk; // The data index for line and stripe
+        int dscanw; // The data scan-width
+        int sscanw; // The state scan-width
+        int jstep; // Stripe to stripe step for 'sj'
+        int kstep; // Stripe to stripe step for 'sk'
+        int stopsk; // The loop limit on the variable sk
+        int csj; // Local copy (i.e. cached) of 'state[j]'
+        int setmask; // The mask to set lower bit-planes to 1/2 approximation
+        int resetmask; // The mask to reset approximation bit-planes
+        int sym; // The symbol to decode
+        int data[]; // The data buffer
+        int s; // The stripe index
+        int nstripes; // The number of stripes in the code-block
+        int sheight; // Height of the current stripe
+        boolean error; // The error condition
 
         // Initialize local variables
         dscanw = cblk.scanw;
-        sscanw = cblk.w+2;
-        jstep = sscanw*STRIPE_HEIGHT/2-cblk.w;
-        kstep = dscanw*STRIPE_HEIGHT-cblk.w;
-        setmask = (1<<bp)>>1;
-        resetmask = (-1)<<(bp+1);
-        data = (int[]) cblk.getData();
-        nstripes = (cblk.h+STRIPE_HEIGHT-1)/STRIPE_HEIGHT;
+        sscanw = cblk.w + 2;
+        jstep = sscanw * STRIPE_HEIGHT / 2 - cblk.w;
+        kstep = dscanw * STRIPE_HEIGHT - cblk.w;
+        setmask = (1 << bp) >> 1;
+        resetmask = (-1) << (bp + 1);
+        data = (int[])cblk.getData();
+        nstripes = (cblk.h + STRIPE_HEIGHT - 1) / STRIPE_HEIGHT;
 
         // Decode stripe by stripe
         sk = cblk.offset;
-        sj = sscanw+1;
-        for (s = nstripes-1; s >= 0; s--, sk+=kstep, sj+=jstep) {
-            sheight = (s != 0) ? STRIPE_HEIGHT :
-                cblk.h-(nstripes-1)*STRIPE_HEIGHT;
-            stopsk = sk+cblk.w;
+        sj = sscanw + 1;
+        for (s = nstripes - 1; s >= 0; s--, sk += kstep, sj += jstep) {
+            sheight = (s != 0) ? STRIPE_HEIGHT : cblk.h - (nstripes - 1) * STRIPE_HEIGHT;
+            stopsk = sk + cblk.w;
             // Scan by set of 1 stripe column at a time
             for (; sk < stopsk; sk++, sj++) {
                 // Do half top of column
@@ -1837,26 +1892,24 @@ public class StdEntropyDecoder extends EntropyDecoder
                 if ((((csj >>> 1) & (~csj)) & VSTD_MASK_R1R2) != 0) {
                     k = sk;
                     // Scan first row
-                    if ((csj & (STATE_SIG_R1|STATE_VISITED_R1)) ==
-                        STATE_SIG_R1) {
+                    if ((csj & (STATE_SIG_R1 | STATE_VISITED_R1)) == STATE_SIG_R1) {
                         // Read raw bit (no MR primative)
                         sym = bin.readBit();
                         // Update the data
                         data[k] &= resetmask;
-                        data[k] |= (sym<<bp)|setmask;
+                        data[k] |= (sym << bp) | setmask;
                         // No need to set STATE_PREV_MR_R1 since all magnitude
                         // refinement passes to follow are "raw"
                     }
                     if (sheight < 2) continue;
                     // Scan second row
-                    if ((csj & (STATE_SIG_R2|STATE_VISITED_R2)) ==
-                        STATE_SIG_R2) {
+                    if ((csj & (STATE_SIG_R2 | STATE_VISITED_R2)) == STATE_SIG_R2) {
                         k += dscanw;
                         // Read raw bit (no MR primative)
                         sym = bin.readBit();
                         // Update the data
                         data[k] &= resetmask;
-                        data[k] |= (sym<<bp)|setmask;
+                        data[k] |= (sym << bp) | setmask;
                         // No need to set STATE_PREV_MR_R1 since all magnitude
                         // refinement passes to follow are "raw"
                     }
@@ -1868,28 +1921,26 @@ public class StdEntropyDecoder extends EntropyDecoder
                 // If any of the two samples is significant and not yet
                 // visited in the current bit-plane we can not skip them
                 if ((((csj >>> 1) & (~csj)) & VSTD_MASK_R1R2) != 0) {
-                    k = sk+(dscanw<<1);
+                    k = sk + (dscanw << 1);
                     // Scan first row
-                    if ((csj & (STATE_SIG_R1|STATE_VISITED_R1)) ==
-                        STATE_SIG_R1) {
+                    if ((csj & (STATE_SIG_R1 | STATE_VISITED_R1)) == STATE_SIG_R1) {
                         // Read raw bit (no MR primative)
                         sym = bin.readBit();
                         // Update the data
                         data[k] &= resetmask;
-                        data[k] |= (sym<<bp)|setmask;
+                        data[k] |= (sym << bp) | setmask;
                         // No need to set STATE_PREV_MR_R1 since all magnitude
                         // refinement passes to follow are "raw"
                     }
                     if (sheight < 4) continue;
                     // Scan second row
-                    if ((state[j] & (STATE_SIG_R2|STATE_VISITED_R2)) ==
-                        STATE_SIG_R2) {
+                    if ((state[j] & (STATE_SIG_R2 | STATE_VISITED_R2)) == STATE_SIG_R2) {
                         k += dscanw;
                         // Read raw bit (no MR primative)
                         sym = bin.readBit();
                         // Update the data
                         data[k] &= resetmask;
-                        data[k] |= (sym<<bp)|setmask;
+                        data[k] |= (sym << bp) | setmask;
                         // No need to set STATE_PREV_MR_R1 since all magnitude
                         // refinement passes to follow are "raw"
                     }
@@ -1900,7 +1951,7 @@ public class StdEntropyDecoder extends EntropyDecoder
         error = false;
 
         // Check the byte padding if the pass is terminated
-        if (isterm && (options & OPT_PRED_TERM)!=0 ) {
+        if (isterm && (options & OPT_PRED_TERM) != 0) {
             error = bin.checkBytePadding();
         }
 
@@ -1914,7 +1965,8 @@ public class StdEntropyDecoder extends EntropyDecoder
      * off, using the ZC, SC, and RLC primitives. It toggles the "visited"
      * state bit to 0 (off) for all samples in the code-block.
      *
-     * <P>This method also checks for segmentation markers if those are
+     * <P>
+     * This method also checks for segmentation markers if those are
      * present and returns true if an error is detected, or false
      * otherwise. If an error is detected it measn that the bit stream
      * contains some erroneous bit that have led to the decoding of incorrect
@@ -1938,94 +1990,94 @@ public class StdEntropyDecoder extends EntropyDecoder
      *
      * @return True if an error was detected in the bit stream, false
      * otherwise.
-     * */
+     */
     private boolean cleanuppass(DataBlk cblk, MQDecoder mq, int bp,
-                                int state[], int zc_lut[], boolean isterm) {
-        int j,sj;        // The state index for line and stripe
-        int k,sk;        // The data index for line and stripe
-        int dscanw;      // The data scan-width
-        int sscanw;      // The state scan-width
-        int jstep;       // Stripe to stripe step for 'sj'
-        int kstep;       // Stripe to stripe step for 'sk'
-        int stopsk;      // The loop limit on the variable sk
-        int csj;         // Local copy (i.e. cached) of 'state[j]'
-        int setmask;     // The mask to set current and lower bit-planes to 1/2
-                         // approximation
-        int sym;         // The decoded symbol
-        int rlclen;      // Length of RLC
-        int ctxt;        // The context to use
-        int data[];      // The data buffer
-        int s;           // The stripe index
-        boolean causal;  // Flag to indicate if stripe-causal context
-                         // formation is to be used
-        int nstripes;    // The number of stripes in the code-block
-        int sheight;     // Height of the current stripe
-        int off_ul,off_ur,off_dr,off_dl; // offsets
-        boolean error;   // The error condition
+        int state[], int zc_lut[], boolean isterm)
+    {
+        int j, sj; // The state index for line and stripe
+        int k, sk; // The data index for line and stripe
+        int dscanw; // The data scan-width
+        int sscanw; // The state scan-width
+        int jstep; // Stripe to stripe step for 'sj'
+        int kstep; // Stripe to stripe step for 'sk'
+        int stopsk; // The loop limit on the variable sk
+        int csj; // Local copy (i.e. cached) of 'state[j]'
+        int setmask; // The mask to set current and lower bit-planes to 1/2
+                     // approximation
+        int sym; // The decoded symbol
+        int rlclen; // Length of RLC
+        int ctxt; // The context to use
+        int data[]; // The data buffer
+        int s; // The stripe index
+        boolean causal; // Flag to indicate if stripe-causal context
+                        // formation is to be used
+        int nstripes; // The number of stripes in the code-block
+        int sheight; // Height of the current stripe
+        int off_ul, off_ur, off_dr, off_dl; // offsets
+        boolean error; // The error condition
 
         // Initialize local variables
         dscanw = cblk.scanw;
-        sscanw = cblk.w+2;
-        jstep = sscanw*STRIPE_HEIGHT/2-cblk.w;
-        kstep = dscanw*STRIPE_HEIGHT-cblk.w;
-        int one = 1 << bp;      // To avoid overflow when bp >= 30 (confirmed case)
+        sscanw = cblk.w + 2;
+        jstep = sscanw * STRIPE_HEIGHT / 2 - cblk.w;
+        kstep = dscanw * STRIPE_HEIGHT - cblk.w;
+        int one = 1 << bp; // To avoid overflow when bp >= 30 (confirmed case)
         int half = one >> 1;
         setmask = one | half;
-        data = (int[]) cblk.getData();
-        nstripes = (cblk.h+STRIPE_HEIGHT-1)/STRIPE_HEIGHT;
+        data = (int[])cblk.getData();
+        nstripes = (cblk.h + STRIPE_HEIGHT - 1) / STRIPE_HEIGHT;
         causal = (options & OPT_VERT_STR_CAUSAL) != 0;
 
         // Pre-calculate offsets in 'state' for diagonal neighbors
-        off_ul = -sscanw-1;  // up-left
-        off_ur =  -sscanw+1; // up-right
-        off_dr = sscanw+1;   // down-right
-        off_dl = sscanw-1;   // down-left
+        off_ul = -sscanw - 1; // up-left
+        off_ur = -sscanw + 1; // up-right
+        off_dr = sscanw + 1; // down-right
+        off_dl = sscanw - 1; // down-left
 
         // Decode stripe by stripe
         sk = cblk.offset;
-        sj = sscanw+1;
-        for (s = nstripes-1; s >= 0; s--, sk+=kstep, sj+=jstep) {
-            sheight = (s != 0) ? STRIPE_HEIGHT :
-                cblk.h-(nstripes-1)*STRIPE_HEIGHT;
-            stopsk = sk+cblk.w;
+        sj = sscanw + 1;
+        for (s = nstripes - 1; s >= 0; s--, sk += kstep, sj += jstep) {
+            sheight = (s != 0) ? STRIPE_HEIGHT : cblk.h - (nstripes - 1) * STRIPE_HEIGHT;
+            stopsk = sk + cblk.w;
             // Scan by set of 1 stripe column at a time
             for (; sk < stopsk; sk++, sj++) {
                 // Start column
                 j = sj;
                 csj = state[j];
-            top_half:
+                top_half:
                 {
                     // Check for RLC: if all samples are not significant, not
                     // visited and do not have a non-zero context, and column is
                     // full height, we do RLC.
-                    if (csj == 0 && state[j+sscanw] == 0 &&
+                    if (csj == 0 && state[j + sscanw] == 0 &&
                         sheight == STRIPE_HEIGHT) {
                         if (mq.decodeSymbol(RLC_CTXT) != 0) {
                             // run-length is significant, decode length
-                            rlclen = mq.decodeSymbol(UNIF_CTXT)<<1;
+                            rlclen = mq.decodeSymbol(UNIF_CTXT) << 1;
                             rlclen |= mq.decodeSymbol(UNIF_CTXT);
                             // Set 'k' and 'j' accordingly
-                            k = sk+rlclen*dscanw;
+                            k = sk + rlclen * dscanw;
                             if (rlclen > 1) {
                                 j += sscanw;
                                 csj = state[j];
                             }
                         }
                         else { // RLC is insignificant
-                            // Goto next column
+                               // Goto next column
                             continue;
                         }
                         // We just decoded the length of a significant RLC
                         // and a sample became significant
                         // Use sign coding
-                        if ((rlclen&0x01) == 0) {
+                        if ((rlclen & 0x01) == 0) {
                             // Sample that became significant is first row of
                             // its column half
-                            ctxt = SC_LUT[(csj>>SC_SHIFT_R1)&SC_MASK];
+                            ctxt = SC_LUT[(csj >> SC_SHIFT_R1) & SC_MASK];
                             sym = mq.decodeSymbol(ctxt & SC_LUT_MASK) ^
-                                (ctxt>>>SC_SPRED_SHIFT);
+                                (ctxt >>> SC_SPRED_SHIFT);
                             // Update the data
-                            data[k] = (sym<<31) | setmask;
+                            data[k] = (sym << 31) | setmask;
                             // Update state information (significant bit,
                             // visited bit, neighbor significant bit of
                             // neighbors, non zero context of neighbors, sign
@@ -2033,49 +2085,43 @@ public class StdEntropyDecoder extends EntropyDecoder
                             if (rlclen != 0 || !causal) {
                                 // If in causal mode do not change
                                 // contexts of previous stripe.
-                                state[j+off_ul] |=
-                                    STATE_NZ_CTXT_R2|STATE_D_DR_R2;
-                                state[j+off_ur] |=
-                                    STATE_NZ_CTXT_R2|STATE_D_DL_R2;
+                                state[j + off_ul] |= STATE_NZ_CTXT_R2 | STATE_D_DR_R2;
+                                state[j + off_ur] |= STATE_NZ_CTXT_R2 | STATE_D_DL_R2;
                             }
                             // Update sign state information of neighbors
                             if (sym != 0) {
-                                csj |= STATE_SIG_R1|STATE_VISITED_R1|
-                                    STATE_NZ_CTXT_R2|
-                                    STATE_V_U_R2|STATE_V_U_SIGN_R2;
+                                csj |= STATE_SIG_R1 | STATE_VISITED_R1 |
+                                    STATE_NZ_CTXT_R2 |
+                                    STATE_V_U_R2 | STATE_V_U_SIGN_R2;
                                 if (rlclen != 0 || !causal) {
                                     // If in causal mode do not change
                                     // contexts of previous stripe.
-                                    state[j-sscanw] |= STATE_NZ_CTXT_R2|
-                                        STATE_V_D_R2|STATE_V_D_SIGN_R2;
+                                    state[j - sscanw] |= STATE_NZ_CTXT_R2 |
+                                        STATE_V_D_R2 | STATE_V_D_SIGN_R2;
                                 }
-                                state[j+1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_H_L_R1|STATE_H_L_SIGN_R1|
+                                state[j + 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_H_L_R1 | STATE_H_L_SIGN_R1 |
                                     STATE_D_UL_R2;
-                                state[j-1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_H_R_R1|STATE_H_R_SIGN_R1|
+                                state[j - 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_H_R_R1 | STATE_H_R_SIGN_R1 |
                                     STATE_D_UR_R2;
                             }
                             else {
-                                csj |= STATE_SIG_R1|STATE_VISITED_R1|
-                                    STATE_NZ_CTXT_R2|STATE_V_U_R2;
+                                csj |= STATE_SIG_R1 | STATE_VISITED_R1 |
+                                    STATE_NZ_CTXT_R2 | STATE_V_U_R2;
                                 if (rlclen != 0 || !causal) {
                                     // If in causal mode do not change
                                     // contexts of previous stripe.
-                                    state[j-sscanw] |= STATE_NZ_CTXT_R2|
+                                    state[j - sscanw] |= STATE_NZ_CTXT_R2 |
                                         STATE_V_D_R2;
                                 }
-                                state[j+1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_H_L_R1|STATE_D_UL_R2;
-                                state[j-1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_H_R_R1|STATE_D_UR_R2;
+                                state[j + 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_H_L_R1 | STATE_D_UL_R2;
+                                state[j - 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_H_R_R1 | STATE_D_UR_R2;
                             }
                             // Changes to csj are saved later
-                            if ((rlclen>>1) != 0) {
+                            if ((rlclen >> 1) != 0) {
                                 // Sample that became significant is in
                                 // bottom half of column => jump to bottom
                                 // half
@@ -2087,46 +2133,42 @@ public class StdEntropyDecoder extends EntropyDecoder
                         else {
                             // Sample that became significant is second row of
                             // its column half
-                            ctxt = SC_LUT[(csj>>SC_SHIFT_R2)&SC_MASK];
+                            ctxt = SC_LUT[(csj >> SC_SHIFT_R2) & SC_MASK];
                             sym = mq.decodeSymbol(ctxt & SC_LUT_MASK) ^
-                                (ctxt>>>SC_SPRED_SHIFT);
+                                (ctxt >>> SC_SPRED_SHIFT);
                             // Update the data
-                            data[k] = (sym<<31) | setmask;
+                            data[k] = (sym << 31) | setmask;
                             // Update state information (significant bit,
                             // neighbor significant bit of neighbors,
                             // non zero context of neighbors, sign of neighbors)
-                            state[j+off_dl] |= STATE_NZ_CTXT_R1|STATE_D_UR_R1;
-                            state[j+off_dr] |= STATE_NZ_CTXT_R1|STATE_D_UL_R1;
+                            state[j + off_dl] |= STATE_NZ_CTXT_R1 | STATE_D_UR_R1;
+                            state[j + off_dr] |= STATE_NZ_CTXT_R1 | STATE_D_UL_R1;
                             // Update sign state information of neighbors
                             if (sym != 0) {
-                                csj |= STATE_SIG_R2|STATE_NZ_CTXT_R1|
-                                    STATE_V_D_R1|STATE_V_D_SIGN_R1;
-                                state[j+sscanw] |= STATE_NZ_CTXT_R1|
-                                    STATE_V_U_R1|STATE_V_U_SIGN_R1;
-                                state[j+1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_D_DL_R1|
-                                    STATE_H_L_R2|STATE_H_L_SIGN_R2;
-                                state[j-1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_D_DR_R1|
-                                    STATE_H_R_R2|STATE_H_R_SIGN_R2;
+                                csj |= STATE_SIG_R2 | STATE_NZ_CTXT_R1 |
+                                    STATE_V_D_R1 | STATE_V_D_SIGN_R1;
+                                state[j + sscanw] |= STATE_NZ_CTXT_R1 |
+                                    STATE_V_U_R1 | STATE_V_U_SIGN_R1;
+                                state[j + 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_D_DL_R1 |
+                                    STATE_H_L_R2 | STATE_H_L_SIGN_R2;
+                                state[j - 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_D_DR_R1 |
+                                    STATE_H_R_R2 | STATE_H_R_SIGN_R2;
                             }
                             else {
-                                csj |= STATE_SIG_R2|STATE_NZ_CTXT_R1|
+                                csj |= STATE_SIG_R2 | STATE_NZ_CTXT_R1 |
                                     STATE_V_D_R1;
-                                state[j+sscanw] |= STATE_NZ_CTXT_R1|
+                                state[j + sscanw] |= STATE_NZ_CTXT_R1 |
                                     STATE_V_U_R1;
-                                state[j+1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_D_DL_R1|STATE_H_L_R2;
-                                state[j-1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_D_DR_R1|STATE_H_R_R2;
+                                state[j + 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_D_DL_R1 | STATE_H_L_R2;
+                                state[j - 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_D_DR_R1 | STATE_H_R_R2;
                             }
                             // Save changes to csj
                             state[j] = csj;
-                            if ((rlclen>>1) != 0) {
+                            if ((rlclen >> 1) != 0) {
                                 // Sample that became significant is in bottom
                                 // half of column => we're done with this
                                 // column
@@ -2144,19 +2186,19 @@ public class StdEntropyDecoder extends EntropyDecoder
                     // If any of the two samples is not significant and has
                     // not been visited in the current bit-plane we can not
                     // skip them
-                    if ((((csj>>1)|csj) & VSTD_MASK_R1R2) != VSTD_MASK_R1R2) {
+                    if ((((csj >> 1) | csj) & VSTD_MASK_R1R2) != VSTD_MASK_R1R2) {
                         k = sk;
                         // Scan first row
-                        if ((csj & (STATE_SIG_R1|STATE_VISITED_R1)) == 0) {
+                        if ((csj & (STATE_SIG_R1 | STATE_VISITED_R1)) == 0) {
                             // Use zero coding
-                            if (mq.decodeSymbol(zc_lut[csj&ZC_MASK]) != 0) {
+                            if (mq.decodeSymbol(zc_lut[csj & ZC_MASK]) != 0) {
                                 // Became significant
                                 // Use sign coding
-                                ctxt = SC_LUT[(csj>>>SC_SHIFT_R1)&SC_MASK];
+                                ctxt = SC_LUT[(csj >>> SC_SHIFT_R1) & SC_MASK];
                                 sym = mq.decodeSymbol(ctxt & SC_LUT_MASK) ^
-                                    (ctxt>>>SC_SPRED_SHIFT);
+                                    (ctxt >>> SC_SPRED_SHIFT);
                                 // Update the data
-                                data[k] = (sym<<31) | setmask;
+                                data[k] = (sym << 31) | setmask;
                                 // Update state information (significant bit,
                                 // visited bit, neighbor significant bit of
                                 // neighbors, non zero context of neighbors,
@@ -2164,234 +2206,210 @@ public class StdEntropyDecoder extends EntropyDecoder
                                 if (!causal) {
                                     // If in causal mode do not change
                                     // contexts of previous stripe.
-                                    state[j+off_ul] |=
-                                        STATE_NZ_CTXT_R2|STATE_D_DR_R2;
-                                    state[j+off_ur] |=
-                                        STATE_NZ_CTXT_R2|STATE_D_DL_R2;
+                                    state[j + off_ul] |= STATE_NZ_CTXT_R2 | STATE_D_DR_R2;
+                                    state[j + off_ur] |= STATE_NZ_CTXT_R2 | STATE_D_DL_R2;
                                 }
                                 // Update sign state information of neighbors
                                 if (sym != 0) {
-                                    csj |= STATE_SIG_R1|STATE_VISITED_R1|
-                                        STATE_NZ_CTXT_R2|
-                                        STATE_V_U_R2|STATE_V_U_SIGN_R2;
+                                    csj |= STATE_SIG_R1 | STATE_VISITED_R1 |
+                                        STATE_NZ_CTXT_R2 |
+                                        STATE_V_U_R2 | STATE_V_U_SIGN_R2;
                                     if (!causal) {
                                         // If in causal mode do not change
                                         // contexts of previous stripe.
-                                        state[j-sscanw] |= STATE_NZ_CTXT_R2|
-                                            STATE_V_D_R2|STATE_V_D_SIGN_R2;
+                                        state[j - sscanw] |= STATE_NZ_CTXT_R2 |
+                                            STATE_V_D_R2 | STATE_V_D_SIGN_R2;
                                     }
-                                    state[j+1] |=
-                                        STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                        STATE_H_L_R1|STATE_H_L_SIGN_R1|
+                                    state[j + 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                        STATE_H_L_R1 | STATE_H_L_SIGN_R1 |
                                         STATE_D_UL_R2;
-                                    state[j-1] |=
-                                        STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                        STATE_H_R_R1|STATE_H_R_SIGN_R1|
+                                    state[j - 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                        STATE_H_R_R1 | STATE_H_R_SIGN_R1 |
                                         STATE_D_UR_R2;
                                 }
                                 else {
-                                    csj |= STATE_SIG_R1|STATE_VISITED_R1|
-                                        STATE_NZ_CTXT_R2|STATE_V_U_R2;
+                                    csj |= STATE_SIG_R1 | STATE_VISITED_R1 |
+                                        STATE_NZ_CTXT_R2 | STATE_V_U_R2;
                                     if (!causal) {
                                         // If in causal mode do not change
                                         // contexts of previous stripe.
-                                        state[j-sscanw] |= STATE_NZ_CTXT_R2|
+                                        state[j - sscanw] |= STATE_NZ_CTXT_R2 |
                                             STATE_V_D_R2;
                                     }
-                                    state[j+1] |=
-                                        STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                        STATE_H_L_R1|STATE_D_UL_R2;
-                                    state[j-1] |=
-                                        STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                        STATE_H_R_R1|STATE_D_UR_R2;
+                                    state[j + 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                        STATE_H_L_R1 | STATE_D_UL_R2;
+                                    state[j - 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                        STATE_H_R_R1 | STATE_D_UR_R2;
                                 }
                             }
                         }
                         if (sheight < 2) {
-                            csj &= ~(STATE_VISITED_R1|STATE_VISITED_R2);
+                            csj &= ~(STATE_VISITED_R1 | STATE_VISITED_R2);
                             state[j] = csj;
                             continue;
                         }
                         // Scan second row
-                        if ((csj & (STATE_SIG_R2|STATE_VISITED_R2)) == 0) {
+                        if ((csj & (STATE_SIG_R2 | STATE_VISITED_R2)) == 0) {
                             k += dscanw;
                             // Use zero coding
-                            if (mq.decodeSymbol(zc_lut[(csj>>>STATE_SEP)&
-                                                      ZC_MASK]) != 0) {
+                            if (mq.decodeSymbol(zc_lut[(csj >>> STATE_SEP) &
+                                ZC_MASK]) != 0) {
                                 // Became significant
                                 // Use sign coding
-                                ctxt = SC_LUT[(csj>>>SC_SHIFT_R2)&SC_MASK];
+                                ctxt = SC_LUT[(csj >>> SC_SHIFT_R2) & SC_MASK];
                                 sym = mq.decodeSymbol(ctxt & SC_LUT_MASK) ^
-                                    (ctxt>>>SC_SPRED_SHIFT);
+                                    (ctxt >>> SC_SPRED_SHIFT);
                                 // Update the data
-                                data[k] = (sym<<31) | setmask;
+                                data[k] = (sym << 31) | setmask;
                                 // Update state information (significant bit,
                                 // visited bit, neighbor significant bit of
                                 // neighbors, non zero context of neighbors,
                                 // sign of neighbors)
-                                state[j+off_dl] |=
-                                    STATE_NZ_CTXT_R1|STATE_D_UR_R1;
-                                state[j+off_dr] |=
-                                    STATE_NZ_CTXT_R1|STATE_D_UL_R1;
+                                state[j + off_dl] |= STATE_NZ_CTXT_R1 | STATE_D_UR_R1;
+                                state[j + off_dr] |= STATE_NZ_CTXT_R1 | STATE_D_UL_R1;
                                 // Update sign state information of neighbors
                                 if (sym != 0) {
-                                    csj |= STATE_SIG_R2|STATE_VISITED_R2|
-                                        STATE_NZ_CTXT_R1|
-                                        STATE_V_D_R1|STATE_V_D_SIGN_R1;
-                                    state[j+sscanw] |= STATE_NZ_CTXT_R1|
-                                        STATE_V_U_R1|STATE_V_U_SIGN_R1;
-                                    state[j+1] |=
-                                        STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                        STATE_D_DL_R1|
-                                        STATE_H_L_R2|STATE_H_L_SIGN_R2;
-                                    state[j-1] |=
-                                        STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                        STATE_D_DR_R1|
-                                        STATE_H_R_R2|STATE_H_R_SIGN_R2;
+                                    csj |= STATE_SIG_R2 | STATE_VISITED_R2 |
+                                        STATE_NZ_CTXT_R1 |
+                                        STATE_V_D_R1 | STATE_V_D_SIGN_R1;
+                                    state[j + sscanw] |= STATE_NZ_CTXT_R1 |
+                                        STATE_V_U_R1 | STATE_V_U_SIGN_R1;
+                                    state[j + 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                        STATE_D_DL_R1 |
+                                        STATE_H_L_R2 | STATE_H_L_SIGN_R2;
+                                    state[j - 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                        STATE_D_DR_R1 |
+                                        STATE_H_R_R2 | STATE_H_R_SIGN_R2;
                                 }
                                 else {
-                                    csj |= STATE_SIG_R2|STATE_VISITED_R2|
-                                        STATE_NZ_CTXT_R1|STATE_V_D_R1;
-                                    state[j+sscanw] |= STATE_NZ_CTXT_R1|
+                                    csj |= STATE_SIG_R2 | STATE_VISITED_R2 |
+                                        STATE_NZ_CTXT_R1 | STATE_V_D_R1;
+                                    state[j + sscanw] |= STATE_NZ_CTXT_R1 |
                                         STATE_V_U_R1;
-                                    state[j+1] |=
-                                        STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                        STATE_D_DL_R1|STATE_H_L_R2;
-                                    state[j-1] |=
-                                        STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                        STATE_D_DR_R1|STATE_H_R_R2;
+                                    state[j + 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                        STATE_D_DL_R1 | STATE_H_L_R2;
+                                    state[j - 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                        STATE_D_DR_R1 | STATE_H_R_R2;
                                 }
                             }
                         }
                     }
-                    csj &= ~(STATE_VISITED_R1|STATE_VISITED_R2);
+                    csj &= ~(STATE_VISITED_R1 | STATE_VISITED_R2);
                     state[j] = csj;
                     // Do half bottom of column
                     if (sheight < 3) continue;
                     j += sscanw;
                     csj = state[j];
                 } // end of 'top_half' block
-                // If any of the two samples is not significant and has
-                // not been visited in the current bit-plane we can not
-                // skip them
-                if ((((csj>>1)|csj) & VSTD_MASK_R1R2) != VSTD_MASK_R1R2) {
-                    k = sk+(dscanw<<1);
+                  // If any of the two samples is not significant and has
+                  // not been visited in the current bit-plane we can not
+                  // skip them
+                if ((((csj >> 1) | csj) & VSTD_MASK_R1R2) != VSTD_MASK_R1R2) {
+                    k = sk + (dscanw << 1);
                     // Scan first row
-                    if ((csj & (STATE_SIG_R1|STATE_VISITED_R1)) == 0) {
+                    if ((csj & (STATE_SIG_R1 | STATE_VISITED_R1)) == 0) {
                         // Use zero coding
-                        if (mq.decodeSymbol(zc_lut[csj&ZC_MASK]) != 0) {
+                        if (mq.decodeSymbol(zc_lut[csj & ZC_MASK]) != 0) {
                             // Became significant
                             // Use sign coding
-                            ctxt = SC_LUT[(csj>>SC_SHIFT_R1)&SC_MASK];
+                            ctxt = SC_LUT[(csj >> SC_SHIFT_R1) & SC_MASK];
                             sym = mq.decodeSymbol(ctxt & SC_LUT_MASK) ^
-                                (ctxt>>>SC_SPRED_SHIFT);
+                                (ctxt >>> SC_SPRED_SHIFT);
                             // Update the data
-                            data[k] = (sym<<31) | setmask;
+                            data[k] = (sym << 31) | setmask;
                             // Update state information (significant bit,
                             // visited bit, neighbor significant bit of
                             // neighbors, non zero context of neighbors,
                             // sign of neighbors)
-                            state[j+off_ul] |=
-                                STATE_NZ_CTXT_R2|STATE_D_DR_R2;
-                            state[j+off_ur] |=
-                                STATE_NZ_CTXT_R2|STATE_D_DL_R2;
+                            state[j + off_ul] |= STATE_NZ_CTXT_R2 | STATE_D_DR_R2;
+                            state[j + off_ur] |= STATE_NZ_CTXT_R2 | STATE_D_DL_R2;
                             // Update sign state information of neighbors
                             if (sym != 0) {
-                                csj |= STATE_SIG_R1|STATE_VISITED_R1|
-                                    STATE_NZ_CTXT_R2|
-                                    STATE_V_U_R2|STATE_V_U_SIGN_R2;
-                                state[j-sscanw] |= STATE_NZ_CTXT_R2|
-                                    STATE_V_D_R2|STATE_V_D_SIGN_R2;
-                                state[j+1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_H_L_R1|STATE_H_L_SIGN_R1|
+                                csj |= STATE_SIG_R1 | STATE_VISITED_R1 |
+                                    STATE_NZ_CTXT_R2 |
+                                    STATE_V_U_R2 | STATE_V_U_SIGN_R2;
+                                state[j - sscanw] |= STATE_NZ_CTXT_R2 |
+                                    STATE_V_D_R2 | STATE_V_D_SIGN_R2;
+                                state[j + 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_H_L_R1 | STATE_H_L_SIGN_R1 |
                                     STATE_D_UL_R2;
-                                state[j-1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_H_R_R1|STATE_H_R_SIGN_R1|
+                                state[j - 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_H_R_R1 | STATE_H_R_SIGN_R1 |
                                     STATE_D_UR_R2;
                             }
                             else {
-                                csj |= STATE_SIG_R1|STATE_VISITED_R1|
-                                    STATE_NZ_CTXT_R2|STATE_V_U_R2;
-                                state[j-sscanw] |= STATE_NZ_CTXT_R2|
+                                csj |= STATE_SIG_R1 | STATE_VISITED_R1 |
+                                    STATE_NZ_CTXT_R2 | STATE_V_U_R2;
+                                state[j - sscanw] |= STATE_NZ_CTXT_R2 |
                                     STATE_V_D_R2;
-                                state[j+1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_H_L_R1|STATE_D_UL_R2;
-                                state[j-1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_H_R_R1|STATE_D_UR_R2;
+                                state[j + 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_H_L_R1 | STATE_D_UL_R2;
+                                state[j - 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_H_R_R1 | STATE_D_UR_R2;
                             }
                         }
                     }
                     if (sheight < 4) {
-                        csj &= ~(STATE_VISITED_R1|STATE_VISITED_R2);
+                        csj &= ~(STATE_VISITED_R1 | STATE_VISITED_R2);
                         state[j] = csj;
                         continue;
                     }
                     // Scan second row
-                    if ((csj & (STATE_SIG_R2|STATE_VISITED_R2)) == 0) {
+                    if ((csj & (STATE_SIG_R2 | STATE_VISITED_R2)) == 0) {
                         k += dscanw;
                         // Use zero coding
-                        if (mq.decodeSymbol(zc_lut[(csj>>>STATE_SEP)&
-                                                  ZC_MASK]) != 0) {
+                        if (mq.decodeSymbol(zc_lut[(csj >>> STATE_SEP) &
+                            ZC_MASK]) != 0) {
                             // Became significant
                             // Use sign coding
-                            ctxt = SC_LUT[(csj>>>SC_SHIFT_R2)&SC_MASK];
+                            ctxt = SC_LUT[(csj >>> SC_SHIFT_R2) & SC_MASK];
                             sym = mq.decodeSymbol(ctxt & SC_LUT_MASK) ^
-                                (ctxt>>>SC_SPRED_SHIFT);
+                                (ctxt >>> SC_SPRED_SHIFT);
                             // Update the data
-                            data[k] = (sym<<31) | setmask;
+                            data[k] = (sym << 31) | setmask;
                             // Update state information (significant bit,
                             // visited bit, neighbor significant bit of
                             // neighbors, non zero context of neighbors,
                             // sign of neighbors)
-                            state[j+off_dl] |=
-                                STATE_NZ_CTXT_R1|STATE_D_UR_R1;
-                            state[j+off_dr] |=
-                                STATE_NZ_CTXT_R1|STATE_D_UL_R1;
+                            state[j + off_dl] |= STATE_NZ_CTXT_R1 | STATE_D_UR_R1;
+                            state[j + off_dr] |= STATE_NZ_CTXT_R1 | STATE_D_UL_R1;
                             // Update sign state information of neighbors
                             if (sym != 0) {
-                                csj |= STATE_SIG_R2|STATE_VISITED_R2|
-                                    STATE_NZ_CTXT_R1|
-                                    STATE_V_D_R1|STATE_V_D_SIGN_R1;
-                                state[j+sscanw] |= STATE_NZ_CTXT_R1|
-                                    STATE_V_U_R1|STATE_V_U_SIGN_R1;
-                                state[j+1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_D_DL_R1|
-                                    STATE_H_L_R2|STATE_H_L_SIGN_R2;
-                                state[j-1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_D_DR_R1|
-                                    STATE_H_R_R2|STATE_H_R_SIGN_R2;
+                                csj |= STATE_SIG_R2 | STATE_VISITED_R2 |
+                                    STATE_NZ_CTXT_R1 |
+                                    STATE_V_D_R1 | STATE_V_D_SIGN_R1;
+                                state[j + sscanw] |= STATE_NZ_CTXT_R1 |
+                                    STATE_V_U_R1 | STATE_V_U_SIGN_R1;
+                                state[j + 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_D_DL_R1 |
+                                    STATE_H_L_R2 | STATE_H_L_SIGN_R2;
+                                state[j - 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_D_DR_R1 |
+                                    STATE_H_R_R2 | STATE_H_R_SIGN_R2;
                             }
                             else {
-                                csj |= STATE_SIG_R2|STATE_VISITED_R2|
-                                    STATE_NZ_CTXT_R1|STATE_V_D_R1;
-                                state[j+sscanw] |= STATE_NZ_CTXT_R1|
+                                csj |= STATE_SIG_R2 | STATE_VISITED_R2 |
+                                    STATE_NZ_CTXT_R1 | STATE_V_D_R1;
+                                state[j + sscanw] |= STATE_NZ_CTXT_R1 |
                                     STATE_V_U_R1;
-                                state[j+1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_D_DL_R1|STATE_H_L_R2;
-                                state[j-1] |=
-                                    STATE_NZ_CTXT_R1|STATE_NZ_CTXT_R2|
-                                    STATE_D_DR_R1|STATE_H_R_R2;
+                                state[j + 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_D_DL_R1 | STATE_H_L_R2;
+                                state[j - 1] |= STATE_NZ_CTXT_R1 | STATE_NZ_CTXT_R2 |
+                                    STATE_D_DR_R1 | STATE_H_R_R2;
                             }
                         }
                     }
                 }
-                csj &= ~(STATE_VISITED_R1|STATE_VISITED_R2);
+                csj &= ~(STATE_VISITED_R1 | STATE_VISITED_R2);
                 state[j] = csj;
             }
         }
 
         // Decode segment marker if we need to
         if ((options & OPT_SEG_SYMBOLS) != 0) {
-            sym = mq.decodeSymbol(UNIF_CTXT)<<3;
-            sym |= mq.decodeSymbol(UNIF_CTXT)<<2;
-            sym |= mq.decodeSymbol(UNIF_CTXT)<<1;
+            sym = mq.decodeSymbol(UNIF_CTXT) << 3;
+            sym |= mq.decodeSymbol(UNIF_CTXT) << 2;
+            sym |= mq.decodeSymbol(UNIF_CTXT) << 1;
             sym |= mq.decodeSymbol(UNIF_CTXT);
             // Set error condition accordingly
             error = sym != SEG_SYMBOL;
@@ -2424,41 +2442,42 @@ public class StdEntropyDecoder extends EntropyDecoder
      * @param cblk The code-block's data
      *
      * @param bp The last decoded bit-plane (which contains errors).
-     * */
-    private void conceal(DataBlk cblk, int bp) {
-        int l;         // line index
-        int k;         // array index
-        int kmax;      // 'k' limit
-        int dk;        // Value of data[k]
-        int data[];    // the data array
-        int setmask;   // Bitmask to set approximation to 1/2 of
-                       // known interval on significant data
+     */
+    private void conceal(DataBlk cblk, int bp)
+    {
+        int l; // line index
+        int k; // array index
+        int kmax; // 'k' limit
+        int dk; // Value of data[k]
+        int data[]; // the data array
+        int setmask; // Bitmask to set approximation to 1/2 of
+                     // known interval on significant data
         int resetmask; // Bitmask to erase all the data from
                        // bit-plane 'bp'
 
         // Initialize masks
-        setmask = 1<<bp;
-        resetmask = (-1)<<(bp);
+        setmask = 1 << bp;
+        resetmask = (-1) << (bp);
 
         // Get the data array
-        data = (int[]) cblk.getData();
+        data = (int[])cblk.getData();
 
         // Visit each sample, apply the reset mask to it and add an
         // approximation if significant.
-        for (l=cblk.h-1, k=cblk.offset; l>=0; l--) {
-            for (kmax = k+cblk.w; k<kmax; k++) {
+        for (l = cblk.h - 1, k = cblk.offset; l >= 0; l--) {
+            for (kmax = k + cblk.w; k < kmax; k++) {
                 dk = data[k];
                 if ((dk & resetmask & 0x7FFFFFFF) != 0) {
                     // Something was decoded in previous bit-planes => set the
                     // approximation for previous bit-plane
-                    data[k] = (dk&resetmask)|setmask;
+                    data[k] = (dk & resetmask) | setmask;
                 }
                 else {
                     // Was insignificant in previous bit-planes = set to zero
                     data[k] = 0;
                 }
             }
-            k += cblk.scanw-cblk.w;
+            k += cblk.scanw - cblk.w;
         }
 
     }

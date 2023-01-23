@@ -56,7 +56,8 @@ import jj2000.j2k.io.RandomAccessIO;
  * A wrapper for converting an <code>ImageInputStream</code> into a
  * <code>RandomAccessIO</code>. The resulting class is read-only.
  */
-public class IISRandomAccessIO implements RandomAccessIO {
+public class IISRandomAccessIO implements RandomAccessIO
+{
 
     /** The <code>ImageInputStream</code> that is wrapped */
     private ImageInputStream iis;
@@ -67,7 +68,8 @@ public class IISRandomAccessIO implements RandomAccessIO {
      *
      * @param iis The source <code>ImageInputStream</code>.
      */
-    public IISRandomAccessIO(ImageInputStream iis) {
+    public IISRandomAccessIO(ImageInputStream iis)
+    {
         if (iis == null) {
             throw new IllegalArgumentException("iis == null!");
         }
@@ -75,7 +77,8 @@ public class IISRandomAccessIO implements RandomAccessIO {
     }
 
     @Override
-    public void close() throws IOException {
+    public void close() throws IOException
+    {
         iis.close();
     }
 
@@ -84,33 +87,38 @@ public class IISRandomAccessIO implements RandomAccessIO {
      * <code>Integer.MAX_VALUE</code>.
      */
     @Override
-    public int getPos() throws IOException {
+    public int getPos() throws IOException
+    {
         long pos = iis.getStreamPosition();
         return pos > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int)pos;
     }
 
     @Override
-    public void seek(int off) throws IOException {
+    public void seek(int off) throws IOException
+    {
         iis.seek(off);
     }
 
     /**
      * Returns the length of the data stream.
      *
-     * <p>If the length of the <code>ImageInputStream</code> is not
+     * <p>
+     * If the length of the <code>ImageInputStream</code> is not
      * <code>-1</code>, then it is returned after being clamped to
      * a maximum value of <code>Integer.MAX_VALUE</code>. If the
      * <code>ImageInputStream</code> is <code>-1</code>, the stream
      * is read to a maximum position of <code>Integer.MAX_VALUE</code>
      * and its final position is returned. The position of the stream
-     * is unchanged from the value it had prior to the call.</p>
+     * is unchanged from the value it had prior to the call.
+     * </p>
      */
     @Override
-    public int length() throws IOException {
+    public int length() throws IOException
+    {
         long len = iis.length();
 
         // If the length is non-negative, use it.
-        if(len != -1L) {
+        if (len != -1L) {
             return len > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int)len;
         }
 
@@ -119,9 +127,9 @@ public class IISRandomAccessIO implements RandomAccessIO {
         int bufLen = 1024;
         byte[] buf = new byte[bufLen];
         long pos = iis.getStreamPosition();
-        while(pos < Integer.MAX_VALUE) {
+        while (pos < Integer.MAX_VALUE) {
             int numRead = iis.read(buf, 0, bufLen);
-            if(numRead == -1) break; // EOF
+            if (numRead == -1) break; // EOF
             pos += numRead;
         }
         iis.reset();
@@ -131,68 +139,80 @@ public class IISRandomAccessIO implements RandomAccessIO {
     }
 
     @Override
-    public int read() throws IOException {
+    public int read() throws IOException
+    {
         return iis.read();
     }
 
     @Override
-    public void readFully(byte b[], int off, int n) throws IOException {
+    public void readFully(byte b[], int off, int n) throws IOException
+    {
         iis.readFully(b, off, n);
     }
 
     @Override
-    public int getByteOrdering() {
-        return iis.getByteOrder() == ByteOrder.BIG_ENDIAN ?
-            EndianType.BIG_ENDIAN : EndianType.LITTLE_ENDIAN;
+    public int getByteOrdering()
+    {
+        return iis.getByteOrder() == ByteOrder.BIG_ENDIAN ? EndianType.BIG_ENDIAN : EndianType.LITTLE_ENDIAN;
     }
 
     @Override
-    public byte readByte() throws IOException {
+    public byte readByte() throws IOException
+    {
         return iis.readByte();
     }
 
     @Override
-    public int readUnsignedByte() throws IOException {
+    public int readUnsignedByte() throws IOException
+    {
         return iis.readUnsignedByte();
     }
 
     @Override
-    public short readShort() throws IOException {
+    public short readShort() throws IOException
+    {
         return iis.readShort();
     }
 
     @Override
-    public int readUnsignedShort() throws IOException {
+    public int readUnsignedShort() throws IOException
+    {
         return iis.readUnsignedShort();
     }
 
     @Override
-    public int readInt() throws IOException {
+    public int readInt() throws IOException
+    {
         return iis.readInt();
     }
 
     @Override
-    public long readUnsignedInt() throws IOException {
+    public long readUnsignedInt() throws IOException
+    {
         return iis.readUnsignedInt();
     }
 
     @Override
-    public long readLong() throws IOException {
+    public long readLong() throws IOException
+    {
         return iis.readLong();
     }
 
     @Override
-    public float readFloat() throws IOException {
+    public float readFloat() throws IOException
+    {
         return iis.readFloat();
     }
 
     @Override
-    public double readDouble() throws IOException {
+    public double readDouble() throws IOException
+    {
         return iis.readDouble();
     }
 
     @Override
-    public int skipBytes(int n) throws IOException {
+    public int skipBytes(int n) throws IOException
+    {
         return iis.skipBytes(n);
     }
 
@@ -200,7 +220,8 @@ public class IISRandomAccessIO implements RandomAccessIO {
      * A null operation as writing is not supported.
      */
     @Override
-    public void flush() {
+    public void flush()
+    {
         // Intentionally empty.
     }
 
@@ -208,7 +229,8 @@ public class IISRandomAccessIO implements RandomAccessIO {
      * Throws an <code>IOException</code> as writing is not supported.
      */
     @Override
-    public void write(int b) throws IOException {
+    public void write(int b) throws IOException
+    {
         throw new IOException("Writing is not supported!");
     }
 
@@ -216,7 +238,8 @@ public class IISRandomAccessIO implements RandomAccessIO {
      * Throws an <code>IOException</code> as writing is not supported.
      */
     @Override
-    public void writeByte(int v) throws IOException {
+    public void writeByte(int v) throws IOException
+    {
         throw new IOException("Writing is not supported!");
     }
 
@@ -224,7 +247,8 @@ public class IISRandomAccessIO implements RandomAccessIO {
      * Throws an <code>IOException</code> as writing is not supported.
      */
     @Override
-    public void writeShort(int v) throws IOException {
+    public void writeShort(int v) throws IOException
+    {
         throw new IOException("Writing is not supported!");
     }
 
@@ -232,7 +256,8 @@ public class IISRandomAccessIO implements RandomAccessIO {
      * Throws an <code>IOException</code> as writing is not supported.
      */
     @Override
-    public void writeInt(int v) throws IOException {
+    public void writeInt(int v) throws IOException
+    {
         throw new IOException("Writing is not supported!");
     }
 
@@ -240,7 +265,8 @@ public class IISRandomAccessIO implements RandomAccessIO {
      * Throws an <code>IOException</code> as writing is not supported.
      */
     @Override
-    public void writeLong(long v) throws IOException {
+    public void writeLong(long v) throws IOException
+    {
         throw new IOException("Writing is not supported!");
     }
 
@@ -248,7 +274,8 @@ public class IISRandomAccessIO implements RandomAccessIO {
      * Throws an <code>IOException</code> as writing is not supported.
      */
     @Override
-    public void writeFloat(float v) throws IOException {
+    public void writeFloat(float v) throws IOException
+    {
         throw new IOException("Writing is not supported!");
     }
 
@@ -256,7 +283,8 @@ public class IISRandomAccessIO implements RandomAccessIO {
      * Throws an <code>IOException</code> as writing is not supported.
      */
     @Override
-    public void writeDouble(double v) throws IOException {
+    public void writeDouble(double v) throws IOException
+    {
         throw new IOException("Writing is not supported!");
     }
 }

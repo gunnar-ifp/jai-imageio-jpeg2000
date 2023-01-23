@@ -55,42 +55,43 @@ package jj2000.j2k.fileformat;
  * @see jj2000.j2k.fileformat.reader.FileFormatReader
  *
  */
-public interface FileFormatBoxes{
+public interface FileFormatBoxes
+{
 
     /**** Main boxes ****/
 
     public static final int JP2_SIGNATURE_BOX = 0x6a502020;
 
-    public static final int FILE_TYPE_BOX       = 0x66747970;
+    public static final int FILE_TYPE_BOX = 0x66747970;
 
-    public static final int JP2_HEADER_BOX   = 0x6a703268;
+    public static final int JP2_HEADER_BOX = 0x6a703268;
 
     public static final int CONTIGUOUS_CODESTREAM_BOX = 0x6a703263;
 
     public static final int INTELLECTUAL_PROPERTY_BOX = 0x64703269;
 
-    public static final int XML_BOX                   = 0x786d6c20;
+    public static final int XML_BOX = 0x786d6c20;
 
-    public static final int UUID_BOX                  = 0x75756964;
+    public static final int UUID_BOX = 0x75756964;
 
-    public static final int UUID_INFO_BOX             = 0x75696e66;
+    public static final int UUID_INFO_BOX = 0x75696e66;
 
     /** JP2 Header boxes */
-    public static final int IMAGE_HEADER_BOX               = 0x69686472;
+    public static final int IMAGE_HEADER_BOX = 0x69686472;
 
-    public static final int BITS_PER_COMPONENT_BOX         = 0x62706363;
+    public static final int BITS_PER_COMPONENT_BOX = 0x62706363;
 
-    public static final int COLOUR_SPECIFICATION_BOX       = 0x636f6c72;
+    public static final int COLOUR_SPECIFICATION_BOX = 0x636f6c72;
 
-    public static final int PALETTE_BOX                    = 0x70636c72;
+    public static final int PALETTE_BOX = 0x70636c72;
 
-    public static final int COMPONENT_MAPPING_BOX          = 0x636d6170;
+    public static final int COMPONENT_MAPPING_BOX = 0x636d6170;
 
-    public static final int CHANNEL_DEFINITION_BOX         = 0x63646566;
+    public static final int CHANNEL_DEFINITION_BOX = 0x63646566;
 
-    public static final int RESOLUTION_BOX                 = 0x72657320;
+    public static final int RESOLUTION_BOX = 0x72657320;
 
-    public static final int CAPTURE_RESOLUTION_BOX         = 0x72657363;
+    public static final int CAPTURE_RESOLUTION_BOX = 0x72657363;
 
     public static final int DEFAULT_DISPLAY_RESOLUTION_BOX = 0x72657364;
 
@@ -99,7 +100,7 @@ public interface FileFormatBoxes{
     /** UUID Info Boxes */
     public static final int UUID_LIST_BOX = 0x75637374;
 
-    public static final int URL_BOX       = 0x75726c20;
+    public static final int URL_BOX = 0x75726c20;
     /** end of UUID Info boxes */
 
     /** Image Header Box Fields */
@@ -110,7 +111,7 @@ public interface FileFormatBoxes{
     public static final int IMB_UnkC = 1;
 
     public static final int IMB_IPR = 0;
-    /** end of Image Header Box Fields*/
+    /** end of Image Header Box Fields */
 
     /** Colour Specification Box Fields */
     public static final int CSB_METH = 1;
@@ -132,8 +133,6 @@ public interface FileFormatBoxes{
 
 
 }
-
-
 
 
 

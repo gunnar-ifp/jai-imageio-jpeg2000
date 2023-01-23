@@ -42,7 +42,7 @@
  * $Date: 2005/02/11 05:01:31 $
  * $State: Exp $
  */
- 
+
 package com.github.jaiimageio.jpeg2000.impl;
 
 import javax.imageio.metadata.IIOInvalidTreeException;
@@ -50,34 +50,40 @@ import javax.imageio.metadata.IIOInvalidTreeException;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-/** This class is defined to represent a Bits Per Component Box of JPEG
- *  JP2 file format.  A Bits Per Component box has a length, and a fixed
- *  type of "bpcc".  Its content is a byte array containing the bit
- *  depths of the color components.
+/**
+ * This class is defined to represent a Bits Per Component Box of JPEG
+ * JP2 file format. A Bits Per Component box has a length, and a fixed
+ * type of "bpcc". Its content is a byte array containing the bit
+ * depths of the color components.
  *
- *  This box is necessary only when the bit depth are not identical for all
- *  the components.
+ * This box is necessary only when the bit depth are not identical for all
+ * the components.
  */
-public class BitsPerComponentBox extends Box {
-    /** Counstructs a <code>BitsPerComponentBox</code> from the provided
-     *  byte array containing the bit depths of each color component.
+public class BitsPerComponentBox extends Box
+{
+    /**
+     * Counstructs a <code>BitsPerComponentBox</code> from the provided
+     * byte array containing the bit depths of each color component.
      */
-    public BitsPerComponentBox(byte[] bitDepth) {
-        super(8 + bitDepth.length,  0x62706363, null);
+    public BitsPerComponentBox(byte[] bitDepth)
+    {
+        super(8 + bitDepth.length, 0x62706363, null);
         data = bitDepth;
     }
 
-    /** Constructs a <code>BitsPerComponentBox</code> based on the provide
-     *  <code>org.w3c.dom.Node</code>.
+    /**
+     * Constructs a <code>BitsPerComponentBox</code> based on the provide
+     * <code>org.w3c.dom.Node</code>.
      */
-    public BitsPerComponentBox(Node node) throws IIOInvalidTreeException {
+    public BitsPerComponentBox(Node node) throws IIOInvalidTreeException
+    {
         super(node);
         NodeList children = node.getChildNodes();
-       
+
         for (int i = 0; i < children.getLength(); i++) {
             Node child = children.item(i);
             String name = child.getNodeName();
-           
+
             if ("BitDepth".equals(name)) {
                 data = Box.getByteArrayElementValue(child);
             }
@@ -85,7 +91,8 @@ public class BitsPerComponentBox extends Box {
     }
 
     /** Returns the bit depths for all the image components. */
-    public byte[] getBitDepth() {
+    public byte[] getBitDepth()
+    {
         return data;
     }
 }

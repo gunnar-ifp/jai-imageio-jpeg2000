@@ -51,12 +51,14 @@ package jj2000.j2k.image;
  * This is an implementation of the <code>DataBlk</code> interface for
  * 32 bit floating point data (float).
  *
- * <P>The methods in this class are declared final, so that they can
+ * <P>
+ * The methods in this class are declared final, so that they can
  * be inlined by inlining compilers.
  *
  * @see DataBlk
- * */
-public class DataBlkFloat extends DataBlk {
+ */
+public class DataBlkFloat extends DataBlk
+{
     /** The array where the data is stored */
     public float[] data;
 
@@ -67,7 +69,8 @@ public class DataBlkFloat extends DataBlk {
      *
      *
      */
-    public DataBlkFloat() {
+    public DataBlkFloat()
+    {
     }
 
     /**
@@ -86,15 +89,16 @@ public class DataBlkFloat extends DataBlk {
      * @param h The height of the block (in pixels)
      *
      *
-     * */
-    public DataBlkFloat(int ulx, int uly, int w, int h) {
+     */
+    public DataBlkFloat(int ulx, int uly, int w, int h)
+    {
         this.ulx = ulx;
         this.uly = uly;
         this.w = w;
         this.h = h;
         offset = 0;
         scanw = w;
-        data = new float[w*h];
+        data = new float[w * h];
     }
 
     /**
@@ -105,18 +109,19 @@ public class DataBlkFloat extends DataBlk {
      * @param src the object to be copied.
      *
      *
-     * */
-    public DataBlkFloat(DataBlkFloat src) {
+     */
+    public DataBlkFloat(DataBlkFloat src)
+    {
         this.ulx = src.ulx;
         this.uly = src.uly;
         this.w = src.w;
         this.h = src.h;
         this.offset = 0;
         this.scanw = this.w;
-        this.data = new float[this.w*this.h];
-        for ( int i=0 ; i<this.h ; i++ )
-            System.arraycopy(src.data, i*src.scanw,
-                this.data, i*this.scanw, this.w);
+        this.data = new float[this.w * this.h];
+        for (int i = 0; i < this.h; i++)
+            System.arraycopy(src.data, i * src.scanw,
+                this.data, i * this.scanw, this.w);
     }
 
     /**
@@ -129,9 +134,10 @@ public class DataBlkFloat extends DataBlk {
      * @see DataBlk#TYPE_FLOAT
      *
      *
-     * */
+     */
     @Override
-    public final int getDataType() {
+    public final int getDataType()
+    {
         return TYPE_FLOAT;
     }
 
@@ -146,7 +152,8 @@ public class DataBlkFloat extends DataBlk {
      *
      */
     @Override
-    public final Object getData() {
+    public final Object getData()
+    {
         return data;
     }
 
@@ -157,8 +164,9 @@ public class DataBlkFloat extends DataBlk {
      * @return The array of data or null if there is no data.
      *
      *
-     * */
-    public final float[] getDataFloat() {
+     */
+    public final float[] getDataFloat()
+    {
         return data;
     }
 
@@ -171,10 +179,11 @@ public class DataBlkFloat extends DataBlk {
      * @param arr The data array to use. Must be a float array.
      *
      *
-     * */
+     */
     @Override
-    public final void setData(Object arr) {
-        data = (float[]) arr;
+    public final void setData(Object arr)
+    {
+        data = (float[])arr;
     }
 
     /**
@@ -184,19 +193,21 @@ public class DataBlkFloat extends DataBlk {
      * @param arr The data array to use.
      *
      *
-     * */
-    public final void setDataFloat(float[] arr) {
+     */
+    public final void setDataFloat(float[] arr)
+    {
         data = arr;
     }
 
     /**
      * Returns a string of informations about the DataBlkInt.
-     * */
+     */
     @Override
-    public String toString() {
+    public String toString()
+    {
         String str = super.toString();
-        if(data!=null) {
-            str += ",data="+data.length+" bytes";
+        if (data != null) {
+            str += ",data=" + data.length + " bytes";
         }
         return str;
     }

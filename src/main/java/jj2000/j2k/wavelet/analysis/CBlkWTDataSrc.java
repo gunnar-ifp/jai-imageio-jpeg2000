@@ -57,10 +57,12 @@ import jj2000.j2k.wavelet.WaveletTransform;
  * 'getNextInternCodeBlock()' a new code-block is returned. The code-blocks
  * are returned in no specific order.
  *
- * <P>This class is the source of data for the quantizer. See the 'Quantizer'
+ * <P>
+ * This class is the source of data for the quantizer. See the 'Quantizer'
  * class.
  *
- * <P>Note that no more of one object may request data, otherwise one object
+ * <P>
+ * Note that no more of one object may request data, otherwise one object
  * would get some of the data and another one another part, in no defined
  * manner.
  *
@@ -71,8 +73,9 @@ import jj2000.j2k.wavelet.WaveletTransform;
  * @see jj2000.j2k.quantization.quantizer.CBlkQuantDataSrcEnc
  *
  * @see jj2000.j2k.quantization.quantizer.Quantizer
- * */
-public interface CBlkWTDataSrc extends ForwWTDataProps {
+ */
+public interface CBlkWTDataSrc extends ForwWTDataProps
+{
 
     /**
      * Returns the position of the fixed point in the specified component, or
@@ -91,13 +94,14 @@ public interface CBlkWTDataSrc extends ForwWTDataProps {
      * returned.
      *
      *
-     * */
-     public int getFixedPoint(int n);
+     */
+    public int getFixedPoint(int n);
 
-    /** Return the data type of this CBlkWTDataSrc for the given
-     *  component in the current tile. Its value should be either
-     *  DataBlk.TYPE_INT or DataBlk.TYPE_FLOAT but can change
-     *  according to the current tile-component.
+    /**
+     * Return the data type of this CBlkWTDataSrc for the given
+     * component in the current tile. Its value should be either
+     * DataBlk.TYPE_INT or DataBlk.TYPE_FLOAT but can change
+     * according to the current tile-component.
      *
      * @param t Tile index
      *
@@ -106,7 +110,7 @@ public interface CBlkWTDataSrc extends ForwWTDataProps {
      * @return Current data type
      *
      */
-    public int getDataType(int t,int c);
+    public int getDataType(int t, int c);
 
     /**
      * Returns the next code-block in the current tile for the specified
@@ -117,18 +121,21 @@ public interface CBlkWTDataSrc extends ForwWTDataProps {
      * the code-blocks have been returned for the current tile calls to this
      * method will return 'null'.
      *
-     * <P>When changing the current tile (through 'setTile()' or 'nextTile()')
+     * <P>
+     * When changing the current tile (through 'setTile()' or 'nextTile()')
      * this method will always return the first code-block, as if this method
      * was never called before for the new current tile.
      *
-     * <P>The data returned by this method is always a copy of the internal
+     * <P>
+     * The data returned by this method is always a copy of the internal
      * data of this object, if any, and it can be modified "in place" without
      * any problems after being returned. The 'offset' of the returned data is
-     * 0, and the 'scanw' is the same as the code-block width.  The 'magbits'
+     * 0, and the 'scanw' is the same as the code-block width. The 'magbits'
      * of the returned data is not set by this method and should be
      * ignored. See the 'CBlkWTData' class.
      *
-     * <P>The 'ulx' and 'uly' members of the returned 'CBlkWTData' object
+     * <P>
+     * The 'ulx' and 'uly' members of the returned 'CBlkWTData' object
      * contain the coordinates of the top-left corner of the block, with
      * respect to the tile, not the subband.
      *
@@ -145,7 +152,7 @@ public interface CBlkWTDataSrc extends ForwWTDataProps {
      * @see CBlkWTData
      *
      *
-     * */
+     */
     public abstract CBlkWTData getNextCodeBlock(int n, CBlkWTData cblk);
 
     /**
@@ -157,17 +164,20 @@ public interface CBlkWTDataSrc extends ForwWTDataProps {
      * have been returned for the current tile calls to this method will
      * return 'null'.
      *
-     * <P>When changing the current tile (through 'setTile()' or 'nextTile()')
+     * <P>
+     * When changing the current tile (through 'setTile()' or 'nextTile()')
      * this method will always return the first code-block, as if this method
      * was never called before for the new current tile.
      *
-     * <P>The data returned by this method can be the data in the internal
+     * <P>
+     * The data returned by this method can be the data in the internal
      * buffer of this object, if any, and thus can not be modified by the
      * caller. The 'offset' and 'scanw' of the returned data can be
      * arbitrary. The 'magbits' of the returned data is not set by this method
      * and should be ignored. See the 'CBlkWTData' class.
      *
-     * <P>The 'ulx' and 'uly' members of the returned 'CBlkWTData' object
+     * <P>
+     * The 'ulx' and 'uly' members of the returned 'CBlkWTData' object
      * contain the coordinates of the top-left corner of the block, with
      * respect to the tile, not the subband.
      *
@@ -184,7 +194,7 @@ public interface CBlkWTDataSrc extends ForwWTDataProps {
      * @see CBlkWTData
      *
      *
-     * */
+     */
     public abstract CBlkWTData getNextInternCodeBlock(int n, CBlkWTData cblk);
 
 }

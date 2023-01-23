@@ -56,15 +56,18 @@ package jj2000.j2k.entropy.encoder;
  * This class provides a buffering output stream similar to
  * ByteArrayOutputStream, with some additional methods.
  *
- * <P>Once an array has been written to an output stream or to a byte
+ * <P>
+ * Once an array has been written to an output stream or to a byte
  * array, the object can be reused as a new stream if the reset()
  * method is called.
  *
- * <P>Unlike the ByteArrayOutputStream class, this class is not thread safe.
+ * <P>
+ * Unlike the ByteArrayOutputStream class, this class is not thread safe.
  *
  * @see #reset
- * */
-public class ByteOutputBuffer {
+ */
+public class ByteOutputBuffer
+{
 
     /** The buffer where the data is stored */
     byte buf[];
@@ -83,8 +86,9 @@ public class ByteOutputBuffer {
      * initially BUF_DEF_LEN bytes, though its size increases if necessary.
      *
      *
-     * */
-    public ByteOutputBuffer() {
+     */
+    public ByteOutputBuffer()
+    {
         buf = new byte[BUF_DEF_LEN];
     }
 
@@ -95,8 +99,9 @@ public class ByteOutputBuffer {
      * @param size the initial size.
      *
      *
-     * */
-    public ByteOutputBuffer(int size) {
+     */
+    public ByteOutputBuffer(int size)
+    {
         buf = new byte[size];
     }
 
@@ -109,14 +114,15 @@ public class ByteOutputBuffer {
      * @param b The byte to write
      *
      *
-     * */
-    public final void write(int b) {
+     */
+    public final void write(int b)
+    {
         if (count == buf.length) { // Resize buffer
             byte tmpbuf[] = buf;
-            buf = new byte[buf.length+BUF_INC];
-            System.arraycopy(tmpbuf,0,buf,0,count);
+            buf = new byte[buf.length + BUF_INC];
+            System.arraycopy(tmpbuf, 0, buf, 0, count);
         }
-        buf[count++] = (byte) b;
+        buf[count++] = (byte)b;
     }
 
     /**
@@ -134,10 +140,11 @@ public class ByteOutputBuffer {
      * to write the data.
      *
      *
-     * */
-    public void toByteArray(int off, int len, byte outbuf[], int outoff) {
+     */
+    public void toByteArray(int off, int len, byte outbuf[], int outoff)
+    {
         // Copy the data
-        System.arraycopy(buf,off,outbuf,outoff,len);
+        System.arraycopy(buf, off, outbuf, outoff, len);
     }
 
     /**
@@ -146,8 +153,9 @@ public class ByteOutputBuffer {
      *
      * @return The number of bytes written to the buffer
      *
-     * */
-    public int size() {
+     */
+    public int size()
+    {
         return count;
     }
 
@@ -155,8 +163,9 @@ public class ByteOutputBuffer {
      * Discards all the buffered data, by resetting the counter of written
      * bytes to 0.
      *
-     * */
-    public void reset() {
+     */
+    public void reset()
+    {
         count = 0;
     }
 
@@ -169,11 +178,12 @@ public class ByteOutputBuffer {
      *
      * @return The value (betweeb 0-255) of the byte at position 'pos'.
      *
-     * */
-    public int getByte(int pos) {
+     */
+    public int getByte(int pos)
+    {
         if (pos >= count) {
             throw new IllegalArgumentException();
         }
-        return buf[pos]&0xFF;
+        return buf[pos] & 0xFF;
     }
 }

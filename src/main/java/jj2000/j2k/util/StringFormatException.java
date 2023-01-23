@@ -52,8 +52,9 @@ package jj2000.j2k.util;
 /**
  * Thrown to indicate that the application has attempted to parse a
  * badly formatted string.
- * */
-public class StringFormatException extends IllegalArgumentException {
+ */
+public class StringFormatException extends IllegalArgumentException
+{
 
     /**
      * 
@@ -64,8 +65,9 @@ public class StringFormatException extends IllegalArgumentException {
      * Creates the exception with an empty messgage.
      *
      *
-     * */
-    public StringFormatException() {
+     */
+    public StringFormatException()
+    {
         super();
     }
 
@@ -75,8 +77,9 @@ public class StringFormatException extends IllegalArgumentException {
      * @param s The detail message
      *
      *
-     * */
-    public StringFormatException(String s) {
+     */
+    public StringFormatException(String s)
+    {
         super(s);
     }
 }

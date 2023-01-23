@@ -57,35 +57,43 @@ import com.github.jaiimageio.jpeg2000.impl.J2KImageReadParamJava;
  * works on a tile basis and any mask that is generated is for the current
  * mask only
  *
- * <P>Default implementations of the methods in 'MultiResImgData' are provided
+ * <P>
+ * Default implementations of the methods in 'MultiResImgData' are provided
  * through the 'MultiResImgDataAdapter' abstract class.
  *
- * <P>Sign magnitude representation is used (instead of two's complement) for
+ * <P>
+ * Sign magnitude representation is used (instead of two's complement) for
  * the output data. The most significant bit is used for the sign (0 if
  * positive, 1 if negative). Then the magnitude of the quantized coefficient
  * is stored in the next most significat bits. The most significant magnitude
  * bit corresponds to the most significant bit-plane and so on.
- * */
+ */
 public class ROIDeScaler extends MultiResImgDataAdapter
-    implements CBlkQuantDataSrcDec{
+    implements CBlkQuantDataSrcDec
+{
 
-    /** The MaxShiftSpec containing the scaling values for all tile-components
-     * */
+    /**
+     * The MaxShiftSpec containing the scaling values for all tile-components
+     */
     private MaxShiftSpec mss;
 
     /** The prefix for ROI decoder options: 'R' */
     public final static char OPT_PREFIX = 'R';
 
-    /** The list of parameters that is accepted by the entropy decoders. They
-     * start with 'R'. */
-    private final static String [][] pinfo = {
-	{ "Rno_roi",null,
-	  "This argument makes sure that the no ROI de-scaling is performed. "+
-	  "Decompression is done like there is no ROI in the image",null},
+    /**
+     * The list of parameters that is accepted by the entropy decoders. They
+     * start with 'R'.
+     */
+    private final static String[][] pinfo = {
+        { "Rno_roi", null,
+            "This argument makes sure that the no ROI de-scaling is performed. " +
+                "Decompression is done like there is no ROI in the image",
+            null },
     };
 
-    /** The entropy decoder from where to get the compressed data (the source)
-     * */
+    /**
+     * The entropy decoder from where to get the compressed data (the source)
+     */
     private CBlkQuantDataSrcDec src;
 
     /**
@@ -96,11 +104,12 @@ public class ROIDeScaler extends MultiResImgDataAdapter
      *
      * @param mss The MaxShiftSpec containing the scaling values for all
      * tile-components
-     * */
-    public ROIDeScaler(CBlkQuantDataSrcDec src, MaxShiftSpec mss){
+     */
+    public ROIDeScaler(CBlkQuantDataSrcDec src, MaxShiftSpec mss)
+    {
         super(src);
-        this.src=src;
-        this.mss=mss;
+        this.src = src;
+        this.mss = mss;
     }
 
     /**
@@ -108,7 +117,8 @@ public class ROIDeScaler extends MultiResImgDataAdapter
      * returns the root element of the subband tree structure, see Subband and
      * SubbandSyn. The tree comprises all the available resolution levels.
      *
-     * <P>The number of magnitude bits ('magBits' member variable) for each
+     * <P>
+     * The number of magnitude bits ('magBits' member variable) for each
      * subband is not initialized.
      *
      * @param t The index of the tile, from 0 to T-1.
@@ -116,27 +126,30 @@ public class ROIDeScaler extends MultiResImgDataAdapter
      * @param c The index of the component, from 0 to C-1.
      *
      * @return The root of the tree structure.
-     * */
+     */
     @Override
-    public SubbandSyn getSynSubbandTree(int t,int c) {
-        return src.getSynSubbandTree(t,c);
+    public SubbandSyn getSynSubbandTree(int t, int c)
+    {
+        return src.getSynSubbandTree(t, c);
     }
 
     /**
      * Returns the horizontal code-block partition origin. Allowable values
      * are 0 and 1, nothing else.
-     * */
+     */
     @Override
-    public int getCbULX() {
+    public int getCbULX()
+    {
         return src.getCbULX();
     }
 
     /**
      * Returns the vertical code-block partition origin. Allowable values are
      * 0 and 1, nothing else.
-     * */
+     */
     @Override
-    public int getCbULY() {
+    public int getCbULY()
+    {
         return src.getCbULY();
     }
 
@@ -152,8 +165,9 @@ public class ROIDeScaler extends MultiResImgDataAdapter
      *
      * @return the options name, their synopsis and their explanation, or null
      * if no options are supported.
-     * */
-    public static String[][] getParameterInfo() {
+     */
+    public static String[][] getParameterInfo()
+    {
         return pinfo;
     }
 
@@ -161,7 +175,8 @@ public class ROIDeScaler extends MultiResImgDataAdapter
      * Returns the specified code-block in the current tile for the specified
      * component, as a copy (see below).
      *
-     * <P>The returned code-block may be progressive, which is indicated by
+     * <P>
+     * The returned code-block may be progressive, which is indicated by
      * the 'progressive' variable of the returned 'DataBlk' object. If a
      * code-block is progressive it means that in a later request to this
      * method for the same code-block it is possible to retrieve data which is
@@ -170,13 +185,15 @@ public class ROIDeScaler extends MultiResImgDataAdapter
      * progressive then later calls to this method for the same code-block
      * will return the exact same data values.
      *
-     * <P>The data returned by this method is always a copy of the internal
+     * <P>
+     * The data returned by this method is always a copy of the internal
      * data of this object, if any, and it can be modified "in place" without
      * any problems after being returned. The 'offset' of the returned data is
      * 0, and the 'scanw' is the same as the code-block width. See the
      * 'DataBlk' class.
      *
-     * <P>The 'ulx' and 'uly' members of the returned 'DataBlk' object contain
+     * <P>
+     * The 'ulx' and 'uly' members of the returned 'DataBlk' object contain
      * the coordinates of the top-left corner of the block, with respect to
      * the tile, not the subband.
      *
@@ -199,18 +216,20 @@ public class ROIDeScaler extends MultiResImgDataAdapter
      * null if all code-blocks for the current tile have been returned.
      *
      * @see DataBlk
-     * */
+     */
     @Override
     public DataBlk getCodeBlock(int c, int m, int n, SubbandSyn sb,
-                                  DataBlk cblk){
-        return getInternCodeBlock(c,m,n,sb,cblk);
+        DataBlk cblk)
+    {
+        return getInternCodeBlock(c, m, n, sb, cblk);
     }
 
     /**
      * Returns the specified code-block in the current tile for the specified
      * component (as a reference or copy).
      *
-     * <P>The returned code-block may be progressive, which is indicated by
+     * <P>
+     * The returned code-block may be progressive, which is indicated by
      * the 'progressive' variable of the returned 'DataBlk' object. If a
      * code-block is progressive it means that in a later request to this
      * method for the same code-block it is possible to retrieve data which is
@@ -219,12 +238,14 @@ public class ROIDeScaler extends MultiResImgDataAdapter
      * progressive then later calls to this method for the same code-block
      * will return the exact same data values.
      *
-     * <P>The data returned by this method can be the data in the internal
+     * <P>
+     * The data returned by this method can be the data in the internal
      * buffer of this object, if any, and thus can not be modified by the
      * caller. The 'offset' and 'scanw' of the returned data can be
      * arbitrary. See the 'DataBlk' class.
      *
-     * <P>The 'ulx' and 'uly' members of the returned 'DataBlk' object contain
+     * <P>
+     * The 'ulx' and 'uly' members of the returned 'DataBlk' object contain
      * the coordinates of the top-left corner of the block, with respect to
      * the tile, not the subband.
      *
@@ -246,25 +267,26 @@ public class ROIDeScaler extends MultiResImgDataAdapter
      * @return The requested code-block in the current tile for component 'c'.
      *
      * @see DataBlk
-     * */
+     */
     @Override
     public DataBlk getInternCodeBlock(int c, int m, int n, SubbandSyn sb,
-                                        DataBlk cblk){
-        int mi,i,j,k,wrap;
+        DataBlk cblk)
+    {
+        int mi, i, j, k, wrap;
         int ulx, uly, w, h;
-        int[] data;                       // local copy of quantized data
+        int[] data; // local copy of quantized data
         int tmp;
         int limit;
 
         // Get data block from entropy decoder
-        cblk = src.getInternCodeBlock(c,m,n,sb,cblk);
+        cblk = src.getInternCodeBlock(c, m, n, sb, cblk);
 
         // If there are no ROIs in the tile, Or if we already got all blocks
         boolean noRoiInTile = false;
-        if(mss==null || mss.getTileCompVal(getTileIdx(),c)==null )
+        if (mss == null || mss.getTileCompVal(getTileIdx(), c) == null)
             noRoiInTile = true;
 
-        if (noRoiInTile || cblk==null) {
+        if (noRoiInTile || cblk == null) {
             return cblk;
         }
         data = (int[])cblk.getData();
@@ -273,32 +295,32 @@ public class ROIDeScaler extends MultiResImgDataAdapter
         w = cblk.w;
         h = cblk.h;
 
-	// Scale coefficients according to magnitude. If the magnitude of a
-	// coefficient is lower than 2 pow 31-magbits then it is a background
-	// coeff and should be up-scaled
-	int boost = ((Integer) mss.getTileCompVal(getTileIdx(),c)).intValue();
-        int mask = ((1<<sb.magbits)-1)<<(31-sb.magbits);
-        int mask2 = (~mask)&0x7FFFFFFF;
+        // Scale coefficients according to magnitude. If the magnitude of a
+        // coefficient is lower than 2 pow 31-magbits then it is a background
+        // coeff and should be up-scaled
+        int boost = ((Integer)mss.getTileCompVal(getTileIdx(), c)).intValue();
+        int mask = ((1 << sb.magbits) - 1) << (31 - sb.magbits);
+        int mask2 = (~mask) & 0x7FFFFFFF;
 
-	wrap=cblk.scanw-w;
-	i=cblk.offset+cblk.scanw*(h-1)+w-1;
-	for(j=h;j>0;j--){
-	    for(k=w;k>0;k--,i--){
-		tmp=data[i];
-		if((tmp & mask) == 0 ) { // BG
-		    data[i] = (tmp & 0x80000000) | (tmp << boost);
-		}
+        wrap = cblk.scanw - w;
+        i = cblk.offset + cblk.scanw * (h - 1) + w - 1;
+        for (j = h; j > 0; j--) {
+            for (k = w; k > 0; k--, i--) {
+                tmp = data[i];
+                if ((tmp & mask) == 0) { // BG
+                    data[i] = (tmp & 0x80000000) | (tmp << boost);
+                }
                 else { // ROI
                     if ((tmp & mask2) != 0) {
                         // decoded more than magbits bit-planes, set
                         // quantization mid-interval approx. bit just after
                         // the magbits.
-                        data[i] = (tmp&(~mask2)) | (1<<(30-sb.magbits));
+                        data[i] = (tmp & (~mask2)) | (1 << (30 - sb.magbits));
                     }
                 }
-	    }
-	    i-=wrap;
-	}
+            }
+            i -= wrap;
+        }
         return cblk;
     }
 
@@ -314,18 +336,19 @@ public class ROIDeScaler extends MultiResImgDataAdapter
      *
      * @exception IllegalArgumentException If an error occurs while parsing
      * the options in 'pl'
-     * */
+     */
     public static ROIDeScaler createInstance(CBlkQuantDataSrcDec src,
-                                             J2KImageReadParamJava j2krparam,
-                                             DecoderSpecs decSpec){
+        J2KImageReadParamJava j2krparam,
+        DecoderSpecs decSpec)
+    {
         // Check if no_roi specified in command line or no roi signalled
-	// in bit stream
+        // in bit stream
         boolean noRoi = j2krparam.getNoROIDescaling();
         if (noRoi || decSpec.rois == null) {
             // no_roi specified in commandline!
-	    return new ROIDeScaler(src,null);
+            return new ROIDeScaler(src, null);
         }
 
-        return new ROIDeScaler(src, decSpec.rois );
+        return new ROIDeScaler(src, decSpec.rois);
     }
 }

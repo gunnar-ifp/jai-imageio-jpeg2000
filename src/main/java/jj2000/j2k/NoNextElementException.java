@@ -54,7 +54,8 @@ package jj2000.j2k;
  * there is no next element to return.
  *
  */
-public class NoNextElementException extends RuntimeException {
+public class NoNextElementException extends RuntimeException
+{
 
     /**
      * 
@@ -67,7 +68,8 @@ public class NoNextElementException extends RuntimeException {
      *
      *
      */
-    public NoNextElementException() {
+    public NoNextElementException()
+    {
         super();
     }
 
@@ -77,8 +79,9 @@ public class NoNextElementException extends RuntimeException {
      *
      * @param s The detail message.
      *
-     * */
-    public NoNextElementException(String s) {
+     */
+    public NoNextElementException(String s)
+    {
         super(s);
     }
 

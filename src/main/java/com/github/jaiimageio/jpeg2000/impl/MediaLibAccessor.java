@@ -43,6 +43,7 @@
  * $State: Exp $
  */
 package com.github.jaiimageio.jpeg2000.impl;
+
 import java.awt.Rectangle;
 import java.awt.image.ComponentSampleModel;
 import java.awt.image.DataBuffer;
@@ -50,23 +51,25 @@ import java.awt.image.Raster;
 import java.awt.image.SampleModel;
 
 import com.github.jaiimageio.impl.common.ImageUtil;
+
 /**
- *  An adapter class for presenting image data in a mediaLibImage
- *  format, even if the data isn't stored that way.  MediaLibAccessor
- *  is meant to make the common case (ComponentRasters) and allow
- *  them to be accelerated via medialib.  Note that unlike RasterAccessor,
- *  MediaLibAccessor does not work with all cases.  In the event that
- *  MediaLibAccessor can not deal with a give collection of Rasters,
- *  findCompatibleTag will return the value MediaLibAccessor.TAG_INCOMPATIBLE.
- *  OpImages that use MediaLibAccessor should be paired with RIF's
- *  which check that findCompatibleTag returns a valid tag before
- *  actually constructing the Mlib OpImage.
+ * An adapter class for presenting image data in a mediaLibImage
+ * format, even if the data isn't stored that way. MediaLibAccessor
+ * is meant to make the common case (ComponentRasters) and allow
+ * them to be accelerated via medialib. Note that unlike RasterAccessor,
+ * MediaLibAccessor does not work with all cases. In the event that
+ * MediaLibAccessor can not deal with a give collection of Rasters,
+ * findCompatibleTag will return the value MediaLibAccessor.TAG_INCOMPATIBLE.
+ * OpImages that use MediaLibAccessor should be paired with RIF's
+ * which check that findCompatibleTag returns a valid tag before
+ * actually constructing the Mlib OpImage.
  */
 
-public class MediaLibAccessor {
+public class MediaLibAccessor
+{
     /**
-     *  Value indicating how far COPY_MASK info is shifted to avoid
-     *  interfering with the data type info
+     * Value indicating how far COPY_MASK info is shifted to avoid
+     * interfering with the data type info
      */
     private static final int COPY_MASK_SHIFT = 7;
 
@@ -89,15 +92,13 @@ public class MediaLibAccessor {
      * Value indicating how far BINARY_MASK info is shifted to avoid
      * interfering with the data type and copying info.
      */
-    private static final int BINARY_MASK_SHIFT =
-        COPY_MASK_SHIFT+COPY_MASK_SIZE;
+    private static final int BINARY_MASK_SHIFT = COPY_MASK_SHIFT + COPY_MASK_SIZE;
 
     /** Value indicating how many bits the BINARY_MASK is */
     private static final int BINARY_MASK_SIZE = 1;
 
     /** The bits of a FormatTag associated with binary data. */
-    public static final int BINARY_MASK =
-        ((1 << BINARY_MASK_SIZE) - 1) << BINARY_MASK_SHIFT;
+    public static final int BINARY_MASK = ((1 << BINARY_MASK_SIZE) - 1) << BINARY_MASK_SHIFT;
 
     /** Flag indicating data are not binary. */
     public static final int NONBINARY = 0x0 << BINARY_MASK_SHIFT;
@@ -106,52 +107,40 @@ public class MediaLibAccessor {
     public static final int BINARY = 0x1 << BINARY_MASK_SHIFT;
 
     /** FormatTag indicating data in byte arrays and uncopied. */
-    public static final int
-        TAG_BYTE_UNCOPIED = DataBuffer.TYPE_BYTE | UNCOPIED;
+    public static final int TAG_BYTE_UNCOPIED = DataBuffer.TYPE_BYTE | UNCOPIED;
 
     /** FormatTag indicating data in unsigned short arrays and uncopied. */
-    public static final int
-        TAG_USHORT_UNCOPIED = DataBuffer.TYPE_USHORT | UNCOPIED;
+    public static final int TAG_USHORT_UNCOPIED = DataBuffer.TYPE_USHORT | UNCOPIED;
 
     /** FormatTag indicating data in short arrays and uncopied. */
-    public static final int
-        TAG_SHORT_UNCOPIED = DataBuffer.TYPE_SHORT | UNCOPIED;
+    public static final int TAG_SHORT_UNCOPIED = DataBuffer.TYPE_SHORT | UNCOPIED;
 
     /** FormatTag indicating data in integer arrays and uncopied. */
-    public static final int
-        TAG_INT_UNCOPIED = DataBuffer.TYPE_INT | UNCOPIED;
+    public static final int TAG_INT_UNCOPIED = DataBuffer.TYPE_INT | UNCOPIED;
 
     /** FormatTag indicating data in float arrays and uncopied. */
-    public static final int
-        TAG_FLOAT_UNCOPIED = DataBuffer.TYPE_FLOAT | UNCOPIED;
+    public static final int TAG_FLOAT_UNCOPIED = DataBuffer.TYPE_FLOAT | UNCOPIED;
 
     /** FormatTag indicating data in double arrays and uncopied. */
-    public static final int
-        TAG_DOUBLE_UNCOPIED = DataBuffer.TYPE_DOUBLE | UNCOPIED;
+    public static final int TAG_DOUBLE_UNCOPIED = DataBuffer.TYPE_DOUBLE | UNCOPIED;
 
     /** FormatTag indicating data in byte arrays and uncopied. */
-    public static final int
-        TAG_BYTE_COPIED = DataBuffer.TYPE_BYTE | COPIED;
+    public static final int TAG_BYTE_COPIED = DataBuffer.TYPE_BYTE | COPIED;
 
     /** FormatTag indicating data in unsigned short arrays and copied. */
-    public static final int
-        TAG_USHORT_COPIED = DataBuffer.TYPE_USHORT | COPIED;
+    public static final int TAG_USHORT_COPIED = DataBuffer.TYPE_USHORT | COPIED;
 
     /** FormatTag indicating data in short arrays and copied. */
-    public static final int
-        TAG_SHORT_COPIED = DataBuffer.TYPE_SHORT | COPIED;
+    public static final int TAG_SHORT_COPIED = DataBuffer.TYPE_SHORT | COPIED;
 
     /** FormatTag indicating data in short arrays and copied. */
-    public static final int
-        TAG_INT_COPIED = DataBuffer.TYPE_INT | COPIED;
+    public static final int TAG_INT_COPIED = DataBuffer.TYPE_INT | COPIED;
 
     /** FormatTag indicating data in float arrays and copied. */
-    public static final int
-        TAG_FLOAT_COPIED = DataBuffer.TYPE_FLOAT | COPIED;
+    public static final int TAG_FLOAT_COPIED = DataBuffer.TYPE_FLOAT | COPIED;
 
     /** FormatTag indicating data in double arrays and copied. */
-    public static final int
-        TAG_DOUBLE_COPIED = DataBuffer.TYPE_DOUBLE | COPIED;
+    public static final int TAG_DOUBLE_COPIED = DataBuffer.TYPE_DOUBLE | COPIED;
 
     /** The raster that is the source of pixel data. */
     protected Raster raster;
@@ -176,22 +165,22 @@ public class MediaLibAccessor {
     private boolean areBinaryDataPacked = false;
 
     /**
-     *  Returns the most efficient FormatTag that is compatible with
-     *  the destination raster and all source rasters.
+     * Returns the most efficient FormatTag that is compatible with
+     * the destination raster and all source rasters.
      *
-     *  @param src the source <code>Raster</code>; may be <code>null</code>.
+     * @param src the source <code>Raster</code>; may be <code>null</code>.
      */
-    public static int findCompatibleTag(Raster src) {
+    public static int findCompatibleTag(Raster src)
+    {
         SampleModel dstSM = src.getSampleModel();
         int dstDT = dstSM.getDataType();
 
         int defaultDataType = dstSM.getDataType();
 
-        boolean allComponentSampleModel =
-             dstSM instanceof ComponentSampleModel;
+        boolean allComponentSampleModel = dstSM instanceof ComponentSampleModel;
         boolean allBinary = ImageUtil.isBinary(dstSM);
 
-        if(allBinary) {
+        if (allBinary) {
             // The copy flag is not set until the mediaLibImage is
             // created as knowing this information requires too much
             // processing to determine here.
@@ -218,14 +207,16 @@ public class MediaLibAccessor {
     }
 
     /**
-     *  Determines if the SampleModel stores data in a way that can
-     *  be represented by a mediaLibImage without copying
+     * Determines if the SampleModel stores data in a way that can
+     * be represented by a mediaLibImage without copying
      */
-    public static boolean isPixelSequential(SampleModel sm) {
+    public static boolean isPixelSequential(SampleModel sm)
+    {
         ComponentSampleModel csm = null;
         if (sm instanceof ComponentSampleModel) {
             csm = (ComponentSampleModel)sm;
-        } else {
+        }
+        else {
             return false;
         }
         int pixelStride = csm.getPixelStride();
@@ -244,14 +235,14 @@ public class MediaLibAccessor {
                 bankIndices[i] != bankIndices[0]) {
                 return false;
             }
-            for (int j = i+1; j < bandOffsets.length; j++) {
-               if (bandOffsets[i] == bandOffsets[j]) {
-                   return false;
-               }
+            for (int j = i + 1; j < bandOffsets.length; j++) {
+                if (bandOffsets[i] == bandOffsets[j]) {
+                    return false;
+                }
 
-               //XXX: for BGR images
-               if (bandOffsets[i] != i)
-                  return false;
+                //XXX: for BGR images
+                if (bandOffsets[i] != i)
+                    return false;
             }
         }
         return true;
@@ -261,74 +252,82 @@ public class MediaLibAccessor {
      * Returns <code>true</code> if the <code>MediaLibAccessor</code>
      * represents binary data.
      */
-    public boolean isBinary() {
+    public boolean isBinary()
+    {
         return ((formatTag & BINARY_MASK) == BINARY);
     }
 
     /**
-     *  Returns the data type of the RasterAccessor object. Note that
-     *  this datatype is not necessarily the same data type as the
-     *  underlying raster.
+     * Returns the data type of the RasterAccessor object. Note that
+     * this datatype is not necessarily the same data type as the
+     * underlying raster.
      */
-    public int getDataType() {
+    public int getDataType()
+    {
         return formatTag & DATATYPE_MASK;
     }
 
     /**
-     *  Returns true if the MediaLibAccessors's data is copied from it's
-     *  raster.
+     * Returns true if the MediaLibAccessors's data is copied from it's
+     * raster.
      */
-    public boolean isDataCopy() {
+    public boolean isDataCopy()
+    {
         return ((formatTag & COPY_MASK) == COPIED);
     }
 
     /** Returns the bandOffsets. */
-    public int[] getBandOffsets() {
+    public int[] getBandOffsets()
+    {
         return bandOffsets;
     }
 
     /**
-     *  Returns parameters in the appropriate order if MediaLibAccessor
-     *  has reordered the bands or is attempting to make a
-     *  BandSequential image look like multiple PixelSequentialImages
+     * Returns parameters in the appropriate order if MediaLibAccessor
+     * has reordered the bands or is attempting to make a
+     * BandSequential image look like multiple PixelSequentialImages
      */
-    public int[] getIntParameters(int band, int params[]) {
+    public int[] getIntParameters(int band, int params[])
+    {
         int returnParams[] = new int[numBands];
         for (int i = 0; i < numBands; i++) {
-            returnParams[i] = params[bandOffsets[i+band]];
+            returnParams[i] = params[bandOffsets[i + band]];
         }
         return returnParams;
     }
 
     /**
-     *  Returns parameters in the appropriate order if MediaLibAccessor
-     *  has reordered the bands or is attempting to make a
-     *  BandSequential image look like multiple PixelSequentialImages
+     * Returns parameters in the appropriate order if MediaLibAccessor
+     * has reordered the bands or is attempting to make a
+     * BandSequential image look like multiple PixelSequentialImages
      */
-    public int[][] getIntArrayParameters(int band, int[][] params) {
+    public int[][] getIntArrayParameters(int band, int[][] params)
+    {
         int returnParams[][] = new int[numBands][];
         for (int i = 0; i < numBands; i++) {
-            returnParams[i] = params[bandOffsets[i+band]];
+            returnParams[i] = params[bandOffsets[i + band]];
         }
         return returnParams;
     }
 
     /**
-     *  Returns parameters in the appropriate order if MediaLibAccessor
-     *  has reordered the bands or is attempting to make a
-     *  BandSequential image look like multiple PixelSequentialImages
+     * Returns parameters in the appropriate order if MediaLibAccessor
+     * has reordered the bands or is attempting to make a
+     * BandSequential image look like multiple PixelSequentialImages
      */
-    public double[] getDoubleParameters(int band, double params[]) {
+    public double[] getDoubleParameters(int band, double params[])
+    {
         double returnParams[] = new double[numBands];
         for (int i = 0; i < numBands; i++) {
-            returnParams[i] = params[bandOffsets[i+band]];
+            returnParams[i] = params[bandOffsets[i + band]];
         }
         return returnParams;
     }
 
 
 
-    private int[] toIntArray(double vals[]) {
+    private int[] toIntArray(double vals[])
+    {
         int returnVals[] = new int[vals.length];
         for (int i = 0; i < vals.length; i++) {
             returnVals[i] = (int)vals[i];
@@ -336,7 +335,8 @@ public class MediaLibAccessor {
         return returnVals;
     }
 
-    private float[] toFloatArray(double vals[]) {
+    private float[] toFloatArray(double vals[])
+    {
         float returnVals[] = new float[vals.length];
         for (int i = 0; i < vals.length; i++) {
             returnVals[i] = (float)vals[i];

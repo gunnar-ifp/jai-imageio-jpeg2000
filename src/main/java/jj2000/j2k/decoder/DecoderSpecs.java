@@ -61,12 +61,13 @@ import jj2000.j2k.wavelet.synthesis.SynWTFilterSpec;
  * members must be instance of ModuleSpec class (or its children).
  *
  * @see ModuleSpec
- * */
-public class DecoderSpecs implements Cloneable {
+ */
+public class DecoderSpecs implements Cloneable
+{
 
     /** ICC Profiling specifications */
     public ModuleSpec iccs;
-    
+
     /** ROI maxshift value specifications */
     public MaxShiftSpec rois;
 
@@ -100,8 +101,10 @@ public class DecoderSpecs implements Cloneable {
     /** The progression changes specifications */
     public ModuleSpec pcs;
 
-    /** The error resilience specifications concerning the entropy
-     * decoder */
+    /**
+     * The error resilience specifications concerning the entropy
+     * decoder
+     */
     public ModuleSpec ers;
 
     /** Precinct partition specifications */
@@ -119,14 +122,16 @@ public class DecoderSpecs implements Cloneable {
     /** Packed packet header specifications */
     public ModuleSpec pphs;
 
-    /** 
+    /**
      * Returns a copy of the current object.
-     * */
-    public DecoderSpecs getCopy() {
+     */
+    public DecoderSpecs getCopy()
+    {
         DecoderSpecs decSpec2;
         try {
             decSpec2 = (DecoderSpecs)this.clone();
-        } catch (CloneNotSupportedException e) {
+        }
+        catch (CloneNotSupportedException e) {
             throw new Error("Cannot clone the DecoderSpecs instance");
         }
         // Quantization
@@ -139,7 +144,7 @@ public class DecoderSpecs implements Cloneable {
         // Component transformation
         decSpec2.cts = (CompTransfSpec)cts.getCopy();
         // ROI
-        if(rois!=null) {
+        if (rois != null) {
             decSpec2.rois = (MaxShiftSpec)rois.getCopy();
         }
         return decSpec2;
@@ -152,36 +157,37 @@ public class DecoderSpecs implements Cloneable {
      * @param nt Number of tiles
      *
      * @param nc Number of components
-     * */
-    public DecoderSpecs(int nt,int nc){
+     */
+    public DecoderSpecs(int nt, int nc)
+    {
         // Quantization
-        qts  = new QuantTypeSpec(nt,nc,ModuleSpec.SPEC_TYPE_TILE_COMP);
-        qsss = new QuantStepSizeSpec(nt,nc,ModuleSpec.SPEC_TYPE_TILE_COMP);
-        gbs  = new GuardBitsSpec(nt,nc,ModuleSpec.SPEC_TYPE_TILE_COMP);
+        qts = new QuantTypeSpec(nt, nc, ModuleSpec.SPEC_TYPE_TILE_COMP);
+        qsss = new QuantStepSizeSpec(nt, nc, ModuleSpec.SPEC_TYPE_TILE_COMP);
+        gbs = new GuardBitsSpec(nt, nc, ModuleSpec.SPEC_TYPE_TILE_COMP);
 
         // Wavelet transform
-        wfs = new SynWTFilterSpec(nt,nc,ModuleSpec.SPEC_TYPE_TILE_COMP);
-        dls = new IntegerSpec(nt,nc,ModuleSpec.SPEC_TYPE_TILE_COMP);
+        wfs = new SynWTFilterSpec(nt, nc, ModuleSpec.SPEC_TYPE_TILE_COMP);
+        dls = new IntegerSpec(nt, nc, ModuleSpec.SPEC_TYPE_TILE_COMP);
 
         // Component transformation
-        cts = new CompTransfSpec(nt,nc,ModuleSpec.SPEC_TYPE_TILE_COMP);
+        cts = new CompTransfSpec(nt, nc, ModuleSpec.SPEC_TYPE_TILE_COMP);
 
         // Entropy decoder
-        ecopts = new ModuleSpec(nt,nc,ModuleSpec.SPEC_TYPE_TILE_COMP);
-        ers = new ModuleSpec(nt,nc,ModuleSpec.SPEC_TYPE_TILE_COMP);
-        cblks = new CBlkSizeSpec(nt,nc,ModuleSpec.SPEC_TYPE_TILE_COMP);
+        ecopts = new ModuleSpec(nt, nc, ModuleSpec.SPEC_TYPE_TILE_COMP);
+        ers = new ModuleSpec(nt, nc, ModuleSpec.SPEC_TYPE_TILE_COMP);
+        cblks = new CBlkSizeSpec(nt, nc, ModuleSpec.SPEC_TYPE_TILE_COMP);
 
         // Precinct partition
-        pss = new PrecinctSizeSpec(nt,nc,ModuleSpec.SPEC_TYPE_TILE_COMP,dls);
+        pss = new PrecinctSizeSpec(nt, nc, ModuleSpec.SPEC_TYPE_TILE_COMP, dls);
 
         // Codestream
-        nls  = new IntegerSpec(nt,nc,ModuleSpec.SPEC_TYPE_TILE);
-        pos  = new IntegerSpec(nt,nc,ModuleSpec.SPEC_TYPE_TILE);
-        pcs  = new ModuleSpec(nt,nc,ModuleSpec.SPEC_TYPE_TILE);
-        sops = new ModuleSpec(nt,nc,ModuleSpec.SPEC_TYPE_TILE);
-        ephs = new ModuleSpec(nt,nc,ModuleSpec.SPEC_TYPE_TILE);
-        pphs = new ModuleSpec(nt,nc,ModuleSpec.SPEC_TYPE_TILE);
-        iccs = new ModuleSpec(nt,nc,ModuleSpec.SPEC_TYPE_TILE);
+        nls = new IntegerSpec(nt, nc, ModuleSpec.SPEC_TYPE_TILE);
+        pos = new IntegerSpec(nt, nc, ModuleSpec.SPEC_TYPE_TILE);
+        pcs = new ModuleSpec(nt, nc, ModuleSpec.SPEC_TYPE_TILE);
+        sops = new ModuleSpec(nt, nc, ModuleSpec.SPEC_TYPE_TILE);
+        ephs = new ModuleSpec(nt, nc, ModuleSpec.SPEC_TYPE_TILE);
+        pphs = new ModuleSpec(nt, nc, ModuleSpec.SPEC_TYPE_TILE);
+        iccs = new ModuleSpec(nt, nc, ModuleSpec.SPEC_TYPE_TILE);
         pphs.setDefault(Boolean.valueOf(false));
     }
 }

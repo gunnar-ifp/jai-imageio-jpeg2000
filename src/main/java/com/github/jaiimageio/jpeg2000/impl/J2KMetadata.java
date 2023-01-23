@@ -74,26 +74,28 @@ import org.w3c.dom.NodeList;
 /**
  * Metadata for the J2K plug-in.
  */
-public class J2KMetadata extends IIOMetadata implements Cloneable {
-    static final String nativeMetadataFormatName =
-        "com_sun_media_imageio_plugins_jpeg2000_image_1.0";
+public class J2KMetadata extends IIOMetadata implements Cloneable
+{
+    static final String nativeMetadataFormatName = "com_sun_media_imageio_plugins_jpeg2000_image_1.0";
 
     /** cache the metadata format */
     private J2KMetadataFormat format;
 
-    /** The boxes of JP2 file used as meta data, i. e., all the boxes
-     *  except the data stream box
+    /**
+     * The boxes of JP2 file used as meta data, i. e., all the boxes
+     * except the data stream box
      */
     private ArrayList boxes = new ArrayList();
 
     /**
      * Constructor containing code shared by other constructors.
      */
-    public J2KMetadata() {
-        super(true,  // Supports standard format
-              nativeMetadataFormatName,  // and a native format
-              "com.github.jaiimageio.jpeg2000.impl.J2KMetadataFormat",
-              null, null);  // No other formats
+    public J2KMetadata()
+    {
+        super(true, // Supports standard format
+            nativeMetadataFormatName, // and a native format
+            "com.github.jaiimageio.jpeg2000.impl.J2KMetadataFormat",
+            null, null); // No other formats
 
         format = (J2KMetadataFormat)getMetadataFormat(nativeMetadataFormatName);
     }
@@ -109,7 +111,8 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
      * constructor, to which warnings should be sent.
      */
     public J2KMetadata(ImageInputStream iis,
-                       J2KImageReader reader) throws IOException {
+        J2KImageReader reader) throws IOException
+    {
         this();
         RandomAccessIO in = new IISRandomAccessIO(iis);
 
@@ -126,7 +129,8 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
      * Constructs a default stream <code>J2KMetadata</code> object appropriate
      * for the given write parameters.
      */
-    public J2KMetadata(ImageWriteParam param, ImageWriter writer) {
+    public J2KMetadata(ImageWriteParam param, ImageWriter writer)
+    {
         this(null, param, writer);
     }
 
@@ -135,12 +139,13 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
      * for the given image type and write parameters.
      */
     public J2KMetadata(ImageTypeSpecifier imageType,
-                       ImageWriteParam param,
-                       ImageWriter writer) {
+        ImageWriteParam param,
+        ImageWriter writer)
+    {
         this(imageType != null ? imageType.getColorModel() : null,
-             imageType != null ? imageType.getSampleModel() : null,
-             0, 0,
-             param, writer);
+            imageType != null ? imageType.getSampleModel() : null,
+            0, 0,
+            param, writer);
     }
 
     /**
@@ -148,14 +153,15 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
      * for the given image type and write parameters.
      */
     public J2KMetadata(ColorModel colorModel,
-                       SampleModel sampleModel,
-                       int width,
-                       int height,
-                       ImageWriteParam param,
-                       ImageWriter writer) {
+        SampleModel sampleModel,
+        int width,
+        int height,
+        ImageWriteParam param,
+        ImageWriter writer)
+    {
         this();
         addNode(new SignatureBox());
-        addNode(new FileTypeBox(0x6A703220, 0, new int[]{0x6A703220}));
+        addNode(new FileTypeBox(0x6A703220, 0, new int[] { 0x6A703220 }));
 
         ImageTypeSpecifier destType = null;
 
@@ -163,26 +169,26 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
             destType = param.getDestinationType();
             if (colorModel == null && sampleModel == null) {
                 colorModel = destType == null ? null : destType.getColorModel();
-                sampleModel =
-                    destType == null ? null : destType.getSampleModel();
+                sampleModel = destType == null ? null : destType.getSampleModel();
             }
         }
 
         int[] bitDepths = null;
-        if(colorModel != null) {
+        if (colorModel != null) {
             bitDepths = colorModel.getComponentSize();
-        } else if(sampleModel != null) {
+        }
+        else if (sampleModel != null) {
             bitDepths = sampleModel.getSampleSize();
         }
 
         int bitsPerComponent = 0xff;
-        if(bitDepths != null) {
+        if (bitDepths != null) {
             bitsPerComponent = bitDepths[0];
             int numComponents = bitDepths.length;
-            for(int i = 1; i < numComponents; i++) {
+            for (int i = 1; i < numComponents; i++) {
                 /* XXX: This statement should be removed when BPC behavior
                    is corrected as derscribed below. */
-                if(bitDepths[i] > bitsPerComponent) {
+                if (bitDepths[i] > bitsPerComponent) {
                     bitsPerComponent = bitDepths[i];
                 }
                 /* XXX: When the number of bits per component is not the
@@ -204,19 +210,20 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
 
             if (type == ColorSpace.TYPE_RGB) {
                 addNode(new ColorSpecificationBox((byte)1,
-                                                  (byte)0, (byte)0,
-                                                  ColorSpecificationBox.ECS_sRGB,
-                                                  null));
-            } else if (type == ColorSpace.TYPE_GRAY)
+                    (byte)0, (byte)0,
+                    ColorSpecificationBox.ECS_sRGB,
+                    null));
+            }
+            else if (type == ColorSpace.TYPE_GRAY)
                 addNode(new ColorSpecificationBox((byte)1,
-                                                  (byte)0, (byte)0,
-                                                  ColorSpecificationBox.ECS_GRAY,
-                                                  null));
+                    (byte)0, (byte)0,
+                    ColorSpecificationBox.ECS_GRAY,
+                    null));
             else if (cs instanceof ICC_ColorSpace)
                 addNode(new ColorSpecificationBox((byte)2,
-                                                  (byte)0, (byte)0,
-                                                  0,
-                                                  ((ICC_ColorSpace)cs).getProfile()));
+                    (byte)0, (byte)0,
+                    0,
+                    ((ICC_ColorSpace)cs).getProfile()));
 
             if (colorModel.hasAlpha()) {
                 addNode(new ChannelDefinitionBox(colorModel));
@@ -224,16 +231,16 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
 
             if (colorModel instanceof IndexColorModel) {
                 addNode(new PaletteBox((IndexColorModel)colorModel));
-		int numComp = colorModel.getComponentSize().length;
-		short[] channels = new short[numComp];
-		byte[] types = new byte[numComp];
-		byte[] maps = new byte[numComp];
-		for (int i = 0; i < numComp; i++) {
-		    channels[i] = 0;
-		    types[i] = 1;
-		    maps[i] = (byte)i;
-		}
-		addNode(new ComponentMappingBox(channels, types, maps));
+                int numComp = colorModel.getComponentSize().length;
+                short[] channels = new short[numComp];
+                byte[] types = new byte[numComp];
+                byte[] maps = new byte[numComp];
+                for (int i = 0; i < numComp; i++) {
+                    channels[i] = 0;
+                    types[i] = 1;
+                    maps[i] = (byte)i;
+                }
+                addNode(new ComponentMappingBox(channels, types, maps));
             }
         }
 
@@ -242,30 +249,32 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
                 width = sampleModel.getWidth();
             if (height <= 0)
                 height = sampleModel.getHeight();
-            int bpc = bitsPerComponent == 0xff ?
-                0xff : ((bitsPerComponent - 1) |
-                        (isOriginalSigned(sampleModel) ? 0x80 : 0));
+            int bpc = bitsPerComponent == 0xff ? 0xff : ((bitsPerComponent - 1) |
+                (isOriginalSigned(sampleModel) ? 0x80 : 0));
             addNode(new HeaderBox(height,
-                                  width,
-                                  sampleModel.getNumBands(),
-                                  bpc,
-                                  7,
-                                  colorModel == null ? 1 : 0,
-                                  getElement("JPEG2000IntellectualPropertyRightsBox")==null ? 0 : 1));
+                width,
+                sampleModel.getNumBands(),
+                bpc,
+                7,
+                colorModel == null ? 1 : 0,
+                getElement("JPEG2000IntellectualPropertyRightsBox") == null ? 0 : 1));
         }
     }
 
     @Override
-    public Object clone() {
+    public Object clone()
+    {
         J2KMetadata theClone = null;
 
         try {
-            theClone = (J2KMetadata) super.clone();
-        } catch (CloneNotSupportedException e) {} // won't happen
+            theClone = (J2KMetadata)super.clone();
+        }
+        catch (CloneNotSupportedException e) {
+        } // won't happen
 
         if (boxes != null) {
             int numBoxes = boxes.size();
-            for(int i = 0; i < numBoxes; i++) {
+            for (int i = 0; i < numBoxes; i++) {
                 theClone.addNode((Box)boxes.get(i));
             }
         }
@@ -273,7 +282,8 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
     }
 
     @Override
-    public Node getAsTree(String formatName) {
+    public Node getAsTree(String formatName)
+    {
         if (formatName == null) {
             throw new IllegalArgumentException(I18N.getString("J2KMetadata0"));
         }
@@ -282,18 +292,17 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
             return getNativeTree();
         }
 
-        if (formatName.equals
-            (IIOMetadataFormatImpl.standardMetadataFormatName)) {
+        if (formatName.equals(IIOMetadataFormatImpl.standardMetadataFormatName)) {
             return getStandardTree();
         }
 
-        throw  new IllegalArgumentException(I18N.getString("J2KMetadata1")
-                                            + " " + formatName);
+        throw new IllegalArgumentException(I18N.getString("J2KMetadata1")
+            + " " + formatName);
     }
 
-    IIOMetadataNode getNativeTree() {
-        IIOMetadataNode root =
-            new IIOMetadataNode(nativeMetadataFormatName);
+    IIOMetadataNode getNativeTree()
+    {
+        IIOMetadataNode root = new IIOMetadataNode(nativeMetadataFormatName);
 
         Box signatureBox = null, fileTypeBox = null, headerBox = null;
         int signatureIndex = -1, fileTypeIndex = -1, headerIndex = -1;
@@ -301,39 +310,41 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
         int numBoxes = boxes.size();
 
         int found = 0;
-        for(int i = 0; i < numBoxes && found < 3; i++) {
+        for (int i = 0; i < numBoxes && found < 3; i++) {
             Box box = (Box)boxes.get(i);
-            if(Box.getName(box.getType()).equals("JPEG2000SignatureBox")) {
+            if (Box.getName(box.getType()).equals("JPEG2000SignatureBox")) {
                 signatureBox = box;
                 signatureIndex = i;
                 found++;
-            } else if(Box.getName(box.getType()).equals("JPEG2000FileTypeBox")) {
+            }
+            else if (Box.getName(box.getType()).equals("JPEG2000FileTypeBox")) {
                 fileTypeBox = box;
                 fileTypeIndex = i;
                 found++;
-            } else if(Box.getName(box.getType()).equals("JPEG2000HeaderBox")) {
+            }
+            else if (Box.getName(box.getType()).equals("JPEG2000HeaderBox")) {
                 headerBox = box;
                 headerIndex = i;
                 found++;
             }
         }
 
-        if(signatureBox != null) {
+        if (signatureBox != null) {
             insertNodeIntoTree(root, signatureBox.getNativeNode());
         }
 
-        if(fileTypeBox != null) {
+        if (fileTypeBox != null) {
             insertNodeIntoTree(root, fileTypeBox.getNativeNode());
         }
 
-        if(headerBox != null) {
+        if (headerBox != null) {
             insertNodeIntoTree(root, headerBox.getNativeNode());
         }
 
-        for(int i = 0; i < numBoxes; i++) {
-            if(i == signatureIndex ||
-               i == fileTypeIndex  ||
-               i == headerIndex) continue;
+        for (int i = 0; i < numBoxes; i++) {
+            if (i == signatureIndex ||
+                i == fileTypeIndex ||
+                i == headerIndex) continue;
             Box box = (Box)boxes.get(i);
             IIOMetadataNode node = box.getNativeNode();
             insertNodeIntoTree(root, node);
@@ -343,11 +354,11 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
 
     // Standard tree node methods
     @Override
-    protected IIOMetadataNode getStandardChromaNode() {
+    protected IIOMetadataNode getStandardChromaNode()
+    {
         HeaderBox header = (HeaderBox)getElement("JPEG2000HeaderBox");
         PaletteBox palette = (PaletteBox)getElement("JPEG2000PaletteBox");
-        ColorSpecificationBox color =
-            (ColorSpecificationBox)getElement("JPEG2000ColorSpecificationBox");
+        ColorSpecificationBox color = (ColorSpecificationBox)getElement("JPEG2000ColorSpecificationBox");
 
         IIOMetadataNode node = new IIOMetadataNode("Chroma");
         IIOMetadataNode subNode = null;
@@ -377,14 +388,13 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
                 int numComp = lut.length;
 
                 for (int i = 0; i < size; i++) {
-                    IIOMetadataNode subNode1 =
-                        new IIOMetadataNode("PaletteEntry");
-                    subNode1.setAttribute("index", ""+i);
-                    subNode1.setAttribute("red", "" + (lut[0][i]&0xff));
-                    subNode1.setAttribute("green", "" + (lut[1][i]&0xff));
-                    subNode1.setAttribute("blue", "" + (lut[2][i]&0xff));
+                    IIOMetadataNode subNode1 = new IIOMetadataNode("PaletteEntry");
+                    subNode1.setAttribute("index", "" + i);
+                    subNode1.setAttribute("red", "" + (lut[0][i] & 0xff));
+                    subNode1.setAttribute("green", "" + (lut[1][i] & 0xff));
+                    subNode1.setAttribute("blue", "" + (lut[2][i] & 0xff));
                     if (numComp == 4)
-                        subNode1.setAttribute("alpha", "" + (lut[3][i]&0xff));
+                        subNode1.setAttribute("alpha", "" + (lut[3][i] & 0xff));
                     subNode.appendChild(subNode1);
                 }
                 node.appendChild(subNode);
@@ -394,7 +404,8 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
     }
 
     @Override
-    protected IIOMetadataNode getStandardCompressionNode() {
+    protected IIOMetadataNode getStandardCompressionNode()
+    {
         IIOMetadataNode node = new IIOMetadataNode("Compression");
 
         // CompressionTypeName
@@ -405,7 +416,8 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
     }
 
     @Override
-    protected IIOMetadataNode getStandardDataNode() {
+    protected IIOMetadataNode getStandardDataNode()
+    {
         IIOMetadataNode node = new IIOMetadataNode("Data");
         PaletteBox palette = (PaletteBox)getElement("JPEG2000PaletteBox");
         boolean sampleFormat = false;
@@ -417,8 +429,7 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
             sampleFormat = true;
         }
 
-        BitsPerComponentBox bitDepth =
-            (BitsPerComponentBox)getElement("JPEG2000BitsPerComponentBox");
+        BitsPerComponentBox bitDepth = (BitsPerComponentBox)getElement("JPEG2000BitsPerComponentBox");
         String value = "";
         boolean signed = false;
         boolean gotSampleInfo = false;
@@ -434,13 +445,14 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
             int numComp = bits.length;
             for (int i = 0; i < numComp; i++) {
                 value += (bits[i] & 0x7f) + 1;
-                if(i != numComp - 1) value += " ";
+                if (i != numComp - 1) value += " ";
             }
 
             gotSampleInfo = true;
-        } else {
+        }
+        else {
             HeaderBox header = (HeaderBox)getElement("JPEG2000HeaderBox");
-            if(header != null) {
+            if (header != null) {
                 int bits = header.getBitDepth();
                 if ((bits & 0x80) == 0x80)
                     signed = true;
@@ -448,7 +460,7 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
                 int numComp = header.getNumComponents();
                 for (int i = 0; i < numComp; i++) {
                     value += bits;
-                    if(i != numComp - 1) value += " ";
+                    if (i != numComp - 1) value += " ";
                 }
 
                 gotSampleInfo = true;
@@ -457,7 +469,7 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
 
         IIOMetadataNode subNode = null;
 
-        if(gotSampleInfo) {
+        if (gotSampleInfo) {
             subNode = new IIOMetadataNode("BitsPerSample");
             subNode.setAttribute("value", value);
             node.appendChild(subNode);
@@ -470,7 +482,7 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
         if (!sampleFormat && gotSampleInfo) {
             subNode = new IIOMetadataNode("SampleFormat");
             subNode.setAttribute("value",
-                             signed ? "SignedIntegral": "UnsignedIntegral");
+                signed ? "SignedIntegral" : "UnsignedIntegral");
             node.appendChild(subNode);
         }
 
@@ -478,9 +490,9 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
     }
 
     @Override
-    protected IIOMetadataNode getStandardDimensionNode() {
-        ResolutionBox box =
-            (ResolutionBox)getElement("JPEG2000CaptureResolutionBox");
+    protected IIOMetadataNode getStandardDimensionNode()
+    {
+        ResolutionBox box = (ResolutionBox)getElement("JPEG2000CaptureResolutionBox");
         if (box != null) {
             IIOMetadataNode node = new IIOMetadataNode("Dimension");
             float hRes = box.getHorizontalResolution();
@@ -505,9 +517,9 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
     }
 
     @Override
-    protected IIOMetadataNode getStandardTransparencyNode() {
-        ChannelDefinitionBox channel =
-            (ChannelDefinitionBox)getElement("JPEG2000ChannelDefinitionBox");
+    protected IIOMetadataNode getStandardTransparencyNode()
+    {
+        ChannelDefinitionBox channel = (ChannelDefinitionBox)getElement("JPEG2000ChannelDefinitionBox");
         if (channel != null) {
             IIOMetadataNode node = new IIOMetadataNode("Transparency");
 
@@ -544,14 +556,15 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
     }
 
     @Override
-    protected IIOMetadataNode getStandardTextNode() {
+    protected IIOMetadataNode getStandardTextNode()
+    {
         if (boxes == null)
             return null;
         IIOMetadataNode text = null;
 
         Iterator iterator = boxes.iterator();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             Box box = (Box)iterator.next();
             if (box instanceof XMLBox) {
                 if (text == null)
@@ -566,13 +579,15 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
     }
 
     @Override
-    public boolean isReadOnly() {
+    public boolean isReadOnly()
+    {
         return false;
     }
 
     @Override
     public void mergeTree(String formatName, Node root)
-        throws IIOInvalidTreeException {
+        throws IIOInvalidTreeException
+    {
         if (formatName == null) {
             throw new IllegalArgumentException(I18N.getString("J2KMetadata0"));
         }
@@ -584,18 +599,20 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
         if (formatName.equals(nativeMetadataFormatName) &&
             root.getNodeName().equals(nativeMetadataFormatName)) {
             mergeNativeTree(root);
-        } else if (formatName.equals
-                    (IIOMetadataFormatImpl.standardMetadataFormatName)) {
+        }
+        else if (formatName.equals(IIOMetadataFormatImpl.standardMetadataFormatName)) {
             mergeStandardTree(root);
-        } else {
-            throw  new IllegalArgumentException(I18N.getString("J2KMetadata1")
-                                                + " " + formatName);
+        }
+        else {
+            throw new IllegalArgumentException(I18N.getString("J2KMetadata1")
+                + " " + formatName);
         }
     }
 
     @Override
     public void setFromTree(String formatName, Node root)
-        throws IIOInvalidTreeException {
+        throws IIOInvalidTreeException
+    {
         if (formatName == null) {
             throw new IllegalArgumentException(I18N.getString("J2KMetadata0"));
         }
@@ -608,28 +625,32 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
             root.getNodeName().equals(nativeMetadataFormatName)) {
             boxes = new ArrayList();
             mergeNativeTree(root);
-        } else if (formatName.equals
-                    (IIOMetadataFormatImpl.standardMetadataFormatName)) {
+        }
+        else if (formatName.equals(IIOMetadataFormatImpl.standardMetadataFormatName)) {
             boxes = new ArrayList();
             mergeStandardTree(root);
-        } else {
-            throw  new IllegalArgumentException(I18N.getString("J2KMetadata1")
-                                                + " " + formatName);
+        }
+        else {
+            throw new IllegalArgumentException(I18N.getString("J2KMetadata1")
+                + " " + formatName);
         }
     }
 
     @Override
-    public void reset() {
+    public void reset()
+    {
         boxes.clear();
     }
 
-    public void addNode(Box node) {
+    public void addNode(Box node)
+    {
         if (boxes == null)
             boxes = new ArrayList();
         replace(Box.getName(node.getType()), node);
     }
 
-    public Box getElement(String name) {
+    public Box getElement(String name)
+    {
         for (int i = boxes.size() - 1; i >= 0; i--) {
             Box box = (Box)boxes.get(i);
             if (name.equals(Box.getName(box.getType())))
@@ -638,7 +659,8 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
         return null;
     }
 
-    private void mergeNativeTree(Node root) throws IIOInvalidTreeException {
+    private void mergeNativeTree(Node root) throws IIOInvalidTreeException
+    {
         NodeList list = root.getChildNodes();
         for (int i = list.getLength() - 1; i >= 0; i--) {
             Node node = list.item(i);
@@ -647,18 +669,20 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
                 if (format.isLeaf(name)) {
                     String s = (String)Box.getAttribute(node, "Type");
                     Box box = Box.createBox(Box.getTypeInt(s), node);
-                    if (format.singleInstance(name)&&getElement(name) != null) {
+                    if (format.singleInstance(name) && getElement(name) != null) {
                         replace(name, box);
-                    } else
-                        boxes.add(box);
-                } else {
+                    }
+                    else boxes.add(box);
+                }
+                else {
                     mergeNativeTree(node);
                 }
             }
         }
     }
 
-    private void mergeStandardTree(Node root) throws IIOInvalidTreeException {
+    private void mergeStandardTree(Node root) throws IIOInvalidTreeException
+    {
         NodeList children = root.getChildNodes();
         int numComps = 0;
 
@@ -683,44 +707,52 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
                         createPaletteBoxFromStandardNode(child);
                     }
                 }
-            } else if (name.equals("Compression")) {
+            }
+            else if (name.equals("Compression")) {
                 // Intentionally do nothing: just prevent entry into
                 // the default "else" block and an ensuing
                 // IIOInvalidTreeException; fixes 5110389.
-            } else if (name.equals("Data")) {
+            }
+            else if (name.equals("Data")) {
                 createBitsPerComponentBoxFromStandardNode(node);
                 createHeaderBoxFromStandardNode(node, numComps);
-            } else if (name.equals("Dimension")) {
+            }
+            else if (name.equals("Dimension")) {
                 createResolutionBoxFromStandardNode(node);
-            } else if (name.equals("Document")) {
+            }
+            else if (name.equals("Document")) {
                 createXMLBoxFromStandardNode(node);
-            } else if (name.equals("Text")) {
+            }
+            else if (name.equals("Text")) {
                 createXMLBoxFromStandardNode(node);
-            } else if (name.equals("Transparency")) {
+            }
+            else if (name.equals("Transparency")) {
                 createChannelDefinitionFromStandardNode(node);
-            } else {
+            }
+            else {
                 throw new IIOInvalidTreeException(I18N.getString("J2KMetadata3")
-					+ " " + name, node);
+                    + " " + name, node);
             }
         }
     }
 
-    private void createColorSpecificationBoxFromStandardNode(Node node) {
+    private void createColorSpecificationBoxFromStandardNode(Node node)
+    {
         if (node.getNodeName() != "ColorSpaceType")
             throw new IllegalArgumentException(I18N.getString("J2KMetadata4"));
         String name = (String)Box.getAttribute(node, "name");
-        int ecs = name.equals("RGB") ? ColorSpecificationBox.ECS_sRGB :
-                  (name.equals("Gray") ? ColorSpecificationBox.ECS_GRAY : 0);
+        int ecs = name.equals("RGB") ? ColorSpecificationBox.ECS_sRGB : (name.equals("Gray") ? ColorSpecificationBox.ECS_GRAY : 0);
 
         if (ecs == ColorSpecificationBox.ECS_sRGB ||
-            ecs ==ColorSpecificationBox.ECS_GRAY) {
-            replace ("JPEG2000ColorSpecificationBox",
-                     new ColorSpecificationBox((byte)1, (byte)0, (byte)0,
-                                               ecs, null));
+            ecs == ColorSpecificationBox.ECS_GRAY) {
+            replace("JPEG2000ColorSpecificationBox",
+                new ColorSpecificationBox((byte)1, (byte)0, (byte)0,
+                    ecs, null));
         }
     }
 
-    private void createPaletteBoxFromStandardNode(Node node) {
+    private void createPaletteBoxFromStandardNode(Node node)
+    {
         if (node.getNodeName() != "Palette")
             throw new IllegalArgumentException(I18N.getString("J2KMetadata5"));
         NodeList children = node.getChildNodes();
@@ -733,10 +765,10 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
             if (name.equals("PaletteEntry")) {
                 String s = (String)Box.getAttribute(child, "index");
                 int index = Integer.parseInt(s);
-                if(index > maxIndex) {
+                if (index > maxIndex) {
                     maxIndex = index;
                 }
-                if(Box.getAttribute(child, "alpha") != null) {
+                if (Box.getAttribute(child, "alpha") != null) {
                     hasAlpha = true;
                 }
             }
@@ -745,7 +777,7 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
         // Determine palette size.
         int numBits = 32;
         int mask = 0x80000000;
-        while(mask != 0 && (maxIndex & mask) == 0) {
+        while (mask != 0 && (maxIndex & mask) == 0) {
             numBits--;
             mask >>>= 1;
         }
@@ -754,7 +786,7 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
         byte[] red = new byte[size];
         byte[] green = new byte[size];
         byte[] blue = new byte[size];
-        byte[] alpha = hasAlpha ? new byte[size]: null;
+        byte[] alpha = hasAlpha ? new byte[size] : null;
 
         for (int i = 0; i < children.getLength(); i++) {
             Node child = children.item(i);
@@ -772,11 +804,11 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
 
                 byte t = (byte)255;
                 s = (String)Box.getAttribute(child, "alpha");
-                if(s != null) {
+                if (s != null) {
                     t = (byte)Integer.parseInt(s);
                 }
 
-                if(alpha != null) {
+                if (alpha != null) {
                     alpha[index] = t;
                 }
             }
@@ -785,13 +817,13 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
         IndexColorModel icm;
         if (alpha == null)
             icm = new IndexColorModel(numBits, size, red, green, blue);
-        else
-            icm = new IndexColorModel(numBits, size, red, green, blue, alpha);
+        else icm = new IndexColorModel(numBits, size, red, green, blue, alpha);
 
         replace("JPEG2000PaletteBox", new PaletteBox(icm));
     }
 
-    private void createBitsPerComponentBoxFromStandardNode(Node node) {
+    private void createBitsPerComponentBoxFromStandardNode(Node node)
+    {
         if (node.getNodeName() != "Data")
             throw new IllegalArgumentException(I18N.getString("J2KMetadata6"));
 
@@ -806,29 +838,31 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
             if (name.equals("BitsPerSample")) {
                 String s = (String)Box.getAttribute(child, "value");
                 bits = Box.parseByteArray(s).clone();
-            } else if(name.equals("SampleFormat")) {
+            }
+            else if (name.equals("SampleFormat")) {
                 String s = (String)Box.getAttribute(child, "value");
                 isSigned = s.equals("SignedIntegral");
             }
         }
 
-        if(bits != null) {
+        if (bits != null) {
             // JPEG 2000 "B" parameter represents "bitDepth - 1" in the
             // right 7 least significant bits with the most significant
             // bit indicating signed if set and unsigned if not.
             for (int i = 0; i < bits.length; i++) {
-                bits[i] = (byte)((bits[i]&0xff) - 1);
-                if(isSigned) {
+                bits[i] = (byte)((bits[i] & 0xff) - 1);
+                if (isSigned) {
                     bits[i] |= 0x80;
                 }
             }
 
             replace("JPEG2000BitsPerComponent",
-                    new BitsPerComponentBox(bits));
+                new BitsPerComponentBox(bits));
         }
     }
 
-    private void createResolutionBoxFromStandardNode(Node node) {
+    private void createResolutionBoxFromStandardNode(Node node)
+    {
         if (node.getNodeName() != "Dimension")
             throw new IllegalArgumentException(I18N.getString("J2KMetadata7"));
         NodeList children = node.getChildNodes();
@@ -856,19 +890,21 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
             }
         }
 
-        if(gotH && !gotV) {
+        if (gotH && !gotV) {
             vRes = hRes;
-        } else if(gotV && !gotH) {
+        }
+        else if (gotV && !gotH) {
             hRes = vRes;
         }
 
-        if(gotH || gotV) {
+        if (gotH || gotV) {
             replace("JPEG2000CaptureResolutionBox",
-                    new ResolutionBox(0x72657363, hRes, vRes));
+                new ResolutionBox(0x72657363, hRes, vRes));
         }
     }
 
-    private void createXMLBoxFromStandardNode(Node node) {
+    private void createXMLBoxFromStandardNode(Node node)
+    {
         NodeList children = node.getChildNodes();
         String value = "<" + node.getNodeName() + ">";
 
@@ -893,27 +929,29 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
         boxes.add(new XMLBox(value.getBytes()));
     }
 
-    private void createHeaderBoxFromStandardNode(Node node, int numComps) {
+    private void createHeaderBoxFromStandardNode(Node node, int numComps)
+    {
         HeaderBox header = (HeaderBox)getElement("JPEG2000HeaderBox");
-        byte unknownColor =
-            (byte)(getElement("JPEG2000ColorSpecificationBox") == null ? 1: 0);
+        byte unknownColor = (byte)(getElement("JPEG2000ColorSpecificationBox") == null ? 1 : 0);
         if (header != null) {
-            if (numComps ==0);
-                numComps = header.getNumComponents();
+            if (numComps == 0);
+            numComps = header.getNumComponents();
 
             header = new HeaderBox(header.getHeight(), header.getWidth(),
-                                   numComps,
-                                   header.getBitDepth(),
-                                   header.getCompressionType(),
-                                   unknownColor,
-                                   header.getIntellectualProperty());
-        } else {
+                numComps,
+                header.getBitDepth(),
+                header.getCompressionType(),
+                unknownColor,
+                header.getIntellectualProperty());
+        }
+        else {
             header = new HeaderBox(0, 0, numComps, 0, 0, unknownColor, 0);
         }
         replace("JPEG2000HeaderBox", header);
     }
 
-    private void createChannelDefinitionFromStandardNode(Node node) {
+    private void createChannelDefinitionFromStandardNode(Node node)
+    {
         if (node.getNodeName() != "Transparency")
             throw new IllegalArgumentException(I18N.getString("J2KMetadata8"));
 
@@ -949,12 +987,13 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
         short[] types = new short[num];
         short[] associations = new short[num];
         ChannelDefinitionBox.fillBasedOnBands(numComps, isPremultiplied,
-                                              channels, types, associations);
+            channels, types, associations);
         replace("JPEG2000ChannelDefinitionBox",
-                new ChannelDefinitionBox(channels, types, associations));
+            new ChannelDefinitionBox(channels, types, associations));
     }
 
-    private void replace(String name, Box box) {
+    private void replace(String name, Box box)
+    {
         for (int i = boxes.size() - 1; i >= 0; i--) {
             Box box1 = (Box)boxes.get(i);
             if (name.equals(Box.getName(box1.getType()))) {
@@ -967,7 +1006,8 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
     }
 
     private boolean insertNodeIntoTree(IIOMetadataNode root,
-                                       IIOMetadataNode node) {
+        IIOMetadataNode node)
+    {
         String name = node.getNodeName();
         String parent = format.getParent(name);
         if (parent == null)
@@ -981,8 +1021,9 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
     }
 
     private IIOMetadataNode getNodeFromTree(IIOMetadataNode root,
-                                            String name,
-                                            String childName) {
+        String name,
+        String childName)
+    {
         if (name.equals(root.getNodeName()))
             return root;
 
@@ -993,8 +1034,7 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
                 if (name.equals("JPEG2000UUIDInfoBox") &&
                     checkUUIDInfoBox(node, childName))
                     continue;
-                else
-                    return node;
+                else return node;
             }
             node = getNodeFromTree(node, name, childName);
             if (node != null)
@@ -1005,7 +1045,8 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
     }
 
     private IIOMetadataNode createNodeIntoTree(IIOMetadataNode root,
-                                               String name) {
+        String name)
+    {
         IIOMetadataNode node = getNodeFromTree(root, name, null);
         if (node != null)
             return node;
@@ -1019,21 +1060,24 @@ public class J2KMetadata extends IIOMetadata implements Cloneable {
         return node;
     }
 
-    private boolean isOriginalSigned(SampleModel sampleModel) {
+    private boolean isOriginalSigned(SampleModel sampleModel)
+    {
         int type = sampleModel.getDataType();
         if (type == DataBuffer.TYPE_BYTE || type == DataBuffer.TYPE_USHORT)
             return false;
         return true;
     }
 
-    /** Check whether the child with a name <code>childName</code> exists.
-     *  This method is designed because UUID info box may have many instances.
-     *  So if one of its sub-box is inserted into the tree, an empty slut for
-     *  this sub-box has to be find or created to avoid one UUID info box
-     *  has duplicated sub-boxes.  The users have to guarantee each UUID info
-     *  box has all the sub-boxes.
+    /**
+     * Check whether the child with a name <code>childName</code> exists.
+     * This method is designed because UUID info box may have many instances.
+     * So if one of its sub-box is inserted into the tree, an empty slut for
+     * this sub-box has to be find or created to avoid one UUID info box
+     * has duplicated sub-boxes. The users have to guarantee each UUID info
+     * box has all the sub-boxes.
      */
-    private boolean checkUUIDInfoBox(Node node, String childName) {
+    private boolean checkUUIDInfoBox(Node node, String childName)
+    {
 
         NodeList list = node.getChildNodes();
         for (int i = 0; i < list.getLength(); i++) {

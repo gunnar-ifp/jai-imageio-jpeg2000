@@ -42,42 +42,47 @@
  * Copyright (c) 1999/2000 JJ2000 Partners.
  * */
 package jj2000.j2k.codestream;
+
 import java.awt.Point;
 
 /**
  * This class is used to store the coordinates of code-blocks.
- * */
-public class CBlkCoordInfo extends CoordInfo {
+ */
+public class CBlkCoordInfo extends CoordInfo
+{
 
     /** The code-block horizontal and vertical indexes */
     public Point idx;
 
     /**
      * Constructor. Creates a CBlkCoordInfo object.
-     * */
-    public CBlkCoordInfo() {
+     */
+    public CBlkCoordInfo()
+    {
         this.idx = new Point();
     }
 
-    /** 
+    /**
      * Constructor. Creates a CBlkCoordInfo object width specified code-block
      * vertical and horizontal indexes.
      *
      * @param m Code-block vertical index.
      *
      * @param n Code-block horizontal index.
-     * */
-    public CBlkCoordInfo(int m,int n) {
-        this.idx = new Point(n,m);
+     */
+    public CBlkCoordInfo(int m, int n)
+    {
+        this.idx = new Point(n, m);
     }
 
     /**
      * Returns code-block's information in a String
      *
      * @return String with code-block's information
-     * */
+     */
     @Override
-    public String toString() {
-        return super.toString() + ", idx="+idx;
+    public String toString()
+    {
+        return super.toString() + ", idx=" + idx;
     }
 }

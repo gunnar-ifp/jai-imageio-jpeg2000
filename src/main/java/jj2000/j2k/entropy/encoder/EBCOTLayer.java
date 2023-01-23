@@ -57,7 +57,8 @@ package jj2000.j2k.entropy.encoder;
  *
  * @see EBCOTRateAllocator
  **/
-class EBCOTLayer {
+class EBCOTLayer
+{
     /**
      * This is the maximum number of bytes that should be allocated for
      * this and previous layers. This is actually the target length for

@@ -47,79 +47,89 @@ package com.github.jaiimageio.jpeg2000.impl;
 import javax.imageio.ImageReadParam;
 
 import com.github.jaiimageio.jpeg2000.J2KImageReadParam;
+
 /**
  * A subclass of <code>ImageReadParam</code> for reading images in
  * the JPEG 2000 format.
  *
- * <p>The decoding parameters for JPEG 2000 are listed below:
+ * <p>
+ * The decoding parameters for JPEG 2000 are listed below:
  *
  * <table border=1>
  * <caption><b>JPEG 2000 Plugin Decoding Parameters</b></caption>
- * <tr><th>Parameter Name</th> <th>Description</th></tr>
  * <tr>
- *    <td>decodingRate</td>
- *    <td>Specifies the decoding rate in bits per pixel (bpp) where the
- *    number of pixels is related to the image's original size (Note:
- *    this parameter is not affected by <code>resolution</code>).  The
- *    codestream is either parsed (default) or truncated depending
- *    <code>parsingEnabled</code>.  The default is <code>Double.MAX_VALUE</code>.
- *    It means decoding with the encoding rate.
- *    </td>
+ * <th>Parameter Name</th>
+ * <th>Description</th>
  * </tr>
  * <tr>
- *    <td>resolution</td>
- *    <td>Specifies the resolution level wanted for the decoded image
- *    (0 means the lowest available resolution, the resolution
- *    level gives an image with the original dimension).  If the given index
- *    is greater than the number of available resolution levels of the
- *    compressed image, the decoded image has the lowest available
- *    resolution (among all tile-components).  This parameter affects only
- *    the inverse wavelet transform and not the number of bytes read by the
- *    codestream parser, which depends only on <code>decodingRate</code>.
- *    </td>
+ * <td>decodingRate</td>
+ * <td>Specifies the decoding rate in bits per pixel (bpp) where the
+ * number of pixels is related to the image's original size (Note:
+ * this parameter is not affected by <code>resolution</code>). The
+ * codestream is either parsed (default) or truncated depending
+ * <code>parsingEnabled</code>. The default is <code>Double.MAX_VALUE</code>.
+ * It means decoding with the encoding rate.
+ * </td>
  * </tr>
  * <tr>
- *    <td>noROIDescaling</td>
- *    <td>Ensures that no ROI de-scaling is performed.  Decompression is done
- *    like there is no ROI in the image.
- *    </td>
+ * <td>resolution</td>
+ * <td>Specifies the resolution level wanted for the decoded image
+ * (0 means the lowest available resolution, the resolution
+ * level gives an image with the original dimension). If the given index
+ * is greater than the number of available resolution levels of the
+ * compressed image, the decoded image has the lowest available
+ * resolution (among all tile-components). This parameter affects only
+ * the inverse wavelet transform and not the number of bytes read by the
+ * codestream parser, which depends only on <code>decodingRate</code>.
+ * </td>
  * </tr>
  * <tr>
- *    <td>parsingEnabled</td>
- *    <td>Enable the parsing mode or not when the decoding rate is specified.
- *    If it is false, the codestream is decoded as if it were truncated to
- *    the given rate.  If it is true, the decoder creates, truncates and
- *    decodes a virtual layer progressive codestream with the same
- *    truncation points in each code-block.
- *    </td>
+ * <td>noROIDescaling</td>
+ * <td>Ensures that no ROI de-scaling is performed. Decompression is done
+ * like there is no ROI in the image.
+ * </td>
+ * </tr>
+ * <tr>
+ * <td>parsingEnabled</td>
+ * <td>Enable the parsing mode or not when the decoding rate is specified.
+ * If it is false, the codestream is decoded as if it were truncated to
+ * the given rate. If it is true, the decoder creates, truncates and
+ * decodes a virtual layer progressive codestream with the same
+ * truncation points in each code-block.
+ * </td>
  * </tr>
  * </table>
  */
-public class J2KImageReadParamJava extends J2KImageReadParam {
+public class J2KImageReadParamJava extends J2KImageReadParam
+{
 
-    /** Ensures that no ROI de-scaling is performed.  Decompression
-     *  is done like there is no ROI in the image.
+    /**
+     * Ensures that no ROI de-scaling is performed. Decompression
+     * is done like there is no ROI in the image.
      */
     private boolean noROIDescaling = true;
 
-    /** Enable the parsing mode or not when the decoding rate is specified .
-     *  If it is false, the codestream is decoded as if it were truncated to
-     *  the given rate.  If it is true, the decoder creates, truncates and
-     *  decodes a virtual layer progressive codestream with the same
-     *  truncation points in each code-block.
+    /**
+     * Enable the parsing mode or not when the decoding rate is specified .
+     * If it is false, the codestream is decoded as if it were truncated to
+     * the given rate. If it is true, the decoder creates, truncates and
+     * decodes a virtual layer progressive codestream with the same
+     * truncation points in each code-block.
      */
     private boolean parsingEnabled = true;
 
     /** Constructs a default instance of <code>J2KImageReadParamJava</code>. */
-    public J2KImageReadParamJava() {
+    public J2KImageReadParamJava()
+    {
         super();
     }
 
-    public J2KImageReadParamJava(ImageReadParam param) {
+    public J2KImageReadParamJava(ImageReadParam param)
+    {
         super();
 
         // Generic settings.
-        if(param.hasController()) {
+        if (param.hasController()) {
             setController(param.getController());
         }
         setSourceRegion(param.getSourceRegion());
@@ -129,16 +139,17 @@ public class J2KImageReadParamJava extends J2KImageReadParam {
 
         setDestinationOffset(param.getDestinationOffset());
         setSourceSubsampling(param.getSourceXSubsampling(),
-                             param.getSourceYSubsampling(),
-                             param.getSubsamplingXOffset(),
-                             param.getSubsamplingYOffset());
+            param.getSourceYSubsampling(),
+            param.getSubsamplingXOffset(),
+            param.getSubsamplingYOffset());
         setDestinationType(param.getDestinationType());
 
         // J2K settings.
         J2KImageReadParam j2kParam;
-        if(param instanceof J2KImageReadParam) {
+        if (param instanceof J2KImageReadParam) {
             j2kParam = (J2KImageReadParam)param;
-        } else {
+        }
+        else {
             j2kParam = new J2KImageReadParam();
         }
         setDecodingRate(j2kParam.getDecodingRate());
@@ -146,22 +157,26 @@ public class J2KImageReadParamJava extends J2KImageReadParam {
     }
 
     /** Sets <code>noROIDescaling</code> */
-    public void setNoROIDescaling(boolean value) {
+    public void setNoROIDescaling(boolean value)
+    {
         this.noROIDescaling = value;
     }
 
     /** Gets <code>noROIDescaling</code> */
-    public boolean getNoROIDescaling() {
+    public boolean getNoROIDescaling()
+    {
         return noROIDescaling;
     }
 
     /** Sets <code>parsingEnabled</code> */
-    public void setParsingEnabled(boolean value) {
+    public void setParsingEnabled(boolean value)
+    {
         this.parsingEnabled = value;
     }
 
     /** Gets <code>parsingEnabled</code> */
-    public boolean getParsingEnabled() {
+    public boolean getParsingEnabled()
+    {
         return parsingEnabled;
     }
 }

@@ -50,18 +50,22 @@ import javax.imageio.metadata.IIOMetadataNode;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-/** This class is defined to represent a UUID Box of JPEG JP2
- *  file format.  This type of box has a length, a type of "uuid".  Its
- *  content is a 16-byte UUID followed with a various-length data.
+/**
+ * This class is defined to represent a UUID Box of JPEG JP2
+ * file format. This type of box has a length, a type of "uuid". Its
+ * content is a 16-byte UUID followed with a various-length data.
  */
-public class UUIDBox extends Box {
+public class UUIDBox extends Box
+{
     /** Cache the element names for this box's xml definition */
-    private static String[] elementNames = {"UUID", "Data"};
+    private static String[] elementNames = { "UUID", "Data" };
 
-    /** This method will be called by the getNativeNodeForSimpleBox of the
-     *  class Box to get the element names.
+    /**
+     * This method will be called by the getNativeNodeForSimpleBox of the
+     * class Box to get the element names.
      */
-    public static String[] getElementNames() {
+    public static String[] getElementNames()
+    {
         return elementNames;
     }
 
@@ -70,14 +74,17 @@ public class UUIDBox extends Box {
     private byte[] udata;
 
     /** Constructs a <code>UUIDBox</code> from its content data array. */
-    public UUIDBox(byte[] data) {
+    public UUIDBox(byte[] data)
+    {
         super(8 + data.length, 0x75756964, data);
     }
 
-    /** Constructs a <code>UUIDBox</code> based on the provided
-     *  <code>org.w3c.dom.Node</code>.
+    /**
+     * Constructs a <code>UUIDBox</code> based on the provided
+     * <code>org.w3c.dom.Node</code>.
      */
-    public UUIDBox(Node node) throws IIOInvalidTreeException {
+    public UUIDBox(Node node) throws IIOInvalidTreeException
+    {
         super(node);
         NodeList children = node.getChildNodes();
 
@@ -97,7 +104,8 @@ public class UUIDBox extends Box {
 
     /** Parses the data elements from the provided data array. */
     @Override
-    protected void parse(byte[] data) {
+    protected void parse(byte[] data)
+    {
         uuid = new byte[16];
         System.arraycopy(data, 0, uuid, 0, 16);
         udata = new byte[data.length - 16];
@@ -105,26 +113,31 @@ public class UUIDBox extends Box {
     }
 
     /** Returns the UUID of this box. */
-    public byte[] getUUID() {
+    public byte[] getUUID()
+    {
         return uuid;
     }
 
     /** Returns the UUID data of this box. */
-    public byte[] getData() {
+    public byte[] getData()
+    {
         return udata;
     }
 
-    /** Creates an <code>IIOMetadataNode</code> from this UUID
-     *  box.  The format of this node is defined in the XML dtd and xsd
-     *  for the JP2 image file.
+    /**
+     * Creates an <code>IIOMetadataNode</code> from this UUID
+     * box. The format of this node is defined in the XML dtd and xsd
+     * for the JP2 image file.
      */
     @Override
-    public IIOMetadataNode getNativeNode() {
+    public IIOMetadataNode getNativeNode()
+    {
         return getNativeNodeForSimpleBox();
     }
 
     @Override
-    protected void compose() {
+    protected void compose()
+    {
         if (data != null)
             return;
         data = new byte[16 + udata.length];

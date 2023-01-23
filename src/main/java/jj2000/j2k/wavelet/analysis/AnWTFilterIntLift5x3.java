@@ -51,22 +51,22 @@ import jj2000.j2k.wavelet.FilterTypes;
  * data. It implements the forward wavelet transform specifically for the 5x3
  * filter. The implementation is based on the lifting scheme.
  *
- * <P>See the AnWTFilter class for details such as normalization, how to split
+ * <P>
+ * See the AnWTFilter class for details such as normalization, how to split
  * odd-length signals, etc. In particular, this method assumes that the
  * low-pass coefficient is computed first.
  *
  * @see AnWTFilter
  * @see AnWTFilterInt
- * */
-public class AnWTFilterIntLift5x3 extends AnWTFilterInt {
+ */
+public class AnWTFilterIntLift5x3 extends AnWTFilterInt
+{
 
     /** The low-pass synthesis filter of the 5x3 wavelet transform */
-    private final static float LPSynthesisFilter[] =
-    { 0.5f, 1f, 0.5f };
+    private final static float LPSynthesisFilter[] = { 0.5f, 1f, 0.5f };
 
     /** The high-pass synthesis filter of the 5x3 wavelet transform */
-    private final static float HPSynthesisFilter[] =
-    { -0.125f, -0.25f, 0.75f, -0.25f, -0.125f };
+    private final static float HPSynthesisFilter[] = { -0.125f, -0.25f, 0.75f, -0.25f, -0.125f };
 
     /**
      * An implementation of the analyze_lpf() method that works on int data,
@@ -74,9 +74,11 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt {
      * general description of the analyze_lpf() method in the AnWTFilter class
      * for more details.
      *
-     * <P>The coefficients of the first lifting step are [-1/2 1 -1/2].
+     * <P>
+     * The coefficients of the first lifting step are [-1/2 1 -1/2].
      *
-     * <P>The coefficients of the second lifting step are [1/4 1 1/4].
+     * <P>
+     * The coefficients of the second lifting step are [1/4 1 1/4].
      *
      * @param inSig This is the array that contains the input
      * signal.
@@ -107,12 +109,12 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt {
      *
      * @param highStep This is the step, or interleave factor, of the
      * high-pass output samples in the highSig array.
-     * */
+     */
     @Override
-    public
-        void analyze_lpf(int inSig[], int inOff, int inLen, int inStep,
-                     int lowSig[], int lowOff, int lowStep,
-                     int highSig[], int highOff, int highStep) {
+    public void analyze_lpf(int inSig[], int inOff, int inLen, int inStep,
+        int lowSig[], int lowOff, int lowStep,
+        int highSig[], int highOff, int highStep)
+    {
         int i;
         int iStep = 2 * inStep; //Subsampling in inSig
         int ik; //Indexing inSig
@@ -128,17 +130,17 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt {
         hk = highOff;
 
         //Apply first lifting step to each "inner" sample.
-        for(i = 1; i < inLen-1; i += 2) {
+        for (i = 1; i < inLen - 1; i += 2) {
             highSig[hk] = inSig[ik] -
-                ((inSig[ik-inStep] + inSig[ik+inStep])>>1);
+                ((inSig[ik - inStep] + inSig[ik + inStep]) >> 1);
 
             ik += iStep;
             hk += highStep;
         }
 
         //Handle head boundary effect if input signal has even length.
-        if( inLen % 2 == 0 ) {
-            highSig[hk] = inSig[ik] - ((2*inSig[ik-inStep])>>1);
+        if (inLen % 2 == 0) {
+            highSig[hk] = inSig[ik] - ((2 * inSig[ik - inStep]) >> 1);
         }
 
         /*
@@ -150,8 +152,8 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt {
         lk = lowOff;
         hk = highOff;
 
-        if(inLen>1) {
-            lowSig[lk] = inSig[ik] + ((highSig[hk] + 1)>>1);
+        if (inLen > 1) {
+            lowSig[lk] = inSig[ik] + ((highSig[hk] + 1) >> 1);
         }
         else {
             lowSig[lk] = inSig[ik];
@@ -162,9 +164,9 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt {
         hk += highStep;
 
         //Apply lifting step to each "inner" sample.
-        for(i = 2; i < inLen-1; i += 2) {
+        for (i = 2; i < inLen - 1; i += 2) {
             lowSig[lk] = inSig[ik] +
-                ((highSig[hk-highStep] + highSig[hk] + 2)>> 2);
+                ((highSig[hk - highStep] + highSig[hk] + 2) >> 2);
 
             ik += iStep;
             lk += lowStep;
@@ -172,9 +174,9 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt {
         }
 
         //Handle head boundary effect if input signal has odd length.
-        if(inLen % 2 == 1) {
-            if(inLen>2) {
-                lowSig[lk] = inSig[ik] + ((2*highSig[hk-highStep]+2)>>2);
+        if (inLen % 2 == 1) {
+            if (inLen > 2) {
+                lowSig[lk] = inSig[ik] + ((2 * highSig[hk - highStep] + 2) >> 2);
             }
         }
     }
@@ -185,9 +187,11 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt {
      * general description of the analyze_hpf() method in the AnWTFilter class
      * for more details.
      *
-     * <P>The coefficients of the first lifting step are [-1/2 1 -1/2].
+     * <P>
+     * The coefficients of the first lifting step are [-1/2 1 -1/2].
      *
-     * <P>The coefficients of the second lifting step are [1/4 1 1/4].
+     * <P>
+     * The coefficients of the second lifting step are [1/4 1 1/4].
      *
      * @param inSig This is the array that contains the input
      * signal.
@@ -220,12 +224,12 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt {
      * high-pass output samples in the highSig array.
      *
      * @see AnWTFilter#analyze_hpf
-     * */
+     */
     @Override
-    public
-        void analyze_hpf(int inSig[], int inOff, int inLen, int inStep,
-                     int lowSig[], int lowOff, int lowStep,
-                     int highSig[], int highOff, int highStep) {
+    public void analyze_hpf(int inSig[], int inOff, int inLen, int inStep,
+        int lowSig[], int lowOff, int lowStep,
+        int highSig[], int highOff, int highStep)
+    {
         int i;
         int iStep = 2 * inStep; //Subsampling in inSig
         int ik; //Indexing inSig
@@ -240,23 +244,23 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt {
         ik = inOff;
         hk = highOff;
 
-        if ( inLen>1 ) {
+        if (inLen > 1) {
             // apply a symmetric extension.
-            highSig[hk] = inSig[ik] - inSig[ik+inStep];
+            highSig[hk] = inSig[ik] - inSig[ik + inStep];
         }
         else {
-	    // Normalize for Nyquist gain
-            highSig[hk] = inSig[ik]<<1;
+            // Normalize for Nyquist gain
+            highSig[hk] = inSig[ik] << 1;
         }
 
         ik += iStep;
         hk += highStep;
 
         //Apply first lifting step to each "inner" sample.
-        if ( inLen>3 ) {
-            for(i = 2; i < inLen-1; i += 2) {
+        if (inLen > 3) {
+            for (i = 2; i < inLen - 1; i += 2) {
                 highSig[hk] = inSig[ik] -
-                    ((inSig[ik-inStep] + inSig[ik+inStep])>>1);
+                    ((inSig[ik - inStep] + inSig[ik + inStep]) >> 1);
                 ik += iStep;
                 hk += highStep;
             }
@@ -264,8 +268,8 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt {
 
         //If input signal has odd length then we perform the lifting step
         // i.e. apply a symmetric extension.
-        if( inLen%2==1 && inLen>1 ) {
-            highSig[hk] = inSig[ik] - inSig[ik-inStep];
+        if (inLen % 2 == 1 && inLen > 1) {
+            highSig[hk] = inSig[ik] - inSig[ik - inStep];
         }
 
         /*
@@ -277,30 +281,32 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt {
         lk = lowOff;
         hk = highOff;
 
-        for (i=1 ; i<inLen-1 ; i+=2) {
+        for (i = 1; i < inLen - 1; i += 2) {
 
             lowSig[lk] = inSig[ik] +
-                ((highSig[hk] + highSig[hk+highStep] + 2)>> 2);
+                ((highSig[hk] + highSig[hk + highStep] + 2) >> 2);
 
             ik += iStep;
             lk += lowStep;
             hk += highStep;
         }
 
-        if ( inLen>1 && inLen%2==0) {
+        if (inLen > 1 && inLen % 2 == 0) {
             // apply a symmetric extension.
-            lowSig[lk] = inSig[ik]+((2*highSig[hk]+2)>>2);
+            lowSig[lk] = inSig[ik] + ((2 * highSig[hk] + 2) >> 2);
         }
     }
+
     /**
      * Returns the negative support of the low-pass analysis
      * filter. That is the number of taps of the filter in the
      * negative direction.
      *
      * @return 2
-     * */
+     */
     @Override
-    public int getAnLowNegSupport() {
+    public int getAnLowNegSupport()
+    {
         return 2;
     }
 
@@ -310,9 +316,10 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt {
      *
      * @return The number of taps of the low-pass analysis filter in the
      * positive direction
-     * */
+     */
     @Override
-    public int getAnLowPosSupport() {
+    public int getAnLowPosSupport()
+    {
         return 2;
     }
 
@@ -322,9 +329,10 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt {
      *
      * @return The number of taps of the high-pass analysis filter in
      * the negative direction
-     * */
+     */
     @Override
-    public int getAnHighNegSupport() {
+    public int getAnHighNegSupport()
+    {
         return 1;
     }
 
@@ -334,9 +342,10 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt {
      *
      * @return The number of taps of the high-pass analysis filter in the
      * positive direction
-     * */
+     */
     @Override
-    public int getAnHighPosSupport() {
+    public int getAnHighPosSupport()
+    {
         return 1;
     }
 
@@ -344,13 +353,15 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt {
      * Returns the negative support of the low-pass synthesis filter. That is
      * the number of taps of the filter in the negative direction.
      *
-     * <P>A MORE PRECISE DEFINITION IS NEEDED
+     * <P>
+     * A MORE PRECISE DEFINITION IS NEEDED
      *
      * @return The number of taps of the low-pass synthesis filter in the
      * negative direction
-     * */
+     */
     @Override
-    public int getSynLowNegSupport() {
+    public int getSynLowNegSupport()
+    {
         return 1;
     }
 
@@ -358,13 +369,15 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt {
      * Returns the positive support of the low-pass synthesis filter. That is
      * the number of taps of the filter in the negative direction.
      *
-     * <P>A MORE PRECISE DEFINITION IS NEEDED
+     * <P>
+     * A MORE PRECISE DEFINITION IS NEEDED
      *
      * @return The number of taps of the low-pass synthesis filter in
      * the positive direction
-     * */
+     */
     @Override
-    public int getSynLowPosSupport() {
+    public int getSynLowPosSupport()
+    {
         return 1;
     }
 
@@ -372,13 +385,15 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt {
      * Returns the negative support of the high-pass synthesis filter. That is
      * the number of taps of the filter in the negative direction.
      *
-     * <P>A MORE PRECISE DEFINITION IS NEEDED
+     * <P>
+     * A MORE PRECISE DEFINITION IS NEEDED
      *
      * @return The number of taps of the high-pass synthesis filter in the
      * negative direction
-     * */
+     */
     @Override
-    public int getSynHighNegSupport() {
+    public int getSynHighNegSupport()
+    {
         return 2;
     }
 
@@ -386,13 +401,15 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt {
      * Returns the positive support of the high-pass synthesis filter. That is
      * the number of taps of the filter in the negative direction.
      *
-     * <P>A MORE PRECISE DEFINITION IS NEEDED
+     * <P>
+     * A MORE PRECISE DEFINITION IS NEEDED
      *
      * @return The number of taps of the high-pass synthesis filter in the
      * positive direction
-     * */
+     */
     @Override
-    public int getSynHighPosSupport() {
+    public int getSynHighPosSupport()
+    {
         return 2;
     }
 
@@ -403,13 +420,15 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt {
      * L2-norm of the synthesis basis functions for a particular subband (also
      * called energy weight).
      *
-     * <P>The returned array may not be modified (i.e. a reference to the
+     * <P>
+     * The returned array may not be modified (i.e. a reference to the
      * internal array may be returned by the implementation of this method).
      *
      * @return The time-reversed low-pass synthesis waveform of the filter.
-     * */
+     */
     @Override
-    public float[] getLPSynthesisFilter() {
+    public float[] getLPSynthesisFilter()
+    {
         return LPSynthesisFilter;
     }
 
@@ -420,13 +439,15 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt {
      * L2-norm of the synthesis basis functions for a particular subband (also
      * called energy weight).
      *
-     * <P>The returned array may not be modified (i.e. a reference to the
+     * <P>
+     * The returned array may not be modified (i.e. a reference to the
      * internal array may be returned by the implementation of this method).
      *
      * @return The time-reversed high-pass synthesis waveform of the filter.
-     * */
+     */
     @Override
-    public float[] getHPSynthesisFilter() {
+    public float[] getHPSynthesisFilter()
+    {
         return HPSynthesisFilter;
     }
 
@@ -437,9 +458,10 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt {
      * WT_FILTER_FLOAT_CONVOL.
      *
      * @return WT_FILTER_INT_LIFT.
-     * */
+     */
     @Override
-    public int getImplType() {
+    public int getImplType()
+    {
         return WT_FILTER_INT_LIFT;
     }
 
@@ -449,9 +471,10 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt {
      *
      * @return true since the 5x3 is reversible, provided the appropriate
      * rounding is performed.
-     * */
+     */
     @Override
-    public boolean isReversible() {
+    public boolean isReversible()
+    {
         return true;
     }
 
@@ -464,7 +487,8 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt {
      * affected by image boundaries processings such as symmetric extension,
      * since there is not reference method for this.
      *
-     * <P>The result depends on the length of the allowed overlap when
+     * <P>
+     * The result depends on the length of the allowed overlap when
      * compared to the overlap required by the wavelet filter. It also depends
      * on how overlap processing is implemented in the wavelet filter.
      *
@@ -480,18 +504,19 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt {
      *
      * @return true if both overlaps are greater than 2, and correct
      * processing is applied in the analyze() method.
-     * */
+     */
     @Override
-    public boolean isSameAsFullWT(int tailOvrlp, int headOvrlp, int inLen) {
+    public boolean isSameAsFullWT(int tailOvrlp, int headOvrlp, int inLen)
+    {
 
         //If the input signal has even length.
-        if( inLen % 2 == 0) {
-            if( tailOvrlp >= 2 && headOvrlp >= 1 ) return true;
+        if (inLen % 2 == 0) {
+            if (tailOvrlp >= 2 && headOvrlp >= 1) return true;
             else return false;
         }
         //Else if the input signal has odd length.
         else {
-            if( tailOvrlp >= 2 && headOvrlp >= 2 ) return true;
+            if (tailOvrlp >= 2 && headOvrlp >= 2) return true;
             else return false;
         }
     }
@@ -501,13 +526,15 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt {
      * are the same if the same filter code should be output for both filters
      * by the encodeFilterCode() method.
      *
-     * <P>Currently the implementation of this method only tests if 'obj' is
+     * <P>
+     * Currently the implementation of this method only tests if 'obj' is
      * also of the class AnWTFilterIntLift5x3.
      *
      * @param obj The object against which to test inequality.
-     * */
+     */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj)
+    {
         // To speed up test, first test for reference equality
         return obj == this ||
             obj instanceof AnWTFilterIntLift5x3;
@@ -520,15 +547,17 @@ public class AnWTFilterIntLift5x3 extends AnWTFilterInt {
      * @see FilterTypes
      *
      * @return The filter type.
-     * */
+     */
     @Override
-    public int getFilterType(){
+    public int getFilterType()
+    {
         return FilterTypes.W5X3;
     }
 
     /** Debugging method */
     @Override
-    public String toString(){
-	return "w5x3";
+    public String toString()
+    {
+        return "w5x3";
     }
 }

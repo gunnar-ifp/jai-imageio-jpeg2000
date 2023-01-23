@@ -52,11 +52,13 @@ package jj2000.j2k.wavelet;
  * This interface defines the identifiers for the different types of
  * filters that are supported.
  *
- * <P>The identifier values are the same as those used in the codestream
+ * <P>
+ * The identifier values are the same as those used in the codestream
  * syntax, for the filters that are defined in the standard.
  *
  */
-public interface FilterTypes {
+public interface FilterTypes
+{
 
     /** W7x9 filter: 0x00 */
     public final static int W9X7 = 0;

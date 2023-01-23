@@ -50,14 +50,16 @@ import javax.imageio.metadata.IIOMetadataNode;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-/** This class is defined to represent a Resolution Box of JPEG JP2
- *  file format.  A Data Entry URL Box has a length, and a fixed type
- *  of "resc" (capture resolution) or "resd" (default display resolution).
+/**
+ * This class is defined to represent a Resolution Box of JPEG JP2
+ * file format. A Data Entry URL Box has a length, and a fixed type
+ * of "resc" (capture resolution) or "resd" (default display resolution).
  *
  * Its contens includes the resolution numerators, denominator, and the
  * exponents for both horizontal and vertical directions.
  */
-public class ResolutionBox extends Box {
+public class ResolutionBox extends Box
+{
     /** The data elements in this box. */
     private short numV;
     private short numH;
@@ -70,17 +72,21 @@ public class ResolutionBox extends Box {
     private float hRes;
     private float vRes;
 
-    /** Constructs a <code>ResolutionBox</code> from the provided type and
-     *  content data array.
+    /**
+     * Constructs a <code>ResolutionBox</code> from the provided type and
+     * content data array.
      */
-    public ResolutionBox(int type, byte[] data) {
+    public ResolutionBox(int type, byte[] data)
+    {
         super(18, type, data);
     }
 
-    /** Constructs a <code>ResolutionBox</code> from the provided type and
-     *  horizontal/vertical resolutions.
+    /**
+     * Constructs a <code>ResolutionBox</code> from the provided type and
+     * horizontal/vertical resolutions.
      */
-    public ResolutionBox(int type, float hRes, float vRes) {
+    public ResolutionBox(int type, float hRes, float vRes)
+    {
         super(18, type, null);
         this.hRes = hRes;
         this.vRes = vRes;
@@ -94,7 +100,8 @@ public class ResolutionBox extends Box {
                 temp /= 10;
             }
             numV = (short)(temp & 0xFFFF);
-        } else {
+        }
+        else {
             numV = (short)vRes;
         }
 
@@ -106,15 +113,18 @@ public class ResolutionBox extends Box {
                 temp /= 10;
             }
             numH = (short)(temp & 0xFFFF);
-        } else {
+        }
+        else {
             numH = (short)hRes;
         }
     }
 
-    /** Constructs a <code>ResolutionBox</code> based on the provided
-     *  <code>org.w3c.dom.Node</code>.
+    /**
+     * Constructs a <code>ResolutionBox</code> based on the provided
+     * <code>org.w3c.dom.Node</code>.
      */
-    public ResolutionBox(Node node) throws IIOInvalidTreeException {
+    public ResolutionBox(Node node) throws IIOInvalidTreeException
+    {
         super(node);
         NodeList children = node.getChildNodes();
         for (int i = 0; i < children.getLength(); i++) {
@@ -148,18 +158,21 @@ public class ResolutionBox extends Box {
     }
 
     /** Return the horizontal resolution. */
-    public float getHorizontalResolution() {
+    public float getHorizontalResolution()
+    {
         return hRes;
     }
 
     /** Return the vertical resolution. */
-    public float getVerticalResolution() {
+    public float getVerticalResolution()
+    {
         return vRes;
     }
 
     /** Parse the data elements from the provided content data array. */
     @Override
-    protected void parse(byte[] data) {
+    protected void parse(byte[] data)
+    {
         numV = (short)(((data[0] & 0xFF) << 8) | (data[1] & 0xFF));
         denomV = (short)(((data[2] & 0xFF) << 8) | (data[3] & 0xFF));
         numH = (short)(((data[4] & 0xFF) << 8) | (data[5] & 0xFF));
@@ -167,53 +180,56 @@ public class ResolutionBox extends Box {
         expV = data[8];
         expH = data[9];
         vRes = (float)((numV & 0xFFFF) * Math.pow(10, expV) / (denomV & 0xFFFF));
-        hRes = (float)((numH & 0xFFFF)* Math.pow(10, expH) / (denomH & 0xFFFF));
+        hRes = (float)((numH & 0xFFFF) * Math.pow(10, expH) / (denomH & 0xFFFF));
     }
 
-    /** Creates an <code>IIOMetadataNode</code> from this resolution
-     *  box.  The format of this node is defined in the XML dtd and xsd
-     *  for the JP2 image file.
+    /**
+     * Creates an <code>IIOMetadataNode</code> from this resolution
+     * box. The format of this node is defined in the XML dtd and xsd
+     * for the JP2 image file.
      */
     @Override
-    public IIOMetadataNode getNativeNode() {
+    public IIOMetadataNode getNativeNode()
+    {
         IIOMetadataNode node = new IIOMetadataNode(Box.getName(getType()));
         setDefaultAttributes(node);
 
         IIOMetadataNode child = new IIOMetadataNode("VerticalResolutionNumerator");
         child.setUserObject(Short.valueOf(numV));
-	child.setNodeValue("" + numV);
+        child.setNodeValue("" + numV);
         node.appendChild(child);
 
         child = new IIOMetadataNode("VerticalResolutionDenominator");
         child.setUserObject(Short.valueOf(denomV));
-	child.setNodeValue("" + denomV);
+        child.setNodeValue("" + denomV);
         node.appendChild(child);
 
         child = new IIOMetadataNode("HorizontalResolutionNumerator");
         child.setUserObject(Short.valueOf(numH));
-	child.setNodeValue("" + numH);
+        child.setNodeValue("" + numH);
         node.appendChild(child);
 
         child = new IIOMetadataNode("HorizontalResolutionDenominator");
         child.setUserObject(Short.valueOf(denomH));
-	child.setNodeValue("" + denomH);
+        child.setNodeValue("" + denomH);
         node.appendChild(child);
 
         child = new IIOMetadataNode("VerticalResolutionExponent");
         child.setUserObject(Byte.valueOf(expV));
-	child.setNodeValue("" + expV);
+        child.setNodeValue("" + expV);
         node.appendChild(child);
 
         child = new IIOMetadataNode("HorizontalResolutionExponent");
         child.setUserObject(Byte.valueOf(expH));
-	child.setNodeValue("" + expH);
+        child.setNodeValue("" + expH);
         node.appendChild(child);
 
         return node;
     }
 
     @Override
-    protected void compose() {
+    protected void compose()
+    {
         if (data != null)
             return;
         data = new byte[10];

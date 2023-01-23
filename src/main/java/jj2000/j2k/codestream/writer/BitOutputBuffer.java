@@ -52,11 +52,13 @@ import java.util.Arrays;
  * reallocated and enlarged whenever necessary. A BitOutputBuffer object may
  * be reused by calling its 'reset()' method.
  *
- * <P>NOTE: The methods implemented in this class are intended to be used only
+ * <P>
+ * NOTE: The methods implemented in this class are intended to be used only
  * in writing packet heads, since a special bit stuffing procedure is used, as
  * required for the packet heads.
- * */
-public class BitOutputBuffer {
+ */
+public class BitOutputBuffer
+{
 
     /** The buffer where we store the data */
     byte buf[];
@@ -67,9 +69,11 @@ public class BitOutputBuffer {
     /** The number of available bits in the current byte */
     int avbits = 8;
 
-    /** The increment size for the buffer, 16 bytes. This is the
+    /**
+     * The increment size for the buffer, 16 bytes. This is the
      * number of bytes that are added to the buffer each time it is
-     * needed to enlarge it.*/
+     * needed to enlarge it.
+     */
     // This must be always 6 or larger.
     public final static int SZ_INCR = 16;
 
@@ -79,8 +83,9 @@ public class BitOutputBuffer {
     /**
      * Creates a new BitOutputBuffer width a buffer of length
      * 'SZ_INIT'.
-     * */
-    public BitOutputBuffer() {
+     */
+    public BitOutputBuffer()
+    {
         buf = new byte[SZ_INIT];
     }
 
@@ -89,13 +94,14 @@ public class BitOutputBuffer {
      * the buffer and sets all tha data to 0. Note that no new buffer is
      * allocated, so this will affect any data that was returned by the
      * 'getBuffer()' method.
-     * */
-    public void reset() {
+     */
+    public void reset()
+    {
         int i;
         // Reinit pointers
         curbyte = 0;
         avbits = 8;
-        Arrays.fill(buf,(byte)0);
+        Arrays.fill(buf, (byte)0);
     }
 
     /**
@@ -104,18 +110,20 @@ public class BitOutputBuffer {
      * already written. The buffer is enlarged, by 'SZ_INCR' bytes, if
      * necessary.
      *
-     * <P>This method is declared final to increase performance.
+     * <P>
+     * This method is declared final to increase performance.
      *
      * @param bit The bit to write, 0 or 1.
-     * */
-    public final void writeBit(int bit) {
+     */
+    public final void writeBit(int bit)
+    {
         buf[curbyte] |= bit << --avbits;
         if (avbits > 0) {
             // There is still place in current byte for next bit
             return;
         }
         else { // End of current byte => goto next
-            if (buf[curbyte] != (byte) 0xFF) { // We don't need bit stuffing
+            if (buf[curbyte] != (byte)0xFF) { // We don't need bit stuffing
                 avbits = 8;
             }
             else { // We need to stuff a bit (next MSBit is 0)
@@ -125,8 +133,8 @@ public class BitOutputBuffer {
             if (curbyte == buf.length) {
                 // We are at end of 'buf' => extend it
                 byte oldbuf[] = buf;
-                buf = new byte[oldbuf.length+SZ_INCR];
-                System.arraycopy(oldbuf,0,buf,0,oldbuf.length);
+                buf = new byte[oldbuf.length + SZ_INCR];
+                System.arraycopy(oldbuf, 0, buf, 0, oldbuf.length);
             }
         }
     }
@@ -138,21 +146,23 @@ public class BitOutputBuffer {
      * buffer will result. The buffer is enlarged, by 'SZ_INCR' bytes, if
      * necessary.
      *
-     * <P>This method is declared final to increase performance.
+     * <P>
+     * This method is declared final to increase performance.
      *
      * @param bits The bits to write.
      *
      * @param n The number of LSBs in 'bits' to write.
-     * */
-    public final void writeBits(int bits, int n) {
+     */
+    public final void writeBits(int bits, int n)
+    {
         // Check that we have enough place in 'buf' for n bits, and that we do
         // not fill last byte, taking into account possibly stuffed bits (max
         // 2)
-        if (((buf.length-curbyte)<<3)-8+avbits <= n+2) {
+        if (((buf.length - curbyte) << 3) - 8 + avbits <= n + 2) {
             // Not enough place, extend it
             byte oldbuf[] = buf;
-            buf = new byte[oldbuf.length+SZ_INCR];
-            System.arraycopy(oldbuf,0,buf,0,oldbuf.length);
+            buf = new byte[oldbuf.length + SZ_INCR];
+            System.arraycopy(oldbuf, 0, buf, 0, oldbuf.length);
             // SZ_INCR is always 6 or more, so it is enough to hold all the
             // new bits plus the ones to come after
         }
@@ -161,7 +171,7 @@ public class BitOutputBuffer {
             // Complete the current byte
             n -= avbits;
             buf[curbyte] |= bits >> n;
-            if (buf[curbyte] != (byte) 0xFF) { // We don't need bit stuffing
+            if (buf[curbyte] != (byte)0xFF) { // We don't need bit stuffing
                 avbits = 8;
             }
             else { // We need to stuff a bit (next MSBit is 0)
@@ -172,7 +182,7 @@ public class BitOutputBuffer {
             while (n >= avbits) {
                 n -= avbits;
                 buf[curbyte] |= (bits >> n) & (~(1 << avbits));
-                if (buf[curbyte] != (byte) 0xFF) { // We don't need bit
+                if (buf[curbyte] != (byte)0xFF) { // We don't need bit
                     // stuffing
                     avbits = 8;
                 }
@@ -185,10 +195,10 @@ public class BitOutputBuffer {
         // Finish last byte (we know that now n < avbits)
         if (n > 0) {
             avbits -= n;
-            buf[curbyte] |= (bits & ((1<<n)-1)) << avbits;
+            buf[curbyte] |= (bits & ((1 << n) - 1)) << avbits;
         }
         if (avbits == 0) { // Last byte is full
-            if (buf[curbyte] != (byte) 0xFF) { // We don't need bit stuffing
+            if (buf[curbyte] != (byte)0xFF) { // We don't need bit stuffing
                 avbits = 8;
             }
             else { // We need to stuff a bit (next MSBit is 0)
@@ -201,16 +211,18 @@ public class BitOutputBuffer {
     /**
      * Returns the current length of the buffer, in bytes.
      *
-     * <P>This method is declared final to increase performance.
+     * <P>
+     * This method is declared final to increase performance.
      *
      * @return The currebt length of the buffer in bytes.
-     * */
-    public final int getLength() {
+     */
+    public final int getLength()
+    {
         if (avbits == 8) { // A integral number of bytes
             return curbyte;
         }
         else { // Some bits in last byte
-            return curbyte+1;
+            return curbyte + 1;
         }
     }
 
@@ -219,11 +231,13 @@ public class BitOutputBuffer {
      * not be modified. Only the first N elements have valid data, where N is
      * the value returned by 'getLength()'
      *
-     * <P>This method is declared final to increase performance.
+     * <P>
+     * This method is declared final to increase performance.
      *
      * @return The internal byte buffer.
-     * */
-    public final byte[] getBuffer() {
+     */
+    public final byte[] getBuffer()
+    {
         return buf;
     }
 
@@ -238,12 +252,13 @@ public class BitOutputBuffer {
      * mus be large enough. Otherwise a new one is created and returned.
      *
      * @return The byte buffer data.
-     * */
-    public byte[] toByteArray(byte data[]) {
+     */
+    public byte[] toByteArray(byte data[])
+    {
         if (data == null) {
-            data = new byte[(avbits==8)?curbyte:curbyte+1];
+            data = new byte[(avbits == 8) ? curbyte : curbyte + 1];
         }
-        System.arraycopy(buf,0,data,0,(avbits==8)?curbyte:curbyte+1);
+        System.arraycopy(buf, 0, data, 0, (avbits == 8) ? curbyte : curbyte + 1);
         return data;
     }
 
@@ -251,10 +266,11 @@ public class BitOutputBuffer {
      * Prints information about this object for debugging purposes
      *
      * @return Information about the object.
-     * */
+     */
     @Override
-    public String toString() {
-        return "bits written = "+(curbyte*8+(8-avbits))+
-            ", curbyte = "+curbyte+", avbits = "+avbits;
+    public String toString()
+    {
+        return "bits written = " + (curbyte * 8 + (8 - avbits)) +
+            ", curbyte = " + curbyte + ", avbits = " + avbits;
     }
 }

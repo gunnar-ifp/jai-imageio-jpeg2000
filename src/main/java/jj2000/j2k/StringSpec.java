@@ -46,13 +46,15 @@ package jj2000.j2k;
 import java.util.StringTokenizer;
 
 import com.github.jaiimageio.jpeg2000.impl.J2KImageWriteParamJava;
+
 /**
  * This class extends ModuleSpec class in order to hold tile-component
  * specifications using Strings.
  *
  * @see ModuleSpec
- * */
-public class StringSpec extends ModuleSpec{
+ */
+public class StringSpec extends ModuleSpec
+{
 
     private String specified;
 
@@ -66,9 +68,10 @@ public class StringSpec extends ModuleSpec{
      *
      * @param type the type of the specification module i.e. tile specific,
      * component specific or both.
-     * */
-    public StringSpec(int nt, int nc, byte type){
-	super(nt, nc, type);
+     */
+    public StringSpec(int nt, int nc, byte type)
+    {
+        super(nt, nc, type);
     }
 
     /**
@@ -78,7 +81,8 @@ public class StringSpec extends ModuleSpec{
      * checks that the arguments belongs to the recognized arguments
      * list.
      *
-     * <P><u>Note:</u> The arguments must not start with 't' or 'c'
+     * <P>
+     * <u>Note:</u> The arguments must not start with 't' or 'c'
      * since it is reserved for respectively tile and components
      * indexes specification.
      *
@@ -91,105 +95,107 @@ public class StringSpec extends ModuleSpec{
      *
      * @param list The list of all recognized argument in a String array
      *
-     * */
+     */
     public StringSpec(int nt, int nc, byte type, String defaultValue,
-                       String[] list, J2KImageWriteParamJava wp, String values){
-        super(nt,nc,type);
+        String[] list, J2KImageWriteParamJava wp, String values)
+    {
+        super(nt, nc, type);
         specified = values;
 
         boolean recognized = false;
 
         String param = values;
 
-	if(values==null){
-            for(int i=list.length-1; i>=0; i--)
-                if(defaultValue.equalsIgnoreCase(list[i]))
+        if (values == null) {
+            for (int i = list.length - 1; i >= 0; i--)
+                if (defaultValue.equalsIgnoreCase(list[i]))
                     recognized = true;
-            if(!recognized)
-                throw new IllegalArgumentException("Default parameter of "+
-                                                   "option - not"+
-                                                   " recognized: "+defaultValue);
+            if (!recognized)
+                throw new IllegalArgumentException("Default parameter of " +
+                    "option - not" +
+                    " recognized: " + defaultValue);
             setDefault(defaultValue);
             return;
-	}
+        }
 
-	// Parse argument
-	StringTokenizer stk = new StringTokenizer(specified);
-	String word; // current word
-	byte curSpecType = SPEC_DEF; // Specification type of the
-	// current parameter
-	boolean[] tileSpec = null; // Tiles concerned by the
+        // Parse argument
+        StringTokenizer stk = new StringTokenizer(specified);
+        String word; // current word
+        byte curSpecType = SPEC_DEF; // Specification type of the
+        // current parameter
+        boolean[] tileSpec = null; // Tiles concerned by the
         // specification
-	boolean[] compSpec = null; // Components concerned by the specification
+        boolean[] compSpec = null; // Components concerned by the specification
         Boolean value;
 
-	while(stk.hasMoreTokens()){
-	    word = stk.nextToken();
+        while (stk.hasMoreTokens()) {
+            word = stk.nextToken();
 
-	    if (word.matches("t[0-9]*")) {
- 		tileSpec = parseIdx(word,nTiles);
-		if(curSpecType==SPEC_COMP_DEF){
-		    curSpecType = SPEC_TILE_COMP;
-		}
-		else{
-		    curSpecType = SPEC_TILE_DEF;
-		}
- 	    } else if (word.matches("c[0-9]*")) {
-		compSpec = parseIdx(word,nComp);
-		if(curSpecType==SPEC_TILE_DEF){
-		    curSpecType = SPEC_TILE_COMP;
-		}
-		else
-		    curSpecType = SPEC_COMP_DEF;
-            } else {
+            if (word.matches("t[0-9]*")) {
+                tileSpec = parseIdx(word, nTiles);
+                if (curSpecType == SPEC_COMP_DEF) {
+                    curSpecType = SPEC_TILE_COMP;
+                }
+                else {
+                    curSpecType = SPEC_TILE_DEF;
+                }
+            }
+            else if (word.matches("c[0-9]*")) {
+                compSpec = parseIdx(word, nComp);
+                if (curSpecType == SPEC_TILE_DEF) {
+                    curSpecType = SPEC_TILE_COMP;
+                }
+                else curSpecType = SPEC_COMP_DEF;
+            }
+            else {
                 recognized = false;
 
-                for(int i=list.length-1; i>=0; i--)
-                    if(word.equalsIgnoreCase(list[i]))
+                for (int i = list.length - 1; i >= 0; i--)
+                    if (word.equalsIgnoreCase(list[i]))
                         recognized = true;
-                if(!recognized)
-                    throw new IllegalArgumentException("Default parameter of "+
-                                                       "option not"+
-                                                       " recognized: "+word);
+                if (!recognized)
+                    throw new IllegalArgumentException("Default parameter of " +
+                        "option not" +
+                        " recognized: " + word);
 
-		if(curSpecType==SPEC_DEF){
-		    setDefault(word);
-		}
-		else if(curSpecType==SPEC_TILE_DEF){
-		    for(int i=tileSpec.length-1; i>=0; i--)
-			if(tileSpec[i]){
-			    setTileDef(i,word);
+                if (curSpecType == SPEC_DEF) {
+                    setDefault(word);
+                }
+                else if (curSpecType == SPEC_TILE_DEF) {
+                    for (int i = tileSpec.length - 1; i >= 0; i--)
+                        if (tileSpec[i]) {
+                            setTileDef(i, word);
                         }
-		}
-		else if(curSpecType==SPEC_COMP_DEF){
-		    for(int i=compSpec.length-1; i>=0; i--)
-			if(compSpec[i]){
-			    setCompDef(i,word);
+                }
+                else if (curSpecType == SPEC_COMP_DEF) {
+                    for (int i = compSpec.length - 1; i >= 0; i--)
+                        if (compSpec[i]) {
+                            setCompDef(i, word);
                         }
-		}
-		else{
-		    for(int i=tileSpec.length-1; i>=0; i--){
-			for(int j=compSpec.length-1; j>=0 ; j--){
-			    if(tileSpec[i] && compSpec[j]){
-				setTileCompVal(i,j,word);
+                }
+                else {
+                    for (int i = tileSpec.length - 1; i >= 0; i--) {
+                        for (int j = compSpec.length - 1; j >= 0; j--) {
+                            if (tileSpec[i] && compSpec[j]) {
+                                setTileCompVal(i, j, word);
                             }
-			}
-		    }
-		}
+                        }
+                    }
+                }
 
-		// Re-initialize
-		curSpecType = SPEC_DEF;
-		tileSpec = null;
-		compSpec = null;
-	    }
-	}
+                // Re-initialize
+                curSpecType = SPEC_DEF;
+                tileSpec = null;
+                compSpec = null;
+            }
+        }
 
         // Check that default value has been specified
-        if(getDefault()==null){
+        if (getDefault() == null) {
             int ndefspec = 0;
-            for(int t=nt-1; t>=0; t--){
-                for(int c=nc-1; c>=0 ; c--){
-                    if(specValType[t][c] == SPEC_DEF){
+            for (int t = nt - 1; t >= 0; t--) {
+                for (int c = nc - 1; c >= 0; c--) {
+                    if (specValType[t][c] == SPEC_DEF) {
                         ndefspec++;
                     }
                 }
@@ -197,46 +203,47 @@ public class StringSpec extends ModuleSpec{
 
             // If some tile-component have received no specification, it takes
             // the default value defined in ParameterList
-            if(ndefspec!=0){
+            if (ndefspec != 0) {
                 param = defaultValue;
-                for(int i=list.length-1; i>=0; i--)
-                    if(param.equalsIgnoreCase(list[i]))
+                for (int i = list.length - 1; i >= 0; i--)
+                    if (param.equalsIgnoreCase(list[i]))
                         recognized = true;
-                if(!recognized)
-                    throw new IllegalArgumentException("Default parameter of "+
-                                                       "option not"+
-                                                       " recognized: "+specified);
+                if (!recognized)
+                    throw new IllegalArgumentException("Default parameter of " +
+                        "option not" +
+                        " recognized: " + specified);
                 setDefault(param);
             }
-            else{
+            else {
                 // All tile-component have been specified, takes the first
                 // tile-component value as default.
-                setDefault(getSpec(0,0));
-                switch(specValType[0][0]){
-                case SPEC_TILE_DEF:
-                    for(int c=nc-1; c>=0; c--){
-                        if(specValType[0][c]==SPEC_TILE_DEF)
-                            specValType[0][c] = SPEC_DEF;
-                    }
-                    tileDef[0] = null;
-                    break;
-                case SPEC_COMP_DEF:
-                    for(int t=nt-1; t>=0; t--){
-                        if(specValType[t][0]==SPEC_COMP_DEF)
-                            specValType[t][0] = SPEC_DEF;
-                    }
-                    compDef[0] = null;
-                    break;
-                case SPEC_TILE_COMP:
-                    specValType[0][0] = SPEC_DEF;
-                    tileCompVal.put("t0c0",null);
-                    break;
+                setDefault(getSpec(0, 0));
+                switch (specValType[0][0]) {
+                    case SPEC_TILE_DEF:
+                        for (int c = nc - 1; c >= 0; c--) {
+                            if (specValType[0][c] == SPEC_TILE_DEF)
+                                specValType[0][c] = SPEC_DEF;
+                        }
+                        tileDef[0] = null;
+                        break;
+                    case SPEC_COMP_DEF:
+                        for (int t = nt - 1; t >= 0; t--) {
+                            if (specValType[t][0] == SPEC_COMP_DEF)
+                                specValType[t][0] = SPEC_DEF;
+                        }
+                        compDef[0] = null;
+                        break;
+                    case SPEC_TILE_COMP:
+                        specValType[0][0] = SPEC_DEF;
+                        tileCompVal.put("t0c0", null);
+                        break;
                 }
             }
-	}
+        }
     }
 
-    public String getSpecified() {
+    public String getSpecified()
+    {
         return specified;
     }
 }

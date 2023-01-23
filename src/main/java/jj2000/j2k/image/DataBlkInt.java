@@ -51,12 +51,14 @@ package jj2000.j2k.image;
  * This is an implementation of the <code>DataBlk</code> interface for
  * signed 32 bit integral data.
  *
- * <P>The methods in this class are declared final, so that they can
+ * <P>
+ * The methods in this class are declared final, so that they can
  * be inlined by inlining compilers.
  *
  * @see DataBlk
- * */
-public class DataBlkInt extends DataBlk {
+ */
+public class DataBlkInt extends DataBlk
+{
     /** The array where the data is stored */
     public int[] data;
 
@@ -67,7 +69,8 @@ public class DataBlkInt extends DataBlk {
      *
      *
      */
-    public DataBlkInt() {
+    public DataBlkInt()
+    {
     }
 
     /**
@@ -86,15 +89,16 @@ public class DataBlkInt extends DataBlk {
      * @param h The height of the block (in pixels)
      *
      *
-     * */
-    public DataBlkInt(int ulx, int uly, int w, int h) {
+     */
+    public DataBlkInt(int ulx, int uly, int w, int h)
+    {
         this.ulx = ulx;
         this.uly = uly;
         this.w = w;
         this.h = h;
         offset = 0;
         scanw = w;
-        data = new int[w*h];
+        data = new int[w * h];
     }
 
     /**
@@ -105,18 +109,19 @@ public class DataBlkInt extends DataBlk {
      * @param src the object to be copied.
      *
      *
-     * */
-    public DataBlkInt(DataBlkInt src) {
+     */
+    public DataBlkInt(DataBlkInt src)
+    {
         this.ulx = src.ulx;
         this.uly = src.uly;
         this.w = src.w;
         this.h = src.h;
         this.offset = 0;
         this.scanw = this.w;
-        this.data = new int[this.w*this.h];
-        for ( int i=0 ; i<this.h ; i++ )
-            System.arraycopy(src.data, i*src.scanw,
-                this.data, i*this.scanw, this.w);
+        this.data = new int[this.w * this.h];
+        for (int i = 0; i < this.h; i++)
+            System.arraycopy(src.data, i * src.scanw,
+                this.data, i * this.scanw, this.w);
     }
 
     /**
@@ -129,9 +134,10 @@ public class DataBlkInt extends DataBlk {
      * @see DataBlk#TYPE_INT
      *
      *
-     * */
+     */
     @Override
-    public final int getDataType() {
+    public final int getDataType()
+    {
         return TYPE_INT;
     }
 
@@ -146,7 +152,8 @@ public class DataBlkInt extends DataBlk {
      *
      */
     @Override
-    public final Object getData() {
+    public final Object getData()
+    {
         return data;
     }
 
@@ -157,8 +164,9 @@ public class DataBlkInt extends DataBlk {
      * @return The array of data or null if there is no data.
      *
      *
-     * */
-    public final int[] getDataInt() {
+     */
+    public final int[] getDataInt()
+    {
         return data;
     }
 
@@ -171,10 +179,11 @@ public class DataBlkInt extends DataBlk {
      * @param arr The data array to use. Must be a int array.
      *
      *
-     * */
+     */
     @Override
-    public final void setData(Object arr) {
-        data = (int[]) arr;
+    public final void setData(Object arr)
+    {
+        data = (int[])arr;
     }
 
     /**
@@ -185,19 +194,21 @@ public class DataBlkInt extends DataBlk {
      * @param arr The data array to use.
      *
      *
-     * */
-    public final void setDataInt(int[] arr) {
+     */
+    public final void setDataInt(int[] arr)
+    {
         data = arr;
     }
 
     /**
      * Returns a string of informations about the DataBlkInt.
-     * */
+     */
     @Override
-    public String toString(){
+    public String toString()
+    {
         String str = super.toString();
-        if(data!=null) {
-            str += ",data="+data.length+" bytes";
+        if (data != null) {
+            str += ",data=" + data.length + " bytes";
         }
         return str;
     }

@@ -53,11 +53,13 @@ package jj2000.j2k;
  * is not known how to handle the exception, and the exception can not
  * be thrown higher in the stack.
  *
- * <P>Different options can be registered for each Thread and
+ * <P>
+ * Different options can be registered for each Thread and
  * ThreadGroup. <i>This feature is not implemented yet</i>
  *
  */
-public class JJ2KExceptionHandler {
+public class JJ2KExceptionHandler
+{
 
     /**
      * Handles the exception. If no special action is registered for
@@ -65,13 +67,15 @@ public class JJ2KExceptionHandler {
      * descriptive message are printed to standard error and the
      * current thread is stopped.
      *
-     * <P><i>Registration of special actions is not implemented yet.</i>
+     * <P>
+     * <i>Registration of special actions is not implemented yet.</i>
      *
      * @param e The exception to handle
      *
      *
-     * */
-    public static void handleException(Throwable e) {
+     */
+    public static void handleException(Throwable e)
+    {
         // Test if there is an special action (not implemented yet)
 
         // If no special action
@@ -82,9 +86,9 @@ public class JJ2KExceptionHandler {
         e.printStackTrace();
         // Print an explicative message
         System.err.println("The Thread is being terminated bacause an " +
-                           "Exception (shown above)\n" +
-                           "has been thrown and no special action was " +
-                           "defined for this Thread.");
+            "Exception (shown above)\n" +
+            "has been thrown and no special action was " +
+            "defined for this Thread.");
         // Stop the thread (do not use stop, since it's deprecated in
         // Java 1.2)
         throw new ThreadDeath();

@@ -57,7 +57,8 @@ import jj2000.j2k.codestream.Markers;
  * as a OutputStream. See the CodestreamWriter abstract class for more details
  * on the implementation of the CodestreamWriter abstract class.
  *
- * <P>Before any packet data is written to the bit stream (even in simulation
+ * <P>
+ * Before any packet data is written to the bit stream (even in simulation
  * mode) the complete header should be written to the HeaderEncoder object
  * supplied to the constructor, following the procedure explained in the
  * HeaderEncoder class. Otherwise incorrect estimates are given by
@@ -66,9 +67,10 @@ import jj2000.j2k.codestream.Markers;
  * @see CodestreamWriter
  *
  * @see HeaderEncoder
- * */
+ */
 public class FileCodestreamWriter extends CodestreamWriter
-    implements Markers {
+    implements Markers
+{
 
     /** The upper limit for the value of the Nsop field of the SOP marker */
     private final static int SOP_MARKER_LIMIT = 65535;
@@ -79,9 +81,11 @@ public class FileCodestreamWriter extends CodestreamWriter
     /** The file to write */
     private OutputStream out;
 
-    /** The number of bytes already written to the bit stream, excluding the
-     * header length, magic number and header length info. */
-    int ndata=0;
+    /**
+     * The number of bytes already written to the bit stream, excluding the
+     * header length, magic number and header length info.
+     */
+    int ndata = 0;
 
     /** The default buffer length, 1024 bytes */
     public static int DEF_BUF_LEN = 1024;
@@ -92,9 +96,11 @@ public class FileCodestreamWriter extends CodestreamWriter
     /** Array used to store the EPH markers values */
     byte ephMarker[];
 
-    /** The packet index (when start of packet markers i.e. SOP markers) are
-     *  used. */
-    int packetIdx=0;
+    /**
+     * The packet index (when start of packet markers i.e. SOP markers) are
+     * used.
+     */
+    int packetIdx = 0;
 
     /** Offset of end of last packet containing ROI information */
     private int offLastROIPkt = 0;
@@ -116,12 +122,13 @@ public class FileCodestreamWriter extends CodestreamWriter
      *
      * @exception IOException If an error occurs while trying to open the file
      * for writing or while writing the magic number.
-     * */
+     */
     public FileCodestreamWriter(File file, int mb)
-        throws IOException {
+        throws IOException
+    {
 
         super(mb);
-        out = new BufferedOutputStream(new FileOutputStream(file),DEF_BUF_LEN);
+        out = new BufferedOutputStream(new FileOutputStream(file), DEF_BUF_LEN);
         initSOP_EPHArrays();
     }
 
@@ -139,13 +146,14 @@ public class FileCodestreamWriter extends CodestreamWriter
      *
      * @exception IOException If an error occurs while trying to open the file
      * for writing or while writing the magic number.
-     * */
+     */
     public FileCodestreamWriter(String fname, int mb)
-        throws IOException {
+        throws IOException
+    {
 
         super(mb);
         out = new BufferedOutputStream(new FileOutputStream(fname),
-                                       DEF_BUF_LEN);
+            DEF_BUF_LEN);
         initSOP_EPHArrays();
     }
 
@@ -163,9 +171,10 @@ public class FileCodestreamWriter extends CodestreamWriter
      *
      * @exception IOException If an error occurs while writing the magic
      * number to the 'os' output stream.
-     * */
+     */
     public FileCodestreamWriter(OutputStream os, int mb)
-        throws IOException {
+        throws IOException
+    {
 
         super(mb);
         out = os;
@@ -180,19 +189,21 @@ public class FileCodestreamWriter extends CodestreamWriter
      * then a negative value is returned.
      *
      * @return The number of bytes remaining available in the bit stream.
-     * */
+     */
     @Override
-    public final int getMaxAvailableBytes() {
-        return maxBytes-ndata;
+    public final int getMaxAvailableBytes()
+    {
+        return maxBytes - ndata;
     }
 
     /**
      * Returns the current length of the entire bit stream.
      *
      * @return the current length of the bit stream
-     * */
+     */
     @Override
-    public int getLength() {
+    public int getLength()
+    {
         if (getMaxAvailableBytes() >= 0) {
             return ndata;
         }
@@ -208,13 +219,15 @@ public class FileCodestreamWriter extends CodestreamWriter
      * is written to the bit stream but the number of bytes is
      * calculated. This can be used for iterative rate allocation.
      *
-     * <P>If the length of the data that is to be written to the bit stream is
+     * <P>
+     * If the length of the data that is to be written to the bit stream is
      * more than the space left (as returned by getMaxAvailableBytes()) only
      * the data that does not exceed the allowed length is written, the rest
      * is discarded. However the value returned by the method is the total
      * length of the packet, as if all of it was written to the bit stream.
      *
-     * <P>If the bit stream header has not been commited yet and 'sim' is
+     * <P>
+     * If the bit stream header has not been commited yet and 'sim' is
      * false, then the bit stream header is automatically commited (see
      * commitBitstreamHeader() method) before writting the packet.
      *
@@ -239,42 +252,43 @@ public class FileCodestreamWriter extends CodestreamWriter
      * output stream.
      *
      * @see #commitBitstreamHeader
-     * */
+     */
     @Override
-    public int writePacketHead(byte head[],int hlen,boolean sim,
-			       boolean sop, boolean eph) throws IOException{
+    public int writePacketHead(byte head[], int hlen, boolean sim,
+        boolean sop, boolean eph) throws IOException
+    {
         int len = hlen
-	    + (sop?Markers.SOP_LENGTH:0)
-	    + (eph?Markers.EPH_LENGTH:0);
+            + (sop ? Markers.SOP_LENGTH : 0)
+            + (eph ? Markers.EPH_LENGTH : 0);
 
         // If not in simulation mode write the data
-        if(!sim){
-	    // Write the head bytes
-	    if(getMaxAvailableBytes()<len){
-		len = getMaxAvailableBytes();
-	    }
+        if (!sim) {
+            // Write the head bytes
+            if (getMaxAvailableBytes() < len) {
+                len = getMaxAvailableBytes();
+            }
 
-            if(len > 0){
+            if (len > 0) {
                 // Write Start Of Packet header markers if necessary
-                if(sop){
+                if (sop) {
                     // The first 4 bytes of the array have been filled in the
                     // classe's constructor.
-                    sopMarker[4] = (byte)(packetIdx>>8);
+                    sopMarker[4] = (byte)(packetIdx >> 8);
                     sopMarker[5] = (byte)(packetIdx);
                     out.write(sopMarker, 0, Markers.SOP_LENGTH);
                     packetIdx++;
-                    if(packetIdx>SOP_MARKER_LIMIT){
+                    if (packetIdx > SOP_MARKER_LIMIT) {
                         // Reset SOP value as we have reached its upper limit
                         packetIdx = 0;
                     }
                 }
-                out.write(head,0,hlen);
-		// Update data length
-		ndata += len;
+                out.write(head, 0, hlen);
+                // Update data length
+                ndata += len;
 
                 // Write End of Packet Header markers if necessary
-                if(eph){
-                    out.write(ephMarker,0,Markers.EPH_LENGTH);
+                if (eph) {
+                    out.write(ephMarker, 0, Markers.EPH_LENGTH);
                 }
 
                 // Deal with ROI Information
@@ -290,7 +304,8 @@ public class FileCodestreamWriter extends CodestreamWriter
      * bit stream but the number of bytes is calculated. This can be used for
      * iterative rate allocation.
      *
-     * <P>If the length of the data that is to be written to the bit stream is
+     * <P>
+     * If the length of the data that is to be written to the bit stream is
      * more than the space left (as returned by getMaxAvailableBytes()) only
      * the data that does not exceed the allowed length is written, the rest
      * is discarded. However the value returned by the method is the total
@@ -315,11 +330,12 @@ public class FileCodestreamWriter extends CodestreamWriter
      * output stream.
      *
      * @see #commitBitstreamHeader
-     * */
+     */
     @Override
-    public int writePacketBody(byte body[],int blen,boolean sim,
-                               boolean roiInPkt, int roiLen)
-        throws IOException{
+    public int writePacketBody(byte body[], int blen, boolean sim,
+        boolean roiInPkt, int roiLen)
+        throws IOException
+    {
 
         int len = blen;
 
@@ -327,20 +343,21 @@ public class FileCodestreamWriter extends CodestreamWriter
         if (!sim) {
             // Write the body bytes
             len = blen;
-            if(getMaxAvailableBytes() < len){
+            if (getMaxAvailableBytes() < len) {
                 len = getMaxAvailableBytes();
             }
-            if(blen > 0){
-                out.write(body,0,len);
+            if (blen > 0) {
+                out.write(body, 0, len);
             }
             // Update data length
             ndata += len;
 
             // Deal with ROI information
-            if(roiInPkt) {
+            if (roiInPkt) {
                 offLastROIPkt += lenLastNoROI + roiLen;
-                lenLastNoROI = len-roiLen;
-            } else {
+                lenLastNoROI = len - roiLen;
+            }
+            else {
                 lenLastNoROI += len;
             }
         }
@@ -352,12 +369,13 @@ public class FileCodestreamWriter extends CodestreamWriter
      *
      * @exception IOException If an error occurs while closing the underlying
      * stream.
-     * */
+     */
     @Override
-    public void close() throws IOException {
+    public void close() throws IOException
+    {
 
-	// Write the EOC marker and close the codestream.
-        out.write(EOC>>8);
+        // Write the EOC marker and close the codestream.
+        out.write(EOC >> 8);
         out.write(EOC);
 
         ndata += 2; // Add two to length of codestream for EOC marker
@@ -369,9 +387,10 @@ public class FileCodestreamWriter extends CodestreamWriter
      * Gives the offset of the end of last packet containing ROI information
      *
      * @return End of last ROI packet
-     * */
+     */
     @Override
-    public int getOffLastROIPkt(){
+    public int getOffLastROIPkt()
+    {
         return offLastROIPkt;
     }
 
@@ -383,12 +402,13 @@ public class FileCodestreamWriter extends CodestreamWriter
      * @param he The current header encoder.
      *
      * @exception IOException If an I/O error occurs while writing the data.
-     * */
+     */
     @Override
-    public void commitBitstreamHeader(HeaderEncoder he) throws IOException {
+    public void commitBitstreamHeader(HeaderEncoder he) throws IOException
+    {
         // Actualize ndata
         ndata += he.getLength();
-        he.writeTo(out);         // Write the header
+        he.writeTo(out); // Write the header
         // Reset packet index used for SOP markers
         packetIdx = 0;
 
@@ -399,13 +419,14 @@ public class FileCodestreamWriter extends CodestreamWriter
     /**
      * Performs the initialisation of the arrays that are used to store the
      * values used to write SOP and EPH markers
-     * */
-    private void initSOP_EPHArrays() {
+     */
+    private void initSOP_EPHArrays()
+    {
 
         // Allocate and set first values of SOP marker as they will not be
         // modified
         sopMarker = new byte[Markers.SOP_LENGTH];
-        sopMarker[0] = (byte)(Markers.SOP>>8);
+        sopMarker[0] = (byte)(Markers.SOP >> 8);
         sopMarker[1] = (byte)Markers.SOP;
         sopMarker[2] = (byte)0x00;
         sopMarker[3] = (byte)0x04;
@@ -413,7 +434,7 @@ public class FileCodestreamWriter extends CodestreamWriter
         // Allocate and set values of EPH marker as they will not be
         // modified
         ephMarker = new byte[Markers.EPH_LENGTH];
-        ephMarker[0] = (byte)(Markers.EPH>>8);
+        ephMarker[0] = (byte)(Markers.EPH >> 8);
         ephMarker[1] = (byte)Markers.EPH;
     }
 }

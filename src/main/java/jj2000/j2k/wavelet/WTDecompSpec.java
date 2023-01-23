@@ -52,21 +52,25 @@ import jj2000.j2k.NotImplementedError;
 
 /**
  * This class holds the decomposition type to be used in each part of the
- * image; the default one, the component specific ones, the tile default ones 
+ * image; the default one, the component specific ones, the tile default ones
  * and the component-tile specific ones.
  *
- * <P>The decomposition type identifiers values are the same as in the
+ * <P>
+ * The decomposition type identifiers values are the same as in the
  * codestream.
  *
- * <P>The hierarchy is:<br>
+ * <P>
+ * The hierarchy is:<br>
  * - Tile and component specific decomposition<br>
  * - Tile specific default decomposition<br>
  * - Component main default decomposition<br>
  * - Main default decomposition<br>
  *
- * <P>At the moment tiles are not supported by this class.
- * */
-public class WTDecompSpec {
+ * <P>
+ * At the moment tiles are not supported by this class.
+ */
+public class WTDecompSpec
+{
     /**
      * ID for the dyadic wavelet tree decomposition (also called
      * "Mallat" in JPEG 2000): 0x00.
@@ -76,13 +80,15 @@ public class WTDecompSpec {
     /**
      * ID for the SPACL (as defined in JPEG 2000) wavelet tree
      * decomposition (1 level of decomposition in the high bands and
-     * some specified number for the lowest LL band): 0x02.  */
+     * some specified number for the lowest LL band): 0x02.
+     */
     public final static int WT_DECOMP_SPACL = 2;
 
     /**
      * ID for the PACKET (as defined in JPEG 2000) wavelet tree
      * decomposition (2 levels of decomposition in the high bands and
-     * some specified number for the lowest LL band): 0x01. */
+     * some specified number for the lowest LL band): 0x01.
+     */
     public final static int WT_DECOMP_PACKET = 1;
 
     /** The identifier for "main default" specified decomposition */
@@ -94,13 +100,17 @@ public class WTDecompSpec {
     /** The identifier for "tile specific default" specified decomposition */
     public final static byte DEC_SPEC_TILE_DEF = 2;
 
-    /** The identifier for "tile and component specific" specified
-        decomposition */
+    /**
+     * The identifier for "tile and component specific" specified
+     * decomposition
+     */
     public final static byte DEC_SPEC_TILE_COMP = 3;
 
-    /** The spec type for each tile and component. The first index is the
+    /**
+     * The spec type for each tile and component. The first index is the
      * component index, the second is the tile index. NOTE: The tile specific
-     * things are not supported yet. */
+     * things are not supported yet.
+     */
     // Use byte to save memory (no need for speed here).
     private byte specValType[];
 
@@ -118,10 +128,11 @@ public class WTDecompSpec {
 
     /**
      * Constructs a new 'WTDecompSpec' for the specified number of components
-     * and tiles, with the given main default decomposition type and number of 
+     * and tiles, with the given main default decomposition type and number of
      * levels.
      *
-     * <P>NOTE: The tile specific things are not supported yet
+     * <P>
+     * NOTE: The tile specific things are not supported yet
      *
      * @param nc The number of components
      *
@@ -130,8 +141,9 @@ public class WTDecompSpec {
      * @param lev The main default number of decomposition levels
      *
      *
-     * */
-    public WTDecompSpec(int nc, int dec, int lev) {
+     */
+    public WTDecompSpec(int nc, int dec, int lev)
+    {
         mainDefDecompType = dec;
         mainDefLevels = lev;
         specValType = new byte[nc];
@@ -151,8 +163,9 @@ public class WTDecompSpec {
      * used.
      *
      *
-     * */
-    public void setMainCompDefDecompType(int n, int dec, int lev) {
+     */
+    public void setMainCompDefDecompType(int n, int dec, int lev)
+    {
         if (dec < 0 && lev < 0) {
             throw new IllegalArgumentException();
         }
@@ -166,10 +179,10 @@ public class WTDecompSpec {
         compMainDefLevels[n] = (lev >= 0) ? lev : mainDefLevels;
         // For the moment disable it since other parts of JJ2000 do not
         // support this
-        throw new NotImplementedError("Currently, in JJ2000, all components "+
-                                      "and tiles must have the same "+
-                                      "decomposition type and number of "+
-                                      "levels");
+        throw new NotImplementedError("Currently, in JJ2000, all components " +
+            "and tiles must have the same " +
+            "decomposition type and number of " +
+            "levels");
     }
 
     /**
@@ -178,15 +191,17 @@ public class WTDecompSpec {
      * 'DEC_SPEC_MAIN_DEF', 'DEC_SPEC_COMP_DEF', 'DEC_SPEC_TILE_DEF',
      * 'DEC_SPEC_TILE_COMP'.
      *
-     * <P>NOTE: The tile specific things are not supported yet
+     * <P>
+     * NOTE: The tile specific things are not supported yet
      *
      * @param n The component index
      *
      * @return The specification type for component 'n' and tile 't'.
      *
      *
-     * */
-    public byte getDecSpecType(int n) {
+     */
+    public byte getDecSpecType(int n)
+    {
         return specValType[n];
     }
 
@@ -196,8 +211,9 @@ public class WTDecompSpec {
      * @return The main default decomposition type.
      *
      *
-     * */
-    public int getMainDefDecompType() {
+     */
+    public int getMainDefDecompType()
+    {
         return mainDefDecompType;
     }
 
@@ -207,8 +223,9 @@ public class WTDecompSpec {
      * @return The main default decomposition number of levels.
      *
      *
-     * */
-    public int getMainDefLevels() {
+     */
+    public int getMainDefLevels()
+    {
         return mainDefLevels;
     }
 
@@ -216,26 +233,28 @@ public class WTDecompSpec {
      * Returns the decomposition type to be used in component 'n' and tile
      * 't'.
      *
-     * <P>NOTE: The tile specific things are not supported yet
+     * <P>
+     * NOTE: The tile specific things are not supported yet
      *
      * @param n The component index.
      *
      * @return The decomposition type to be used.
      *
      *
-     * */
-    public int getDecompType(int n) {
+     */
+    public int getDecompType(int n)
+    {
         switch (specValType[n]) {
-        case DEC_SPEC_MAIN_DEF:
-            return mainDefDecompType;
-        case DEC_SPEC_COMP_DEF:
-            return compMainDefDecompType[n];
-        case DEC_SPEC_TILE_DEF:
-            throw new NotImplementedError();
-        case DEC_SPEC_TILE_COMP:
-            throw new NotImplementedError();
-        default:
-            throw new Error("Internal JJ2000 error");
+            case DEC_SPEC_MAIN_DEF:
+                return mainDefDecompType;
+            case DEC_SPEC_COMP_DEF:
+                return compMainDefDecompType[n];
+            case DEC_SPEC_TILE_DEF:
+                throw new NotImplementedError();
+            case DEC_SPEC_TILE_COMP:
+                throw new NotImplementedError();
+            default:
+                throw new Error("Internal JJ2000 error");
         }
     }
 
@@ -243,26 +262,28 @@ public class WTDecompSpec {
      * Returns the decomposition number of levels in component 'n' and tile
      * 't'.
      *
-     * <P>NOTE: The tile specific things are not supported yet
+     * <P>
+     * NOTE: The tile specific things are not supported yet
      *
      * @param n The component index.
      *
      * @return The decomposition number of levels.
      *
      *
-     * */
-    public int getLevels(int n) {
+     */
+    public int getLevels(int n)
+    {
         switch (specValType[n]) {
-        case DEC_SPEC_MAIN_DEF:
-            return mainDefLevels;
-        case DEC_SPEC_COMP_DEF:
-            return compMainDefLevels[n];
-        case DEC_SPEC_TILE_DEF:
-            throw new NotImplementedError();
-        case DEC_SPEC_TILE_COMP:
-            throw new NotImplementedError();
-        default:
-            throw new Error("Internal JJ2000 error");
+            case DEC_SPEC_MAIN_DEF:
+                return mainDefLevels;
+            case DEC_SPEC_COMP_DEF:
+                return compMainDefLevels[n];
+            case DEC_SPEC_TILE_DEF:
+                throw new NotImplementedError();
+            case DEC_SPEC_TILE_COMP:
+                throw new NotImplementedError();
+            default:
+                throw new Error("Internal JJ2000 error");
         }
     }
 }

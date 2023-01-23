@@ -52,8 +52,9 @@ package jj2000.j2k.wavelet.synthesis;
  * This interface extends the MultiResImgData interface with the methods that
  * are necessary for inverse wavelet data (i.e. data that is the source to an
  * inverse wavlet trasnform).
- * */
-public interface InvWTData extends MultiResImgData {
+ */
+public interface InvWTData extends MultiResImgData
+{
 
     /**
      * Returns the subband tree, for the specified tile-component. This method
@@ -66,19 +67,19 @@ public interface InvWTData extends MultiResImgData {
      * @param c The index of the component, from 0 to C-1.
      *
      * @return The root of the tree structure.
-     * */
+     */
     @Override
-    public SubbandSyn getSynSubbandTree(int t,int c);
+    public SubbandSyn getSynSubbandTree(int t, int c);
 
     /**
      * Returns the horizontal code-block partition origin. Allowable values
      * are 0 and 1, nothing else.
-     * */
+     */
     public int getCbULX();
 
     /**
      * Returns the vertical code-block partition origin Allowable values are 0
      * and 1, nothing else.
-     * */
+     */
     public int getCbULY();
 }

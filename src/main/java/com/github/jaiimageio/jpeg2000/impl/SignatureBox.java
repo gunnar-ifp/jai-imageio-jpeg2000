@@ -43,43 +43,53 @@
  * $State: Exp $
  */
 package com.github.jaiimageio.jpeg2000.impl;
+
 import javax.imageio.metadata.IIOInvalidTreeException;
 import javax.imageio.metadata.IIOMetadataNode;
 
 import org.w3c.dom.Node;
 
-/** This class is defined to represent a Signature Box of JPEG JP2
- *  file format.  This type of box has a fixed length of 12, a type of "jP  "
- *  and a four byte content of {@code 0x0D0A870A}, which is used to detects of the
- *  common file transmission errors which substitutes {@literal <CR><LF>} with {@literal <LF>} or
- *  vice versa.
+/**
+ * This class is defined to represent a Signature Box of JPEG JP2
+ * file format. This type of box has a fixed length of 12, a type of "jP "
+ * and a four byte content of {@code 0x0D0A870A}, which is used to detects of the
+ * common file transmission errors which substitutes {@literal <CR><LF>} with {@literal <LF>} or
+ * vice versa.
  */
-public class SignatureBox extends Box {
+public class SignatureBox extends Box
+{
     /** Constructs a <code>SignatureBox</code>. */
-    public SignatureBox() {
+    public SignatureBox()
+    {
         super(12, 0x6A502020, null);
     }
 
-    /** Constructs a <code>SignatureBox</code> based on the provided
-     *  <code>org.w3c.dom.Node</code>.
+    /**
+     * Constructs a <code>SignatureBox</code> based on the provided
+     * <code>org.w3c.dom.Node</code>.
      */
-    public SignatureBox(Node node) throws IIOInvalidTreeException {
+    public SignatureBox(Node node) throws IIOInvalidTreeException
+    {
         super(node);
     }
 
-    /** Constructs a <code>SignatureBox</code> based on the provided
-     *  byte array.
+    /**
+     * Constructs a <code>SignatureBox</code> based on the provided
+     * byte array.
      */
-    public SignatureBox(byte[] data) throws IIOInvalidTreeException {
+    public SignatureBox(byte[] data) throws IIOInvalidTreeException
+    {
         super(12, 0x6A502020, data);
     }
 
-    /** Creates an <code>IIOMetadataNode</code> from this signature
-     *  box.  The format of this node is defined in the XML dtd and xsd
-     *  for the JP2 image file.
+    /**
+     * Creates an <code>IIOMetadataNode</code> from this signature
+     * box. The format of this node is defined in the XML dtd and xsd
+     * for the JP2 image file.
      */
     @Override
-    public IIOMetadataNode getNativeNode() {
+    public IIOMetadataNode getNativeNode()
+    {
         IIOMetadataNode node = new IIOMetadataNode(Box.getName(getType()));
         setDefaultAttributes(node);
         node.setAttribute("Signature", Integer.toString(0x0D0A870A));
@@ -87,10 +97,11 @@ public class SignatureBox extends Box {
     }
 
     @Override
-    protected void compose() {
+    protected void compose()
+    {
         if (data != null)
             return;
-        data = new byte[]{(byte)0x0D, (byte)0x0A, (byte)0x87, (byte)0x0A};
+        data = new byte[] { (byte)0x0D, (byte)0x0A, (byte)0x87, (byte)0x0A };
     }
 }
 

@@ -55,8 +55,10 @@ import java.util.Set;
 import javax.imageio.ImageTypeSpecifier;
 import javax.imageio.metadata.IIOMetadataFormatImpl;
 
-public class J2KMetadataFormat extends IIOMetadataFormatImpl {
-    /** The table to link the child to its parent.
+public class J2KMetadataFormat extends IIOMetadataFormatImpl
+{
+    /**
+     * The table to link the child to its parent.
      */
     private static Hashtable parents = new Hashtable();
 
@@ -91,7 +93,7 @@ public class J2KMetadataFormat extends IIOMetadataFormatImpl {
         // Children of JPEG2000ResolutionBox
         parents.put("JPEG2000CaptureResolutionBox", "JPEG2000ResolutionBox");
         parents.put("JPEG2000DefaultDisplayResolutionBox",
-                    "JPEG2000ResolutionBox");
+            "JPEG2000ResolutionBox");
 
         // Children of JPEG2000UUIDInfoBox
         parents.put("JPEG2000UUIDListBox", "JPEG2000UUIDInfoBox");
@@ -100,7 +102,8 @@ public class J2KMetadataFormat extends IIOMetadataFormatImpl {
 
     private static J2KMetadataFormat instance;
 
-    public static synchronized J2KMetadataFormat getInstance() {
+    public static synchronized J2KMetadataFormat getInstance()
+    {
         if (instance == null)
             instance = new J2KMetadataFormat();
         return instance;
@@ -108,88 +111,92 @@ public class J2KMetadataFormat extends IIOMetadataFormatImpl {
 
     String resourceBaseName = this.getClass().getName() + "Resources";
 
-    /** Constructs <code>J2KMetadataFormat</code>.  Calls the super
-     *  class constructor.  Sets the resource base name.  Adds the elements
-     *  into this format object based on the XML schema and DTD.
+    /**
+     * Constructs <code>J2KMetadataFormat</code>. Calls the super
+     * class constructor. Sets the resource base name. Adds the elements
+     * into this format object based on the XML schema and DTD.
      */
-    J2KMetadataFormat() {
+    J2KMetadataFormat()
+    {
         super("com_sun_media_imageio_plugins_jpeg2000_image_1.0", CHILD_POLICY_ALL);
         setResourceBaseName(resourceBaseName);
         addElements();
     }
 
-    /** Adds the elements into this format object based on the XML
-     *  schema and DTD.
+    /**
+     * Adds the elements into this format object based on the XML
+     * schema and DTD.
      */
-    private void addElements() {
+    private void addElements()
+    {
         addElement("JPEG2000SignatureBox",
-                      getParent("JPEG2000SignatureBox"),
-                      CHILD_POLICY_EMPTY);
+            getParent("JPEG2000SignatureBox"),
+            CHILD_POLICY_EMPTY);
 
         addElement("JPEG2000FileTypeBox",
-                      getParent("JPEG2000FileTypeBox"),
-                      CHILD_POLICY_ALL);
+            getParent("JPEG2000FileTypeBox"),
+            CHILD_POLICY_ALL);
         addElement("OtherBoxes",
-                      getParent("OtherBoxes"),
-                      CHILD_POLICY_CHOICE);
+            getParent("OtherBoxes"),
+            CHILD_POLICY_CHOICE);
 
         addElement("JPEG2000HeaderSuperBox",
-                      getParent("JPEG2000HeaderSuperBox"),
-                      CHILD_POLICY_CHOICE);
+            getParent("JPEG2000HeaderSuperBox"),
+            CHILD_POLICY_CHOICE);
         addElement("JPEG2000CodeStreamBox",
-                      getParent("JPEG2000CodeStreamBox"),
-                      CHILD_POLICY_EMPTY);
+            getParent("JPEG2000CodeStreamBox"),
+            CHILD_POLICY_EMPTY);
         addElement("JPEG2000IntellectualPropertyRightsBox",
-                      getParent("JPEG2000IntellectualPropertyRightsBox"),
-                      CHILD_POLICY_ALL);
+            getParent("JPEG2000IntellectualPropertyRightsBox"),
+            CHILD_POLICY_ALL);
         addElement("JPEG2000XMLBox",
-                      getParent("JPEG2000XMLBox"),
-                      CHILD_POLICY_ALL);
+            getParent("JPEG2000XMLBox"),
+            CHILD_POLICY_ALL);
         addElement("JPEG2000UUIDBox",
-                      getParent("JPEG2000UUIDBox"),
-                      CHILD_POLICY_ALL);
+            getParent("JPEG2000UUIDBox"),
+            CHILD_POLICY_ALL);
         addElement("JPEG2000UUIDInfoBox",
-                      getParent("JPEG2000UUIDInfoBox"),
-                      CHILD_POLICY_ALL);
+            getParent("JPEG2000UUIDInfoBox"),
+            CHILD_POLICY_ALL);
 
         addElement("JPEG2000HeaderBox",
-                      "JPEG2000HeaderSuperBox",
-                      CHILD_POLICY_ALL);
+            "JPEG2000HeaderSuperBox",
+            CHILD_POLICY_ALL);
         addElement("OptionalBoxes",
-                      "JPEG2000HeaderSuperBox",
-                      CHILD_POLICY_CHOICE);
+            "JPEG2000HeaderSuperBox",
+            CHILD_POLICY_CHOICE);
         addElement("JPEG2000BitsPerComponentBox",
-                      "OptionalBoxes",
-                      CHILD_POLICY_ALL);
+            "OptionalBoxes",
+            CHILD_POLICY_ALL);
         addElement("JPEG2000ColorSpecificationBox",
-                      "OptionalBoxes",
-                      CHILD_POLICY_ALL);
+            "OptionalBoxes",
+            CHILD_POLICY_ALL);
         addElement("JPEG2000PaletteBox",
-                      "OptionalBoxes",
-                      CHILD_POLICY_ALL);
+            "OptionalBoxes",
+            CHILD_POLICY_ALL);
         addElement("JPEG2000ComponentMappingBox",
-                      "OptionalBoxes",
-                      CHILD_POLICY_ALL);
+            "OptionalBoxes",
+            CHILD_POLICY_ALL);
         addElement("JPEG2000ChannelDefinitionBox",
-                      "OptionalBoxes",
-                      CHILD_POLICY_ALL);
+            "OptionalBoxes",
+            CHILD_POLICY_ALL);
         addElement("JPEG2000ResolutionBox",
-                      "OptionalBoxes",
-                      CHILD_POLICY_ALL);
+            "OptionalBoxes",
+            CHILD_POLICY_ALL);
 
         addElement("JPEG2000CaptureResolutionBox",
-                   "JPEG2000ResolutionBox",
-                   CHILD_POLICY_ALL);
+            "JPEG2000ResolutionBox",
+            CHILD_POLICY_ALL);
         addElement("JPEG2000DefaultDisplayResolutionBox",
-                   "JPEG2000ResolutionBox",
-                   CHILD_POLICY_ALL);
+            "JPEG2000ResolutionBox",
+            CHILD_POLICY_ALL);
 
         addElement("JPEG2000UUIDListBox",
-                      "JPEG2000UUIDInfoBox",
-                      CHILD_POLICY_ALL);
+            "JPEG2000UUIDInfoBox",
+            CHILD_POLICY_ALL);
         addElement("JPEG2000DataEntryURLBox",
-                      "JPEG2000UUIDInfoBox",
-                      CHILD_POLICY_ALL);
+            "JPEG2000UUIDInfoBox",
+            CHILD_POLICY_ALL);
         // Adds the default attributes "Length", "Type" and "ExtraLength" into
         // the J2K box-related data elements
         Enumeration keys = parents.keys();
@@ -207,114 +214,117 @@ public class J2KMetadataFormat extends IIOMetadataFormatImpl {
                 try {
                     Method m = c.getMethod("getElementNames", (Class[])null);
                     String[] elementNames = (String[])m.invoke(null,
-                                                               (Object[])null);
+                        (Object[])null);
                     for (int i = 0; i < elementNames.length; i++)
                         addElement(elementNames[i], s, CHILD_POLICY_EMPTY);
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     // no such method
                 }
             }
         }
 
         addAttribute("JPEG2000SignatureBox",
-                     "Signature",
-                     DATATYPE_STRING,
-                     true,
-                     "0D0A870A");
+            "Signature",
+            DATATYPE_STRING,
+            true,
+            "0D0A870A");
 
         addElement("BitDepth",
-                      "JPEG2000BitsPerComponentBox",
-                      CHILD_POLICY_EMPTY);
+            "JPEG2000BitsPerComponentBox",
+            CHILD_POLICY_EMPTY);
 
         addElement("NumberEntries",
-                      "JPEG2000PaletteBox",
-                      CHILD_POLICY_EMPTY);
+            "JPEG2000PaletteBox",
+            CHILD_POLICY_EMPTY);
 
         addElement("NumberColors",
-                   "JPEG2000PaletteBox",
-                   CHILD_POLICY_EMPTY);
+            "JPEG2000PaletteBox",
+            CHILD_POLICY_EMPTY);
 
         addElement("BitDepth",
-                   "JPEG2000PaletteBox",
-                   CHILD_POLICY_EMPTY);
+            "JPEG2000PaletteBox",
+            CHILD_POLICY_EMPTY);
 
         addElement("LUT",
-                   "JPEG2000PaletteBox",
-                   1, 1024);
+            "JPEG2000PaletteBox",
+            1, 1024);
 
         addElement("LUTRow",
-                   "LUT",
-                   CHILD_POLICY_EMPTY);
+            "LUT",
+            CHILD_POLICY_EMPTY);
 
         addElement("Component",
-                   "JPEG2000ComponentMappingBox",
-                   CHILD_POLICY_EMPTY);
+            "JPEG2000ComponentMappingBox",
+            CHILD_POLICY_EMPTY);
 
         addElement("ComponentType",
-                   "JPEG2000ComponentMappingBox",
-                   CHILD_POLICY_EMPTY);
+            "JPEG2000ComponentMappingBox",
+            CHILD_POLICY_EMPTY);
 
         addElement("ComponentAssociation",
-                   "JPEG2000ComponentMappingBox",
-                   CHILD_POLICY_EMPTY);
+            "JPEG2000ComponentMappingBox",
+            CHILD_POLICY_EMPTY);
 
         addElement("NumberOfDefinition",
-                   "JPEG2000ChannelDefinitionBox",
-                   CHILD_POLICY_EMPTY);
+            "JPEG2000ChannelDefinitionBox",
+            CHILD_POLICY_EMPTY);
 
         addElement("Definitions",
-                   "JPEG2000ChannelDefinitionBox",
-                   0, 9);
+            "JPEG2000ChannelDefinitionBox",
+            0, 9);
 
         addElement("ChannelNumber",
-                   "Definitions",
-                   CHILD_POLICY_EMPTY);
+            "Definitions",
+            CHILD_POLICY_EMPTY);
 
         addElement("ChannelType",
-                   "Definitions",
-                   CHILD_POLICY_EMPTY);
+            "Definitions",
+            CHILD_POLICY_EMPTY);
         addElement("ChannelAssociation",
-                   "Definitions",
-                   CHILD_POLICY_EMPTY);
+            "Definitions",
+            CHILD_POLICY_EMPTY);
         addElement("CodeStream",
-                   "JPEG2000CodeStreamBox",
-                   CHILD_POLICY_EMPTY);
+            "JPEG2000CodeStreamBox",
+            CHILD_POLICY_EMPTY);
         addElement("Content",
-                   "JPEG2000IntellectualPropertyRightsBox",
-                   CHILD_POLICY_EMPTY);
+            "JPEG2000IntellectualPropertyRightsBox",
+            CHILD_POLICY_EMPTY);
         addElement("Content",
-                      "JPEG2000XMLBox",
-                      CHILD_POLICY_EMPTY);
+            "JPEG2000XMLBox",
+            CHILD_POLICY_EMPTY);
         addElement("UUID",
-                      "JPEG2000UUIDBox",
-                      CHILD_POLICY_EMPTY);
+            "JPEG2000UUIDBox",
+            CHILD_POLICY_EMPTY);
         addElement("Data",
-                      "JPEG2000UUIDBox",
-                      CHILD_POLICY_EMPTY);
+            "JPEG2000UUIDBox",
+            CHILD_POLICY_EMPTY);
         addElement("NumberUUID",
-                      "JPEG2000UUIDListBox",
-                      CHILD_POLICY_EMPTY);
+            "JPEG2000UUIDListBox",
+            CHILD_POLICY_EMPTY);
         addElement("UUID",
-                      "JPEG2000UUIDListBox",
-                      CHILD_POLICY_EMPTY);
+            "JPEG2000UUIDListBox",
+            CHILD_POLICY_EMPTY);
         addElement("Version",
-                      "JPEG2000DataEntryURLBox",
-                      CHILD_POLICY_EMPTY);
+            "JPEG2000DataEntryURLBox",
+            CHILD_POLICY_EMPTY);
         addElement("Flags",
-                      "JPEG2000DataEntryURLBox",
-                      CHILD_POLICY_EMPTY);
+            "JPEG2000DataEntryURLBox",
+            CHILD_POLICY_EMPTY);
         addElement("URL",
-                      "JPEG2000DataEntryURLBox",
-                      CHILD_POLICY_EMPTY);
+            "JPEG2000DataEntryURLBox",
+            CHILD_POLICY_EMPTY);
     }
 
-    public String getParent(String elementName) {
+    public String getParent(String elementName)
+    {
         return (String)parents.get(elementName);
     }
 
     @Override
     public boolean canNodeAppear(String elementName,
-                                 ImageTypeSpecifier imageType) {
+        ImageTypeSpecifier imageType)
+    {
         ColorModel cm = imageType.getColorModel();
         if (!(cm instanceof IndexColorModel))
             if ("JPEG2000PaletteBox".equals(elementName))
@@ -328,10 +338,11 @@ public class J2KMetadataFormat extends IIOMetadataFormatImpl {
         return false;
     }
 
-    public boolean isLeaf(String name) {
+    public boolean isLeaf(String name)
+    {
         Set keys = parents.keySet();
         Iterator iterator = keys.iterator();
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             if (name.equals(parents.get(iterator.next())))
                 return false;
         }
@@ -339,12 +350,13 @@ public class J2KMetadataFormat extends IIOMetadataFormatImpl {
         return true;
     }
 
-    public boolean singleInstance(String name) {
+    public boolean singleInstance(String name)
+    {
         return !(name.equals("JPEG2000IntellectualPropertyRightsBox") ||
-                 name.equals("JPEG2000XMLBox") ||
-                 name.equals("JPEG2000UUIDBox") ||
-                 name.equals("JPEG2000UUIDInfoBox") ||
-                 name.equals("JPEG2000UUIDListBox") ||
-                 name.equals("JPEG2000DataEntryURLBox"));
+            name.equals("JPEG2000XMLBox") ||
+            name.equals("JPEG2000UUIDBox") ||
+            name.equals("JPEG2000UUIDInfoBox") ||
+            name.equals("JPEG2000UUIDListBox") ||
+            name.equals("JPEG2000DataEntryURLBox"));
     }
 }

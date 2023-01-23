@@ -54,12 +54,14 @@ import jj2000.j2k.image.DataBlk;
  * This is an implementation of the 'CBlkWTData' abstract class for 32 bit
  * floating point data (float).
  *
- * <P>The methods in this class are declared final, so that they can
+ * <P>
+ * The methods in this class are declared final, so that they can
  * be inlined by inlining compilers.
  *
  * @see CBlkWTData
- * */
-public class CBlkWTDataFloat extends CBlkWTData {
+ */
+public class CBlkWTDataFloat extends CBlkWTData
+{
     /** The array where the data is stored */
     public float[] data;
 
@@ -72,9 +74,10 @@ public class CBlkWTDataFloat extends CBlkWTData {
      * @see DataBlk#TYPE_FLOAT
      *
      *
-     * */
+     */
     @Override
-    public final int getDataType() {
+    public final int getDataType()
+    {
         return DataBlk.TYPE_FLOAT;
     }
 
@@ -86,9 +89,10 @@ public class CBlkWTDataFloat extends CBlkWTData {
      * data.
      *
      *
-     * */
+     */
     @Override
-    public final Object getData() {
+    public final Object getData()
+    {
         return data;
     }
 
@@ -99,8 +103,9 @@ public class CBlkWTDataFloat extends CBlkWTData {
      * @return The array of data or null if there is no data.
      *
      *
-     * */
-    public final float[] getDataFloat() {
+     */
+    public final float[] getDataFloat()
+    {
         return data;
     }
 
@@ -113,10 +118,11 @@ public class CBlkWTDataFloat extends CBlkWTData {
      * @param arr The data array to use. Must be a float array.
      *
      *
-     * */
+     */
     @Override
-    public final void setData(Object arr) {
-        data = (float[]) arr;
+    public final void setData(Object arr)
+    {
+        data = (float[])arr;
     }
 
     /**
@@ -127,8 +133,9 @@ public class CBlkWTDataFloat extends CBlkWTData {
      * @param arr The data array to use.
      *
      *
-     * */
-    public final void setDataFloat(float[] arr) {
+     */
+    public final void setDataFloat(float[] arr)
+    {
         data = arr;
     }
 }

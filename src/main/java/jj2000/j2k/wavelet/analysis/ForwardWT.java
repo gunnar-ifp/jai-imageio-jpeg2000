@@ -52,6 +52,7 @@ import jj2000.j2k.image.ImgData;
 import jj2000.j2k.image.ImgDataAdapter;
 
 import com.github.jaiimageio.jpeg2000.impl.J2KImageWriteParamJava;
+
 /**
  * This abstract class represents the forward wavelet transform functional
  * block. The functional block may actually be comprised of several classes
@@ -59,34 +60,39 @@ import com.github.jaiimageio.jpeg2000.impl.J2KImageWriteParamJava;
  * returned as the functional block that performs the forward wavelet
  * transform.
  *
- * <P>This class assumes that data is transferred in code-blocks, as defined
+ * <P>
+ * This class assumes that data is transferred in code-blocks, as defined
  * by the 'CBlkWTDataSrc' interface. The internal calculation of the wavelet
  * transform may be done differently but a buffering class should convert to
  * that type of transfer.
- * */
+ */
 public abstract class ForwardWT extends ImgDataAdapter
-    implements ForwWT, CBlkWTDataSrc {
+    implements ForwWT, CBlkWTDataSrc
+{
 
     /**
      * ID for the dyadic wavelet tree decomposition (also called "Mallat" in
      * JPEG 2000): 0x00.
-     * */
+     */
     public final static int WT_DECOMP_DYADIC = 0;
 
     /** The prefix for wavelet transform options: 'W' */
     public final static char OPT_PREFIX = 'W';
 
-    /** The list of parameters that is accepted for wavelet transform. Options
-     * for the wavelet transform start with 'W'. */
-    private final static String [][] pinfo = {
+    /**
+     * The list of parameters that is accepted for wavelet transform. Options
+     * for the wavelet transform start with 'W'.
+     */
+    private final static String[][] pinfo = {
         { "Wlev", "<number of decomposition levels>",
-          "Specifies the number of wavelet decomposition levels to apply to "+
-          "the image. If 0 no wavelet transform is performed. All components "+
-          "and all tiles have the same number of decomposition levels.","5"},
+            "Specifies the number of wavelet decomposition levels to apply to " +
+                "the image. If 0 no wavelet transform is performed. All components " +
+                "and all tiles have the same number of decomposition levels.",
+            "5" },
         { "Wwt", "[full]",
-          "Specifies the wavelet transform to be used. Possible value is: "+
-          "'full' (full page). The value 'full' performs a normal DWT.",
-          "full"},
+            "Specifies the wavelet transform to be used. Possible value is: " +
+                "'full' (full page). The value 'full' performs a normal DWT.",
+            "full" },
     };
 
     /**
@@ -94,8 +100,9 @@ public abstract class ForwardWT extends ImgDataAdapter
      * components 'nc'.
      *
      * @param src The source of ImgData
-     * */
-    protected ForwardWT(ImgData src) {
+     */
+    protected ForwardWT(ImgData src)
+    {
         super(src);
     }
 
@@ -111,8 +118,9 @@ public abstract class ForwardWT extends ImgDataAdapter
      *
      * @return the options name, their synopsis and their explanation, or null
      * if no options are supported.
-     * */
-    public static String[][] getParameterInfo() {
+     */
+    public static String[][] getParameterInfo()
+    {
         return pinfo;
     }
 
@@ -129,19 +137,20 @@ public abstract class ForwardWT extends ImgDataAdapter
      *
      * @exception IllegalArgumentException If mandatory parameters are missing
      * or if invalid values are given.
-     * */
+     */
     public static ForwardWT createInstance(BlkImgDataSrc src,
-                                           J2KImageWriteParamJava wp){
-        int defdec,deflev;
+        J2KImageWriteParamJava wp)
+    {
+        int defdec, deflev;
         String decompstr;
         String wtstr;
         String pstr;
         StreamTokenizer stok;
         StringTokenizer strtok;
-        int prefx,prefy;        // Partitioning reference point coordinates
+        int prefx, prefy; // Partitioning reference point coordinates
 /*
-        // Check parameters
-        pl.checkList(OPT_PREFIX, pl.toNameArray(pinfo));
+// Check parameters
+pl.checkList(OPT_PREFIX, pl.toNameArray(pinfo));
 */
         deflev = ((Integer)wp.getDecompositionLevel().getDefault()).intValue();
 
@@ -149,7 +158,7 @@ public abstract class ForwardWT extends ImgDataAdapter
         prefx = 0;
         prefy = 0;
 
-        return new ForwWTFull(src, wp, prefx,prefy);
+        return new ForwWTFull(src, wp, prefx, prefy);
     }
 
 }

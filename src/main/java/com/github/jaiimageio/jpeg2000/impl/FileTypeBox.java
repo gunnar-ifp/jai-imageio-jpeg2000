@@ -50,23 +50,27 @@ import javax.imageio.metadata.IIOMetadataNode;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-/** This class is defined to represent a File Type Box of JPEG JP2 file
- *  format.  A File Type Box has a length, and a fixed type of "ftyp".
+/**
+ * This class is defined to represent a File Type Box of JPEG JP2 file
+ * format. A File Type Box has a length, and a fixed type of "ftyp".
  *
  * The content of a file type box contains the brand ("jp2 " for JP2 file",
  * the minor version (0 for JP2 file format), and a compatibility list (one of
  * which should be "jp2 " if brand is not "jp2 ".)
  */
-public class FileTypeBox extends Box {
+public class FileTypeBox extends Box
+{
     /** Cache the element names for this box's xml definition */
-    private static String[] elementNames = {"Brand",
-                                            "MinorVersion",
-                                            "CompatibilityList"};
+    private static String[] elementNames = { "Brand",
+        "MinorVersion",
+        "CompatibilityList" };
 
-    /** This method will be called by the getNativeNodeForSimpleBox of the
-     *  class Box to get the element names.
+    /**
+     * This method will be called by the getNativeNodeForSimpleBox of the
+     * class Box to get the element names.
      */
-    public static String[] getElementNames() {
+    public static String[] getElementNames()
+    {
         return elementNames;
     }
 
@@ -75,26 +79,32 @@ public class FileTypeBox extends Box {
     private int minorVersion;
     private int[] compatibility;
 
-    /** Constructs a <code>FileTypeBox</code> from the provided brand, minor
-     *  version and compatibility list.
+    /**
+     * Constructs a <code>FileTypeBox</code> from the provided brand, minor
+     * version and compatibility list.
      */
-    public FileTypeBox(int br, int minorVersion, int[] comp) {
+    public FileTypeBox(int br, int minorVersion, int[] comp)
+    {
         super(16 + (comp == null ? 0 : (comp.length << 2)), 0x66747970, null);
         this.brand = br;
         this.minorVersion = minorVersion;
         this.compatibility = comp;
     }
 
-    /** Constructs a <code>FileTypeBox</code> from the provided byte array.
+    /**
+     * Constructs a <code>FileTypeBox</code> from the provided byte array.
      */
-    public FileTypeBox(byte[] data) {
+    public FileTypeBox(byte[] data)
+    {
         super(8 + data.length, 0x66747970, data);
     }
 
-    /** Constructs a <code>FileTypeBox</code> from
-     *  <code>org.w3c.dom.Node</code>.
+    /**
+     * Constructs a <code>FileTypeBox</code> from
+     * <code>org.w3c.dom.Node</code>.
      */
-    public FileTypeBox(Node node) throws IIOInvalidTreeException {
+    public FileTypeBox(Node node) throws IIOInvalidTreeException
+    {
         super(node);
         NodeList children = node.getChildNodes();
 
@@ -117,57 +127,63 @@ public class FileTypeBox extends Box {
     }
 
     /** Returns the brand of this file type box. */
-    public int getBrand() {
+    public int getBrand()
+    {
         return brand;
     }
 
     /** Returns the minor version of this file type box. */
-    public int getMinorVersion() {
+    public int getMinorVersion()
+    {
         return minorVersion;
     }
 
     /** Returns the compatibilty list of this file type box. */
-    public int[] getCompatibilityList() {
+    public int[] getCompatibilityList()
+    {
         return compatibility;
     }
 
-    /** Creates an <code>IIOMetadataNode</code> from this file type box.
-     *  The format of this node is defined in the XML dtd and xsd
-     *  for the JP2 image file.
+    /**
+     * Creates an <code>IIOMetadataNode</code> from this file type box.
+     * The format of this node is defined in the XML dtd and xsd
+     * for the JP2 image file.
      */
     @Override
-    public IIOMetadataNode getNativeNode() {
+    public IIOMetadataNode getNativeNode()
+    {
         return getNativeNodeForSimpleBox();
     }
 
     @Override
-    protected void parse(byte[] data) {
+    protected void parse(byte[] data)
+    {
         if (data == null)
             return;
         brand = ((data[0] & 0xFF) << 24) | ((data[1] & 0xFF) << 16) |
-                 ((data[2] & 0xFF) << 8) | (data[3] & 0xFF);
+            ((data[2] & 0xFF) << 8) | (data[3] & 0xFF);
 
         minorVersion = ((data[4] & 0xFF) << 24) | ((data[5] & 0xFF) << 16) |
-                 ((data[6] & 0xFF) << 8) | (data[7] & 0xFF);
+            ((data[6] & 0xFF) << 8) | (data[7] & 0xFF);
 
         int len = (data.length - 8) / 4;
         if (len > 0) {
             compatibility = new int[len];
             for (int i = 0, j = 8; i < len; i++, j += 4)
                 compatibility[i] = ((data[j] & 0xFF) << 24) |
-                                   ((data[j+1] & 0xFF) << 16) |
-                                   ((data[j+2] & 0xFF) << 8) |
-                                   (data[j+3] & 0xFF);
+                    ((data[j + 1] & 0xFF) << 16) |
+                    ((data[j + 2] & 0xFF) << 8) |
+                    (data[j + 3] & 0xFF);
         }
     }
 
     @Override
-    protected void compose() {
+    protected void compose()
+    {
         if (data != null)
             return;
-        data =
-            new byte[8 +
-                     (compatibility != null ? (compatibility.length << 2) : 0)];
+        data = new byte[8 +
+            (compatibility != null ? (compatibility.length << 2) : 0)];
 
         copyInt(data, 0, brand);
         copyInt(data, 4, minorVersion);

@@ -54,7 +54,8 @@ import jj2000.j2k.wavelet.WaveletTransform;
  * 'getCodeBlock()' or 'getInternCodeBlock()' a new code-block is
  * returned. The code-blocks are returned in no specific order.
  *
- * <P>This class is the source of data, in general, for the inverse wavelet
+ * <P>
+ * This class is the source of data, in general, for the inverse wavelet
  * transforms. See the 'InverseWT' class.
  *
  * @see InvWTData
@@ -64,15 +65,17 @@ import jj2000.j2k.wavelet.WaveletTransform;
  * @see jj2000.j2k.quantization.dequantizer.CBlkQuantDataSrcDec
  *
  * @see InverseWT
- * */
-public interface CBlkWTDataSrcDec extends InvWTData {
+ */
+public interface CBlkWTDataSrcDec extends InvWTData
+{
 
     /**
      * Returns the number of bits, referred to as the "range bits",
      * corresponding to the nominal range of the data in the specified
      * component.
      *
-     * <P>The returned value corresponds to the nominal dynamic range of the
+     * <P>
+     * The returned value corresponds to the nominal dynamic range of the
      * reconstructed image data, not of the wavelet coefficients
      * themselves. This is because different subbands have different gains and
      * thus different nominal ranges. To have an idea of the nominal range in
@@ -80,7 +83,8 @@ public interface CBlkWTDataSrcDec extends InvWTData {
      * structure, returned by the 'getSubbandTree()' method, can be used. See
      * the 'Subband' class for more details.
      *
-     * <P>If this number is <b>b</b> then for unsigned data the nominal range
+     * <P>
+     * If this number is <b>b</b> then for unsigned data the nominal range
      * is between 0 and 2^b-1, and for signed data it is between -2^(b-1) and
      * 2^(b-1)-1.
      *
@@ -90,7 +94,7 @@ public interface CBlkWTDataSrcDec extends InvWTData {
      * data.
      *
      * @see Subband
-     * */
+     */
     public int getNomRangeBits(int c);
 
     /**
@@ -107,14 +111,15 @@ public interface CBlkWTDataSrcDec extends InvWTData {
      *
      * @return The position of the fixed-point, which is the same as the
      * number of fractional bits. For floating-point data 0 is returned.
-     * */
-     public int getFixedPoint(int c);
+     */
+    public int getFixedPoint(int c);
 
     /**
      * Returns the specified code-block in the current tile for the specified
      * component, as a copy (see below).
      *
-     * <P>The returned code-block may be progressive, which is indicated by
+     * <P>
+     * The returned code-block may be progressive, which is indicated by
      * the 'progressive' variable of the returned 'DataBlk' object. If a
      * code-block is progressive it means that in a later request to this
      * method for the same code-block it is possible to retrieve data which is
@@ -123,7 +128,8 @@ public interface CBlkWTDataSrcDec extends InvWTData {
      * progressive then later calls to this method for the same code-block
      * will return the exact same data values.
      *
-     * <P>The data returned by this method is always a copy of the internal
+     * <P>
+     * The data returned by this method is always a copy of the internal
      * data of this object, if any, and it can be modified "in place" without
      * any problems after being returned. The 'offset' of the returned data is
      * 0, and the 'scanw' is the same as the code-block width. See the
@@ -148,15 +154,16 @@ public interface CBlkWTDataSrcDec extends InvWTData {
      * null if all code-blocks for the current tile have been returned.
      *
      * @see DataBlk
-     * */
+     */
     public DataBlk getCodeBlock(int c, int m, int n, SubbandSyn sb,
-                                DataBlk cblk);
+        DataBlk cblk);
 
     /**
      * Returns the specified code-block in the current tile for the specified
      * component (as a reference or copy).
      *
-     * <P>The returned code-block may be progressive, which is indicated by
+     * <P>
+     * The returned code-block may be progressive, which is indicated by
      * the 'progressive' variable of the returned 'DataBlk'
      * object. If a code-block is progressive it means that in a later request
      * to this method for the same code-block it is possible to retrieve data
@@ -165,7 +172,8 @@ public interface CBlkWTDataSrcDec extends InvWTData {
      * progressive then later calls to this method for the same code-block
      * will return the exact same data values.
      *
-     * <P>The data returned by this method can be the data in the internal
+     * <P>
+     * The data returned by this method can be the data in the internal
      * buffer of this object, if any, and thus can not be modified by the
      * caller. The 'offset' and 'scanw' of the returned data can be
      * arbitrary. See the 'DataBlk' class.
@@ -189,7 +197,7 @@ public interface CBlkWTDataSrcDec extends InvWTData {
      * null if all code-blocks for the current tile have been returned.
      *
      * @see DataBlk
-     * */
+     */
     public DataBlk getInternCodeBlock(int c, int m, int n, SubbandSyn sb,
-                                        DataBlk cblk);
+        DataBlk cblk);
 }

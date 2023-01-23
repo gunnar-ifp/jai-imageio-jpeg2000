@@ -54,18 +54,21 @@ import java.io.IOException;
 /**
  * This interface defines the input of binary data from streams and/or files.
  *
- * <P>Byte level input (i.e., for byte, int, long, float, etc.) should
+ * <P>
+ * Byte level input (i.e., for byte, int, long, float, etc.) should
  * always be byte aligned. For example, a request to read an
  * <code>int</code> should always realign the input at the byte level.
  *
- * <P>The implementation of this interface should clearly define if
+ * <P>
+ * The implementation of this interface should clearly define if
  * multi-byte input data is read in little- or big-endian byte
  * ordering (least significant byte first or most significant byte
  * first, respectively).
  *
  * @see EndianType
- * */
-public interface BinaryDataInput {
+ */
+public interface BinaryDataInput
+{
 
     /**
      * Should read a signed byte (i.e., 8 bit) from the input.
@@ -80,7 +83,7 @@ public interface BinaryDataInput {
      * @exception IOException If an I/O error ocurred.
      *
      *
-     * */
+     */
     public byte readByte() throws EOFException, IOException;
 
     /**
@@ -257,6 +260,6 @@ public interface BinaryDataInput {
      *
      *
      */
-    public int skipBytes(int n)throws EOFException, IOException;
+    public int skipBytes(int n) throws EOFException, IOException;
 
 }

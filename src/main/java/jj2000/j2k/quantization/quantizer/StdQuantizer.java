@@ -45,6 +45,7 @@
  * Copyright (c) 1999/2000 JJ2000 Partners.
  * */
 package jj2000.j2k.quantization.quantizer;
+
 import jj2000.j2k.image.DataBlk;
 import jj2000.j2k.quantization.GuardBitsSpec;
 import jj2000.j2k.quantization.QuantStepSizeSpec;
@@ -64,7 +65,8 @@ import com.github.jaiimageio.jpeg2000.impl.J2KImageWriteParamJava;
  * and the output is the quantized wavelet coefficients represented in
  * sign-magnitude (see below).
  *
- * <P>Sign magnitude representation is used (instead of two's complement) for
+ * <P>
+ * Sign magnitude representation is used (instead of two's complement) for
  * the output data. The most significant bit is used for the sign (0 if
  * positive, 1 if negative). Then the magnitude of the quantized coefficient
  * is stored in the next M most significat bits. The rest of the bits (least
@@ -73,25 +75,30 @@ import com.github.jaiimageio.jpeg2000.impl.J2KImageWriteParamJava;
  * coder. However, it can be used to compute rate-distortion measures with
  * greater precision.
  *
- * <P>The value of M is determined for each subband as the sum of the number
+ * <P>
+ * The value of M is determined for each subband as the sum of the number
  * of guard bits G and the nominal range of quantized wavelet coefficients in
  * the corresponding subband (Rq), minus 1:
  *
- * <P>M = G + Rq -1
+ * <P>
+ * M = G + Rq -1
  *
- * <P>The value of G should be the same for all subbands. The value of Rq
+ * <P>
+ * The value of G should be the same for all subbands. The value of Rq
  * depends on the quantization step size, the nominal range of the component
  * before the wavelet transform and the analysis gain of the subband (see
  * Subband).
  *
- * <P>The blocks of data that are requested should not cross subband
+ * <P>
+ * The blocks of data that are requested should not cross subband
  * boundaries.
  *
  * @see Subband
  *
  * @see Quantizer
- * */
-public class StdQuantizer extends Quantizer {
+ */
+public class StdQuantizer extends Quantizer
+{
 
     /** The number of mantissa bits for the quantization steps */
     public final static int QSTEP_MANTISSA_BITS = 11;
@@ -102,10 +109,10 @@ public class StdQuantizer extends Quantizer {
     public final static int QSTEP_EXPONENT_BITS = 5;
 
     /** The maximum value of the mantissa for the quantization steps */
-    public final static int QSTEP_MAX_MANTISSA = (1<<QSTEP_MANTISSA_BITS)-1;
+    public final static int QSTEP_MAX_MANTISSA = (1 << QSTEP_MANTISSA_BITS) - 1;
 
     /** The maximum value of the exponent for the quantization steps */
-    public final static int QSTEP_MAX_EXPONENT = (1<<QSTEP_EXPONENT_BITS)-1;
+    public final static int QSTEP_MAX_EXPONENT = (1 << QSTEP_EXPONENT_BITS) - 1;
 
     /** Natural log of 2, used as a convenience variable */
     private static double log2 = Math.log(2);
@@ -119,8 +126,10 @@ public class StdQuantizer extends Quantizer {
     /** The guard bits specifications */
     private GuardBitsSpec gbs;
 
-    /** The 'CBlkWTDataFloat' object used to request data, used when
-     * quantizing floating-point data. */
+    /**
+     * The 'CBlkWTDataFloat' object used to request data, used when
+     * quantizing floating-point data.
+     */
     // This variable makes the class thread unsafe, but it avoids allocating
     // new objects for code-block that is quantized.
     private CBlkWTDataFloat infblk;
@@ -132,28 +141,31 @@ public class StdQuantizer extends Quantizer {
      * the value of 'derived' is ignored. If the source data is not integer
      * (int) then the quantizer can not be reversible.
      *
-     * <P> After initializing member attributes, getAnSubbandTree is called for
+     * <P>
+     * After initializing member attributes, getAnSubbandTree is called for
      * all components setting the 'stepWMSE' for all subbands in the current
      * tile.
      *
      * @param src The source of wavelet transform coefficients.
      *
      * @param wp The encoder specifications
-     * */
-    public StdQuantizer(CBlkWTDataSrc src,J2KImageWriteParamJava wp){
-	super(src);
-	qts  = wp.getQuantizationType();
+     */
+    public StdQuantizer(CBlkWTDataSrc src, J2KImageWriteParamJava wp)
+    {
+        super(src);
+        qts = wp.getQuantizationType();
         qsss = wp.getQuantizationStep();
-        gbs  = wp.getGuardBits();
+        gbs = wp.getGuardBits();
     }
 
     /**
      * Returns the quantization type spec object associated to the quantizer.
      *
      * @return The quantization type spec
-     * */
-    public QuantTypeSpec getQuantTypeSpec(){
-	return qts;
+     */
+    public QuantTypeSpec getQuantTypeSpec()
+    {
+        return qts;
     }
 
     /**
@@ -165,10 +177,11 @@ public class StdQuantizer extends Quantizer {
      * @param c Component index
      *
      * @return The number of guard bits
-     * */
+     */
     @Override
-    public int getNumGuardBits(int t,int c){
-        return ((Integer)gbs.getTileCompVal(t,c)).intValue();
+    public int getNumGuardBits(int t, int c)
+    {
+        return ((Integer)gbs.getTileCompVal(t, c)).intValue();
     }
 
     /**
@@ -181,10 +194,11 @@ public class StdQuantizer extends Quantizer {
      * @param c The component to test for reversibility
      *
      * @return True if the quantized data is reversible, false if not.
-     * */
+     */
     @Override
-    public boolean isReversible(int t,int c){
-	return qts.isReversible(t,c);
+    public boolean isReversible(int t, int c)
+    {
+        return qts.isReversible(t, c);
     }
 
     /**
@@ -199,8 +213,9 @@ public class StdQuantizer extends Quantizer {
      *
      */
     @Override
-    public boolean isDerived(int t,int c){
-	return qts.isDerived(t,c);
+    public boolean isDerived(int t, int c)
+    {
+        return qts.isDerived(t, c);
     }
 
     /**
@@ -212,16 +227,19 @@ public class StdQuantizer extends Quantizer {
      * the code-blocks have been returned for the current tile calls to this
      * method will return 'null'.
      *
-     * <P>When changing the current tile (through 'setTile()' or 'nextTile()')
+     * <P>
+     * When changing the current tile (through 'setTile()' or 'nextTile()')
      * this method will always return the first code-block, as if this method
      * was never called before for the new current tile.
      *
-     * <P>The data returned by this method is always a copy of the
+     * <P>
+     * The data returned by this method is always a copy of the
      * data. Therfore it can be modified "in place" without any problems after
      * being returned. The 'offset' of the returned data is 0, and the 'scanw'
      * is the same as the code-block width. See the 'CBlkWTData' class.
      *
-     * <P>The 'ulx' and 'uly' members of the returned 'CBlkWTData' object
+     * <P>
+     * The 'ulx' and 'uly' members of the returned 'CBlkWTData' object
      * contain the coordinates of the top-left corner of the block, with
      * respect to the tile, not the subband.
      *
@@ -236,10 +254,11 @@ public class StdQuantizer extends Quantizer {
      * null if all code-blocks for the current tile have been returned.
      *
      * @see CBlkWTData
-     * */
+     */
     @Override
-    public CBlkWTData getNextCodeBlock(int c,CBlkWTData cblk) {
-        return getNextInternCodeBlock(c,cblk);
+    public CBlkWTData getNextCodeBlock(int c, CBlkWTData cblk)
+    {
+        return getNextInternCodeBlock(c, cblk);
     }
 
     /**
@@ -251,16 +270,19 @@ public class StdQuantizer extends Quantizer {
      * have been returned for the current tile calls to this method will
      * return 'null'.
      *
-     * <P>When changing the current tile (through 'setTile()' or 'nextTile()')
+     * <P>
+     * When changing the current tile (through 'setTile()' or 'nextTile()')
      * this method will always return the first code-block, as if this method
      * was never called before for the new current tile.
      *
-     * <P>The data returned by this method can be the data in the internal
+     * <P>
+     * The data returned by this method can be the data in the internal
      * buffer of this object, if any, and thus can not be modified by the
      * caller. The 'offset' and 'scanw' of the returned data can be
      * arbitrary. See the 'CBlkWTData' class.
      *
-     * <P>The 'ulx' and 'uly' members of the returned 'CBlkWTData' object
+     * <P>
+     * The 'ulx' and 'uly' members of the returned 'CBlkWTData' object
      * contain the coordinates of the top-left corner of the block, with
      * respect to the tile, not the subband.
      *
@@ -275,26 +297,27 @@ public class StdQuantizer extends Quantizer {
      * null if all code-blocks for the current tile have been returned.
      *
      * @see CBlkWTData
-     * */
+     */
     @Override
-    public final CBlkWTData getNextInternCodeBlock(int c, CBlkWTData cblk) {
+    public final CBlkWTData getNextInternCodeBlock(int c, CBlkWTData cblk)
+    {
         // NOTE: this method is declared final since getNextCodeBlock() relies
         // on this particular implementation
-        int k,j;
-        int tmp,shiftBits,jmin;
-        int w,h;
+        int k, j;
+        int tmp, shiftBits, jmin;
+        int w, h;
         int outarr[];
         float infarr[] = null;
         CBlkWTDataFloat infblk;
-        float invstep;    // The inverse of the quantization step size
-        boolean intq;     // flag for quantizig ints
+        float invstep; // The inverse of the quantization step size
+        boolean intq; // flag for quantizig ints
         SubbandAn sb;
-        float stepUDR;    // The quantization step size (for a dynamic
-                          // range of 1, or unit)
-        int g = ((Integer)gbs.getTileCompVal(tIdx,c)).intValue();
+        float stepUDR; // The quantization step size (for a dynamic
+                       // range of 1, or unit)
+        int g = ((Integer)gbs.getTileCompVal(tIdx, c)).intValue();
 
         // Are we quantizing ints or floats?
-        intq = (src.getDataType(tIdx,c) == DataBlk.TYPE_INT);
+        intq = (src.getDataType(tIdx, c) == DataBlk.TYPE_INT);
 
         // Check that we have an output object
         if (cblk == null) {
@@ -310,7 +333,7 @@ public class StdQuantizer extends Quantizer {
         // quantizing float data because of the different data types, that's
         // why 'getNextInternCodeBlock()' is used in that case.
         if (intq) { // Source data is int
-            cblk = src.getNextCodeBlock(c,cblk);
+            cblk = src.getNextCodeBlock(c, cblk);
             if (cblk == null) {
                 return null; // No more code-blocks in current tile for comp.
             }
@@ -318,8 +341,8 @@ public class StdQuantizer extends Quantizer {
             outarr = (int[])cblk.getData();
         }
         else { // Source data is float
-            // Can not use 'cblk' to get float data, use 'infblk'
-            infblk = (CBlkWTDataFloat) src.getNextInternCodeBlock(c,infblk);
+               // Can not use 'cblk' to get float data, use 'infblk'
+            infblk = (CBlkWTDataFloat)src.getNextInternCodeBlock(c, infblk);
             if (infblk == null) {
                 // Release buffer from infblk: this enables to garbage collect
                 // the big buffer when we are done with last code-block of
@@ -331,9 +354,9 @@ public class StdQuantizer extends Quantizer {
             infarr = (float[])infblk.getData();
             // Get output data array and check that there is memory to put the
             // quantized coeffs in
-            outarr = (int[]) cblk.getData();
-            if (outarr == null || outarr.length < infblk.w*infblk.h) {
-                outarr = new int[infblk.w*infblk.h];
+            outarr = (int[])cblk.getData();
+            if (outarr == null || outarr.length < infblk.w * infblk.h) {
+                outarr = new int[infblk.w * infblk.h];
                 cblk.setData(outarr);
             }
             cblk.m = infblk.m;
@@ -353,66 +376,63 @@ public class StdQuantizer extends Quantizer {
         h = cblk.h;
         sb = cblk.sb;
 
-        if(isReversible(tIdx,c)) { // Reversible only for int data
-            cblk.magbits = g-1+src.getNomRangeBits(c)+sb.anGainExp;
-            shiftBits = 31-cblk.magbits;
+        if (isReversible(tIdx, c)) { // Reversible only for int data
+            cblk.magbits = g - 1 + src.getNomRangeBits(c) + sb.anGainExp;
+            shiftBits = 31 - cblk.magbits;
 
             // Update the convertFactor field
-            cblk.convertFactor = (1<<shiftBits);
+            cblk.convertFactor = (1 << shiftBits);
 
             // Since we used getNextCodeBlock() to get the int data then
             // 'offset' is 0 and 'scanw' is the width of the code-block The
             // input and output arrays are the same (i.e. "in place")
-            for(j=w*h-1; j>=0; j--){
-                tmp = (outarr[j]<<shiftBits);
-                outarr[j] = ((tmp < 0) ? (1<<31)|(-tmp) : tmp);
+            for (j = w * h - 1; j >= 0; j--) {
+                tmp = (outarr[j] << shiftBits);
+                outarr[j] = ((tmp < 0) ? (1 << 31) | (-tmp) : tmp);
             }
         }
-        else{ // Non-reversible, use step size
-	    float baseStep =
-		((Float)qsss.getTileCompVal(tIdx,c)).floatValue();
+        else { // Non-reversible, use step size
+            float baseStep = ((Float)qsss.getTileCompVal(tIdx, c)).floatValue();
 
             // Calculate magnitude bits and quantization step size
-            if(isDerived(tIdx,c)){
-                cblk.magbits = g-1+sb.level-
-                    (int)Math.floor(Math.log(baseStep)/log2);
-                stepUDR = baseStep/(1<<sb.level);
+            if (isDerived(tIdx, c)) {
+                cblk.magbits = g - 1 + sb.level -
+                    (int)Math.floor(Math.log(baseStep) / log2);
+                stepUDR = baseStep / (1 << sb.level);
             }
-            else{
-                cblk.magbits = g-1-(int)Math.floor(Math.log(baseStep/
-                                        (sb.l2Norm*(1<<sb.anGainExp)))/
-                                                   log2);
-                stepUDR = baseStep/(sb.l2Norm*(1<<sb.anGainExp));
+            else {
+                cblk.magbits = g - 1 - (int)Math.floor(Math.log(baseStep /
+                    (sb.l2Norm * (1 << sb.anGainExp))) /
+                    log2);
+                stepUDR = baseStep / (sb.l2Norm * (1 << sb.anGainExp));
             }
-            shiftBits = 31-cblk.magbits;
+            shiftBits = 31 - cblk.magbits;
             // Calculate step that decoder will get and use that one.
-            stepUDR =
-                convertFromExpMantissa(convertToExpMantissa(stepUDR));
-            invstep = 1.0f/((1L<<(src.getNomRangeBits(c)+sb.anGainExp))*
-                            stepUDR);
+            stepUDR = convertFromExpMantissa(convertToExpMantissa(stepUDR));
+            invstep = 1.0f / ((1L << (src.getNomRangeBits(c) + sb.anGainExp)) *
+                stepUDR);
             // Normalize to magnitude bits (output fractional point)
-            invstep *= (1<<(shiftBits-src.getFixedPoint(c)));
+            invstep *= (1 << (shiftBits - src.getFixedPoint(c)));
 
             // Update convertFactor and stepSize fields
             cblk.convertFactor = invstep;
-            cblk.stepSize = ((1L<<(src.getNomRangeBits(c)+sb.anGainExp))*
-                             stepUDR);
+            cblk.stepSize = ((1L << (src.getNomRangeBits(c) + sb.anGainExp)) *
+                stepUDR);
 
-            if(intq){ // Quantizing int data
+            if (intq) { // Quantizing int data
                 // Since we used getNextCodeBlock() to get the int data then
                 // 'offset' is 0 and 'scanw' is the width of the code-block
                 // The input and output arrays are the same (i.e. "in place")
-                for (j=w*h-1; j>=0; j--) {
-                    tmp = (int)(outarr[j]*invstep);
-                    outarr[j] = ((tmp < 0) ? (1<<31)|(-tmp) : tmp);
+                for (j = w * h - 1; j >= 0; j--) {
+                    tmp = (int)(outarr[j] * invstep);
+                    outarr[j] = ((tmp < 0) ? (1 << 31) | (-tmp) : tmp);
                 }
             }
             else { // Quantizing float data
-                for (j=w*h-1, k = infblk.offset+(h-1)*infblk.scanw+w-1,
-                         jmin = w*(h-1); j>=0; jmin -= w) {
-                    for (; j>=jmin; k--, j--) {
-                        tmp = (int)(infarr[k]*invstep);
-                        outarr[j] = ((tmp < 0) ? (1<<31)|(-tmp) : tmp);
+                for (j = w * h - 1, k = infblk.offset + (h - 1) * infblk.scanw + w - 1, jmin = w * (h - 1); j >= 0; jmin -= w) {
+                    for (; j >= jmin; k--, j--) {
+                        tmp = (int)(infarr[k] * invstep);
+                        outarr[j] = ((tmp < 0) ? (1 << 31) | (-tmp) : tmp);
                     }
                     // Jump to beggining of previous line in input
                     k -= infblk.scanw - w;
@@ -434,37 +454,38 @@ public class StdQuantizer extends Quantizer {
      * @param c The component index
      *
      * @see SubbandAn#stepWMSE
-     * */
+     */
     @Override
-    protected void calcSbParams(SubbandAn sb,int c){
-	float baseStep;
+    protected void calcSbParams(SubbandAn sb, int c)
+    {
+        float baseStep;
 
-        if(sb.stepWMSE>0f) // parameters already calculated
+        if (sb.stepWMSE > 0f) // parameters already calculated
             return;
-	if(!sb.isNode){
-            if(isReversible(tIdx,c)){
-                sb.stepWMSE = (float) Math.pow(2,-(src.getNomRangeBits(c)<<1))*
-                    sb.l2Norm*sb.l2Norm;
+        if (!sb.isNode) {
+            if (isReversible(tIdx, c)) {
+                sb.stepWMSE = (float)Math.pow(2, -(src.getNomRangeBits(c) << 1)) *
+                    sb.l2Norm * sb.l2Norm;
             }
-            else{
-		baseStep = ((Float)qsss.getTileCompVal(tIdx,c)).floatValue();
-                if(isDerived(tIdx,c)){
-                    sb.stepWMSE = baseStep*baseStep*
-                        (float)Math.pow(2,(sb.anGainExp-sb.level)<<1)*
-                        sb.l2Norm*sb.l2Norm;
+            else {
+                baseStep = ((Float)qsss.getTileCompVal(tIdx, c)).floatValue();
+                if (isDerived(tIdx, c)) {
+                    sb.stepWMSE = baseStep * baseStep *
+                        (float)Math.pow(2, (sb.anGainExp - sb.level) << 1) *
+                        sb.l2Norm * sb.l2Norm;
                 }
-                else{
-                    sb.stepWMSE = baseStep*baseStep;
+                else {
+                    sb.stepWMSE = baseStep * baseStep;
                 }
             }
-	}
-	else{
-	    calcSbParams((SubbandAn)sb.getLL(),c);
-	    calcSbParams((SubbandAn)sb.getHL(),c);
-	    calcSbParams((SubbandAn)sb.getLH(),c);
-	    calcSbParams((SubbandAn)sb.getHH(),c);
+        }
+        else {
+            calcSbParams((SubbandAn)sb.getLL(), c);
+            calcSbParams((SubbandAn)sb.getHL(), c);
+            calcSbParams((SubbandAn)sb.getLH(), c);
+            calcSbParams((SubbandAn)sb.getHH(), c);
             sb.stepWMSE = 1f; // Signal that we already calculated this branch
-	}
+        }
     }
 
     /**
@@ -475,21 +496,22 @@ public class StdQuantizer extends Quantizer {
      * @param step The quantization step, normalized to a dynamic range of 1.
      *
      * @return The exponent mantissa representation of the step.
-     * */
-    public static int convertToExpMantissa(float step) {
+     */
+    public static int convertToExpMantissa(float step)
+    {
         int exp;
 
-        exp = (int)Math.ceil(-Math.log(step)/log2);
-        if (exp>QSTEP_MAX_EXPONENT) {
+        exp = (int)Math.ceil(-Math.log(step) / log2);
+        if (exp > QSTEP_MAX_EXPONENT) {
             // If step size is too small for exponent representation, use the
             // minimum, which is exponent QSTEP_MAX_EXPONENT and mantissa 0.
-            return (QSTEP_MAX_EXPONENT<<QSTEP_MANTISSA_BITS);
+            return (QSTEP_MAX_EXPONENT << QSTEP_MANTISSA_BITS);
         }
         // NOTE: this formula does not support more than 5 bits for the
         // exponent, otherwise (-1<<exp) might overflow (the - is used to be
         // able to represent 2**31)
-        return (exp<<QSTEP_MANTISSA_BITS) |
-            ((int)((-step*(-1<<exp)-1f)*(1<<QSTEP_MANTISSA_BITS)+0.5f));
+        return (exp << QSTEP_MANTISSA_BITS) |
+            ((int)((-step * (-1 << exp) - 1f) * (1 << QSTEP_MANTISSA_BITS) + 0.5f));
     }
 
     /**
@@ -501,14 +523,15 @@ public class StdQuantizer extends Quantizer {
      *
      * @return The floating point representation of the step, normalized to a
      * dynamic range of 1.
-     * */
-    private static float convertFromExpMantissa(int ems) {
+     */
+    private static float convertFromExpMantissa(int ems)
+    {
         // NOTE: this formula does not support more than 5 bits for the
         // exponent, otherwise (-1<<exp) might overflow (the - is used to be
         // able to represent 2**31)
-        return (-1f-((float)(ems&QSTEP_MAX_MANTISSA)) /
-                ((float)(1<<QSTEP_MANTISSA_BITS))) /
-            (-1<<((ems>>QSTEP_MANTISSA_BITS)&QSTEP_MAX_EXPONENT));
+        return (-1f - ((float)(ems & QSTEP_MAX_MANTISSA)) /
+            ((float)(1 << QSTEP_MANTISSA_BITS))) /
+            (-1 << ((ems >> QSTEP_MANTISSA_BITS) & QSTEP_MAX_EXPONENT));
     }
 
     /**
@@ -519,19 +542,20 @@ public class StdQuantizer extends Quantizer {
      *
      * @return The maximum number of magnitude bits in all subbands of the
      * current tile.
-     * */
+     */
     @Override
-    public int getMaxMagBits(int c){
-        Subband sb = getAnSubbandTree(tIdx,c);
-        if(isReversible(tIdx,c)){
-            return getMaxMagBitsRev(sb,c);
+    public int getMaxMagBits(int c)
+    {
+        Subband sb = getAnSubbandTree(tIdx, c);
+        if (isReversible(tIdx, c)) {
+            return getMaxMagBitsRev(sb, c);
         }
-        else{
-            if(isDerived(tIdx,c)){
-                return getMaxMagBitsDerived(sb,tIdx,c);
+        else {
+            if (isDerived(tIdx, c)) {
+                return getMaxMagBitsDerived(sb, tIdx, c);
             }
             else {
-                return getMaxMagBitsExpounded(sb,tIdx,c);
+                return getMaxMagBitsExpounded(sb, tIdx, c);
             }
         }
     }
@@ -546,24 +570,25 @@ public class StdQuantizer extends Quantizer {
      * @param c the component number
      *
      * @return The highest number of magnitude bit-planes
-     * */
-    private int getMaxMagBitsRev(Subband sb, int c){
-        int tmp,max=0;
-        int g = ((Integer)gbs.getTileCompVal(tIdx,c)).intValue();
+     */
+    private int getMaxMagBitsRev(Subband sb, int c)
+    {
+        int tmp, max = 0;
+        int g = ((Integer)gbs.getTileCompVal(tIdx, c)).intValue();
 
-        if(!sb.isNode)
-            return g-1+src.getNomRangeBits(c)+sb.anGainExp;
+        if (!sb.isNode)
+            return g - 1 + src.getNomRangeBits(c) + sb.anGainExp;
 
-        max=getMaxMagBitsRev(sb.getLL(),c);
-        tmp=getMaxMagBitsRev(sb.getLH(),c);
-        if(tmp>max)
-            max=tmp;
-        tmp=getMaxMagBitsRev(sb.getHL(),c);
-        if(tmp>max)
-            max=tmp;
-        tmp=getMaxMagBitsRev(sb.getHH(),c);
-        if(tmp>max)
-            max=tmp;
+        max = getMaxMagBitsRev(sb.getLL(), c);
+        tmp = getMaxMagBitsRev(sb.getLH(), c);
+        if (tmp > max)
+            max = tmp;
+        tmp = getMaxMagBitsRev(sb.getHL(), c);
+        if (tmp > max)
+            max = tmp;
+        tmp = getMaxMagBitsRev(sb.getHH(), c);
+        if (tmp > max)
+            max = tmp;
 
         return max;
     }
@@ -579,26 +604,27 @@ public class StdQuantizer extends Quantizer {
      * @param c Component index
      *
      * @return The highest number of magnitude bit-planes
-     * */
-    private int getMaxMagBitsDerived(Subband sb,int t,int c){
-        int tmp,max=0;
-        int g = ((Integer)gbs.getTileCompVal(t,c)).intValue();
+     */
+    private int getMaxMagBitsDerived(Subband sb, int t, int c)
+    {
+        int tmp, max = 0;
+        int g = ((Integer)gbs.getTileCompVal(t, c)).intValue();
 
-        if(!sb.isNode){
-	    float baseStep = ((Float)qsss.getTileCompVal(t,c)).floatValue();
-            return g-1+sb.level-(int)Math.floor(Math.log(baseStep)/log2);
-	}
+        if (!sb.isNode) {
+            float baseStep = ((Float)qsss.getTileCompVal(t, c)).floatValue();
+            return g - 1 + sb.level - (int)Math.floor(Math.log(baseStep) / log2);
+        }
 
-        max=getMaxMagBitsDerived(sb.getLL(),t,c);
-        tmp=getMaxMagBitsDerived(sb.getLH(),t,c);
-        if(tmp>max)
-            max=tmp;
-        tmp=getMaxMagBitsDerived(sb.getHL(),t,c);
-        if(tmp>max)
-            max=tmp;
-        tmp=getMaxMagBitsDerived(sb.getHH(),t,c);
-        if(tmp>max)
-            max=tmp;
+        max = getMaxMagBitsDerived(sb.getLL(), t, c);
+        tmp = getMaxMagBitsDerived(sb.getLH(), t, c);
+        if (tmp > max)
+            max = tmp;
+        tmp = getMaxMagBitsDerived(sb.getHL(), t, c);
+        if (tmp > max)
+            max = tmp;
+        tmp = getMaxMagBitsDerived(sb.getHH(), t, c);
+        if (tmp > max)
+            max = tmp;
 
         return max;
     }
@@ -615,29 +641,30 @@ public class StdQuantizer extends Quantizer {
      * @param c Component index
      *
      * @return The highest number of magnitude bit-planes
-     * */
-    private int getMaxMagBitsExpounded(Subband sb,int t,int c){
-        int tmp,max=0;
-        int g = ((Integer)gbs.getTileCompVal(t,c)).intValue();
+     */
+    private int getMaxMagBitsExpounded(Subband sb, int t, int c)
+    {
+        int tmp, max = 0;
+        int g = ((Integer)gbs.getTileCompVal(t, c)).intValue();
 
-        if(!sb.isNode){
-	    float baseStep = ((Float)qsss.getTileCompVal(t,c)).floatValue();
-            return g-1-
-                (int)Math.floor(Math.log(baseStep/
-                                (((SubbandAn)sb).l2Norm*(1<<sb.anGainExp)))/
-                                log2);
-	}
+        if (!sb.isNode) {
+            float baseStep = ((Float)qsss.getTileCompVal(t, c)).floatValue();
+            return g - 1 -
+                (int)Math.floor(Math.log(baseStep /
+                    (((SubbandAn)sb).l2Norm * (1 << sb.anGainExp))) /
+                    log2);
+        }
 
-        max=getMaxMagBitsExpounded(sb.getLL(),t,c);
-        tmp=getMaxMagBitsExpounded(sb.getLH(),t,c);
-        if(tmp>max)
-            max=tmp;
-        tmp=getMaxMagBitsExpounded(sb.getHL(),t,c);
-        if(tmp>max)
-            max=tmp;
-        tmp=getMaxMagBitsExpounded(sb.getHH(),t,c);
-        if(tmp>max)
-            max=tmp;
+        max = getMaxMagBitsExpounded(sb.getLL(), t, c);
+        tmp = getMaxMagBitsExpounded(sb.getLH(), t, c);
+        if (tmp > max)
+            max = tmp;
+        tmp = getMaxMagBitsExpounded(sb.getHL(), t, c);
+        if (tmp > max)
+            max = tmp;
+        tmp = getMaxMagBitsExpounded(sb.getHH(), t, c);
+        if (tmp > max)
+            max = tmp;
 
         return max;
     }

@@ -50,30 +50,37 @@ import javax.imageio.metadata.IIOMetadataNode;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-/** This class is defined to represent a XML box of JPEG JP2
- *  file format.  This type of box has a length, a type of "xml ".  Its
- *  content is a text string of a XML instance.
+/**
+ * This class is defined to represent a XML box of JPEG JP2
+ * file format. This type of box has a length, a type of "xml ". Its
+ * content is a text string of a XML instance.
  */
-public class XMLBox extends Box {
+public class XMLBox extends Box
+{
     /** Cache the element names for this box's xml definition */
-    private static String[] elementNames = {"Content"};
+    private static String[] elementNames = { "Content" };
 
-    /** This method will be called by the getNativeNodeForSimpleBox of the
-     *  class Box to get the element names.
+    /**
+     * This method will be called by the getNativeNodeForSimpleBox of the
+     * class Box to get the element names.
      */
-    public static String[] getElementNames() {
+    public static String[] getElementNames()
+    {
         return elementNames;
     }
 
     /** Create a Box from its content. */
-    public XMLBox(byte[] data) {
+    public XMLBox(byte[] data)
+    {
         super(8 + data.length, 0x786D6C20, data);
     }
 
-    /** Constructs a <code>UUIDListBox</code> based on the provided
-     *  <code>org.w3c.dom.Node</code>.
+    /**
+     * Constructs a <code>UUIDListBox</code> based on the provided
+     * <code>org.w3c.dom.Node</code>.
      */
-    public XMLBox(Node node) throws IIOInvalidTreeException {
+    public XMLBox(Node node) throws IIOInvalidTreeException
+    {
         super(node);
         NodeList children = node.getChildNodes();
 
@@ -82,36 +89,39 @@ public class XMLBox extends Box {
             String name = child.getNodeName();
 
             if ("Content".equals(name)) {
-		String value = child.getNodeValue();
-		if (value != null)
-		    data = value.getBytes();
-		else if (child instanceof IIOMetadataNode) {
-		    value = (String)((IIOMetadataNode)child).getUserObject();
-		    if (value != null)
-			data = value.getBytes();
-		}
+                String value = child.getNodeValue();
+                if (value != null)
+                    data = value.getBytes();
+                else if (child instanceof IIOMetadataNode) {
+                    value = (String)((IIOMetadataNode)child).getUserObject();
+                    if (value != null)
+                        data = value.getBytes();
+                }
             }
         }
     }
 
-    /** Creates an <code>IIOMetadataNode</code> from this XML
-     *  box.  The format of this node is defined in the XML dtd and xsd
-     *  for the JP2 image file.
+    /**
+     * Creates an <code>IIOMetadataNode</code> from this XML
+     * box. The format of this node is defined in the XML dtd and xsd
+     * for the JP2 image file.
      */
     @Override
-    public IIOMetadataNode getNativeNode() {
+    public IIOMetadataNode getNativeNode()
+    {
         try {
             IIOMetadataNode node = new IIOMetadataNode(Box.getName(getType()));
             setDefaultAttributes(node);
-	    IIOMetadataNode child = new IIOMetadataNode("Content");
-	    String value = null;
-	    if (data != null)
-		value = new String(data);
-	    child.setUserObject(value);
-	    child.setNodeValue(value);
-	    node.appendChild(child);    
+            IIOMetadataNode child = new IIOMetadataNode("Content");
+            String value = null;
+            if (data != null)
+                value = new String(data);
+            child.setUserObject(value);
+            child.setNodeValue(value);
+            node.appendChild(child);
             return node;
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new IllegalArgumentException(I18N.getString("Box0"));
         }
     }

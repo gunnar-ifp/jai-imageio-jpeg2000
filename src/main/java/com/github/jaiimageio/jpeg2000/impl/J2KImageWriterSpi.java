@@ -56,70 +56,71 @@ import javax.imageio.spi.ServiceRegistry;
 
 import com.github.jaiimageio.impl.common.PackageUtil;
 
-public class J2KImageWriterSpi extends ImageWriterSpi {
-    private static String [] readerSpiNames =
-        {"com.github.jaiimageio.jpeg2000.impl.J2KImageReaderSpi"};
-    private static String[] formatNames =
-        {"jpeg 2000", "JPEG 2000", "jpeg2000", "JPEG2000"};
-    private static String[] extensions =
-        {"jp2"}; // Should add jpx or jpm
-    private static String[] mimeTypes = {"image/jp2", "image/jpeg2000"};
+public class J2KImageWriterSpi extends ImageWriterSpi
+{
+    private static String[] readerSpiNames = { "com.github.jaiimageio.jpeg2000.impl.J2KImageReaderSpi" };
+    private static String[] formatNames = { "jpeg 2000", "JPEG 2000", "jpeg2000", "JPEG2000" };
+    private static String[] extensions = { "jp2" }; // Should add jpx or jpm
+    private static String[] mimeTypes = { "image/jp2", "image/jpeg2000" };
     private boolean registered = false;
 
-    public J2KImageWriterSpi() {
+    public J2KImageWriterSpi()
+    {
         super(PackageUtil.getVendor(),
-              PackageUtil.getVersion(),
-              formatNames,
-              extensions,
-              mimeTypes,
-              "com.github.jaiimageio.jpeg2000.impl.J2KImageWriter",
-              STANDARD_OUTPUT_TYPE,
-              readerSpiNames,
-              false,
-              null, null,
-              null, null,
-              true,
-              "com_sun_media_imageio_plugins_jpeg2000_image_1.0",
-              "com.github.jaiimageio.jpeg2000.impl.J2KMetadataFormat",
-              null, null);
+            PackageUtil.getVersion(),
+            formatNames,
+            extensions,
+            mimeTypes,
+            "com.github.jaiimageio.jpeg2000.impl.J2KImageWriter",
+            STANDARD_OUTPUT_TYPE,
+            readerSpiNames,
+            false,
+            null, null,
+            null, null,
+            true,
+            "com_sun_media_imageio_plugins_jpeg2000_image_1.0",
+            "com.github.jaiimageio.jpeg2000.impl.J2KMetadataFormat",
+            null, null);
     }
 
     @Override
-    public String getDescription(Locale locale) {
-	String desc = PackageUtil.getSpecificationTitle() + 
-	    " JPEG 2000 Image Writer";
-	return desc;
+    public String getDescription(Locale locale)
+    {
+        String desc = PackageUtil.getSpecificationTitle() +
+            " JPEG 2000 Image Writer";
+        return desc;
     }
 
     @Override
     public void onRegistration(ServiceRegistry registry,
-                               Class category) {
+        Class category)
+    {
         if (registered) {
             return;
         }
-	
+
         registered = true;
 
         // Set pairwise ordering to give codecLib writer precedence.
         Class codecLibWriterSPIClass = null;
         try {
-            codecLibWriterSPIClass =
-                Class.forName("com.github.jaiimageio.jpeg2000.impl.J2KImageWriterCodecLibSpi");
-        } catch(Throwable t) {
+            codecLibWriterSPIClass = Class.forName("com.github.jaiimageio.jpeg2000.impl.J2KImageWriterCodecLibSpi");
+        }
+        catch (Throwable t) {
             // Ignore it.
         }
 
-        if(codecLibWriterSPIClass != null) {
-            Object codecLibWriterSPI =
-                registry.getServiceProviderByClass(codecLibWriterSPIClass);
-            if(codecLibWriterSPI != null) {
+        if (codecLibWriterSPIClass != null) {
+            Object codecLibWriterSPI = registry.getServiceProviderByClass(codecLibWriterSPIClass);
+            if (codecLibWriterSPI != null) {
                 registry.setOrdering(category, codecLibWriterSPI, this);
             }
         }
     }
 
     @Override
-    public boolean canEncodeImage(ImageTypeSpecifier type) {
+    public boolean canEncodeImage(ImageTypeSpecifier type)
+    {
         SampleModel sm = type.getSampleModel();
         if (sm.getNumBands() > 16384)
             return false;
@@ -131,7 +132,8 @@ public class J2KImageWriterSpi extends ImageWriterSpi {
 
     @Override
     public ImageWriter createWriterInstance(Object extension)
-        throws IIOException {
+        throws IIOException
+    {
         return new J2KImageWriter(this);
     }
 }

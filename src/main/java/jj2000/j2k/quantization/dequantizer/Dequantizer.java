@@ -42,6 +42,7 @@
  * Copyright (c) 1999/2000 JJ2000 Partners.
  */
 package jj2000.j2k.quantization.dequantizer;
+
 import jj2000.j2k.decoder.DecoderSpecs;
 import jj2000.j2k.image.CompTransfSpec;
 import jj2000.j2k.image.invcomptransf.InvCompTransf;
@@ -56,37 +57,48 @@ import jj2000.j2k.wavelet.synthesis.SynWTFilterSpec;
  * class has the concept of a current tile and all operations are performed on
  * the current tile.
  *
- * <p>This class provides default implemenations for most of the methods
+ * <p>
+ * This class provides default implemenations for most of the methods
  * (wherever it makes sense), under the assumption that the image and
  * component dimensions, and the tiles, are not modifed by the dequantizer. If
  * that is not the case for a particular implementation then the methods
- * should be overriden.</p>
+ * should be overriden.
+ * </p>
  *
- * <p>Sign magnitude representation is used (instead of two's complement) for
+ * <p>
+ * Sign magnitude representation is used (instead of two's complement) for
  * the input data. The most significant bit is used for the sign (0 if
  * positive, 1 if negative). Then the magnitude of the quantized coefficient
  * is stored in the next most significat bits. The most significant magnitude
- * bit corresponds to the most significant bit-plane and so on.</p>
+ * bit corresponds to the most significant bit-plane and so on.
+ * </p>
  *
- * <p>The output data is either in floating-point, or in fixed-point two's
+ * <p>
+ * The output data is either in floating-point, or in fixed-point two's
  * complement. In case of floating-point data the the value returned by
  * getFixedPoint() must be 0. If the case of fixed-point data the number of
  * fractional bits must be defined at the constructor of the implementing
  * class and all operations must be performed accordingly. Each component may
- * have a different number of fractional bits.</p>
- * */
+ * have a different number of fractional bits.
+ * </p>
+ */
 public abstract class Dequantizer extends MultiResImgDataAdapter
-    implements CBlkWTDataSrcDec {
+    implements CBlkWTDataSrcDec
+{
 
     /** The prefix for dequantizer options: 'Q' */
     public final static char OPT_PREFIX = 'Q';
 
-    /** The list of parameters that is accepted by the bit stream
-     * readers. They start with 'Q' */
-    private static final String [][] pinfo = null;
+    /**
+     * The list of parameters that is accepted by the bit stream
+     * readers. They start with 'Q'
+     */
+    private static final String[][] pinfo = null;
 
-    /** The entropy decoder from where to get the quantized data (the
-     * source). */
+    /**
+     * The entropy decoder from where to get the quantized data (the
+     * source).
+     */
     protected CBlkQuantDataSrcDec src;
 
     /** The "range bits" for each transformed component */
@@ -111,17 +123,18 @@ public abstract class Dequantizer extends MultiResImgDataAdapter
      * "range bits" see the getNomRangeBits() method.
      *
      * @see #getNomRangeBits
-     * */
-    public Dequantizer(CBlkQuantDataSrcDec src,int utrb[],
-                       DecoderSpecs decSpec) {
+     */
+    public Dequantizer(CBlkQuantDataSrcDec src, int utrb[],
+        DecoderSpecs decSpec)
+    {
         super(src);
         if (utrb.length != src.getNumComps()) {
             throw new IllegalArgumentException();
         }
-        this.src  = src;
+        this.src = src;
         this.utrb = utrb;
-        this.cts  = decSpec.cts;
-        this.wfs  = decSpec.wfs;
+        this.cts = decSpec.cts;
+        this.wfs = decSpec.wfs;
     }
 
     /**
@@ -129,17 +142,21 @@ public abstract class Dequantizer extends MultiResImgDataAdapter
      * corresponding to the nominal range of the data in the specified
      * component.
      *
-     * <p>The returned value corresponds to the nominal dynamic range of the
+     * <p>
+     * The returned value corresponds to the nominal dynamic range of the
      * reconstructed image data, not of the wavelet coefficients
      * themselves. This is because different subbands have different gains and
      * thus different nominal ranges. To have an idea of the nominal range in
      * each subband the subband analysis gain value from the subband tree
      * structure, returned by the getSynSubbandTree() method, can be used. See
-     * the Subband class for more details.</p>
+     * the Subband class for more details.
+     * </p>
      *
-     * <p>If this number is <b>b</b> then for unsigned data the nominal range
+     * <p>
+     * If this number is <b>b</b> then for unsigned data the nominal range
      * is between 0 and 2^b-1, and for signed data it is between -2^(b-1) and
-     * 2^(b-1)-1.</p>
+     * 2^(b-1)-1.
+     * </p>
      *
      * @param c The index of the component
      *
@@ -147,9 +164,10 @@ public abstract class Dequantizer extends MultiResImgDataAdapter
      * data.
      *
      * @see Subband
-     * */
+     */
     @Override
-    public int getNomRangeBits(int c) {
+    public int getNomRangeBits(int c)
+    {
         return rb[c];
     }
 
@@ -158,7 +176,8 @@ public abstract class Dequantizer extends MultiResImgDataAdapter
      * returns the root element of the subband tree structure, see Subband and
      * SubbandSyn. The tree comprises all the available resolution levels.
      *
-     * <P>The number of magnitude bits ('magBits' member variable) for each
+     * <P>
+     * The number of magnitude bits ('magBits' member variable) for each
      * subband may have not been not initialized (it depends on the actual
      * dequantizer and its implementation). However, they are not necessary
      * for the subsequent steps in the decoder chain.
@@ -168,27 +187,30 @@ public abstract class Dequantizer extends MultiResImgDataAdapter
      * @param c The index of the component, from 0 to C-1.
      *
      * @return The root of the tree structure.
-     * */
+     */
     @Override
-    public SubbandSyn getSynSubbandTree(int t,int c) {
-        return src.getSynSubbandTree(t,c);
+    public SubbandSyn getSynSubbandTree(int t, int c)
+    {
+        return src.getSynSubbandTree(t, c);
     }
 
     /**
      * Returns the horizontal code-block partition origin. Allowable values
      * are 0 and 1, nothing else.
-     * */
+     */
     @Override
-    public int getCbULX() {
+    public int getCbULX()
+    {
         return src.getCbULX();
     }
 
     /**
      * Returns the vertical code-block partition origin. Allowable values are
      * 0 and 1, nothing else.
-     * */
+     */
     @Override
-    public int getCbULY() {
+    public int getCbULY()
+    {
         return src.getCbULY();
     }
 
@@ -203,10 +225,11 @@ public abstract class Dequantizer extends MultiResImgDataAdapter
      * description of the option, respectively. Null may be returned
      * if no options are supported.
      *
-     * @return the options name, their synopsis and their explanation, 
+     * @return the options name, their synopsis and their explanation,
      * or null if no options are supported.
-     * */
-    public static String[][] getParameterInfo() {
+     */
+    public static String[][] getParameterInfo()
+    {
         return pinfo;
     }
 
@@ -215,62 +238,62 @@ public abstract class Dequantizer extends MultiResImgDataAdapter
      * IllegalArgumentException is thrown if the indexes do not
      * correspond to a valid tile.
      *
-     * <P>This default implementation changes the tile in the source
+     * <P>
+     * This default implementation changes the tile in the source
      * and re-initializes properly component transformation variables..
      *
      * @param x The horizontal index of the tile.
      *
      * @param y The vertical index of the new tile.
-     * */
+     */
     @Override
-    public void setTile(int x, int y) {
-        src.setTile(x,y);
-	tIdx = getTileIdx(); // index of the current tile
+    public void setTile(int x, int y)
+    {
+        src.setTile(x, y);
+        tIdx = getTileIdx(); // index of the current tile
 
         // initializations
         int cttype = 0;
-        if( ((Integer)cts.getTileDef(tIdx)).intValue()==InvCompTransf.NONE )
+        if (((Integer)cts.getTileDef(tIdx)).intValue() == InvCompTransf.NONE)
             cttype = InvCompTransf.NONE;
         else {
-            int nc = src.getNumComps() > 3 ? 3 : src.getNumComps(); 
+            int nc = src.getNumComps() > 3 ? 3 : src.getNumComps();
             int rev = 0;
-            for(int c=0; c<nc; c++)
-                rev += (wfs.isReversible(tIdx,c)?1:0);
-            if(rev==3){
+            for (int c = 0; c < nc; c++)
+                rev += (wfs.isReversible(tIdx, c) ? 1 : 0);
+            if (rev == 3) {
                 // All WT are reversible
                 cttype = InvCompTransf.INV_RCT;
             }
-            else if(rev==0){
+            else if (rev == 0) {
                 // All WT irreversible
                 cttype = InvCompTransf.INV_ICT;
             }
-            else{
+            else {
                 // Error
-                throw new IllegalArgumentException("Wavelet transformation "+
-                                                   "and "+
-                                                   "component transformation"+
-                                                   " not coherent in tile"+
-                                                   tIdx);
+                throw new IllegalArgumentException("Wavelet transformation " +
+                    "and " +
+                    "component transformation" +
+                    " not coherent in tile" +
+                    tIdx);
             }
         }
 
-        switch(cttype){
-        case InvCompTransf.NONE:
-            rb = utrb;
-            break;
-        case InvCompTransf.INV_RCT:
-            rb = InvCompTransf.
-                calcMixedBitDepths(utrb,InvCompTransf.INV_RCT,null);
-            break;
-        case InvCompTransf.INV_ICT:
-            rb = InvCompTransf.
-                calcMixedBitDepths(utrb,InvCompTransf.INV_ICT,null);
-            break;
-        default:
-            throw new IllegalArgumentException("Non JPEG 2000 part I "+
-                                               "component"+
-                                               " transformation for tile: "+
-                                               tIdx);
+        switch (cttype) {
+            case InvCompTransf.NONE:
+                rb = utrb;
+                break;
+            case InvCompTransf.INV_RCT:
+                rb = InvCompTransf.calcMixedBitDepths(utrb, InvCompTransf.INV_RCT, null);
+                break;
+            case InvCompTransf.INV_ICT:
+                rb = InvCompTransf.calcMixedBitDepths(utrb, InvCompTransf.INV_ICT, null);
+                break;
+            default:
+                throw new IllegalArgumentException("Non JPEG 2000 part I " +
+                    "component" +
+                    " transformation for tile: " +
+                    tIdx);
         }
     }
 
@@ -279,33 +302,33 @@ public abstract class Dequantizer extends MultiResImgDataAdapter
      * columns). An NoNextElementException is thrown if the current tile is
      * the last one (i.e. there is no next tile).
      *
-     * <P>This default implementation just advances to the next tile in the
+     * <P>
+     * This default implementation just advances to the next tile in the
      * source and re-initializes properly component transformation variables.
-     * */
+     */
     @Override
-    public void nextTile() {
+    public void nextTile()
+    {
         src.nextTile();
-	tIdx = getTileIdx(); // index of the current tile
+        tIdx = getTileIdx(); // index of the current tile
 
         // initializations
         int cttype = ((Integer)cts.getTileDef(tIdx)).intValue();
-        switch(cttype){
-        case InvCompTransf.NONE:
-            rb = utrb;
-            break;
-        case InvCompTransf.INV_RCT:
-            rb = InvCompTransf.
-                calcMixedBitDepths(utrb,InvCompTransf.INV_RCT,null);
-            break;
-        case InvCompTransf.INV_ICT:
-            rb = InvCompTransf.
-                calcMixedBitDepths(utrb,InvCompTransf.INV_ICT,null);
-            break;
-        default:
-            throw new IllegalArgumentException("Non JPEG 2000 part I "+
-                                               "component"+
-                                               " transformation for tile: "+
-                                               tIdx);
+        switch (cttype) {
+            case InvCompTransf.NONE:
+                rb = utrb;
+                break;
+            case InvCompTransf.INV_RCT:
+                rb = InvCompTransf.calcMixedBitDepths(utrb, InvCompTransf.INV_RCT, null);
+                break;
+            case InvCompTransf.INV_ICT:
+                rb = InvCompTransf.calcMixedBitDepths(utrb, InvCompTransf.INV_ICT, null);
+                break;
+            default:
+                throw new IllegalArgumentException("Non JPEG 2000 part I " +
+                    "component" +
+                    " transformation for tile: " +
+                    tIdx);
         }
     }
 

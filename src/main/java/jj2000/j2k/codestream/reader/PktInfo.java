@@ -49,8 +49,9 @@ package jj2000.j2k.codestream.reader;
  * to which the current code-block belongs.
  *
  * @see CBlkInfo
- * */
-public class PktInfo{
+ */
+public class PktInfo
+{
 
     /** Index of the packet */
     public int packetIdx;
@@ -68,7 +69,7 @@ public class PktInfo{
      * The length of each terminated segment in the packet. The total is the
      * same as 'cbLength'. It can be null if there is only one terminated
      * segment, in which case 'cbLength' holds the legth of that segment
-     * */
+     */
     public int segLengths[];
 
     /**
@@ -76,7 +77,7 @@ public class PktInfo{
      * previous packets, for this code-block. This is the number of passes
      * that can be decoded with the information in this packet and all
      * previous ones.
-     * */
+     */
     public int numTruncPnts;
 
     /**
@@ -85,8 +86,9 @@ public class PktInfo{
      * @param lyIdx The layer index for the code-block in this packet
      *
      * @param pckIdx The packet index
-     * */
-    public PktInfo(int lyIdx, int pckIdx){
+     */
+    public PktInfo(int lyIdx, int pckIdx)
+    {
         layerIdx = lyIdx;
         packetIdx = pckIdx;
     }
@@ -95,10 +97,11 @@ public class PktInfo{
      * Object information in a string.
      *
      * @return Object information
-     * */
+     */
     @Override
-    public String toString(){
-        return "packet "+packetIdx+" (lay:"+layerIdx+", off:"+cbOff+", len:"+
-            cbLength+", numTruncPnts:"+numTruncPnts+")\n";
+    public String toString()
+    {
+        return "packet " + packetIdx + " (lay:" + layerIdx + ", off:" + cbOff + ", len:" +
+            cbLength + ", numTruncPnts:" + numTruncPnts + ")\n";
     }
 }

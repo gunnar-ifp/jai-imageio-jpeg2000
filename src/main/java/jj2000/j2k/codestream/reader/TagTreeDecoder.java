@@ -60,16 +60,19 @@ import java.util.Arrays;
  * information to identify whether or not the value is greater than
  * or equal to the threshold, and updates the value accordingly.
  *
- * <P>In general the decoding procedure must follow the same sequence
+ * <P>
+ * In general the decoding procedure must follow the same sequence
  * of elements and thresholds as the encoding one. The encoder is
  * implemented by the TagTreeEncoder class.
  *
- * <P>Tag trees that have one dimension, or both, as 0 are allowed for
+ * <P>
+ * Tag trees that have one dimension, or both, as 0 are allowed for
  * convenience. Of course no values can be set or coded in such cases.
  *
  * @see jj2000.j2k.codestream.writer.TagTreeEncoder
- * */
-public class TagTreeDecoder {
+ */
+public class TagTreeDecoder
+{
 
     /** The horizontal dimension of the base level */
     protected int w;
@@ -80,14 +83,18 @@ public class TagTreeDecoder {
     /** The number of levels in the tag tree */
     protected int lvls;
 
-    /** The tag tree values. The first index is the level,
+    /**
+     * The tag tree values. The first index is the level,
      * starting at level 0 (leafs). The second index is the element
-     * within the level, in lexicographical order. */
+     * within the level, in lexicographical order.
+     */
     protected int treeV[][];
 
-    /** The tag tree state. The first index is the level, starting at
+    /**
+     * The tag tree state. The first index is the level, starting at
      * level 0 (leafs). The second index is the element within the
-     * level, in lexicographical order. */
+     * level, in lexicographical order.
+     */
     protected int treeS[][];
 
     /**
@@ -96,7 +103,8 @@ public class TagTreeDecoder {
      * direction. The total number of elements is thus 'vdim' x
      * 'hdim'.
      *
-     * <P>The values of all elements are initialized to
+     * <P>
+     * The values of all elements are initialized to
      * Integer.MAX_VALUE (i.e. no information decoded so far). The
      * states are initialized all to 0.
      *
@@ -105,12 +113,13 @@ public class TagTreeDecoder {
      * @param w The number of elements along the horizontal direction.
      *
      *
-     * */
-    public TagTreeDecoder(int h, int w) {
+     */
+    public TagTreeDecoder(int h, int w)
+    {
         int i;
 
         // Check arguments
-        if ( w < 0 || h < 0 ) {
+        if (w < 0 || h < 0) {
             throw new IllegalArgumentException();
         }
         // Initialize dimensions
@@ -123,8 +132,8 @@ public class TagTreeDecoder {
         else {
             lvls = 1;
             while (h != 1 || w != 1) { // Loop until we reach root
-                w = (w+1)>>1;
-                h = (h+1)>>1;
+                w = (w + 1) >> 1;
+                h = (h + 1) >> 1;
                 lvls++;
             }
         }
@@ -133,15 +142,15 @@ public class TagTreeDecoder {
         treeS = new int[lvls][];
         w = this.w;
         h = this.h;
-        for (i=0; i<lvls; i++) {
-            treeV[i] = new int[h*w];
+        for (i = 0; i < lvls; i++) {
+            treeV[i] = new int[h * w];
             // Initialize to infinite value
-            Arrays.fill(treeV[i],Integer.MAX_VALUE);
+            Arrays.fill(treeV[i], Integer.MAX_VALUE);
 
             // (no need to initialize to 0 since it's the default)
-            treeS[i] = new int[h*w];
-            w = (w+1)>>1;
-            h = (h+1)>>1;
+            treeS[i] = new int[h * w];
+            w = (w + 1) >> 1;
+            h = (h + 1) >> 1;
         }
     }
 
@@ -151,8 +160,9 @@ public class TagTreeDecoder {
      * @return The number of leafs along the horizontal direction.
      *
      *
-     * */
-    public final int getWidth() {
+     */
+    public final int getWidth()
+    {
         return w;
     }
 
@@ -162,8 +172,9 @@ public class TagTreeDecoder {
      * @return The number of leafs along the vertical direction.
      *
      *
-     * */
-    public final int getHeight() {
+     */
+    public final int getHeight()
+    {
         return h;
     }
 
@@ -191,11 +202,12 @@ public class TagTreeDecoder {
      * reached before getting all the necessary data.
      *
      *
-     * */
+     */
     public int update(int m, int n, int t, PktHeaderBitReader in)
-        throws IOException {
-        int k,tmin;
-        int idx,ts,tv;
+        throws IOException
+    {
+        int k, tmin;
+        int idx, ts, tv;
 
         // Check arguments
         if (m >= h || n >= w || t < 0) {
@@ -203,11 +215,11 @@ public class TagTreeDecoder {
         }
 
         // Initialize
-        k = lvls-1;
+        k = lvls - 1;
         tmin = treeS[k][0];
 
         // Loop on levels
-        idx = (m>>k)*((w+(1<<k)-1)>>k)+(n>>k);
+        idx = (m >> k) * ((w + (1 << k) - 1) >> k) + (n >> k);
         while (true) {
             // Cache state and value
             ts = treeS[k][idx];
@@ -222,7 +234,7 @@ public class TagTreeDecoder {
                         ts++;
                     }
                     else { // '1' bit
-                        // We know that 'value' = treeS[k][idx]
+                           // We know that 'value' = treeS[k][idx]
                         tv = ts++;
                     }
                     // Increment of treeS[k][idx] done above
@@ -236,11 +248,11 @@ public class TagTreeDecoder {
             treeS[k][idx] = ts;
             treeV[k][idx] = tv;
             // Update tmin or terminate
-            if (k>0) {
+            if (k > 0) {
                 tmin = ts < tv ? ts : tv;
                 k--;
                 // Index of element for next iteration
-                idx = (m>>k)*((w+(1<<k)-1)>>k)+(n>>k);
+                idx = (m >> k) * ((w + (1 << k) - 1) >> k) + (n >> k);
             }
             else {
                 // Return the updated value
@@ -262,13 +274,14 @@ public class TagTreeDecoder {
      * @see #update
      *
      *
-     * */
-    public int getValue(int m, int n) {
+     */
+    public int getValue(int m, int n)
+    {
         // Check arguments
         if (m >= h || n >= w) {
             throw new IllegalArgumentException();
         }
         // Return value
-        return treeV[0][m*w+n];
+        return treeV[0][m * w + n];
     }
 }

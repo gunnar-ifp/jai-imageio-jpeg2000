@@ -58,14 +58,16 @@ import jj2000.j2k.image.ImgData;
  * from which this class inherits, all operations are confined to the
  * current tile, and all coordinates are relative to it.
  *
- * <P>The definition of the methods in this interface allows for
+ * <P>
+ * The definition of the methods in this interface allows for
  * different types of implementation, reversibility and levels of
  * decompositions for each component and each tile. An implementation
  * of this interface does not need to support all this flexibility
  * (e.g., it may provide the same implementation type and
  * decomposition levels for all tiles and components).
- * */
-public interface WaveletTransform extends ImgData {
+ */
+public interface WaveletTransform extends ImgData
+{
 
     /**
      * ID for line based implementations of wavelet transforms.
@@ -75,7 +77,8 @@ public interface WaveletTransform extends ImgData {
     /**
      * ID for full-page based implementations of wavelet transforms. Full-page
      * based implementations should be avoided since they require
-     * large amounts of memory.  */
+     * large amounts of memory.
+     */
     public final static int WT_IMPL_FULL = 2;
 
 
@@ -92,12 +95,12 @@ public interface WaveletTransform extends ImgData {
      * @return true is the wavelet transform is reversible, false if not.
      *
      *
-     * */
-    public boolean isReversible(int t,int c);
+     */
+    public boolean isReversible(int t, int c);
 
     /**
      * Returns the implementation type of this wavelet transform
-     * (WT_IMPL_LINE or WT_IMPL_FRAME) for the specified component, 
+     * (WT_IMPL_LINE or WT_IMPL_FRAME) for the specified component,
      * in the current tile.
      *
      * @param n The index of the component.
@@ -106,7 +109,7 @@ public interface WaveletTransform extends ImgData {
      * block or full-page based transforms.
      *
      *
-     * */
+     */
     public int getImplementationType(int n);
 
 }

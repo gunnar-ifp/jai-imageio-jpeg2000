@@ -48,8 +48,10 @@ package jj2000.j2k.roi.encoder;
  * This abstract class describes the ROI mask for a single subband. Each
  * object of the class contains the mask for a particular subband and also has
  * references to the masks of the children subbands of the subband
- * corresponding to this mask.  */
-public abstract class SubbandROIMask{
+ * corresponding to this mask.
+ */
+public abstract class SubbandROIMask
+{
 
     /** The subband masks of the child LL */
     protected SubbandROIMask ll;
@@ -89,12 +91,13 @@ public abstract class SubbandROIMask{
      * @param w The width of corresponding subband
      *
      * @param h The height of corresponding subband
-     * */
-    public SubbandROIMask(int ulx, int uly, int w, int h){
-        this.ulx=ulx;
-        this.uly=uly;
-        this.w=w;
-        this.h=h;
+     */
+    public SubbandROIMask(int ulx, int uly, int w, int h)
+    {
+        this.ulx = ulx;
+        this.uly = uly;
+        this.w = w;
+        this.h = h;
     }
 
     /**
@@ -106,12 +109,13 @@ public abstract class SubbandROIMask{
      * @param x horizontal coordinate of the specified point.
      *
      * @param y horizontal coordinate of the specified point.
-     * */
-    public SubbandROIMask getSubbandRectROIMask(int x, int y) {
-        SubbandROIMask cur,hhs;
+     */
+    public SubbandROIMask getSubbandRectROIMask(int x, int y)
+    {
+        SubbandROIMask cur, hhs;
 
         // Check that we are inside this subband
-        if (x < ulx || y < uly || x >= ulx+w || y >= uly+h) {
+        if (x < ulx || y < uly || x >= ulx + w || y >= uly + h) {
             throw new IllegalArgumentException();
         }
 
@@ -145,14 +149,6 @@ public abstract class SubbandROIMask{
         return cur;
     }
 }
-
-
-
-
-
-
-
-
 
 
 

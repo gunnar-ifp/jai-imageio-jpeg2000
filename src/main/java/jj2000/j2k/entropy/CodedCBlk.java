@@ -47,14 +47,16 @@ package jj2000.j2k.entropy;
  * This is the generic class to store coded (compressed) code-block. It stores
  * the compressed data as well as the necessary side-information.
  *
- * <P>This class is normally not used. Instead the EncRDCBlk, EncLyrdCBlk and
+ * <P>
+ * This class is normally not used. Instead the EncRDCBlk, EncLyrdCBlk and
  * the DecLyrdCBlk subclasses are used.
  *
  * @see jj2000.j2k.entropy.encoder.CBlkRateDistStats
  *
  * @see jj2000.j2k.entropy.decoder.DecLyrdCBlk
- * */
-public class CodedCBlk {
+ */
+public class CodedCBlk
+{
 
     /** The horizontal index of the code-block, within the subband. */
     public int n;
@@ -71,8 +73,9 @@ public class CodedCBlk {
     /**
      * Creates a new CodedCBlk object wit the default values and without
      * allocating any space for its members.
-     * */
-    public CodedCBlk() {
+     */
+    public CodedCBlk()
+    {
     }
 
     /**
@@ -87,8 +90,9 @@ public class CodedCBlk {
      *
      * @param data The compressed data. This array is referenced by this
      * object so it should not be modified after.
-     * */
-    public CodedCBlk(int m, int n, int skipMSBP, byte data[]) {
+     */
+    public CodedCBlk(int m, int n, int skipMSBP, byte data[])
+    {
         this.m = m;
         this.n = n;
         this.skipMSBP = skipMSBP;
@@ -101,11 +105,12 @@ public class CodedCBlk {
      * debugging.
      *
      * @return A string with the contents of the object
-     * */
+     */
     @Override
-    public String toString() {
-        return "m= " + m+", n= "+n+ ", skipMSBP= "+skipMSBP+
-            ", data.length= " + ((data != null) ? ""+data.length : "(null)");
+    public String toString()
+    {
+        return "m= " + m + ", n= " + n + ", skipMSBP= " + skipMSBP +
+            ", data.length= " + ((data != null) ? "" + data.length : "(null)");
     }
 }
 

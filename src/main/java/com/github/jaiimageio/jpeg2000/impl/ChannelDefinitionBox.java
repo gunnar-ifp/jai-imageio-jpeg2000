@@ -52,40 +52,46 @@ import javax.imageio.metadata.IIOMetadataNode;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-/** This class is designed to represent a Channel Definition Box of
- *  JPEG JP2 file format.  A Channel Definition Box has a length, and
- *  a fixed type of "cdef".  Its content defines the type of the image
- *  channels: color channel, alpha channel or premultiplied alpha channel.
+/**
+ * This class is designed to represent a Channel Definition Box of
+ * JPEG JP2 file format. A Channel Definition Box has a length, and
+ * a fixed type of "cdef". Its content defines the type of the image
+ * channels: color channel, alpha channel or premultiplied alpha channel.
  */
-public class ChannelDefinitionBox extends Box {
+public class ChannelDefinitionBox extends Box
+{
     /** The cached data elements. */
     private short num;
     private short[] channels;
     private short[] types;
     private short[] associations;
 
-    /** Computes the length of this box from the provided
-     *  <code>ColorModel</code>.
+    /**
+     * Computes the length of this box from the provided
+     * <code>ColorModel</code>.
      */
-    private static int computeLength(ColorModel colorModel) {
+    private static int computeLength(ColorModel colorModel)
+    {
         int length = colorModel.getComponentSize().length - 1;
         return 10 +
-               (colorModel.isAlphaPremultiplied() ? length * 18 : length * 12);
+            (colorModel.isAlphaPremultiplied() ? length * 18 : length * 12);
     }
 
-    /** Fills the channel definitions into the arrays based on the number
-     *  of components and isPremultiplied.
+    /**
+     * Fills the channel definitions into the arrays based on the number
+     * of components and isPremultiplied.
      */
     public static void fillBasedOnBands(int numComps,
-                                        boolean isPremultiplied,
-                                        short[] c,
-                                        short[] t,
-                                        short[] a) {
+        boolean isPremultiplied,
+        short[] c,
+        short[] t,
+        short[] a)
+    {
         int num = numComps * (isPremultiplied ? 3 : 2);
         if (isPremultiplied) {
             for (int i = numComps * 2; i < num; i++) {
                 c[i] = (short)(i - numComps * 2);
-                t[i] = 2;       // 2 -- premultiplied
+                t[i] = 2; // 2 -- premultiplied
                 a[i] = (short)(i + 1 - numComps * 2);
             }
         }
@@ -93,18 +99,20 @@ public class ChannelDefinitionBox extends Box {
         for (int i = 0; i < numComps; i++) {
             int j = i + numComps;
             c[i] = (short)i;
-            t[i] = 0;       // The original channel
+            t[i] = 0; // The original channel
             a[j] = a[i] = (short)(i + 1);
 
             c[j] = (short)numComps;
-            t[j] = 1;           // 1 -- transparency
+            t[j] = 1; // 1 -- transparency
         }
     }
 
-    /** Constructs a <code>ChannelDefinitionBox</code> based on the provided
-     *  <code>ColorModel</code>.
+    /**
+     * Constructs a <code>ChannelDefinitionBox</code> based on the provided
+     * <code>ColorModel</code>.
      */
-    public ChannelDefinitionBox(ColorModel colorModel) {
+    public ChannelDefinitionBox(ColorModel colorModel)
+    {
         super(computeLength(colorModel), 0x63646566, null);
 
         // creates the buffers for the channel definitions.
@@ -116,24 +124,28 @@ public class ChannelDefinitionBox extends Box {
 
         // fills the arrays.
         fillBasedOnBands(length,
-                         colorModel.isAlphaPremultiplied(),
-                         channels,
-                         types,
-                         associations);
+            colorModel.isAlphaPremultiplied(),
+            channels,
+            types,
+            associations);
     }
 
-    /** Constructs a <code>ChannelDefinitionBox</code> based on the provided
-     *  content in byte array.
+    /**
+     * Constructs a <code>ChannelDefinitionBox</code> based on the provided
+     * content in byte array.
      */
-    public ChannelDefinitionBox(byte[] data) {
+    public ChannelDefinitionBox(byte[] data)
+    {
         super(8 + data.length, 0x63646566, data);
     }
 
-    /** Constructs a <code>ChannelDefinitionBox</code> based on the provided
-     *  channel definitions.
+    /**
+     * Constructs a <code>ChannelDefinitionBox</code> based on the provided
+     * channel definitions.
      */
     public ChannelDefinitionBox(short[] channel, short[] types,
-                                short[] associations) {
+        short[] associations)
+    {
         super(10 + channel.length * 6, 0x63646566, null);
         this.num = (short)channel.length;
         this.channels = channel;
@@ -141,10 +153,12 @@ public class ChannelDefinitionBox extends Box {
         this.associations = associations;
     }
 
-    /** Constructs a <code>ChannelDefinitionBox</code> based on the provided
-     *  <code>org.w3c.dom.Node</code>.
+    /**
+     * Constructs a <code>ChannelDefinitionBox</code> based on the provided
+     * <code>org.w3c.dom.Node</code>.
      */
-    public ChannelDefinitionBox(Node node) throws IIOInvalidTreeException {
+    public ChannelDefinitionBox(Node node) throws IIOInvalidTreeException
+    {
         super(node);
         NodeList children = node.getChildNodes();
         int index = 0;
@@ -185,51 +199,56 @@ public class ChannelDefinitionBox extends Box {
 
     /** Parse the channel definitions from the content data array. */
     @Override
-    protected void parse(byte[] data) {
+    protected void parse(byte[] data)
+    {
         num = (short)((data[0] << 8) | data[1]);
         channels = new short[num];
         types = new short[num];
         associations = new short[num];
 
         for (int i = 0, j = 2; i < num; i++) {
-            channels[i] =
-                (short)(((data[j++] & 0xFF) << 8) + (data[j++] & 0xFF));
+            channels[i] = (short)(((data[j++] & 0xFF) << 8) + (data[j++] & 0xFF));
             types[i] = (short)(((data[j++] & 0xFF) << 8) + (data[j++] & 0xFF));
-            associations[i] =
-                (short)(((data[j++] & 0xFF) << 8) + (data[j++] & 0xFF));
+            associations[i] = (short)(((data[j++] & 0xFF) << 8) + (data[j++] & 0xFF));
         }
     }
 
     /** Returns the defined channels. */
-    public short[] getChannel() {
+    public short[] getChannel()
+    {
         return channels;
     }
 
     /** Returns the channel types. */
-    public short[] getTypes() {
+    public short[] getTypes()
+    {
         return types;
     }
 
-    /** Returns the association which associates a color channel to a color
-     *  component in the color space of the image.
+    /**
+     * Returns the association which associates a color channel to a color
+     * component in the color space of the image.
      */
-    public short[] getAssociation() {
+    public short[] getAssociation()
+    {
         return associations;
     }
 
-    /** Creates an <code>IIOMetadataNode</code> from this channel definition
-     *  box.  The format of this node is defined in the XML dtd and xsd
-     *  for the JP2 image file.
+    /**
+     * Creates an <code>IIOMetadataNode</code> from this channel definition
+     * box. The format of this node is defined in the XML dtd and xsd
+     * for the JP2 image file.
      */
     @Override
-    public IIOMetadataNode getNativeNode() {
+    public IIOMetadataNode getNativeNode()
+    {
         IIOMetadataNode node = new IIOMetadataNode(Box.getName(getType()));
         setDefaultAttributes(node);
 
         IIOMetadataNode child = new IIOMetadataNode("NumberOfDefinition");
         child.setUserObject(Short.valueOf(num));
         child.setNodeValue("" + num);
-	node.appendChild(child);
+        node.appendChild(child);
 
         child = new IIOMetadataNode("Definitions");
         node.appendChild(child);
@@ -237,17 +256,17 @@ public class ChannelDefinitionBox extends Box {
         for (int i = 0; i < num; i++) {
             IIOMetadataNode child1 = new IIOMetadataNode("ChannelNumber");
             child1.setUserObject(Short.valueOf(channels[i]));
-	    child1.setNodeValue("" + channels[i]);
+            child1.setNodeValue("" + channels[i]);
             child.appendChild(child1);
 
             child1 = new IIOMetadataNode("ChannelType");
             child1.setUserObject(Short.valueOf(types[i]));
-	    child1.setNodeValue("" + types[i]);
+            child1.setNodeValue("" + types[i]);
             child.appendChild(child1);
 
             child1 = new IIOMetadataNode("Association");
             child1.setUserObject(Short.valueOf(associations[i]));
-	    child1.setNodeValue("" + associations[i]);
+            child1.setNodeValue("" + associations[i]);
             child.appendChild(child1);
         }
 
@@ -255,7 +274,8 @@ public class ChannelDefinitionBox extends Box {
     }
 
     @Override
-    protected void compose() {
+    protected void compose()
+    {
         if (data != null)
             return;
         int len = num * 6 + 2;

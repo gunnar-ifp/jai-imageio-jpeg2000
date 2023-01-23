@@ -52,15 +52,20 @@ package jj2000.j2k.codestream.reader;
  * This class contains location of code-blocks' piece of codewords
  * (there is one piece per layer) and some other information.
  *
- * */
-public class CBlkInfo{
+ */
+public class CBlkInfo
+{
 
-    /** Upper-left x-coordinate of the code-block (relative to the
-        tile) */
+    /**
+     * Upper-left x-coordinate of the code-block (relative to the
+     * tile)
+     */
     public int ulx;
 
-    /** Upper-left y-coordinate of the code-block (relative to the
-        tile) */
+    /**
+     * Upper-left y-coordinate of the code-block (relative to the
+     * tile)
+     */
     public int uly;
 
     /** Width of the code-block */
@@ -69,8 +74,10 @@ public class CBlkInfo{
     /** Height of the code-block */
     public int h;
 
-    /** The number of most significant bits which are skipped for this
-     * code-block (= Mb-1-bitDepth). See VM text */
+    /**
+     * The number of most significant bits which are skipped for this
+     * code-block (= Mb-1-bitDepth). See VM text
+     */
     public int msbSkipped;
 
     /** Length of each piece of code-block's codewords */
@@ -85,8 +92,10 @@ public class CBlkInfo{
     /** The cumulative number of truncation points */
     public int ctp;
 
-    /** The length of each segment (used with regular termination or
-     * in selective arithmetic bypass coding mode) */
+    /**
+     * The length of each segment (used with regular termination or
+     * in selective arithmetic bypass coding mode)
+     */
     public int[][] segLen;
 
     /** Index of the packet where each layer has been found */
@@ -108,7 +117,8 @@ public class CBlkInfo{
      * @param nl The number of layers
      *
      */
-    public CBlkInfo(int ulx,int uly,int w,int h,int nl){
+    public CBlkInfo(int ulx, int uly, int w, int h, int nl)
+    {
         this.ulx = ulx;
         this.uly = uly;
         this.w = w;
@@ -117,9 +127,9 @@ public class CBlkInfo{
         len = new int[nl];
         ntp = new int[nl];
         segLen = new int[nl][];
-	pktIdx = new int[nl];
-	for(int i=nl-1;i>=0;i--)
-	    pktIdx[i] = -1;
+        pktIdx = new int[nl];
+        for (int i = nl - 1; i >= 0; i--)
+            pktIdx[i] = -1;
     }
 
     /**
@@ -130,10 +140,11 @@ public class CBlkInfo{
      * @param newtp Number of new truncation points
      *
      */
-    public void addNTP(int l,int newtp){
+    public void addNTP(int l, int newtp)
+    {
         ntp[l] = newtp;
         ctp = 0;
-        for(int lIdx=0; lIdx<=l; lIdx++){
+        for (int lIdx = 0; lIdx <= l; lIdx++) {
             ctp += ntp[lIdx];
         }
     }
@@ -145,23 +156,24 @@ public class CBlkInfo{
      *
      */
     @Override
-    public String toString(){
-        String string = "(ulx,uly,w,h)= "+ulx+","+uly+","+w+","+h;
-        string += ", "+msbSkipped+" MSB bit(s) skipped\n";
-        if( len!=null )
-            for(int i=0; i<len.length; i++){
-                string += "\tl:"+i+", start:"+off[i]+
-                    ", len:"+len[i]+", ntp:"+ntp[i]+", pktIdx="+
-		    pktIdx[i];
-                if(segLen!=null && segLen[i]!=null){
+    public String toString()
+    {
+        String string = "(ulx,uly,w,h)= " + ulx + "," + uly + "," + w + "," + h;
+        string += ", " + msbSkipped + " MSB bit(s) skipped\n";
+        if (len != null)
+            for (int i = 0; i < len.length; i++) {
+                string += "\tl:" + i + ", start:" + off[i] +
+                    ", len:" + len[i] + ", ntp:" + ntp[i] + ", pktIdx=" +
+                    pktIdx[i];
+                if (segLen != null && segLen[i] != null) {
                     string += " { ";
-                    for(int j=0; j<segLen[i].length; j++)
-                        string += segLen[i][j]+" ";
+                    for (int j = 0; j < segLen[i].length; j++)
+                        string += segLen[i][j] + " ";
                     string += "}";
                 }
                 string += "\n";
             }
-        string += "\tctp="+ctp;
+        string += "\tctp=" + ctp;
         return string;
     }
 }

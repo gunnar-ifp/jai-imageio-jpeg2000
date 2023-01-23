@@ -54,16 +54,19 @@ import org.w3c.dom.NodeList;
 
 import com.github.jaiimageio.impl.common.ImageUtil;
 
-/** This class is designed to represent a palette box for JPEG 2000 JP2 file
- *  format.  A palette box has a length, and a fixed type of "pclr".
+/**
+ * This class is designed to represent a palette box for JPEG 2000 JP2 file
+ * format. A palette box has a length, and a fixed type of "pclr".
  *
  * Its content contains the number of palette entry, the number of color
  * components, the bit depths of the output components, the LUT.
  *
  * Currently, only 8-bit color index is supported.
  */
-public class PaletteBox extends Box {
-    /** The value of the data elements.
+public class PaletteBox extends Box
+{
+    /**
+     * The value of the data elements.
      */
     private int numEntries;
     private int numComps;
@@ -71,16 +74,19 @@ public class PaletteBox extends Box {
     private byte[][] lut;
 
     /** Compute the length of this box. */
-    private static int computeLength(IndexColorModel icm) {
+    private static int computeLength(IndexColorModel icm)
+    {
         int size = icm.getMapSize();
         int[] comp = icm.getComponentSize();
         return 11 + comp.length + size * comp.length;
     }
 
-    /** Gets the size of the components or the bit depth for all the color
-     *  coomponents.
+    /**
+     * Gets the size of the components or the bit depth for all the color
+     * coomponents.
      */
-    private static byte[] getCompSize(IndexColorModel icm) {
+    private static byte[] getCompSize(IndexColorModel icm)
+    {
         int[] comp = icm.getComponentSize();
         int size = comp.length;
         byte[] buf = new byte[size];
@@ -89,10 +95,12 @@ public class PaletteBox extends Box {
         return buf;
     }
 
-    /** Gets the LUT from the <code>IndexColorModel</code> as an two-dimensional
-     *  byte array.
+    /**
+     * Gets the LUT from the <code>IndexColorModel</code> as an two-dimensional
+     * byte array.
      */
-    private static byte[][] getLUT(IndexColorModel icm) {
+    private static byte[][] getLUT(IndexColorModel icm)
+    {
         int[] comp = icm.getComponentSize();
         int size = icm.getMapSize();
         byte[][] lut = new byte[comp.length][size];
@@ -104,17 +112,21 @@ public class PaletteBox extends Box {
         return lut;
     }
 
-    /** Constructs a <code>PlatteBox</code> from an
-     *  <code>IndexColorModel</code>.
+    /**
+     * Constructs a <code>PlatteBox</code> from an
+     * <code>IndexColorModel</code>.
      */
-    public PaletteBox(IndexColorModel icm) {
+    public PaletteBox(IndexColorModel icm)
+    {
         this(computeLength(icm), getCompSize(icm), getLUT(icm));
     }
 
-    /** Constructs a <code>PlatteBox</code> from an
-     *  <code>org.w3c.dom.Node</code>.
+    /**
+     * Constructs a <code>PlatteBox</code> from an
+     * <code>org.w3c.dom.Node</code>.
      */
-    public PaletteBox(Node node) throws IIOInvalidTreeException {
+    public PaletteBox(Node node) throws IIOInvalidTreeException
+    {
         super(node);
         byte[][] tlut = null;
         int index = 0;
@@ -141,7 +153,7 @@ public class PaletteBox extends Box {
 
                 NodeList children1 = child.getChildNodes();
 
-                for (int j = 0; j <children1.getLength(); j++) {
+                for (int j = 0; j < children1.getLength(); j++) {
                     Node child1 = children1.item(j);
                     name = child1.getNodeName();
                     if ("LUTRow".equals(name)) {
@@ -161,10 +173,12 @@ public class PaletteBox extends Box {
 
     }
 
-    /** Constructs a <code>PlatteBox</code> from the provided length, bit
-     *  depths of the color components and the LUT.
+    /**
+     * Constructs a <code>PlatteBox</code> from the provided length, bit
+     * depths of the color components and the LUT.
      */
-    public PaletteBox(int length, byte[] comp, byte[][] lut) {
+    public PaletteBox(int length, byte[] comp, byte[][] lut)
+    {
         super(length, 0x70636C72, null);
         this.bitDepth = comp;
         this.lut = lut;
@@ -172,54 +186,62 @@ public class PaletteBox extends Box {
         this.numComps = lut.length;
     }
 
-    /** Constructs a <code>PlatteBox</code> from the provided byte array.
+    /**
+     * Constructs a <code>PlatteBox</code> from the provided byte array.
      */
-    public PaletteBox(byte[] data) {
+    public PaletteBox(byte[] data)
+    {
         super(8 + data.length, 0x70636C72, data);
     }
 
     /** Return the number of palette entries. */
-    public int getNumEntries() {
+    public int getNumEntries()
+    {
         return numEntries;
     }
 
     /** Return the number of color components. */
-    public int getNumComp() {
+    public int getNumComp()
+    {
         return numComps;
     }
 
     /** Return the bit depths for all the color components. */
-    public byte[] getBitDepths() {
+    public byte[] getBitDepths()
+    {
         return bitDepth;
     }
 
     /** Return the LUT. */
-    public byte[][] getLUT() {
+    public byte[][] getLUT()
+    {
         return lut;
     }
 
-    /** creates an <code>IIOMetadataNode</code> from this palette box.
-     *  The format of this node is defined in the XML dtd and xsd
-     *  for the JP2 image file.
+    /**
+     * creates an <code>IIOMetadataNode</code> from this palette box.
+     * The format of this node is defined in the XML dtd and xsd
+     * for the JP2 image file.
      */
     @Override
-    public IIOMetadataNode getNativeNode() {
+    public IIOMetadataNode getNativeNode()
+    {
         IIOMetadataNode node = new IIOMetadataNode(Box.getName(getType()));
         setDefaultAttributes(node);
 
         IIOMetadataNode child = new IIOMetadataNode("NumberEntries");
         child.setUserObject(Integer.valueOf(numEntries));
-	child.setNodeValue("" + numEntries);
+        child.setNodeValue("" + numEntries);
         node.appendChild(child);
 
         child = new IIOMetadataNode("NumberColors");
         child.setUserObject(Integer.valueOf(numComps));
-	child.setNodeValue("" + numComps);
+        child.setNodeValue("" + numComps);
         node.appendChild(child);
 
         child = new IIOMetadataNode("BitDepth");
         child.setUserObject(bitDepth);
-	child.setNodeValue(ImageUtil.convertObjectToString(bitDepth));
+        child.setNodeValue(ImageUtil.convertObjectToString(bitDepth));
         node.appendChild(child);
 
         child = new IIOMetadataNode("LUT");
@@ -230,7 +252,7 @@ public class PaletteBox extends Box {
                 row[j] = lut[j][i];
 
             child1.setUserObject(row);
-	    child1.setNodeValue(ImageUtil.convertObjectToString(row));
+            child1.setNodeValue(ImageUtil.convertObjectToString(row));
             child.appendChild(child1);
         }
         node.appendChild(child);
@@ -239,7 +261,8 @@ public class PaletteBox extends Box {
     }
 
     @Override
-    protected void parse(byte[] data) {
+    protected void parse(byte[] data)
+    {
         if (data == null)
             return;
         numEntries = (short)(((data[0] & 0xFF) << 8) | (data[1] & 0xFF));
@@ -255,7 +278,8 @@ public class PaletteBox extends Box {
     }
 
     @Override
-    protected void compose() {
+    protected void compose()
+    {
         if (data != null)
             return;
         data = new byte[3 + numComps + numEntries * numComps];

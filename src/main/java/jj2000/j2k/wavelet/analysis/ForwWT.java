@@ -56,12 +56,14 @@ import jj2000.j2k.wavelet.WaveletTransform;
  * specifics of forward wavelet transforms. Classes that implement forward
  * wavelet transfoms should implement this interface.
  *
- * <P>This class does not define the methods to transfer data, just the
+ * <P>
+ * This class does not define the methods to transfer data, just the
  * specifics to forward wavelet transform. Different data transfer methods are
  * evisageable for different transforms.
  *
- * */
-public interface ForwWT extends WaveletTransform, ForwWTDataProps {
+ */
+public interface ForwWT extends WaveletTransform, ForwWTDataProps
+{
 
     /**
      * Returns the horizontal analysis wavelet filters used in each
@@ -73,10 +75,12 @@ public interface ForwWT extends WaveletTransform, ForwWTDataProps {
      * elements in the array than the number of resolution levels,
      * then the last one is assumed to repeat itself.
      *
-     * <P>The returned filters are applicable only to the specified
+     * <P>
+     * The returned filters are applicable only to the specified
      * component and in the current tile.
      *
-     * <P>The resolution level of a subband is the resolution level to
+     * <P>
+     * The resolution level of a subband is the resolution level to
      * which a subband contributes, which is different from its
      * decomposition level.
      *
@@ -89,7 +93,7 @@ public interface ForwWT extends WaveletTransform, ForwWTDataProps {
      * level.
      *
      *
-     * */
+     */
     public AnWTFilter[] getHorAnWaveletFilters(int t, int c);
 
     /**
@@ -102,10 +106,12 @@ public interface ForwWT extends WaveletTransform, ForwWTDataProps {
      * elements in the array than the number of resolution levels,
      * then the last one is assumed to repeat itself.
      *
-     * <P>The returned filters are applicable only to the specified
+     * <P>
+     * The returned filters are applicable only to the specified
      * component and in the current tile.
      *
-     * <P>The resolution level of a subband is the resolution level to
+     * <P>
+     * The resolution level of a subband is the resolution level to
      * which a subband contributes, which is different from its
      * decomposition level.
      *
@@ -118,8 +124,8 @@ public interface ForwWT extends WaveletTransform, ForwWTDataProps {
      * level.
      *
      *
-     * */
-    public AnWTFilter[] getVertAnWaveletFilters(int t,int c);
+     */
+    public AnWTFilter[] getVertAnWaveletFilters(int t, int c);
 
     /**
      * Returns the number of decomposition levels that are applied to
@@ -134,8 +140,8 @@ public interface ForwWT extends WaveletTransform, ForwWTDataProps {
      * band (0 for no wavelet transform).
      *
      *
-     * */
-    public int getDecompLevels(int t,int c);
+     */
+    public int getDecompLevels(int t, int c);
 
     /**
      * Returns the wavelet tree decomposition. Only WT_DECOMP_DYADIC
@@ -148,6 +154,6 @@ public interface ForwWT extends WaveletTransform, ForwWTDataProps {
      * @return The wavelet decomposition.
      *
      *
-     * */
-    public int getDecomp(int t,int c);
+     */
+    public int getDecomp(int t, int c);
 }

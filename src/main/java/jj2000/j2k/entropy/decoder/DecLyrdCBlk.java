@@ -59,15 +59,17 @@ import jj2000.j2k.entropy.CodedCBlk;
  * decoder engine only. Some data of the coded-block is stored
  * in the super class, see CodedCBlk.
  *
- * <P>A code-block may have its progressive attribute set (i.e. the
+ * <P>
+ * A code-block may have its progressive attribute set (i.e. the
  * 'prog' flag is true). If a code-block is progressive then it means
  * that more data for it may be obtained for an improved quality. If
  * the progressive flag is false then no more data is available from
  * the source for this code-block.
  *
  * @see CodedCBlk
- * */
-public class DecLyrdCBlk extends CodedCBlk {
+ */
+public class DecLyrdCBlk extends CodedCBlk
+{
 
     /** The horizontal coordinate of the upper-left corner of the code-block */
     public int ulx;
@@ -81,7 +83,8 @@ public class DecLyrdCBlk extends CodedCBlk {
     /** The height of the code-block */
     public int h;
 
-    /** The coded (compressed) data length. The data is stored in the
+    /**
+     * The coded (compressed) data length. The data is stored in the
      * 'data' array (see super class).
      */
     public int dl;
@@ -95,36 +98,41 @@ public class DecLyrdCBlk extends CodedCBlk {
     /** The index of the first truncation point returned */
     public int ftpIdx;
 
-    /** The total number of truncation points from layer 1 to the last one in
+    /**
+     * The total number of truncation points from layer 1 to the last one in
      * this object. The number of truncation points in 'data' is
-     * 'nTrunc-ftpIdx'. */
+     * 'nTrunc-ftpIdx'.
+     */
     public int nTrunc;
 
-    /** The length of each terminated segment. If null then there is only one
+    /**
+     * The length of each terminated segment. If null then there is only one
      * terminated segment, and its length is 'dl'. The number of terminated
      * segments is to be deduced from 'ftpIdx', 'nTrunc' and the coding
      * options. This array contains all terminated segments from the 'ftpIdx'
      * truncation point, upto, and including, the 'nTrunc-1' truncation
-     * point. Any data after 'nTrunc-1' is not included in any length. */
+     * point. Any data after 'nTrunc-1' is not included in any length.
+     */
     public int tsLengths[];
 
-    /** Object information in a string
+    /**
+     * Object information in a string
      *
      * @return Information in a string
      *
      *
      */
     @Override
-    public String toString(){
-        String str=
-            "Coded code-block ("+m+","+n+"): "+skipMSBP+" MSB skipped, "+
-            dl+" bytes, "+nTrunc+" truncation points, "+nl+" layers, "+
-            "progressive= "+prog+", ulx= "+ulx+", uly= "+uly+
-            ", w= "+w+", h= "+h+", ftpIdx="+ftpIdx;
-        if(tsLengths!=null){
+    public String toString()
+    {
+        String str = "Coded code-block (" + m + "," + n + "): " + skipMSBP + " MSB skipped, " +
+            dl + " bytes, " + nTrunc + " truncation points, " + nl + " layers, " +
+            "progressive= " + prog + ", ulx= " + ulx + ", uly= " + uly +
+            ", w= " + w + ", h= " + h + ", ftpIdx=" + ftpIdx;
+        if (tsLengths != null) {
             str += " {";
-            for(int i=0; i<tsLengths.length; i++)
-                str += " "+tsLengths[i];
+            for (int i = 0; i < tsLengths.length; i++)
+                str += " " + tsLengths[i];
             str += " }";
         }
         return str;

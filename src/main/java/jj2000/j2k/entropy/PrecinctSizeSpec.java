@@ -59,18 +59,22 @@ import com.github.jaiimageio.jpeg2000.impl.J2KImageWriteParamJava;
  * This class extends ModuleSpec class for precinct partition sizes holding
  * purposes.
  *
- * <p>It stores the size a of precinct when precinct partition is used or not.
+ * <p>
+ * It stores the size a of precinct when precinct partition is used or not.
  * If precinct partition is used, we can have several packets for a given
  * resolution level whereas there is only one packet per resolution level if
  * no precinct partition is used.
- * */
-public class PrecinctSizeSpec extends ModuleSpec {
+ */
+public class PrecinctSizeSpec extends ModuleSpec
+{
 
     /** Name of the option */
     private static final String optName = "Cpp";
 
-    /** Reference to wavelet number of decomposition levels for each
-     * tile-component.  */
+    /**
+     * Reference to wavelet number of decomposition levels for each
+     * tile-component.
+     */
     private IntegerSpec dls;
 
     /**
@@ -86,8 +90,9 @@ public class PrecinctSizeSpec extends ModuleSpec {
      *
      * @param dls Reference to the number of decomposition levels
      * specification
-     * */
-    public PrecinctSizeSpec(int nt, int nc, byte type, IntegerSpec dls) {
+     */
+    public PrecinctSizeSpec(int nt, int nc, byte type, IntegerSpec dls)
+    {
         super(nt, nc, type);
         this.dls = dls;
     }
@@ -106,9 +111,10 @@ public class PrecinctSizeSpec extends ModuleSpec {
      * @param imgsrc The image source (used to get the image size)
      *
      * @param wp The J2KImageWriteParamJava instance
-     * */
+     */
     public PrecinctSizeSpec(int nt, int nc, byte type, BlkImgDataSrc imgsrc,
-                          IntegerSpec dls, J2KImageWriteParamJava wp, String values) {
+        IntegerSpec dls, J2KImageWriteParamJava wp, String values)
+    {
         super(nt, nc, type);
 
         this.dls = dls;
@@ -131,8 +137,8 @@ public class PrecinctSizeSpec extends ModuleSpec {
 
         String param = values;
 /*
-        if (values == null)
-            param = defaultValue;   // the default is null
+if (values == null)
+    param = defaultValue;   // the default is null
 */
         // Set precinct sizes to default i.e. 2^15 =
         // Markers.PRECINCT_PARTITION_DEF_SIZE
@@ -143,7 +149,7 @@ public class PrecinctSizeSpec extends ModuleSpec {
         tmpv[1].addElement(Integer.valueOf(Markers.PRECINCT_PARTITION_DEF_SIZE));
         setDefault(tmpv);
 
-        if ( param==null ) {
+        if (param == null) {
             // No precinct size specified in the command line so we do not try
             // to parse it.
             return;
@@ -162,169 +168,168 @@ public class PrecinctSizeSpec extends ModuleSpec {
         Integer w, h;
         String errMsg = null;
 
-        while((stk.hasMoreTokens() || wasReadingPrecinctSize) &&
-              !endOfParamList){
+        while ((stk.hasMoreTokens() || wasReadingPrecinctSize) &&
+            !endOfParamList) {
 
             Vector v[] = new Vector[2]; // v[0] : ppx, v[1] : ppy
 
             // We do not read the next token if we were reading a precinct's
             // size argument as we have already read the next token into word.
-            if ( !wasReadingPrecinctSize ) {
+            if (!wasReadingPrecinctSize) {
                 word = stk.nextToken();
             }
 
             wasReadingPrecinctSize = false;
 
-            switch(word.charAt(0)){
+            switch (word.charAt(0)) {
 
-            case 't': // Tiles specification
-                tileSpec = parseIdx(word,nTiles);
-                if(curSpecType==SPEC_COMP_DEF) {
-                    curSpecType = SPEC_TILE_COMP;
-                }
-                else {
-                    curSpecType = SPEC_TILE_DEF;
-                }
-                break;
-
-            case 'c': // Components specification
-                compSpec = parseIdx(word,nComp);
-                if(curSpecType==SPEC_TILE_DEF) {
-                    curSpecType = SPEC_TILE_COMP;
-                }
-                else {
-                    curSpecType = SPEC_COMP_DEF;
-                }
-                break;
-
-            default:
-                if ( !Character.isDigit(word.charAt(0)) ) {
-                    errMsg = "Bad construction for parameter: "+word;
-                    throw new IllegalArgumentException(errMsg);
-                }
-
-                // Initialises Vector objects
-                v[0] = new Vector(); // ppx
-                v[1] = new Vector(); // ppy
-
-                while ( true ) {
-
-                    // Now get the precinct dimensions
-                    try {
-                        // Get precinct width
-                        w = Integer.valueOf(word);
-
-                        // Get next word in argument list
-                        try {
-                            word = stk.nextToken();
-                        }
-                        catch (NoSuchElementException e) {
-                            errMsg = "'"+optName+"' option : could not "+
-                                "parse the precinct's width";
-                            throw new IllegalArgumentException(errMsg);
-
-                        }
-                        // Get precinct height
-                        h = Integer.valueOf(word);
-                        if (w.intValue() != (1<<MathUtil.log2(w.intValue()))
-                            || h.intValue() !=
-                            (1<<MathUtil.log2(h.intValue())) ) {
-                            errMsg = "Precinct dimensions must be powers of 2";
-                            throw new IllegalArgumentException(errMsg);
-                        }
+                case 't': // Tiles specification
+                    tileSpec = parseIdx(word, nTiles);
+                    if (curSpecType == SPEC_COMP_DEF) {
+                        curSpecType = SPEC_TILE_COMP;
                     }
-                    catch( NumberFormatException e) {
-                        errMsg = "'"+optName+"' option : the argument '"+word+
-                            "' could not be parsed.";
+                    else {
+                        curSpecType = SPEC_TILE_DEF;
+                    }
+                    break;
+
+                case 'c': // Components specification
+                    compSpec = parseIdx(word, nComp);
+                    if (curSpecType == SPEC_TILE_DEF) {
+                        curSpecType = SPEC_TILE_COMP;
+                    }
+                    else {
+                        curSpecType = SPEC_COMP_DEF;
+                    }
+                    break;
+
+                default:
+                    if (!Character.isDigit(word.charAt(0))) {
+                        errMsg = "Bad construction for parameter: " + word;
                         throw new IllegalArgumentException(errMsg);
                     }
-                    // Store packet's dimensions in Vector arrays
-                    v[0].addElement(w);
-                    v[1].addElement(h);
 
-                    // Try to get the next token
-                    if ( stk.hasMoreTokens() ) {
-                        word = stk.nextToken();
-                        if ( !Character.isDigit(word.charAt(0)) ) {
-                            // The next token does not start with a digit so
-                            // it is not a precinct's size argument. We set
-                            // the wasReadingPrecinctSize booleen such that we
-                            // know that we don't have to read another token
-                            // and check for the end of the parameters list.
-                            wasReadingPrecinctSize = true;
+                    // Initialises Vector objects
+                    v[0] = new Vector(); // ppx
+                    v[1] = new Vector(); // ppy
 
-                            if(curSpecType==SPEC_DEF){
+                    while (true) {
+
+                        // Now get the precinct dimensions
+                        try {
+                            // Get precinct width
+                            w = Integer.valueOf(word);
+
+                            // Get next word in argument list
+                            try {
+                                word = stk.nextToken();
+                            }
+                            catch (NoSuchElementException e) {
+                                errMsg = "'" + optName + "' option : could not " +
+                                    "parse the precinct's width";
+                                throw new IllegalArgumentException(errMsg);
+
+                            }
+                            // Get precinct height
+                            h = Integer.valueOf(word);
+                            if (w.intValue() != (1 << MathUtil.log2(w.intValue()))
+                                || h.intValue() != (1 << MathUtil.log2(h.intValue()))) {
+                                errMsg = "Precinct dimensions must be powers of 2";
+                                throw new IllegalArgumentException(errMsg);
+                            }
+                        }
+                        catch (NumberFormatException e) {
+                            errMsg = "'" + optName + "' option : the argument '" + word +
+                                "' could not be parsed.";
+                            throw new IllegalArgumentException(errMsg);
+                        }
+                        // Store packet's dimensions in Vector arrays
+                        v[0].addElement(w);
+                        v[1].addElement(h);
+
+                        // Try to get the next token
+                        if (stk.hasMoreTokens()) {
+                            word = stk.nextToken();
+                            if (!Character.isDigit(word.charAt(0))) {
+                                // The next token does not start with a digit so
+                                // it is not a precinct's size argument. We set
+                                // the wasReadingPrecinctSize booleen such that we
+                                // know that we don't have to read another token
+                                // and check for the end of the parameters list.
+                                wasReadingPrecinctSize = true;
+
+                                if (curSpecType == SPEC_DEF) {
+                                    setDefault(v);
+                                }
+                                else if (curSpecType == SPEC_TILE_DEF) {
+                                    for (ti = tileSpec.length - 1; ti >= 0; ti--) {
+                                        if (tileSpec[ti]) {
+                                            setTileDef(ti, v);
+                                        }
+                                    }
+                                }
+                                else if (curSpecType == SPEC_COMP_DEF) {
+                                    for (ci = compSpec.length - 1; ci >= 0; ci--) {
+                                        if (compSpec[ci]) {
+                                            setCompDef(ci, v);
+                                        }
+                                    }
+                                }
+                                else {
+                                    for (ti = tileSpec.length - 1; ti >= 0; ti--) {
+                                        for (ci = compSpec.length - 1; ci >= 0; ci--) {
+                                            if (tileSpec[ti] && compSpec[ci]) {
+                                                setTileCompVal(ti, ci, v);
+                                            }
+                                        }
+                                    }
+                                }
+                                // Re-initialize
+                                curSpecType = SPEC_DEF;
+                                tileSpec = null;
+                                compSpec = null;
+
+                                // Go back to 'normal' parsing
+                                break;
+                            }
+                            else {
+                                // Next token starts with a digit so read it
+                            }
+                        }
+                        else {
+                            // We have reached the end of the parameters list so
+                            // we store the last precinct's sizes and we stop
+                            if (curSpecType == SPEC_DEF) {
                                 setDefault(v);
                             }
-                            else if(curSpecType==SPEC_TILE_DEF){
-                                for(ti=tileSpec.length-1; ti>=0; ti--) {
-                                    if( tileSpec[ti] ){
-                                        setTileDef(ti,v);
+                            else if (curSpecType == SPEC_TILE_DEF) {
+                                for (ti = tileSpec.length - 1; ti >= 0; ti--) {
+                                    if (tileSpec[ti]) {
+                                        setTileDef(ti, v);
                                     }
                                 }
                             }
-                            else if(curSpecType==SPEC_COMP_DEF){
-                                for(ci=compSpec.length-1; ci>=0; ci--) {
-                                    if( compSpec[ci] ){
-                                        setCompDef(ci,v);
+                            else if (curSpecType == SPEC_COMP_DEF) {
+                                for (ci = compSpec.length - 1; ci >= 0; ci--) {
+                                    if (compSpec[ci]) {
+                                        setCompDef(ci, v);
                                     }
                                 }
                             }
-                            else{
-                                for(ti=tileSpec.length-1; ti>=0; ti--){
-                                    for(ci=compSpec.length-1; ci>=0 ; ci--){
-                                        if(tileSpec[ti] && compSpec[ci]){
-                                            setTileCompVal(ti,ci,v);
+                            else {
+                                for (ti = tileSpec.length - 1; ti >= 0; ti--) {
+                                    for (ci = compSpec.length - 1; ci >= 0; ci--) {
+                                        if (tileSpec[ti] && compSpec[ci]) {
+                                            setTileCompVal(ti, ci, v);
                                         }
                                     }
                                 }
                             }
-                            // Re-initialize
-                            curSpecType = SPEC_DEF;
-                            tileSpec = null;
-                            compSpec = null;
-
-                            // Go back to 'normal' parsing
+                            endOfParamList = true;
                             break;
                         }
-                        else {
-                            // Next token starts with a digit so read it
-                        }
-                    }
-                    else {
-                        // We have reached the end of the parameters list so
-                        // we store the last precinct's sizes and we stop
-                        if(curSpecType==SPEC_DEF){
-                            setDefault(v);
-                        }
-                        else if(curSpecType==SPEC_TILE_DEF){
-                            for(ti=tileSpec.length-1; ti>=0; ti--) {
-                                if( tileSpec[ti] ){
-                                    setTileDef(ti,v);
-                                }
-                            }
-                        }
-                        else if(curSpecType==SPEC_COMP_DEF){
-                            for(ci=compSpec.length-1; ci>=0; ci--) {
-                                if( compSpec[ci] ){
-                                    setCompDef(ci,v);
-                                }
-                            }
-                        }
-                        else{
-                            for(ti=tileSpec.length-1; ti>=0; ti--){
-                                for(ci=compSpec.length-1; ci>=0 ; ci--){
-                                    if( tileSpec[ti] && compSpec[ci] ){
-                                        setTileCompVal(ti,ci,v);
-                                    }
-                                }
-                            }
-                        }
-                        endOfParamList = true;
-                        break;
-                    }
-                } // while (true)
-                break;
+                    } // while (true)
+                    break;
             } // switch
         } // while
     }
@@ -345,25 +350,26 @@ public class PrecinctSizeSpec extends ModuleSpec {
      *
      * @return The precinct partition width in component 'c' and tile 't' at
      * resolution level 'rl'.
-     * */
-    public int getPPX(int t, int c, int rl) {
+     */
+    public int getPPX(int t, int c, int rl)
+    {
         int mrl, idx;
-        Vector[] v=null;
-        boolean tileSpecified = (t!=-1 ? true : false);
-        boolean compSpecified = (c!=-1 ? true : false);
+        Vector[] v = null;
+        boolean tileSpecified = (t != -1 ? true : false);
+        boolean compSpecified = (c != -1 ? true : false);
 
         // Get the maximum number of decomposition levels and the object
         // (Vector array) containing the precinct dimensions (width and
         // height) for the specified (or not) tile/component
-        if ( tileSpecified && compSpecified ) {
+        if (tileSpecified && compSpecified) {
             mrl = ((Integer)dls.getTileCompVal(t, c)).intValue();
             v = (Vector[])getTileCompVal(t, c);
         }
-        else if ( tileSpecified && !compSpecified ) {
+        else if (tileSpecified && !compSpecified) {
             mrl = ((Integer)dls.getTileDef(t)).intValue();
             v = (Vector[])getTileDef(t);
         }
-        else if ( !tileSpecified && compSpecified ) {
+        else if (!tileSpecified && compSpecified) {
             mrl = ((Integer)dls.getCompDef(c)).intValue();
             v = (Vector[])getCompDef(c);
         }
@@ -372,11 +378,11 @@ public class PrecinctSizeSpec extends ModuleSpec {
             v = (Vector[])getDefault();
         }
         idx = mrl - rl;
-        if ( v[0].size() > idx ) {
-             return ((Integer)v[0].elementAt(idx)).intValue();
+        if (v[0].size() > idx) {
+            return ((Integer)v[0].elementAt(idx)).intValue();
         }
         else {
-            return ((Integer)v[0].elementAt(v[0].size()-1)).intValue();
+            return ((Integer)v[0].elementAt(v[0].size() - 1)).intValue();
         }
     }
 
@@ -396,25 +402,26 @@ public class PrecinctSizeSpec extends ModuleSpec {
      *
      * @return The precinct partition width in component 'n' and tile 't' at
      * resolution level 'rl'.
-     * */
-    public int getPPY(int t, int c, int rl) {
+     */
+    public int getPPY(int t, int c, int rl)
+    {
         int mrl, idx;
-        Vector[] v=null;
-        boolean tileSpecified = (t!=-1 ? true : false);
-        boolean compSpecified = (c!=-1 ? true : false);
+        Vector[] v = null;
+        boolean tileSpecified = (t != -1 ? true : false);
+        boolean compSpecified = (c != -1 ? true : false);
 
         // Get the maximum number of decomposition levels and the object
         // (Vector array) containing the precinct dimensions (width and
         // height) for the specified (or not) tile/component
-        if ( tileSpecified && compSpecified ) {
+        if (tileSpecified && compSpecified) {
             mrl = ((Integer)dls.getTileCompVal(t, c)).intValue();
             v = (Vector[])getTileCompVal(t, c);
         }
-        else if ( tileSpecified && !compSpecified ) {
+        else if (tileSpecified && !compSpecified) {
             mrl = ((Integer)dls.getTileDef(t)).intValue();
             v = (Vector[])getTileDef(t);
         }
-        else if ( !tileSpecified && compSpecified ) {
+        else if (!tileSpecified && compSpecified) {
             mrl = ((Integer)dls.getCompDef(c)).intValue();
             v = (Vector[])getCompDef(c);
         }
@@ -423,11 +430,11 @@ public class PrecinctSizeSpec extends ModuleSpec {
             v = (Vector[])getDefault();
         }
         idx = mrl - rl;
-        if ( v[1].size() > idx ) {
+        if (v[1].size() > idx) {
             return ((Integer)v[1].elementAt(idx)).intValue();
         }
         else {
-            return ((Integer)v[1].elementAt(v[1].size()-1)).intValue();
+            return ((Integer)v[1].elementAt(v[1].size() - 1)).intValue();
         }
     }
 }

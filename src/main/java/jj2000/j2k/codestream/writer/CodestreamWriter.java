@@ -55,25 +55,30 @@ import java.io.IOException;
  * bytes is unlimited a ridicoulosly large value, such as
  * Integer.MAX_VALUE, is equivalent.
  *
- * <P>Data may be written to the bit stream in sumulation mode. When in
+ * <P>
+ * Data may be written to the bit stream in sumulation mode. When in
  * simulation mode no data is written to the bit stream but the
  * resulting number of bytes is calculated and returned (although it
  * is not accounted in the bit stream). This can be used in rate
  * control loops.
  *
- * <P>Implementing classes should write the header of the bit stream
+ * <P>
+ * Implementing classes should write the header of the bit stream
  * before writing any packets. The bit stream header should be written
  * with the aid of the HeaderEncoder class.
  *
  * @see HeaderEncoder
- * */
-public abstract class CodestreamWriter {
+ */
+public abstract class CodestreamWriter
+{
 
     /** The number of bytes already written to the bit stream */
-    protected int ndata=0;
+    protected int ndata = 0;
 
-    /** The maximum number of bytes that can be written to the
-     * bit stream */
+    /**
+     * The maximum number of bytes that can be written to the
+     * bit stream
+     */
     protected int maxBytes;
 
     /**
@@ -82,8 +87,9 @@ public abstract class CodestreamWriter {
      *
      * @param mb The maximum number of bytes that can be written to
      * the bit stream.
-     * */
-    protected CodestreamWriter(int mb) {
+     */
+    protected CodestreamWriter(int mb)
+    {
         maxBytes = mb;
     }
 
@@ -95,14 +101,14 @@ public abstract class CodestreamWriter {
      * then a negative value is returned.
      *
      * @return The number of bytes remaining available in the bit stream.
-     * */
+     */
     public abstract int getMaxAvailableBytes();
 
     /**
      * Returns the current length of the entire bit stream.
      *
      * @return the current length of the bit stream
-     * */
+     */
     public abstract int getLength();
 
     /**
@@ -112,13 +118,15 @@ public abstract class CodestreamWriter {
      * is written to the bit stream but the number of bytes is
      * calculated. This can be used for iterative rate allocation.
      *
-     * <P>If the length of the data that is to be written to the bit stream is
+     * <P>
+     * If the length of the data that is to be written to the bit stream is
      * more than the space left (as returned by getMaxAvailableBytes()) only
      * the data that does not exceed the allowed length is written, the rest
      * is discarded. However the value returned by the method is the total
      * length of the packet, as if all of it was written to the bit stream.
      *
-     * <P>If the bit stream header has not been commited yet and 'sim' is
+     * <P>
+     * If the bit stream header has not been commited yet and 'sim' is
      * false, then the bit stream header is automatically commited (see
      * commitBitstreamHeader() method) before writting the packet.
      *
@@ -143,9 +151,9 @@ public abstract class CodestreamWriter {
      * output stream.
      *
      * @see #commitBitstreamHeader
-     * */
-    public abstract int writePacketHead(byte head[],int hlen,boolean sim,
-					boolean sop, boolean eph)
+     */
+    public abstract int writePacketHead(byte head[], int hlen, boolean sim,
+        boolean sop, boolean eph)
         throws IOException;
 
     /**
@@ -154,7 +162,8 @@ public abstract class CodestreamWriter {
      * bit stream but the number of bytes is calculated. This can be used for
      * iterative rate allocation.
      *
-     * <P>If the length of the data that is to be written to the bit stream is
+     * <P>
+     * If the length of the data that is to be written to the bit stream is
      * more than the space left (as returned by getMaxAvailableBytes()) only
      * the data that does not exceed the allowed length is written, the rest
      * is discarded. However the value returned by the method is the total
@@ -179,9 +188,9 @@ public abstract class CodestreamWriter {
      * the output stream.
      *
      * @see #commitBitstreamHeader
-     * */
-    public abstract int writePacketBody(byte body[],int blen,boolean sim,
-                                        boolean roiInPkt, int roiLen)
+     */
+    public abstract int writePacketBody(byte body[], int blen, boolean sim,
+        boolean roiInPkt, int roiLen)
         throws IOException;
 
 
@@ -192,7 +201,7 @@ public abstract class CodestreamWriter {
      *
      * @exception IOException If an I/O error occurs while closing the
      * resource.
-     * */
+     */
     public abstract void close() throws IOException;
 
     /**
@@ -204,7 +213,7 @@ public abstract class CodestreamWriter {
      *
      * @exception IllegalArgumentException If this method has already been
      * called.
-     * */
+     */
     public abstract void commitBitstreamHeader(HeaderEncoder he)
         throws IOException;
 
@@ -212,6 +221,6 @@ public abstract class CodestreamWriter {
      * Gives the offset of the end of last packet containing ROI information
      *
      * @return End of last ROI packet
-     * */
+     */
     public abstract int getOffLastROIPkt();
 }

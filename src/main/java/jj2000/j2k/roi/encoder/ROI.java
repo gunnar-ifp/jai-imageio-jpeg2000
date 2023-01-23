@@ -51,7 +51,8 @@ import jj2000.j2k.image.input.ImgReaderPGM;
  *
  * @see ROIMaskGenerator
  */
-public class ROI{
+public class ROI
+{
 
     /** ImgReaderPGM object with the arbrtrary ROI */
     public ImgReaderPGM maskPGM = null;
@@ -71,7 +72,7 @@ public class ROI{
     /** y coordinate of upper left corner of rectangular ROI */
     public int uly;
 
-    /** width of rectangular ROI  */
+    /** width of rectangular ROI */
     public int w;
 
     /** height of rectangular ROI */
@@ -83,7 +84,7 @@ public class ROI{
     /** y coordinate of center of circular ROI */
     public int y;
 
-    /** radius of circular ROI  */
+    /** radius of circular ROI */
     public int r;
 
 
@@ -94,7 +95,8 @@ public class ROI{
      *
      * @param maskPGM ImgReaderPGM containing the ROI
      */
-    public ROI(int comp, ImgReaderPGM maskPGM){
+    public ROI(int comp, ImgReaderPGM maskPGM)
+    {
         arbShape = true;
         rect = false;
         this.comp = comp;
@@ -114,14 +116,15 @@ public class ROI{
      *
      * @param h height of ROI
      */
-    public ROI(int comp, int ulx, int uly, int w, int h){
+    public ROI(int comp, int ulx, int uly, int w, int h)
+    {
         arbShape = false;
         this.comp = comp;
-	this.ulx = ulx;
-	this.uly = uly;
-	this.w = w;
-	this.h = h;
-	rect = true;
+        this.ulx = ulx;
+        this.uly = uly;
+        this.w = w;
+        this.h = h;
+        rect = true;
     }
 
     /**
@@ -135,38 +138,33 @@ public class ROI{
      *
      * @param rad radius of ROI
      */
-    public ROI(int comp, int x, int y, int rad){
+    public ROI(int comp, int x, int y, int rad)
+    {
         arbShape = false;
         this.comp = comp;
-	this.x = x;
-	this.y = y;
-	this.r = rad;
+        this.x = x;
+        this.y = y;
+        this.r = rad;
     }
 
     /**
      * This function prints all relevant data for the ROI
      */
     @Override
-    public String toString(){
-        if(arbShape) {
-            return "ROI with arbitrary shape, PGM file= "+maskPGM;
+    public String toString()
+    {
+        if (arbShape) {
+            return "ROI with arbitrary shape, PGM file= " + maskPGM;
         }
-        else if(rect)
-            return "Rectangular ROI, comp="+comp+" ulx="+ulx+" uly="+uly+
-                   " w="+w+" h="+h;
-        else
-            return "Circular ROI,  comp="+comp+" x="+x+" y="+y+
-                " radius="+r;
+        else if (rect)
+            return "Rectangular ROI, comp=" + comp + " ulx=" + ulx + " uly=" + uly +
+                " w=" + w + " h=" + h;
+        else return "Circular ROI,  comp=" + comp + " x=" + x + " y=" + y +
+            " radius=" + r;
 
     }
 
 }
-
-
-
-
-
-
 
 
 

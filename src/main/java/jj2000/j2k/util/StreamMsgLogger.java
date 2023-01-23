@@ -57,11 +57,13 @@ import java.io.Writer;
  * be simple files, terminals, stdout, stderr, etc. The messages or simple
  * strings are formatted using the linewidth given to the constructor.
  *
- * <P>Messages are printed to the 'err' stream if they are of severity WARNING
+ * <P>
+ * Messages are printed to the 'err' stream if they are of severity WARNING
  * or ERROR, otherwise they are printed to the 'out' stream. Simple strings
  * are always printed the 'out' stream.
- * */
-public class StreamMsgLogger implements MsgLogger {
+ */
+public class StreamMsgLogger implements MsgLogger
+{
 
     /** The 'out' stream */
     private PrintWriter out;
@@ -84,10 +86,11 @@ public class StreamMsgLogger implements MsgLogger {
      * @param lw The line width to use in formatting
      *
      *
-     * */
-    public StreamMsgLogger(OutputStream outstr, OutputStream errstr, int lw) {
-        out = new PrintWriter(outstr,true);
-        err = new PrintWriter(errstr,true);
+     */
+    public StreamMsgLogger(OutputStream outstr, OutputStream errstr, int lw)
+    {
+        out = new PrintWriter(outstr, true);
+        err = new PrintWriter(errstr, true);
         mp = new MsgPrinter(lw);
     }
 
@@ -103,10 +106,11 @@ public class StreamMsgLogger implements MsgLogger {
      * @param lw The line width to use in formatting
      *
      *
-     * */
-    public StreamMsgLogger(Writer outstr, Writer errstr, int lw) {
-        out = new PrintWriter(outstr,true);
-        err = new PrintWriter(errstr,true);
+     */
+    public StreamMsgLogger(Writer outstr, Writer errstr, int lw)
+    {
+        out = new PrintWriter(outstr, true);
+        err = new PrintWriter(errstr, true);
         mp = new MsgPrinter(lw);
     }
 
@@ -122,8 +126,9 @@ public class StreamMsgLogger implements MsgLogger {
      * @param lw The line width to use in formatting
      *
      *
-     * */
-    public StreamMsgLogger(PrintWriter outstr, PrintWriter errstr, int lw) {
+     */
+    public StreamMsgLogger(PrintWriter outstr, PrintWriter errstr, int lw)
+    {
         out = outstr;
         err = errstr;
         mp = new MsgPrinter(lw);
@@ -139,35 +144,36 @@ public class StreamMsgLogger implements MsgLogger {
      * @param msg The message to display
      *
      *
-     * */
+     */
     @Override
-    public void printmsg(int sev, String msg) {
+    public void printmsg(int sev, String msg)
+    {
         PrintWriter lout;
         int ind;
         String prefix;
 
         switch (sev) {
-        case LOG:
-            prefix = "[LOG]: ";
-            lout = out;
-            break;
-        case INFO:
-            prefix = "[INFO]: ";
-            lout = out;
-            break;
-        case WARNING:
-            prefix = "[WARNING]: ";
-            lout = err;
-            break;
-        case ERROR:
-            prefix = "[ERROR]: ";
-            lout = err;
-            break;
-        default:
-            throw new IllegalArgumentException("Severity "+sev+" not valid.");
+            case LOG:
+                prefix = "[LOG]: ";
+                lout = out;
+                break;
+            case INFO:
+                prefix = "[INFO]: ";
+                lout = out;
+                break;
+            case WARNING:
+                prefix = "[WARNING]: ";
+                lout = err;
+                break;
+            case ERROR:
+                prefix = "[ERROR]: ";
+                lout = err;
+                break;
+            default:
+                throw new IllegalArgumentException("Severity " + sev + " not valid.");
         }
 
-        mp.print(lout,0,prefix.length(),prefix+msg);
+        mp.print(lout, 0, prefix.length(), prefix + msg);
         lout.flush();
     }
 
@@ -189,10 +195,11 @@ public class StreamMsgLogger implements MsgLogger {
      * @param ind Indentation of any other lines.
      *
      *
-     * */
+     */
     @Override
-    public void println(String str, int flind, int ind) {
-        mp.print(out,flind,ind,str);
+    public void println(String str, int flind, int ind)
+    {
+        mp.print(out, flind, ind, str);
     }
 
     /**
@@ -200,9 +207,10 @@ public class StreamMsgLogger implements MsgLogger {
      * device.
      *
      *
-     * */
+     */
     @Override
-    public void flush() {
+    public void flush()
+    {
         out.flush();
     }
 

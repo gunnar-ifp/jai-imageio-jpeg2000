@@ -54,7 +54,8 @@ import jj2000.j2k.wavelet.WaveletFilter;
  * rectangular. In this case, the fast ROI bit-mask algorithm generation can
  * not be used.
  *
- * <P>The values are calculated from the scaling factors of the ROIs. The
+ * <P>
+ * The values are calculated from the scaling factors of the ROIs. The
  * values with which to scale are equal to u-umin where umin is the lowest
  * scaling factor within the block. The umin value is sent to the entropy
  * coder to be used for scaling the distortion values.
@@ -62,13 +63,14 @@ import jj2000.j2k.wavelet.WaveletFilter;
  * @see ROIMaskGenerator
  *
  * @see ArbROIMaskGenerator
- * */
-public class ArbROIMaskGenerator extends ROIMaskGenerator{
+ */
+public class ArbROIMaskGenerator extends ROIMaskGenerator
+{
 
     /** The source of quantized wavelet transform coefficients */
     private Quantizer src;
 
-    /** The ROI mask for the current tile for all components*/
+    /** The ROI mask for the current tile for all components */
     private int[][] roiMask;
 
     /** The low frequency part of a mask line */
@@ -77,7 +79,7 @@ public class ArbROIMaskGenerator extends ROIMaskGenerator{
     /** The High frequency part of a mask line */
     private int[] maskLineHigh;
 
-    /** A line or column of the mask with padding  */
+    /** A line or column of the mask with padding */
     private int[] paddedMaskLine;
 
     /** Flag indicating if any ROI was found to be in this tile */
@@ -91,10 +93,11 @@ public class ArbROIMaskGenerator extends ROIMaskGenerator{
      * @param nrc The number of components
      *
      * @param src The quantizer module
-     * */
-    public ArbROIMaskGenerator(ROI[] rois, int nrc, Quantizer src){
-        super(rois,nrc);
-        roiMask=new int[nrc][];
+     */
+    public ArbROIMaskGenerator(ROI[] rois, int nrc, Quantizer src)
+    {
+        super(rois, nrc);
+        roiMask = new int[nrc][];
         this.src = src;
     }
 
@@ -102,10 +105,12 @@ public class ArbROIMaskGenerator extends ROIMaskGenerator{
      * This functions gets a DataBlk the size of the current code-block an
      * fills this block with the ROI mask.
      *
-     * <P> In order to get the mask for a particular Subband, the subband tree
+     * <P>
+     * In order to get the mask for a particular Subband, the subband tree
      * is traversed and at each decomposition, the ROI masks are computed.
      *
-     * <P> The widths of the synthesis filters corresponding to the wavelet
+     * <P>
+     * The widths of the synthesis filters corresponding to the wavelet
      * filters used in the wavelet transform are used to expand the ROI masks
      * in the decompositions.
      *
@@ -120,36 +125,37 @@ public class ArbROIMaskGenerator extends ROIMaskGenerator{
      * @return Whether or not a mask was needed for this tile
      **/
     @Override
-    public boolean getROIMask(DataBlkInt db, Subband sb, int magbits, int c){
+    public boolean getROIMask(DataBlkInt db, Subband sb, int magbits, int c)
+    {
         int x = db.ulx;
         int y = db.uly;
         int w = db.w;
         int h = db.h;
         int tilew = sb.w;
         int tileh = sb.h;
-        int[] maskData= (int[])db.getData();
+        int[] maskData = (int[])db.getData();
         int i, j, k, bi, wrap;
 
         // If the ROI mask has not been calculated for this tile and
         // component, do so now.
-        if(!tileMaskMade[c]){
-            makeMask(sb,magbits,c);
-            tileMaskMade[c]=true;
+        if (!tileMaskMade[c]) {
+            makeMask(sb, magbits, c);
+            tileMaskMade[c] = true;
         }
-        if(!roiInTile)
+        if (!roiInTile)
             return false;
 
         int[] mask = roiMask[c]; // local copy
 
         // Copy relevant part of the ROI mask to the datablock
-        i=(y+h-1)*tilew+x+w-1;
-        bi=w*h-1;
-        wrap=tilew-w;
-        for(j=h ; j>0 ; j--){
-            for(k=w ; k>0 ; k--, i--, bi--){
-                maskData[bi]=mask[i];
+        i = (y + h - 1) * tilew + x + w - 1;
+        bi = w * h - 1;
+        wrap = tilew - w;
+        for (j = h; j > 0; j--) {
+            for (k = w; k > 0; k--, i--, bi--) {
+                maskData[bi] = mask[i];
             }
-            i-=wrap;
+            i -= wrap;
         }
         return true;
 
@@ -157,16 +163,18 @@ public class ArbROIMaskGenerator extends ROIMaskGenerator{
 
     /**
      * This function returns the relevant data of the mask generator
-     * */
+     */
     @Override
-    public String toString(){
-        return("Fast rectangular ROI mask generator");
+    public String toString()
+    {
+        return ("Fast rectangular ROI mask generator");
     }
 
     /**
      * This function generates the ROI mask for one tile-component.
      *
-     * <P> Once the mask is generated in the pixel domain. it is decomposed
+     * <P>
+     * Once the mask is generated in the pixel domain. it is decomposed
      * following the same decomposition scheme as the wavelet transform.
      *
      * @param sb The root of the subband tree used in the decomposition
@@ -176,79 +184,80 @@ public class ArbROIMaskGenerator extends ROIMaskGenerator{
      * @param c component number
      */
     @Override
-    public void makeMask(Subband sb, int magbits, int c){
+    public void makeMask(Subband sb, int magbits, int c)
+    {
         int mask[]; // local copy
-        ROI rois[] = this.rois;  // local copy
-        int i,j,k,r,mink,minj,maxj;
-        int lrx,lry;
-        int x,y,w,h;
-        int cx,cy,rad;
+        ROI rois[] = this.rois; // local copy
+        int i, j, k, r, mink, minj, maxj;
+        int lrx, lry;
+        int x, y, w, h;
+        int cx, cy, rad;
         int wrap;
         int curScalVal;
         int tileulx = sb.ulcx;
         int tileuly = sb.ulcy;
         int tilew = sb.w;
         int tileh = sb.h;
-        int lineLen = (tilew>tileh) ? tilew : tileh;
+        int lineLen = (tilew > tileh) ? tilew : tileh;
 
         // Make sure there is a sufficiently large mask buffer
-        if(roiMask[c] == null || ( roiMask[c].length < (tilew*tileh ))){
-            roiMask[c] = new int[tilew*tileh];
+        if (roiMask[c] == null || (roiMask[c].length < (tilew * tileh))) {
+            roiMask[c] = new int[tilew * tileh];
             mask = roiMask[c];
         }
-        else{
+        else {
             mask = roiMask[c];
-            for(i=tilew*tileh-1; i>=0; i--)
+            for (i = tilew * tileh - 1; i >= 0; i--)
                 mask[i] = 0;
         }
 
         // Make sure there are sufficiently large line buffers
-        if(maskLineLow == null || (maskLineLow.length < (lineLen+1)/2))
-            maskLineLow = new int[(lineLen+1)/2];
-        if(maskLineHigh == null || (maskLineHigh.length < (lineLen+1)/2))
-            maskLineHigh = new int[(lineLen+1)/2];
+        if (maskLineLow == null || (maskLineLow.length < (lineLen + 1) / 2))
+            maskLineLow = new int[(lineLen + 1) / 2];
+        if (maskLineHigh == null || (maskLineHigh.length < (lineLen + 1) / 2))
+            maskLineHigh = new int[(lineLen + 1) / 2];
 
         roiInTile = false;
         // Generate ROIs in pixel domain:
-        for(r=rois.length-1; r>=0; r--) {
-            if(rois[r].comp == c) {
-		curScalVal = magbits;
+        for (r = rois.length - 1; r >= 0; r--) {
+            if (rois[r].comp == c) {
+                curScalVal = magbits;
 
                 if (rois[r].arbShape) {
                     ImgReaderPGM maskPGM = rois[r].maskPGM; // Local copy
 
-                    if( (src.getImgWidth() != maskPGM.getImgWidth()) ||
-                        (src.getImgHeight() != maskPGM.getImgHeight()) )
-                        throw new IllegalArgumentException("Input image and"+
-                                                           " ROI mask must "+
-                                                           "have the same "+
-                                                           "size");
+                    if ((src.getImgWidth() != maskPGM.getImgWidth()) ||
+                        (src.getImgHeight() != maskPGM.getImgHeight()))
+                        throw new IllegalArgumentException("Input image and" +
+                            " ROI mask must " +
+                            "have the same " +
+                            "size");
                     x = src.getImgULX();
                     y = src.getImgULY();
-                    lrx = x+src.getImgWidth()-1;
-                    lry = y+src.getImgHeight()-1;
-                    if( (x>tileulx+tilew) || (y>tileuly+tileh) ||
-                        (lrx<tileulx) || (lry<tileuly) ) // Roi not in tile
+                    lrx = x + src.getImgWidth() - 1;
+                    lry = y + src.getImgHeight() - 1;
+                    if ((x > tileulx + tilew) || (y > tileuly + tileh) ||
+                        (lrx < tileulx) || (lry < tileuly)) // Roi not in tile
                         continue;
 
                     // Check bounds
-                    x   -= tileulx;
+                    x -= tileulx;
                     lrx -= tileulx;
-                    y   -= tileuly;
+                    y -= tileuly;
                     lry -= tileuly;
 
                     int offx = 0;
                     int offy = 0;
-                    if(x<0) {
+                    if (x < 0) {
                         offx = -x;
                         x = 0;
                     }
-                    if(y<0) {
+                    if (y < 0) {
                         offy = -y;
                         y = 0;
                     }
-                    w = (lrx > (tilew-1))? tilew-x:lrx+1-x;
-                    h = (lry > (tileh-1))? tileh-y:lry+1-y;
+                    w = (lrx > (tilew - 1)) ? tilew - x : lrx + 1 - x;
+                    h = (lry > (tileh - 1)) ? tileh - y : lry + 1 - y;
 
 
                     // Get shape line by line to reduce memory
@@ -260,17 +269,16 @@ public class ArbROIMaskGenerator extends ROIMaskGenerator{
                     srcblk.w = w;
                     srcblk.h = 1;
 
-                    i = (y+h-1)*tilew+x+w-1;
+                    i = (y + h - 1) * tilew + x + w - 1;
                     maxj = w;
-                    wrap = tilew-maxj;
-                    for(k=h; k>0; k--){
-                        srcblk.uly = offy+k-1;
-                        srcblk = (DataBlkInt)maskPGM.
-                            getInternCompData(srcblk,0);
+                    wrap = tilew - maxj;
+                    for (k = h; k > 0; k--) {
+                        srcblk.uly = offy + k - 1;
+                        srcblk = (DataBlkInt)maskPGM.getInternCompData(srcblk, 0);
                         src_data = srcblk.getDataInt();
 
-                        for(j=maxj; j>0; j--,i--){
-                            if(src_data[j-1] != mDcOff) {
+                        for (j = maxj; j > 0; j--, i--) {
+                            if (src_data[j - 1] != mDcOff) {
                                 mask[i] = curScalVal;
                                 nROIcoeff++;
                             }
@@ -278,51 +286,51 @@ public class ArbROIMaskGenerator extends ROIMaskGenerator{
                         i -= wrap;
                     }
 
-                    if(nROIcoeff != 0) {
+                    if (nROIcoeff != 0) {
                         roiInTile = true;
                     }
                 }
-                else if(rois[r].rect){ // Rectangular ROI
+                else if (rois[r].rect) { // Rectangular ROI
                     x = rois[r].ulx;
                     y = rois[r].uly;
-                    lrx = rois[r].w+x-1;
-                    lry = rois[r].h+y-1;
+                    lrx = rois[r].w + x - 1;
+                    lry = rois[r].h + y - 1;
 
-                    if( (x>tileulx+tilew) || (y>tileuly+tileh) ||
-                        (lrx<tileulx) || (lry<tileuly) ) // Roi not in tile
+                    if ((x > tileulx + tilew) || (y > tileuly + tileh) ||
+                        (lrx < tileulx) || (lry < tileuly)) // Roi not in tile
                         continue;
 
-                    roiInTile=true;
+                    roiInTile = true;
 
                     // Check bounds
-                    x   -= tileulx;
+                    x -= tileulx;
                     lrx -= tileulx;
-                    y   -= tileuly;
+                    y -= tileuly;
                     lry -= tileuly;
 
-                    x = (x<0) ? 0:x;
-                    y = (y<0) ? 0:y;
-                    w = (lrx > (tilew-1))? tilew-x:lrx+1-x;
-                    h = (lry > (tileh-1))? tileh-y:lry+1-y;
+                    x = (x < 0) ? 0 : x;
+                    y = (y < 0) ? 0 : y;
+                    w = (lrx > (tilew - 1)) ? tilew - x : lrx + 1 - x;
+                    h = (lry > (tileh - 1)) ? tileh - y : lry + 1 - y;
 
-                    i = (y+h-1)*tilew+x+w-1;
+                    i = (y + h - 1) * tilew + x + w - 1;
                     maxj = w;
-                    wrap = tilew-maxj;
-                    for(k=h; k>0; k--){
-                        for(j=maxj; j>0; j--,i--){
-			    mask[i] = curScalVal;
+                    wrap = tilew - maxj;
+                    for (k = h; k > 0; k--) {
+                        for (j = maxj; j > 0; j--, i--) {
+                            mask[i] = curScalVal;
                         }
                         i -= wrap;
                     }
                 }
-                else{ // Non-rectangular ROI. So far only circular case
-                    cx = rois[r].x-tileulx;
-                    cy = rois[r].y-tileuly;
+                else { // Non-rectangular ROI. So far only circular case
+                    cx = rois[r].x - tileulx;
+                    cy = rois[r].y - tileuly;
                     rad = rois[r].r;
-                    i = tileh*tilew-1;
-                    for(k=tileh-1; k>=0; k--){
-                        for(j=tilew-1; j>=0; j--,i--){
-                            if(((j-cx)*(j-cx)+(k-cy)*(k-cy) < rad*rad)){
+                    i = tileh * tilew - 1;
+                    for (k = tileh - 1; k >= 0; k--) {
+                        for (j = tilew - 1; j >= 0; j--, i--) {
+                            if (((j - cx) * (j - cx) + (k - cy) * (k - cy) < rad * rad)) {
                                 mask[i] = curScalVal;
                                 roiInTile = true;
                             }
@@ -333,26 +341,22 @@ public class ArbROIMaskGenerator extends ROIMaskGenerator{
         }
 
         // If wavelet transform is used
-        if(sb.isNode) {
+        if (sb.isNode) {
             // Decompose the mask according to the subband tree
             // Calculate size of padded line buffer
             WaveletFilter vFilter = sb.getVerWFilter();
             WaveletFilter hFilter = sb.getHorWFilter();
-            int lvsup =
-                vFilter.getSynLowNegSupport()+vFilter.getSynLowPosSupport();
-            int hvsup =
-                vFilter.getSynHighNegSupport()+vFilter.getSynHighPosSupport();
-            int lhsup =
-                hFilter.getSynLowNegSupport()+hFilter.getSynLowPosSupport();
-            int hhsup =
-                hFilter.getSynHighNegSupport()+hFilter.getSynHighPosSupport();
-            lvsup = (lvsup>hvsup)? lvsup:hvsup;
-            lhsup = (lhsup>hhsup)? lhsup:hhsup;
-            lvsup = (lvsup>lhsup)? lvsup:lhsup;
-            paddedMaskLine = new int[lineLen+lvsup];
+            int lvsup = vFilter.getSynLowNegSupport() + vFilter.getSynLowPosSupport();
+            int hvsup = vFilter.getSynHighNegSupport() + vFilter.getSynHighPosSupport();
+            int lhsup = hFilter.getSynLowNegSupport() + hFilter.getSynLowPosSupport();
+            int hhsup = hFilter.getSynHighNegSupport() + hFilter.getSynHighPosSupport();
+            lvsup = (lvsup > hvsup) ? lvsup : hvsup;
+            lhsup = (lhsup > hhsup) ? lhsup : hhsup;
+            lvsup = (lvsup > lhsup) ? lvsup : lhsup;
+            paddedMaskLine = new int[lineLen + lvsup];
 
-            if(roiInTile)
-                decomp(sb,tilew,tileh,c);
+            if (roiInTile)
+                decomp(sb, tilew, tileh, c);
         }
     }
 
@@ -370,15 +374,16 @@ public class ArbROIMaskGenerator extends ROIMaskGenerator{
      *
      * @param c component number
      */
-    private void decomp(Subband sb, int tilew, int tileh, int c){
+    private void decomp(Subband sb, int tilew, int tileh, int c)
+    {
         int ulx = sb.ulx;
         int uly = sb.uly;
         int w = sb.w;
         int h = sb.h;
-        int scalVal,maxVal = 0;
-        int i,j,k,s,hi,mi = 0,pin,li;
-        int hmax,lmax,smax;
-        int wrap,lineoffs,lastlow;
+        int scalVal, maxVal = 0;
+        int i, j, k, s, hi, mi = 0, pin, li;
+        int hmax, lmax, smax;
+        int wrap, lineoffs, lastlow;
         int[] mask = roiMask[c]; // local copy
         int[] low = maskLineLow; // local copy
         int[] high = maskLineHigh; // local copy
@@ -387,7 +392,7 @@ public class ArbROIMaskGenerator extends ROIMaskGenerator{
         int lastpin;
 
 
-        if(!sb.isNode)
+        if (!sb.isNode)
             return;
 
         // HORIZONTAL DECOMPOSITION
@@ -399,74 +404,74 @@ public class ArbROIMaskGenerator extends ROIMaskGenerator{
         int hnSup = filter.getSynHighNegSupport();
         int lpSup = filter.getSynLowPosSupport();
         int hpSup = filter.getSynHighPosSupport();
-        int lsup = lnSup+lpSup+1;
-        int hsup = hnSup+hpSup+1;
+        int lsup = lnSup + lpSup + 1;
+        int hsup = hnSup + hpSup + 1;
 
         // Calculate number of high/low coeffis in subbands
-        highFirst = sb.ulcx%2;
-        if(sb.w%2==0){
-            lmax = w/2-1;
+        highFirst = sb.ulcx % 2;
+        if (sb.w % 2 == 0) {
+            lmax = w / 2 - 1;
             hmax = lmax;
         }
-        else{
-            if(highFirst==0){
-                lmax = (w+1)/2-1;
-                hmax = w/2-1;
+        else {
+            if (highFirst == 0) {
+                lmax = (w + 1) / 2 - 1;
+                hmax = w / 2 - 1;
             }
-            else{
-                hmax = (w+1)/2-1;
-                lmax = w/2-1;
+            else {
+                hmax = (w + 1) / 2 - 1;
+                lmax = w / 2 - 1;
             }
         }
 
-        int maxnSup = (lnSup>hnSup) ? lnSup:hnSup; // Maximum negative support
-        int maxpSup = (lpSup>hpSup) ? lpSup:hpSup; // Maximum positive support
+        int maxnSup = (lnSup > hnSup) ? lnSup : hnSup; // Maximum negative support
+        int maxpSup = (lpSup > hpSup) ? lpSup : hpSup; // Maximum positive support
 
 
         // Set padding to 0
-        for(pin=maxnSup-1;pin>=0;pin--)
+        for (pin = maxnSup - 1; pin >= 0; pin--)
             padLine[pin] = 0;
-        for(pin=maxnSup+w-1+maxpSup;pin>=w;pin--)
+        for (pin = maxnSup + w - 1 + maxpSup; pin >= w; pin--)
             padLine[pin] = 0;
 
         // Do decomposition of all lines
-        lineoffs = (uly+h)*tilew+ulx+w-1;
-        for(j=h-1;j>=0;j--){
+        lineoffs = (uly + h) * tilew + ulx + w - 1;
+        for (j = h - 1; j >= 0; j--) {
             lineoffs -= tilew;
             // Get the line to transform from the mask
-            mi=lineoffs;
-            for(k=w, pin=w-1+maxnSup ; k>0 ; k--,mi--,pin--){
+            mi = lineoffs;
+            for (k = w, pin = w - 1 + maxnSup; k > 0; k--, mi--, pin--) {
                 padLine[pin] = mask[mi];
             }
 
-            lastpin = maxnSup+highFirst+2*lmax+lpSup;
-            for(k=lmax; k>=0 ; k--,lastpin-=2){ // Low frequency samples
+            lastpin = maxnSup + highFirst + 2 * lmax + lpSup;
+            for (k = lmax; k >= 0; k--, lastpin -= 2) { // Low frequency samples
                 pin = lastpin;
-                for(s=lsup;s>0;s--,pin--){
+                for (s = lsup; s > 0; s--, pin--) {
                     scalVal = padLine[pin];
-                    if(scalVal>maxVal)
+                    if (scalVal > maxVal)
                         maxVal = scalVal;
                 }
                 low[k] = maxVal;
                 maxVal = 0;
             }
-            lastpin = maxnSup-highFirst+2*hmax+1+hpSup;
-            for(k=hmax; k>=0 ; k--,lastpin-=2){ // High frequency samples
+            lastpin = maxnSup - highFirst + 2 * hmax + 1 + hpSup;
+            for (k = hmax; k >= 0; k--, lastpin -= 2) { // High frequency samples
                 pin = lastpin;
-                for(s=hsup;s>0;s--,pin--){
+                for (s = hsup; s > 0; s--, pin--) {
                     scalVal = padLine[pin];
-                    if(scalVal>maxVal)
+                    if (scalVal > maxVal)
                         maxVal = scalVal;
                 }
                 high[k] = maxVal;
                 maxVal = 0;
             }
             // Put the lows and highs back
-            mi=lineoffs;
-            for(k=hmax; k>=0; k--,mi--){
+            mi = lineoffs;
+            for (k = hmax; k >= 0; k--, mi--) {
                 mask[mi] = high[k];
             }
-            for(k=lmax;k>=0;k--,mi--){
+            for (k = lmax; k >= 0; k--, mi--) {
                 mask[mi] = low[k];
             }
         }
@@ -480,77 +485,77 @@ public class ArbROIMaskGenerator extends ROIMaskGenerator{
         hnSup = filter.getSynHighNegSupport();
         lpSup = filter.getSynLowPosSupport();
         hpSup = filter.getSynHighPosSupport();
-        lsup = lnSup+lpSup+1;
-        hsup = hnSup+hpSup+1;
+        lsup = lnSup + lpSup + 1;
+        hsup = hnSup + hpSup + 1;
 
         // Calculate number of high/low coeffs in subbands
-        highFirst = sb.ulcy%2;
-        if(sb.h%2==0){
-            lmax = h/2-1;
+        highFirst = sb.ulcy % 2;
+        if (sb.h % 2 == 0) {
+            lmax = h / 2 - 1;
             hmax = lmax;
         }
-        else{
-            if(sb.ulcy%2==0){
-                lmax = (h+1)/2-1;
-                hmax = h/2-1;
+        else {
+            if (sb.ulcy % 2 == 0) {
+                lmax = (h + 1) / 2 - 1;
+                hmax = h / 2 - 1;
             }
-            else{
-                hmax = (h+1)/2-1;
-                lmax = h/2-1;
+            else {
+                hmax = (h + 1) / 2 - 1;
+                lmax = h / 2 - 1;
             }
         }
 
-        maxnSup = (lnSup>hnSup) ? lnSup:hnSup; // Maximum negative support
-        maxpSup = (lpSup>hpSup) ? lpSup:hpSup; // Maximum positive support
+        maxnSup = (lnSup > hnSup) ? lnSup : hnSup; // Maximum negative support
+        maxpSup = (lpSup > hpSup) ? lpSup : hpSup; // Maximum positive support
 
         // Set padding to 0
-        for(pin=maxnSup-1;pin>=0;pin--)
+        for (pin = maxnSup - 1; pin >= 0; pin--)
             padLine[pin] = 0;
-        for(pin=maxnSup+h-1+maxpSup;pin>=h;pin--)
+        for (pin = maxnSup + h - 1 + maxpSup; pin >= h; pin--)
             padLine[pin] = 0;
 
         // Do decomposition of all columns
-        lineoffs=(uly+h-1)*tilew+ulx+w;
-        for(j=w-1;j>=0;j--){
+        lineoffs = (uly + h - 1) * tilew + ulx + w;
+        for (j = w - 1; j >= 0; j--) {
             lineoffs--;
             // Get the line to transform from the mask
             mi = lineoffs;
-            for(k=h, pin=k-1+maxnSup ; k>0 ; k--,mi-=tilew,pin--){
+            for (k = h, pin = k - 1 + maxnSup; k > 0; k--, mi -= tilew, pin--) {
                 padLine[pin] = mask[mi];
             }
-            lastpin=maxnSup+highFirst+2*lmax+lpSup;
-            for(k=lmax; k>=0 ; k--,lastpin-=2){ // Low frequency samples
+            lastpin = maxnSup + highFirst + 2 * lmax + lpSup;
+            for (k = lmax; k >= 0; k--, lastpin -= 2) { // Low frequency samples
                 pin = lastpin;
-                for(s=lsup;s>0;s--,pin--){
+                for (s = lsup; s > 0; s--, pin--) {
                     scalVal = padLine[pin];
-                    if(scalVal>maxVal)
+                    if (scalVal > maxVal)
                         maxVal = scalVal;
                 }
                 low[k] = maxVal;
                 maxVal = 0;
             }
-            lastpin = maxnSup-highFirst+2*hmax+1+hpSup;
-            for(k=hmax; k>=0 ; k--,lastpin-=2){ // High frequency samples
+            lastpin = maxnSup - highFirst + 2 * hmax + 1 + hpSup;
+            for (k = hmax; k >= 0; k--, lastpin -= 2) { // High frequency samples
                 pin = lastpin;
-                for(s=hsup;s>0;s--,pin--){
+                for (s = hsup; s > 0; s--, pin--) {
                     scalVal = padLine[pin];
-                    if(scalVal>maxVal)
+                    if (scalVal > maxVal)
                         maxVal = scalVal;
                 }
                 high[k] = maxVal;
                 maxVal = 0;
             }
             // Put the lows and highs back
-            mi=lineoffs;
-            for(k=hmax;k>=0;k--,mi-=tilew){
+            mi = lineoffs;
+            for (k = hmax; k >= 0; k--, mi -= tilew) {
                 mask[mi] = high[k];
             }
-            for(k=lmax;k>=0;k--,mi-=tilew){
+            for (k = lmax; k >= 0; k--, mi -= tilew) {
                 mask[mi] = low[k];
             }
         }
 
-        if(sb.isNode){
+        if (sb.isNode) {
             decomp(sb.getHH(), tilew, tileh, c);
             decomp(sb.getLH(), tilew, tileh, c);
             decomp(sb.getHL(), tilew, tileh, c);
@@ -559,8 +564,6 @@ public class ArbROIMaskGenerator extends ROIMaskGenerator{
 
     }
 }
-
-
 
 
 

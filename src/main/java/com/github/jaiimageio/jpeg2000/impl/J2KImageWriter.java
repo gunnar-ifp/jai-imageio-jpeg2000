@@ -89,10 +89,10 @@ import com.github.jaiimageio.jpeg2000.J2KImageWriteParam;
  *
  * This writer has the capability to (1) Losslessly encode
  * <code>RenderedImage</code>s with an <code>IndexColorModel</code> (for
- * example, bi-level or color indexed images).  (2) Losslessly or lossy encode
+ * example, bi-level or color indexed images). (2) Losslessly or lossy encode
  * <code>RenderedImage</code> with a byte, short, ushort or integer types with
- * band number upto 16384.  (3) Encode an image with alpha channel.
- * (4) Write the provided metadata into the code stream.  It also can encode
+ * band number upto 16384. (3) Encode an image with alpha channel.
+ * (4) Write the provided metadata into the code stream. It also can encode
  * a raster wrapped in the provided <code>IIOImage</code>.
  *
  * The encoding process may re-tile image, clip, subsample, and select bands
@@ -100,73 +100,85 @@ import com.github.jaiimageio.jpeg2000.J2KImageWriteParam;
  *
  * @see J2KImageWriteParam
  */
-public class J2KImageWriter extends ImageWriter {
-    /** Wrapper for the protected method <code>processImageProgress</code>
-     *  So it can be access from the classes which are not in
-     *  <code>ImageWriter</code> hierachy.
+public class J2KImageWriter extends ImageWriter
+{
+    /**
+     * Wrapper for the protected method <code>processImageProgress</code>
+     * So it can be access from the classes which are not in
+     * <code>ImageWriter</code> hierachy.
      */
-    public void processImageProgressWrapper(float percentageDone) {
+    public void processImageProgressWrapper(float percentageDone)
+    {
         processImageProgress(percentageDone);
     }
 
 
-    /** When the writing is aborted, <code>RenderedImageSrc</code> throws a
-     *  <code>RuntimeException</code>.
+    /**
+     * When the writing is aborted, <code>RenderedImageSrc</code> throws a
+     * <code>RuntimeException</code>.
      */
     public static String WRITE_ABORTED = "Write aborted.";
 
     /** The output stream to write into */
     private ImageOutputStream stream = null;
 
-    /** Constructs <code>J2KImageWriter</code> based on the provided
-     *  <code>ImageWriterSpi</code>.
+    /**
+     * Constructs <code>J2KImageWriter</code> based on the provided
+     * <code>ImageWriterSpi</code>.
      */
-    public J2KImageWriter(ImageWriterSpi originator) {
+    public J2KImageWriter(ImageWriterSpi originator)
+    {
         super(originator);
     }
 
     @Override
-    public void setOutput(Object output) {
+    public void setOutput(Object output)
+    {
         super.setOutput(output); // validates output
         if (output != null) {
             if (!(output instanceof ImageOutputStream))
                 throw new IllegalArgumentException(I18N.getString("J2KImageWriter0"));
             this.stream = (ImageOutputStream)output;
-        } else
-            this.stream = null;
+        }
+        else this.stream = null;
     }
 
     @Override
-    public ImageWriteParam getDefaultWriteParam() {
+    public ImageWriteParam getDefaultWriteParam()
+    {
         return new J2KImageWriteParam();
     }
 
     @Override
-    public IIOMetadata getDefaultStreamMetadata(ImageWriteParam param) {
+    public IIOMetadata getDefaultStreamMetadata(ImageWriteParam param)
+    {
         return null;
     }
 
     @Override
     public IIOMetadata getDefaultImageMetadata(ImageTypeSpecifier imageType,
-                                               ImageWriteParam param) {
+        ImageWriteParam param)
+    {
         return new J2KMetadata(imageType, param, this);
     }
 
     @Override
     public IIOMetadata convertStreamMetadata(IIOMetadata inData,
-                                             ImageWriteParam param) {
+        ImageWriteParam param)
+    {
         return null;
     }
 
     @Override
     public IIOMetadata convertImageMetadata(IIOMetadata inData,
-                                            ImageTypeSpecifier imageType,
-                                            ImageWriteParam param) {
+        ImageTypeSpecifier imageType,
+        ImageWriteParam param)
+    {
         // Check arguments.
-        if(inData == null) {
+        if (inData == null) {
             throw new IllegalArgumentException("inData == null!");
         }
-        if(imageType == null) {
+        if (imageType == null) {
             throw new IllegalArgumentException("imageType == null!");
         }
 
@@ -181,19 +193,21 @@ public class J2KImageWriter extends ImageWriter {
             List formats = Arrays.asList(inData.getMetadataFormatNames());
 
             String format = null;
-            if(formats.contains(J2KMetadata.nativeMetadataFormatName)) {
+            if (formats.contains(J2KMetadata.nativeMetadataFormatName)) {
                 // Initialize from native image metadata format.
                 format = J2KMetadata.nativeMetadataFormatName;
-            } else if(inData.isStandardMetadataFormatSupported()) {
+            }
+            else if (inData.isStandardMetadataFormatSupported()) {
                 // Initialize from standard metadata form of the input tree.
                 format = IIOMetadataFormatImpl.standardMetadataFormatName;
             }
 
-            if(format != null) {
+            if (format != null) {
                 outData.setFromTree(format, inData.getAsTree(format));
                 return outData;
             }
-        } catch(IIOInvalidTreeException e) {
+        }
+        catch (IIOInvalidTreeException e) {
             return null;
         }
 
@@ -201,14 +215,16 @@ public class J2KImageWriter extends ImageWriter {
     }
 
     @Override
-    public boolean canWriteRasters() {
+    public boolean canWriteRasters()
+    {
         return true;
     }
 
     @Override
     public void write(IIOMetadata streamMetadata,
-                      IIOImage image,
-                      ImageWriteParam param) throws IOException {
+        IIOImage image,
+        ImageWriteParam param) throws IOException
+    {
         if (stream == null) {
             throw new IllegalStateException(I18N.getString("J2KImageWriter7"));
         }
@@ -227,7 +243,8 @@ public class J2KImageWriter extends ImageWriter {
         if (writeRaster) {
             raster = image.getRaster();
             sampleModel = raster.getSampleModel();
-        } else {
+        }
+        else {
             input = image.getRenderedImage();
             sampleModel = input.getSampleModel();
         }
@@ -236,8 +253,7 @@ public class J2KImageWriter extends ImageWriter {
         if (param == null)
             param = getDefaultWriteParam();
 
-        J2KImageWriteParamJava j2kwparam =
-            new J2KImageWriteParamJava(image, param);
+        J2KImageWriteParamJava j2kwparam = new J2KImageWriteParamJava(image, param);
 
         // Packet header cannot exist in two places.
         if (j2kwparam.getPackPacketHeaderInTile() &&
@@ -246,20 +262,21 @@ public class J2KImageWriter extends ImageWriter {
 
         // Lossless and encoding rate cannot be set at the same time
         if (j2kwparam.getLossless() &&
-            j2kwparam.getEncodingRate()!=Double.MAX_VALUE)
+            j2kwparam.getEncodingRate() != Double.MAX_VALUE)
             throw new IllegalArgumentException(I18N.getString("J2KImageWriter2"));
 
         // If the source image is bilevel or color-indexed, or, the
         // encoding rate is Double.MAX_VALUE, use lossless
         if ((!writeRaster && input.getColorModel() instanceof IndexColorModel) ||
-             (writeRaster &&
-              raster.getSampleModel() instanceof MultiPixelPackedSampleModel)) {
+            (writeRaster &&
+                raster.getSampleModel() instanceof MultiPixelPackedSampleModel)) {
             j2kwparam.setDecompositionLevel("0");
             j2kwparam.setLossless(true);
             j2kwparam.setEncodingRate(Double.MAX_VALUE);
             j2kwparam.setQuantizationType("reversible");
             j2kwparam.setFilters(J2KImageWriteParam.FILTER_53);
-        } else if (j2kwparam.getEncodingRate() == Double.MAX_VALUE) {
+        }
+        else if (j2kwparam.getEncodingRate() == Double.MAX_VALUE) {
             j2kwparam.setLossless(true);
             j2kwparam.setQuantizationType("reversible");
             j2kwparam.setFilters(J2KImageWriteParam.FILTER_53);
@@ -281,16 +298,16 @@ public class J2KImageWriter extends ImageWriter {
         RenderedImageSrc imgsrc = null;
         if (writeRaster)
             imgsrc = new RenderedImageSrc(raster, j2kwparam, this);
-        else
-            imgsrc = new RenderedImageSrc(input, j2kwparam, this);
+        else imgsrc = new RenderedImageSrc(input, j2kwparam, this);
 
         // if the components signed
         boolean[] imsigned = new boolean[ncomp];
         if (bands != null) {
-            for (int i=0; i<ncomp; i++)
+            for (int i = 0; i < ncomp; i++)
                 imsigned[i] = imgsrc.isOrigSigned(bands[i]);
-        } else {
-            for (int i=0; i<ncomp; i++)
+        }
+        else {
+            for (int i = 0; i < ncomp; i++)
                 imsigned[i] = imgsrc.isOrigSigned(i);
         }
 
@@ -311,7 +328,7 @@ public class J2KImageWriter extends ImageWriter {
             throw new IIOException(I18N.getString("J2KImageWriter4"));
 
         // Instantiate tiler
-        Tiler imgtiler = new Tiler(imgsrc,refx,refy,trefx,trefy,tw,th);
+        Tiler imgtiler = new Tiler(imgsrc, refx, refy, trefx, trefy, tw, th);
 
         // Creates the forward component transform
         ForwCompTransf fctransf = new ForwCompTransf(imgtiler, j2kwparam);
@@ -323,44 +340,40 @@ public class J2KImageWriter extends ImageWriter {
         ForwardWT dwt = ForwardWT.createInstance(converter, j2kwparam);
 
         // Creates Quantizer
-        Quantizer quant = Quantizer.createInstance(dwt,j2kwparam);
+        Quantizer quant = Quantizer.createInstance(dwt, j2kwparam);
 
         // Creates ROIScaler
         ROIScaler rois = ROIScaler.createInstance(quant, j2kwparam);
 
         // Creates EntropyCoder
-        EntropyCoder ecoder =
-	    EntropyCoder.createInstance(rois, j2kwparam,
-		j2kwparam.getCodeBlockSize(),
-		j2kwparam.getPrecinctPartition(),
-		j2kwparam.getBypass(),
-		j2kwparam.getResetMQ(),
-		j2kwparam.getTerminateOnByte(),
-		j2kwparam.getCausalCXInfo(),
-		j2kwparam.getCodeSegSymbol(),
-		j2kwparam.getMethodForMQLengthCalc(),
-		j2kwparam.getMethodForMQTermination());
+        EntropyCoder ecoder = EntropyCoder.createInstance(rois, j2kwparam,
+            j2kwparam.getCodeBlockSize(),
+            j2kwparam.getPrecinctPartition(),
+            j2kwparam.getBypass(),
+            j2kwparam.getResetMQ(),
+            j2kwparam.getTerminateOnByte(),
+            j2kwparam.getCausalCXInfo(),
+            j2kwparam.getCodeSegSymbol(),
+            j2kwparam.getMethodForMQLengthCalc(),
+            j2kwparam.getMethodForMQTermination());
 
         // Rely on rate allocator to limit amount of data
         File tmpFile = File.createTempFile("jiio-", ".tmp");
         tmpFile.deleteOnExit();
 
         // Creates CodestreamWriter
-        FileCodestreamWriter bwriter =
-            new FileCodestreamWriter(tmpFile, Integer.MAX_VALUE);
+        FileCodestreamWriter bwriter = new FileCodestreamWriter(tmpFile, Integer.MAX_VALUE);
 
         // Creates the rate allocator
         float rate = (float)j2kwparam.getEncodingRate();
-        PostCompRateAllocator ralloc =
-            PostCompRateAllocator.createInstance(ecoder,
-                                                 rate,
-                                                 bwriter,
-                                                 j2kwparam);
+        PostCompRateAllocator ralloc = PostCompRateAllocator.createInstance(ecoder,
+            rate,
+            bwriter,
+            j2kwparam);
 
         // Instantiates the HeaderEncoder
-        HeaderEncoder headenc =
-            new HeaderEncoder(imgsrc, imsigned, dwt, imgtiler,
-                              j2kwparam, rois,ralloc);
+        HeaderEncoder headenc = new HeaderEncoder(imgsrc, imsigned, dwt, imgtiler,
+            j2kwparam, rois, ralloc);
 
         ralloc.setHeaderEncoder(headenc);
 
@@ -371,13 +384,15 @@ public class J2KImageWriter extends ImageWriter {
         // overhead. This will also encode all the data
         try {
             ralloc.initialize();
-        } catch (RuntimeException e) {
+        }
+        catch (RuntimeException e) {
             if (WRITE_ABORTED.equals(e.getMessage())) {
                 bwriter.close();
                 tmpFile.delete();
                 processWriteAborted();
                 return;
-            } else throw e;
+            }
+            else throw e;
         }
 
         // Write header (final)
@@ -399,29 +414,28 @@ public class J2KImageWriter extends ImageWriter {
         // Tile-parts and packed packet headers
         int pktspertp = j2kwparam.getPacketPerTilePart();
         int ntiles = imgtiler.getNumTiles();
-        if (pktspertp>0 || pphTile || pphMain){
-            CodestreamManipulator cm =
-                new CodestreamManipulator(tmpFile, ntiles, pktspertp,
-                                          pphMain, pphTile, tempSop,
-                                          tempEph);
+        if (pktspertp > 0 || pphTile || pphMain) {
+            CodestreamManipulator cm = new CodestreamManipulator(tmpFile, ntiles, pktspertp,
+                pphMain, pphTile, tempSop,
+                tempEph);
             fileLength += cm.doCodestreamManipulation();
         }
 
         // File Format
-        int nc= imgsrc.getNumComps() ;
+        int nc = imgsrc.getNumComps();
         int[] bpc = new int[nc];
-        for(int comp = 0; comp<nc; comp++)
-            bpc[comp]=imgsrc.getNomRangeBits(comp);
+        for (int comp = 0; comp < nc; comp++)
+            bpc[comp] = imgsrc.getNomRangeBits(comp);
 
         ColorModel colorModel = (input != null) ? input.getColorModel() : null;
         if (bands != null) {
-            ImageTypeSpecifier type= param.getDestinationType();
+            ImageTypeSpecifier type = param.getDestinationType();
             if (type != null)
                 colorModel = type.getColorModel();
             //XXX: other wise should create proper color model based
             // on the selected bands
         }
-        if(colorModel == null) {
+        if (colorModel == null) {
             colorModel = ImageUtil.createColorModel(sampleModel);
         }
 
@@ -432,57 +446,55 @@ public class J2KImageWriter extends ImageWriter {
             IIOMetadata inMetadata = image.getMetadata();
 
             J2KMetadata metadata1 = new J2KMetadata(colorModel,
-                                                    sampleModel,
-                                                    imgsrc.getImgWidth(),
-                                                    imgsrc.getImgHeight(),
-                                                    param,
-                                                    this);
+                sampleModel,
+                imgsrc.getImgWidth(),
+                imgsrc.getImgHeight(),
+                param,
+                this);
 
             if (inMetadata == null) {
                 metadata = metadata1;
-            } else {
+            }
+            else {
                 // Convert the input metadata tree to a J2KMetadata.
-                if(colorModel != null) {
-                    ImageTypeSpecifier imageType = 
-                        new ImageTypeSpecifier(colorModel, sampleModel);
-                    metadata =
-                        (J2KMetadata)convertImageMetadata(inMetadata,
-                                                          imageType,
-                                                          param);
-                } else {
+                if (colorModel != null) {
+                    ImageTypeSpecifier imageType = new ImageTypeSpecifier(colorModel, sampleModel);
+                    metadata = (J2KMetadata)convertImageMetadata(inMetadata,
+                        imageType,
+                        param);
+                }
+                else {
                     String metaFormat = null;
-                    List metaFormats =
-                        Arrays.asList(inMetadata.getMetadataFormatNames());
-                    if(metaFormats.contains(J2KMetadata.nativeMetadataFormatName)) {
+                    List metaFormats = Arrays.asList(inMetadata.getMetadataFormatNames());
+                    if (metaFormats.contains(J2KMetadata.nativeMetadataFormatName)) {
                         // Initialize from native image metadata format.
                         metaFormat = J2KMetadata.nativeMetadataFormatName;
-                    } else if(inMetadata.isStandardMetadataFormatSupported()) {
+                    }
+                    else if (inMetadata.isStandardMetadataFormatSupported()) {
                         // Initialize from standard metadata form of the
                         // input tree.
-                        metaFormat = 
-                            IIOMetadataFormatImpl.standardMetadataFormatName;
+                        metaFormat = IIOMetadataFormatImpl.standardMetadataFormatName;
                     }
 
                     metadata = new J2KMetadata();
-                    if(metaFormat != null) {
+                    if (metaFormat != null) {
                         metadata.setFromTree(metaFormat,
-                                             inMetadata.getAsTree(metaFormat));
+                            inMetadata.getAsTree(metaFormat));
                     }
                 }
 
                 metadata.mergeTree(J2KMetadata.nativeMetadataFormatName,
-                                   metadata1.getAsTree(J2KMetadata.nativeMetadataFormatName));
+                    metadata1.getAsTree(J2KMetadata.nativeMetadataFormatName));
             }
         }
 
-        FileFormatWriter ffw =
-            new FileFormatWriter(tmpFile, stream,
-                                 imgsrc.getImgHeight(),
-                                 imgsrc.getImgWidth(), nc, bpc,
-                                 fileLength,
-                                 colorModel,
-                                 sampleModel,
-                                 metadata);
+        FileFormatWriter ffw = new FileFormatWriter(tmpFile, stream,
+            imgsrc.getImgHeight(),
+            imgsrc.getImgWidth(), nc, bpc,
+            fileLength,
+            colorModel,
+            sampleModel,
+            metadata);
         fileLength += ffw.writeFileFormat();
         tmpFile.delete();
 
@@ -490,25 +502,30 @@ public class J2KImageWriter extends ImageWriter {
     }
 
     @Override
-    public synchronized void abort() {
+    public synchronized void abort()
+    {
         super.abort();
     }
 
     @Override
-    public void reset() {
+    public void reset()
+    {
         // reset local Java structures
         super.reset();
         stream = null;
     }
 
-    /** This method wraps the protected method <code>abortRequested</code>
-     *  to allow the abortions be monitored by <code>J2KRenderedImage</code>.
+    /**
+     * This method wraps the protected method <code>abortRequested</code>
+     * to allow the abortions be monitored by <code>J2KRenderedImage</code>.
      */
-    public boolean getAbortRequest() {
+    public boolean getAbortRequest()
+    {
         return abortRequested();
     }
 
-    private void checkSampleModel(SampleModel sm) {
+    private void checkSampleModel(SampleModel sm)
+    {
         int type = sm.getDataType();
 
         if (type < DataBuffer.TYPE_BYTE || type > DataBuffer.TYPE_INT)

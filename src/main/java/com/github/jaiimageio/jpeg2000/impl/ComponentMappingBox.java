@@ -50,39 +50,47 @@ import javax.imageio.metadata.IIOMetadataNode;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-/** This class is defined to represent a Color Specification Box of JPEG JP2
- *  file format.  A Channel Definition Box has a length, and a fixed type
- *  of "cmap".  This box exists if and only is a PaletteBox exists.  Its
- *  content defines the type LUT output components and their mapping to the
- *  color component.
+/**
+ * This class is defined to represent a Color Specification Box of JPEG JP2
+ * file format. A Channel Definition Box has a length, and a fixed type
+ * of "cmap". This box exists if and only is a PaletteBox exists. Its
+ * content defines the type LUT output components and their mapping to the
+ * color component.
  */
-public class ComponentMappingBox extends Box {
+public class ComponentMappingBox extends Box
+{
     /** The data elements. */
     private short[] components;
     private byte[] type;
     private byte[] map;
 
-    /** Constructs a <code>ComponentMappingBox</code> from the provided
-     *  content byte array.
+    /**
+     * Constructs a <code>ComponentMappingBox</code> from the provided
+     * content byte array.
      */
-    public ComponentMappingBox(byte[] data) {
+    public ComponentMappingBox(byte[] data)
+    {
         super(8 + data.length, 0x636D6170, data);
     }
 
-    /** Constructs a <code>ComponentMappingBox</code> from the provided
-     *  component mapping.
+    /**
+     * Constructs a <code>ComponentMappingBox</code> from the provided
+     * component mapping.
      */
-    public ComponentMappingBox(short[] comp, byte[] t, byte[] m) {
+    public ComponentMappingBox(short[] comp, byte[] t, byte[] m)
+    {
         super(8 + (comp.length << 2), 0x636D6170, null);
         this.components = comp;
         this.type = t;
         this.map = m;
     }
 
-    /** Constructs a <code>ComponentMappingBox</code> based on the provided
-     *  <code>org.w3c.dom.Node</code>.
+    /**
+     * Constructs a <code>ComponentMappingBox</code> based on the provided
+     * <code>org.w3c.dom.Node</code>.
      */
-    public ComponentMappingBox(Node node) throws IIOInvalidTreeException {
+    public ComponentMappingBox(Node node) throws IIOInvalidTreeException
+    {
         super(node);
         NodeList children = node.getChildNodes();
         int len = children.getLength() / 3;
@@ -113,64 +121,70 @@ public class ComponentMappingBox extends Box {
 
     /** Parse the component mapping from the provided content data array. */
     @Override
-    protected void parse(byte[] data) {
+    protected void parse(byte[] data)
+    {
         int len = data.length / 4;
         components = new short[len];
         type = new byte[len];
         map = new byte[len];
 
         for (int i = 0, j = 0; i < len; i++) {
-            components[i] =
-                (short)(((data[j++] & 0xFF) << 8) | (data[j++] & 0xFF));
+            components[i] = (short)(((data[j++] & 0xFF) << 8) | (data[j++] & 0xFF));
             type[i] = data[j++];
             map[i] = data[j++];
         }
     }
 
-    /** Creates an <code>IIOMetadataNode</code> from this component mapping
-     *  box.  The format of this node is defined in the XML dtd and xsd
-     *  for the JP2 image file.
+    /**
+     * Creates an <code>IIOMetadataNode</code> from this component mapping
+     * box. The format of this node is defined in the XML dtd and xsd
+     * for the JP2 image file.
      */
     @Override
-    public IIOMetadataNode getNativeNode() {
+    public IIOMetadataNode getNativeNode()
+    {
         IIOMetadataNode node = new IIOMetadataNode(Box.getName(getType()));
         setDefaultAttributes(node);
 
         for (int i = 0; i < components.length; i++) {
             IIOMetadataNode child = new IIOMetadataNode("Component");
-	    Short obj = Short.valueOf(components[i]);
+            Short obj = Short.valueOf(components[i]);
             child.setUserObject(Short.valueOf(components[i]));
-	    child.setNodeValue("" + components[i]);
+            child.setNodeValue("" + components[i]);
             node.appendChild(child);
 
             child = new IIOMetadataNode("ComponentType");
             child.setUserObject(Byte.valueOf(type[i]));
-	    child.setNodeValue("" + type[i]);
+            child.setNodeValue("" + type[i]);
             node.appendChild(child);
 
             child = new IIOMetadataNode("ComponentAssociation");
             child.setUserObject(Byte.valueOf(map[i]));
-	    child.setNodeValue("" + map[i]);
+            child.setNodeValue("" + map[i]);
             node.appendChild(child);
         }
 
         return node;
     }
 
-    public short[] getComponent() {
+    public short[] getComponent()
+    {
         return components;
     }
 
-    public byte[] getComponentType() {
+    public byte[] getComponentType()
+    {
         return type;
     }
 
-    public byte[] getComponentAssociation() {
+    public byte[] getComponentAssociation()
+    {
         return map;
     }
 
     @Override
-    protected void compose() {
+    protected void compose()
+    {
         if (data != null)
             return;
         data = new byte[type.length << 2];

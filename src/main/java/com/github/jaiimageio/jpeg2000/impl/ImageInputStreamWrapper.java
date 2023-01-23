@@ -51,63 +51,74 @@ import javax.imageio.stream.ImageInputStream;
 
 /**
  * This class is designed to wrap a <code>ImageInputStream</code> into
- *  a <code>InputStream</code>.  The reason is that <code>ImageInputStream</code>
- *  implements <code>DataInput</code> but doesn't extend
- *  <code>InputStream</code>.  However, the JJ2000 JPEG 2000 packages accepts
- *  a <code>InputStream</code> when reads a JPEG 2000 image file.
+ *  a <code>InputStream</code>. The reason is that <code>ImageInputStream</code>
+ * implements <code>DataInput</code> but doesn't extend
+ * <code>InputStream</code>. However, the JJ2000 JPEG 2000 packages accepts
+ * a <code>InputStream</code> when reads a JPEG 2000 image file.
  */
-public class ImageInputStreamWrapper extends InputStream {
+public class ImageInputStreamWrapper extends InputStream
+{
 
     /** The <code>ImageInputStream</code> to be wrapped. */
     private ImageInputStream src;
 
-    /** Constructs an <code>ImageInputStreamWrapper</code> from the provided
-     *  <code>ImageInputStream</code>.
+    /**
+     * Constructs an <code>ImageInputStreamWrapper</code> from the provided
+     * <code>ImageInputStream</code>.
      *
-     *  @param src The <code>ImageInputStream</code> to be wrapped.
+     * @param src The <code>ImageInputStream</code> to be wrapped.
      */
-    public ImageInputStreamWrapper(ImageInputStream src) {
+    public ImageInputStreamWrapper(ImageInputStream src)
+    {
         this.src = src;
     }
 
     // Override the methods defined in <code>InputStream</code>
     @Override
-    public int read() throws IOException {
+    public int read() throws IOException
+    {
         return src.read();
     }
 
     @Override
-    public void close() throws IOException {
+    public void close() throws IOException
+    {
         src.close();
     }
 
     @Override
-    public synchronized void mark(int readlimit) {
+    public synchronized void mark(int readlimit)
+    {
         src.mark();
     }
 
     @Override
-    public boolean markSupported() {
-	return true;
+    public boolean markSupported()
+    {
+        return true;
     }
 
     @Override
-    public int read(byte b[]) throws IOException {
-	return src.read(b, 0, b.length);
+    public int read(byte b[]) throws IOException
+    {
+        return src.read(b, 0, b.length);
     }
 
     @Override
-    public int read(byte b[], int off, int len) throws IOException {
+    public int read(byte b[], int off, int len) throws IOException
+    {
         return src.read(b, off, len);
     }
 
     @Override
-    public synchronized void reset() throws IOException {
-	src.reset();
+    public synchronized void reset() throws IOException
+    {
+        src.reset();
     }
 
     @Override
-    public long skip(long n) throws IOException {
+    public long skip(long n) throws IOException
+    {
         return src.skipBytes(n);
     }
 }

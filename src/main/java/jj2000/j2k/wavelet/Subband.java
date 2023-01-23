@@ -53,19 +53,22 @@ import java.awt.Point;
  * class is implemented by the SubbandAn and SubbandSyn classes, which are for
  * the analysis and synthesis sides, respectively.
  *
- * <P>The element can be either a node or a leaf of the tree. If it is a node
+ * <P>
+ * The element can be either a node or a leaf of the tree. If it is a node
  * then ther are 4 descendants (LL, HL, LH and HH). If it is a leaf ther are
  * no descendants.
  *
- * <P>The tree is bidirectional. Each element in the tree structure has a
+ * <P>
+ * The tree is bidirectional. Each element in the tree structure has a
  * "parent", which is the subband from which the element was obtained by
  * decomposition. The only exception is the root element which has no parent
  * (i.e.it's null), for obvious reasons.
  *
  * @see jj2000.j2k.wavelet.analysis.SubbandAn
  * @see jj2000.j2k.wavelet.synthesis.SubbandSyn
- * */
-public abstract class Subband {
+ */
+public abstract class Subband
+{
 
     /** The ID for the LL orientation */
     public final static int WT_ORIENT_LL = 0;
@@ -81,14 +84,16 @@ public abstract class Subband {
 
     /**
      * True if it is a node in the tree, false if it is a leaf. False by
-     * default.  */
+     * default.
+     */
     public boolean isNode;
 
     /**
      * The orientation of this subband (WT_ORIENT_LL, WT_ORIENT_HL,
      * WT_ORIENT_LH, WT_ORIENT_HH). It is WT_ORIENT_LL by default. The
      * orientation of the top-level node (i.e. the full image before any
-     * decomposition) is WT_ORIENT_LL.  */
+     * decomposition) is WT_ORIENT_LL.
+     */
     // The default value is always 0, which is WT_ORIENT_LL.
     public int orientation;
 
@@ -96,18 +101,20 @@ public abstract class Subband {
      * The level in the tree to which this subband belongs, which is the
      * number of wavelet decompositions performed to produce this subband. It
      * is 0 for the top-level (i.e. root) node. It is 0 by default.
-     * */
+     */
     public int level;
 
     /**
      * The resolution level to which this subband contributes. Level 0 is the
      * smallest resolution level (the one with the lowest frequency LL
      * subband). It is 0 by default.
-     * */
+     */
     public int resLvl;
 
-    /** The number of code-blocks (in both directions) contained in this
-     * subband.  */
+    /**
+     * The number of code-blocks (in both directions) contained in this
+     * subband.
+     */
     public Point numCb = null;
 
     /**
@@ -119,13 +126,14 @@ public abstract class Subband {
      * for a low-pass filter and the Nyquist gain for a high-pass filter. It
      * is 0 by default.
      *
-     * <P>Using the base 2 exponent of the value contrains the possible gains
+     * <P>
+     * Using the base 2 exponent of the value contrains the possible gains
      * to powers of 2. However this is perfectly compatible to the filter
      * normalization policy assumed here. See the split() method for more
      * details.
      *
      * @see #split
-     * */
+     */
     public int anGainExp;
 
     /**
@@ -134,11 +142,12 @@ public abstract class Subband {
      * level within it. Note that only leaf elements represent "real"
      * subbands, while node elements represent only intermediate stages.
      *
-     * <P>It is defined recursively. The root node gets a value of 0. For a
+     * <P>
+     * It is defined recursively. The root node gets a value of 0. For a
      * given node, with a subband index 'b', its LL descendant gets 4*b, its
      * HL descendant 4*b+1, its LH descendant 4*b+2, and its HH descendant
      * 4*b+3, for their subband indexes.
-     * */
+     */
     public int sbandIdx = 0;
 
     /**
@@ -148,7 +157,7 @@ public abstract class Subband {
      * column of this subband. If even the horizontal decomposition of this
      * subband should be done with the low-pass-first convention. If odd it
      * should be done with the high-pass-first convention.
-     * */
+     */
     public int ulcx;
 
     /**
@@ -158,7 +167,7 @@ public abstract class Subband {
      * column of this subband. If even the vertical decomposition of this
      * subband should be done with the low-pass-first convention. If odd it
      * should be done with the high-pass-first convention.
-     * */
+     */
     public int ulcy;
 
     /** The horizontal coordinate of the upper-left corner of the subband */
@@ -185,35 +194,35 @@ public abstract class Subband {
      * element has no parent subband (null).
      *
      * @return The parent subband, or null for the root one.
-     * */
+     */
     public abstract Subband getParent();
 
     /**
      * Returns the LL child subband of this subband.
      *
      * @return The LL child subband, or null if there are no childs.
-     * */
+     */
     public abstract Subband getLL();
 
     /**
      * Returns the HL (horizontal high-pass) child subband of this subband.
      *
      * @return The HL child subband, or null if there are no childs.
-     * */
+     */
     public abstract Subband getHL();
 
     /**
      * Returns the LH (vertical high-pass) child subband of this subband.
      *
      * @return The LH child subband, or null if there are no childs.
-     * */
+     */
     public abstract Subband getLH();
 
     /**
      * Returns the HH child subband of this subband.
      *
      * @return The HH child subband, or null if there are no childs.
-     * */
+     */
     public abstract Subband getHH();
 
     /**
@@ -226,63 +235,65 @@ public abstract class Subband {
      * @param vfilter The vertical wavelet filter used to decompose this
      * subband.
      *
-     * @return  A reference to the LL leaf (getLL()).
-     * */
+     * @return A reference to the LL leaf (getLL()).
+     */
     protected abstract Subband split(WaveletFilter hfilter,
-                                     WaveletFilter vfilter);
+        WaveletFilter vfilter);
 
     /**
      * Initializes the childs of this node with the correct values. The sizes
      * of the child subbands are calculated by taking into account the
      * position of the subband in the canvas.
      *
-     * <P>For the analysis subband gain calculation it is assumed that
+     * <P>
+     * For the analysis subband gain calculation it is assumed that
      * analysis filters are normalized with a DC gain of 1 and a Nyquist gain
      * of 2.
-     * */
-    protected void initChilds() {
+     */
+    protected void initChilds()
+    {
         Subband subb_LL = getLL();
         Subband subb_HL = getHL();
         Subband subb_LH = getLH();
         Subband subb_HH = getHH();
 
         // LL subband
-        subb_LL.level = level+1;
-        subb_LL.ulcx = (ulcx+1)>>1;
-        subb_LL.ulcy = (ulcy+1)>>1;
+        subb_LL.level = level + 1;
+        subb_LL.ulcx = (ulcx + 1) >> 1;
+        subb_LL.ulcy = (ulcy + 1) >> 1;
         subb_LL.ulx = ulx;
         subb_LL.uly = uly;
-        subb_LL.w = ((ulcx+w+1)>>1)-subb_LL.ulcx;
-        subb_LL.h = ((ulcy+h+1)>>1)-subb_LL.ulcy;
+        subb_LL.w = ((ulcx + w + 1) >> 1) - subb_LL.ulcx;
+        subb_LL.h = ((ulcy + h + 1) >> 1) - subb_LL.ulcy;
         // If this subband in in the all LL path (i.e. it's global orientation
         // is LL) then child LL band contributes to a lower resolution level.
-        subb_LL.resLvl = (orientation == WT_ORIENT_LL) ? resLvl-1 : resLvl;
+        subb_LL.resLvl = (orientation == WT_ORIENT_LL) ? resLvl - 1 : resLvl;
         subb_LL.anGainExp = anGainExp;
-        subb_LL.sbandIdx = (sbandIdx<<2);
+        subb_LL.sbandIdx = (sbandIdx << 2);
         // HL subband
         subb_HL.orientation = WT_ORIENT_HL;
         subb_HL.level = subb_LL.level;
-        subb_HL.ulcx = ulcx>>1;
+        subb_HL.ulcx = ulcx >> 1;
         subb_HL.ulcy = subb_LL.ulcy;
         subb_HL.ulx = ulx + subb_LL.w;
         subb_HL.uly = uly;
-        subb_HL.w = ((ulcx+w)>>1)-subb_HL.ulcx;
+        subb_HL.w = ((ulcx + w) >> 1) - subb_HL.ulcx;
         subb_HL.h = subb_LL.h;
         subb_HL.resLvl = resLvl;
-        subb_HL.anGainExp = anGainExp+1;
-        subb_HL.sbandIdx = (sbandIdx<<2)+1;
+        subb_HL.anGainExp = anGainExp + 1;
+        subb_HL.sbandIdx = (sbandIdx << 2) + 1;
         // LH subband
         subb_LH.orientation = WT_ORIENT_LH;
         subb_LH.level = subb_LL.level;
         subb_LH.ulcx = subb_LL.ulcx;
-        subb_LH.ulcy = ulcy>>1;
+        subb_LH.ulcy = ulcy >> 1;
         subb_LH.ulx = ulx;
         subb_LH.uly = uly + subb_LL.h;
         subb_LH.w = subb_LL.w;
-        subb_LH.h = ((ulcy+h)>>1)-subb_LH.ulcy;
+        subb_LH.h = ((ulcy + h) >> 1) - subb_LH.ulcy;
         subb_LH.resLvl = resLvl;
-        subb_LH.anGainExp = anGainExp+1;
-        subb_LH.sbandIdx = (sbandIdx<<2)+2;
+        subb_LH.anGainExp = anGainExp + 1;
+        subb_LH.sbandIdx = (sbandIdx << 2) + 2;
         // HH subband
         subb_HH.orientation = WT_ORIENT_HH;
         subb_HH.level = subb_LL.level;
@@ -293,16 +304,17 @@ public abstract class Subband {
         subb_HH.w = subb_HL.w;
         subb_HH.h = subb_LH.h;
         subb_HH.resLvl = resLvl;
-        subb_HH.anGainExp = anGainExp+2;
-        subb_HH.sbandIdx = (sbandIdx<<2)+3;
+        subb_HH.anGainExp = anGainExp + 2;
+        subb_HH.sbandIdx = (sbandIdx << 2) + 3;
     }
 
     /**
      * Creates a Subband element with all the default values. The dimensions
      * are (0,0), the upper left corner is (0,0) and the upper-left corner
      * with respect to the canvas is (0,0) too.
-     * */
-    public Subband() {
+     */
+    public Subband()
+    {
     }
 
     /**
@@ -310,11 +322,13 @@ public abstract class Subband {
      * top-level dimensions, the number of decompositions, and the
      * decomposition tree as specified.
      *
-     * <P>For the analysis subband gain calculation it is assumed that
+     * <P>
+     * For the analysis subband gain calculation it is assumed that
      * analysis filters are normalized with a DC gain of 1 and a Nyquist gain
      * of 2.
      *
-     * <P>This constructor does not initialize the value of the magBits member
+     * <P>
+     * This constructor does not initialize the value of the magBits member
      * variable. This variable is normally initialized by the quantizer, on
      * the encoder side, or the bit stream reader, on the decoder side.
      *
@@ -341,10 +355,11 @@ public abstract class Subband {
      * element is used for the remaining resolution levels.
      *
      * @see WaveletTransform
-     * */
+     */
     public Subband(int w, int h, int ulcx, int ulcy, int lvls,
-                   WaveletFilter hfilters[], WaveletFilter vfilters[]) {
-        int i,hi,vi;
+        WaveletFilter hfilters[], WaveletFilter vfilters[])
+    {
+        int i, hi, vi;
         Subband cur; // The current subband
 
         // Initialize top-level node
@@ -355,12 +370,10 @@ public abstract class Subband {
         this.resLvl = lvls;
         // First create dyadic decomposition.
         cur = this;
-        for (i=0; i<lvls; i++) {
-            hi = (cur.resLvl <= hfilters.length) ? cur.resLvl-1 :
-		hfilters.length-1;
-            vi = (cur.resLvl <= vfilters.length) ? cur.resLvl-1 :
-		vfilters.length-1;
-            cur = cur.split(hfilters[hi],vfilters[vi]);
+        for (i = 0; i < lvls; i++) {
+            hi = (cur.resLvl <= hfilters.length) ? cur.resLvl - 1 : hfilters.length - 1;
+            vi = (cur.resLvl <= vfilters.length) ? cur.resLvl - 1 : vfilters.length - 1;
+            cur = cur.split(hfilters[hi], vfilters[vi]);
         }
     }
 
@@ -372,8 +385,9 @@ public abstract class Subband {
      *
      * @return The next subband in the same resolution level, following the
      * subband index order, or null if already at last subband.
-     * */
-    public Subband nextSubband() {
+     */
+    public Subband nextSubband()
+    {
         Subband sb;
 
         if (isNode) {
@@ -381,51 +395,51 @@ public abstract class Subband {
         }
 
         switch (orientation) {
-        case WT_ORIENT_LL:
-            sb = getParent();
-            if (sb == null || sb.resLvl != resLvl) {
-                // Already at top-level or last subband in res. level
-                return null;
-            }
-            else {
-                return sb.getHL();
-            }
-        case WT_ORIENT_HL:
-            return getParent().getLH();
-        case WT_ORIENT_LH:
-            return getParent().getHH();
-        case WT_ORIENT_HH:
-            // This is the complicated one
-            sb = this;
-            while (sb.orientation == WT_ORIENT_HH) {
-                sb = sb.getParent();
-            }
-            switch (sb.orientation) {
             case WT_ORIENT_LL:
-                sb = sb.getParent();
+                sb = getParent();
                 if (sb == null || sb.resLvl != resLvl) {
                     // Already at top-level or last subband in res. level
                     return null;
                 }
                 else {
-                    sb = sb.getHL();
+                    return sb.getHL();
                 }
-                break;
             case WT_ORIENT_HL:
-                sb = sb.getParent().getLH();
-                break;
+                return getParent().getLH();
             case WT_ORIENT_LH:
-                sb = sb.getParent().getHH();
-                break;
+                return getParent().getHH();
+            case WT_ORIENT_HH:
+                // This is the complicated one
+                sb = this;
+                while (sb.orientation == WT_ORIENT_HH) {
+                    sb = sb.getParent();
+                }
+                switch (sb.orientation) {
+                    case WT_ORIENT_LL:
+                        sb = sb.getParent();
+                        if (sb == null || sb.resLvl != resLvl) {
+                            // Already at top-level or last subband in res. level
+                            return null;
+                        }
+                        else {
+                            sb = sb.getHL();
+                        }
+                        break;
+                    case WT_ORIENT_HL:
+                        sb = sb.getParent().getLH();
+                        break;
+                    case WT_ORIENT_LH:
+                        sb = sb.getParent().getHH();
+                        break;
+                    default:
+                        throw new Error("You have found a bug in JJ2000");
+                }
+                while (sb.isNode) {
+                    sb = sb.getLL();
+                }
+                return sb;
             default:
                 throw new Error("You have found a bug in JJ2000");
-            }
-            while (sb.isNode) {
-                sb = sb.getLL();
-            }
-            return sb;
-        default:
-            throw new Error("You have found a bug in JJ2000");
         }
     }
 
@@ -435,8 +449,9 @@ public abstract class Subband {
      *
      * @return The first leaf element in the next higher resolution level, or
      * null if there is no higher resolution level.
-     * */
-    public Subband getNextResLevel() {
+     */
+    public Subband getNextResLevel()
+    {
         Subband sb;
 
         if (level == 0) { // No higher res. level
@@ -466,34 +481,35 @@ public abstract class Subband {
      * @param rl The resolution level.
      *
      * @param sbi The subband index, within the resolution level.
-     * */
-    public Subband getSubbandByIdx(int rl, int sbi) {
+     */
+    public Subband getSubbandByIdx(int rl, int sbi)
+    {
         Subband sb = this;
 
         // Find the root subband for the resolution level
-        if (rl>sb.resLvl || rl<0) {
-            throw new IllegalArgumentException("Resolution level index "+
-                                               "out of range");
+        if (rl > sb.resLvl || rl < 0) {
+            throw new IllegalArgumentException("Resolution level index " +
+                "out of range");
         }
 
         // Returns directly if it is itself
-        if(rl==sb.resLvl && sbi==sb.sbandIdx) return sb;
+        if (rl == sb.resLvl && sbi == sb.sbandIdx) return sb;
 
-        if(sb.sbandIdx!=0) sb = sb.getParent();
+        if (sb.sbandIdx != 0) sb = sb.getParent();
 
-        while(sb.resLvl>rl) sb = sb.getLL();
-        while(sb.resLvl<rl) sb = sb.getParent();
+        while (sb.resLvl > rl) sb = sb.getLL();
+        while (sb.resLvl < rl) sb = sb.getParent();
 
-        switch(sbi) {
-        case 0:
-        default:
-            return sb;
-        case 1:
-            return sb.getHL();
-        case 2:
-            return sb.getLH();
-        case 3:
-            return sb.getHH();
+        switch (sbi) {
+            case 0:
+            default:
+                return sb;
+            case 1:
+                return sb.getHL();
+            case 2:
+                return sb.getLH();
+            case 3:
+                return sb.getHH();
         }
 
     }
@@ -506,12 +522,13 @@ public abstract class Subband {
      * @param x horizontal coordinate of the specified point.
      *
      * @param y horizontal coordinate of the specified point.
-     * */
-    public Subband getSubband(int x,int y) {
-        Subband cur,hhs;
+     */
+    public Subband getSubband(int x, int y)
+    {
+        Subband cur, hhs;
 
         // Check that we are inside this subband
-        if (x<ulx || y<uly || x>=ulx+w || y>=uly+h) {
+        if (x < ulx || y < uly || x >= ulx + w || y >= uly + h) {
             throw new IllegalArgumentException();
         }
 
@@ -519,21 +536,24 @@ public abstract class Subband {
         while (cur.isNode) {
             hhs = cur.getHH();
             // While we are still at a node -> continue
-            if (x<hhs.ulx) {
+            if (x < hhs.ulx) {
                 // Is the result of horizontal low-pass
-                if (y<hhs.uly) {
+                if (y < hhs.uly) {
                     // Vertical low-pass
                     cur = cur.getLL();
-                } else {
+                }
+                else {
                     // Vertical high-pass
                     cur = cur.getLH();
                 }
-            } else {
+            }
+            else {
                 // Is the result of horizontal high-pass
-                if (y<hhs.uly) {
+                if (y < hhs.uly) {
                     // Vertical low-pass
                     cur = cur.getHL();
-                } else {
+                }
+                else {
                     // Vertical high-pass
                     cur = cur.getHH();
                 }
@@ -547,15 +567,15 @@ public abstract class Subband {
      * Returns subband informations in a string.
      *
      * @return Subband informations
-     * */
+     */
     @Override
-    public String toString() {
+    public String toString()
+    {
 
-        String string =
-            "w=" + w + ", h=" + h + ", ulx=" + ulx + ", uly=" + uly +
-            ", ulcx= "+ulcx+", ulcy="+ulcy+", idx=" + sbandIdx +
+        String string = "w=" + w + ", h=" + h + ", ulx=" + ulx + ", uly=" + uly +
+            ", ulcx= " + ulcx + ", ulcy=" + ulcy + ", idx=" + sbandIdx +
             "\norient=" + orientation + ", node=" + isNode +
-            ", level=" + level + ", resLvl=" + resLvl+ ", nomCBlkW=" +
+            ", level=" + level + ", resLvl=" + resLvl + ", nomCBlkW=" +
             nomCBlkW + ", nomCBlkH=" + nomCBlkH;
 
         return string;
@@ -566,7 +586,7 @@ public abstract class Subband {
      * subband
      *
      * @return The horizontal wavelet filter
-     * */
+     */
     public abstract WaveletFilter getHorWFilter();
 
     /**
@@ -574,7 +594,7 @@ public abstract class Subband {
      * subband
      *
      * @return The vertical wavelet filter
-     * */
+     */
     public abstract WaveletFilter getVerWFilter();
 
 

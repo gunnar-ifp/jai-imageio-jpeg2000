@@ -56,26 +56,30 @@ import jj2000.j2k.codestream.reader.HeaderDecoder;
 
 import com.github.jaiimageio.impl.common.SimpleRenderedImage;
 
-public class J2KRenderedImage extends SimpleRenderedImage {
+public class J2KRenderedImage extends SimpleRenderedImage
+{
     private Raster currentTile;
     private Point currentTileGrid;
 
     private J2KReadState readState;
 
     public J2KRenderedImage(ImageInputStream iis,
-                            J2KImageReadParamJava param,
-                            J2KMetadata metadata,
-                            J2KImageReader reader) throws IOException {
+        J2KImageReadParamJava param,
+        J2KMetadata metadata,
+        J2KImageReader reader) throws IOException
+    {
         this(new J2KReadState(iis, param, metadata, reader));
     }
 
     public J2KRenderedImage(ImageInputStream iis,
-                            J2KImageReadParamJava param,
-                            J2KImageReader reader) throws IOException {
+        J2KImageReadParamJava param,
+        J2KImageReader reader) throws IOException
+    {
         this(new J2KReadState(iis, param, reader));
     }
 
-    public J2KRenderedImage(J2KReadState readState) {
+    public J2KRenderedImage(J2KReadState readState)
+    {
         this.readState = readState;
 
         HeaderDecoder hd = readState.getHeader();
@@ -98,7 +102,8 @@ public class J2KRenderedImage extends SimpleRenderedImage {
     }
 
     @Override
-    public synchronized Raster getTile(int tileX, int tileY) {
+    public synchronized Raster getTile(int tileX, int tileY)
+    {
         if (currentTile != null &&
             currentTileGrid.x == tileX &&
             currentTileGrid.y == tileY)
@@ -110,13 +115,13 @@ public class J2KRenderedImage extends SimpleRenderedImage {
         try {
             int x = tileXToX(tileX);
             int y = tileYToY(tileY);
-            currentTile =
-                Raster.createWritableRaster(sampleModel,
-                                            new Point(x, y));
+            currentTile = Raster.createWritableRaster(sampleModel,
+                new Point(x, y));
             currentTile = readState.getTile(tileX,
-                                            tileY,
-                                            (WritableRaster)currentTile);
-        } catch (IOException e) {
+                tileY,
+                (WritableRaster)currentTile);
+        }
+        catch (IOException e) {
             throw new RuntimeException(e);
         }
 

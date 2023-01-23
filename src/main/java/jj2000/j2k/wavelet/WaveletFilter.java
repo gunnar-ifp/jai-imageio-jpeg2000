@@ -53,7 +53,8 @@ package jj2000.j2k.wavelet;
  * and SynWTFilter classes provide the specifics of analysis and
  * synthesis filters.
  *
- * <P>Both analysis and filters must be able to return the
+ * <P>
+ * Both analysis and filters must be able to return the
  * extent of the negative and positive support for both synthesis and
  * analysis sides. This simplifies the sue of some functionalities
  * that need extra information about the filters.
@@ -61,8 +62,9 @@ package jj2000.j2k.wavelet;
  * @see jj2000.j2k.wavelet.analysis.AnWTFilter
  *
  * @see jj2000.j2k.wavelet.synthesis.SynWTFilter
- * */
-public interface WaveletFilter {
+ */
+public interface WaveletFilter
+{
 
     /** The ID for integer lifting spteps implementations */
     public final static int WT_FILTER_INT_LIFT = 0;
@@ -78,7 +80,8 @@ public interface WaveletFilter {
      * filter. That is the number of taps of the filter in the
      * negative direction.
      *
-     * <P>A MORE PRECISE DEFINITION IS NEEDED
+     * <P>
+     * A MORE PRECISE DEFINITION IS NEEDED
      *
      * @return The number of taps of the low-pass analysis filter in
      * the negative direction
@@ -90,7 +93,8 @@ public interface WaveletFilter {
      * filter. That is the number of taps of the filter in the
      * negative direction.
      *
-     * <P>A MORE PRECISE DEFINITION IS NEEDED
+     * <P>
+     * A MORE PRECISE DEFINITION IS NEEDED
      *
      * @return The number of taps of the low-pass analysis filter in
      * the positive direction
@@ -102,7 +106,8 @@ public interface WaveletFilter {
      * filter. That is the number of taps of the filter in the
      * negative direction.
      *
-     * <P>A MORE PRECISE DEFINITION IS NEEDED
+     * <P>
+     * A MORE PRECISE DEFINITION IS NEEDED
      *
      * @return The number of taps of the high-pass analysis filter in
      * the negative direction
@@ -114,7 +119,8 @@ public interface WaveletFilter {
      * filter. That is the number of taps of the filter in the
      * negative direction.
      *
-     * <P>A MORE PRECISE DEFINITION IS NEEDED
+     * <P>
+     * A MORE PRECISE DEFINITION IS NEEDED
      *
      * @return The number of taps of the high-pass analysis filter in
      * the positive direction
@@ -126,7 +132,8 @@ public interface WaveletFilter {
      * filter. That is the number of taps of the filter in the
      * negative direction.
      *
-     * <P>A MORE PRECISE DEFINITION IS NEEDED
+     * <P>
+     * A MORE PRECISE DEFINITION IS NEEDED
      *
      * @return The number of taps of the low-pass synthesis filter in
      * the negative direction
@@ -138,7 +145,8 @@ public interface WaveletFilter {
      * filter. That is the number of taps of the filter in the
      * negative direction.
      *
-     * <P>A MORE PRECISE DEFINITION IS NEEDED
+     * <P>
+     * A MORE PRECISE DEFINITION IS NEEDED
      *
      * @return The number of taps of the low-pass synthesis filter in
      * the positive direction
@@ -150,7 +158,8 @@ public interface WaveletFilter {
      * filter. That is the number of taps of the filter in the
      * negative direction.
      *
-     * <P>A MORE PRECISE DEFINITION IS NEEDED
+     * <P>
+     * A MORE PRECISE DEFINITION IS NEEDED
      *
      * @return The number of taps of the high-pass synthesis filter in
      * the negative direction
@@ -162,7 +171,8 @@ public interface WaveletFilter {
      * filter. That is the number of taps of the filter in the
      * negative direction.
      *
-     * <P>A MORE PRECISE DEFINITION IS NEEDED
+     * <P>
+     * A MORE PRECISE DEFINITION IS NEEDED
      *
      * @return The number of taps of the high-pass synthesis filter in
      * the positive direction
@@ -200,13 +210,14 @@ public interface WaveletFilter {
     /**
      * Returns true if the wavelet filter computes or uses the
      * same "inner" subband coefficient as the full frame wavelet transform,
-     * and false otherwise. In particular, for block based transforms with 
+     * and false otherwise. In particular, for block based transforms with
      * reduced overlap, this method should return false. The term "inner"
-     * indicates that this applies only with respect to the coefficient that 
+     * indicates that this applies only with respect to the coefficient that
      * are not affected by image boundaries processings such as symmetric
      * extension, since there is not reference method for this.
      *
-     * <P>The result depends on the length of the allowed overlap when
+     * <P>
+     * The result depends on the length of the allowed overlap when
      * compared to the overlap required by the wavelet filter. It also
      * depends on how overlap processing is implemented in the wavelet
      * filter.
@@ -223,7 +234,7 @@ public interface WaveletFilter {
      * required number of samples in the input signal after the last sample
      * depends on the length of the input signal.
      *
-     * @return true if the overlaps are large enough and correct processing is 
+     * @return true if the overlaps are large enough and correct processing is
      * performed, false otherwise.
      */
     public boolean isSameAsFullWT(int tailOvrlp, int headOvrlp, int inLen);

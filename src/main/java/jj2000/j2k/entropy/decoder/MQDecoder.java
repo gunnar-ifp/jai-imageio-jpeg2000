@@ -64,34 +64,31 @@ import java.util.Arrays;
 // nLPS tables. See the JPEG book, chapter 13. The decoded decision can be
 // calculated as (q>>>31).
 
-public class MQDecoder {
+public class MQDecoder
+{
 
     /** The data structures containing the probabilities for the LPS */
-    final static
-        int qe[]={0x5601, 0x3401, 0x1801, 0x0ac1, 0x0521, 0x0221, 0x5601,
-                  0x5401, 0x4801, 0x3801, 0x3001, 0x2401, 0x1c01, 0x1601,
-                  0x5601, 0x5401, 0x5101, 0x4801, 0x3801, 0x3401, 0x3001,
-                  0x2801, 0x2401, 0x2201, 0x1c01, 0x1801, 0x1601, 0x1401,
-                  0x1201, 0x1101, 0x0ac1, 0x09c1, 0x08a1, 0x0521, 0x0441,
-                  0x02a1, 0x0221, 0x0141, 0x0111, 0x0085, 0x0049, 0x0025,
-                  0x0015, 0x0009, 0x0005, 0x0001, 0x5601 };
+    final static int qe[] = { 0x5601, 0x3401, 0x1801, 0x0ac1, 0x0521, 0x0221, 0x5601,
+        0x5401, 0x4801, 0x3801, 0x3001, 0x2401, 0x1c01, 0x1601,
+        0x5601, 0x5401, 0x5101, 0x4801, 0x3801, 0x3401, 0x3001,
+        0x2801, 0x2401, 0x2201, 0x1c01, 0x1801, 0x1601, 0x1401,
+        0x1201, 0x1101, 0x0ac1, 0x09c1, 0x08a1, 0x0521, 0x0441,
+        0x02a1, 0x0221, 0x0141, 0x0111, 0x0085, 0x0049, 0x0025,
+        0x0015, 0x0009, 0x0005, 0x0001, 0x5601 };
 
     /** The indexes of the next MPS */
-    final static
-        int nMPS[]={ 1 , 2, 3, 4, 5,38, 7, 8, 9,10,11,12,13,29,15,16,17,
-                     18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,
-                     35,36,37,38,39,40,41,42,43,44,45,45,46 };
+    final static int nMPS[] = { 1, 2, 3, 4, 5, 38, 7, 8, 9, 10, 11, 12, 13, 29, 15, 16, 17,
+        18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,
+        35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 45, 46 };
 
     /** The indexes of the next LPS */
-    final static
-        int nLPS[]={ 1 , 6, 9,12,29,33, 6,14,14,14,17,18,20,21,14,14,15,
-                     16,17,18,19,19,20,21,22,23,24,25,26,27,28,29,30,31,
-                     32,33,34,35,36,37,38,39,40,41,42,43,46 };
+    final static int nLPS[] = { 1, 6, 9, 12, 29, 33, 6, 14, 14, 14, 17, 18, 20, 21, 14, 14, 15,
+        16, 17, 18, 19, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
+        32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 46 };
 
     /** Whether LPS and MPS should be switched */
-    final static
-        int switchLM[]={ 1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,
-                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
+    final static int switchLM[] = { 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
     /** The ByteInputBuffer used to read the compressed bit stream. */
     ByteInputBuffer in;
@@ -137,13 +134,14 @@ public class MQDecoder {
      *
      */
     public MQDecoder(ByteInputBuffer iStream, int nrOfContexts,
-                     int initStates[]){
+        int initStates[])
+    {
         in = iStream;
 
         // Default initialization of the statistics bins is MPS=0 and
         // I=0
-        I=new int[nrOfContexts];
-        mPS=new int[nrOfContexts];
+        I = new int[nrOfContexts];
+        mPS = new int[nrOfContexts];
         // Save the initial states
         this.initStates = initStates;
 
@@ -161,10 +159,12 @@ public class MQDecoder {
      * is low enough) and the A and C registers permit decoding several MPS
      * symbols without renormalization.
      *
-     * <P>Speedup mode should be used when decoding long runs of MPS with high
+     * <P>
+     * Speedup mode should be used when decoding long runs of MPS with high
      * probability with the same context.
      *
-     * <P>This methiod will return the decoded symbols differently if speedup
+     * <P>
+     * This methiod will return the decoded symbols differently if speedup
      * mode was used or not. If true is returned, then speedup mode was used
      * and the 'n' decoded symbols are all the same and it is returned ain
      * bits[0] only. If false is returned then speedup mode was not used, the
@@ -183,12 +183,13 @@ public class MQDecoder {
      * returned in 'bits[0]' only (not in bits[1], bits[2], etc.).
      *
      *
-     * */
-    public final boolean fastDecodeSymbols(int[] bits, int ctxt, int n) {
-        int q;   // LPS probability for context
+     */
+    public final boolean fastDecodeSymbols(int[] bits, int ctxt, int n)
+    {
+        int q; // LPS probability for context
         int idx; // Index of current state
-        int la;  // cache for A register
-        int i;   // counter
+        int la; // cache for A register
+        int i; // counter
 
         idx = I[ctxt];
         q = qe[idx];
@@ -196,12 +197,12 @@ public class MQDecoder {
         // This is a first attempt to implement speedup mode, it is probably
         // not the most efficient way of doing it.
 
-        if ((q<0x4000) && (n <= (a-(c>>>16)-1)/q) &&
-            (n <= (a-0x8000)/q+1)) {
+        if ((q < 0x4000) && (n <= (a - (c >>> 16) - 1) / q) &&
+            (n <= (a - 0x8000) / q + 1)) {
             // Q is small enough. There will be no modification of C that
             // affects decoding, and Q can be substracted from A several
             // times. We will decode all MPS.
-            a -= n*q;
+            a -= n * q;
             if (a >= 0x8000) { // No renormalization needed
                 bits[0] = mPS[ctxt];
                 return true; // Done, used speedup mode
@@ -221,78 +222,78 @@ public class MQDecoder {
         }
         else { // Normal mode
             la = a; // cache A register
-            for (i=0; i<n; i++) {
+            for (i = 0; i < n; i++) {
                 la -= q;
-                if ((c>>>16) < la) {
-                    if(la >= 0x8000){
+                if ((c >>> 16) < la) {
+                    if (la >= 0x8000) {
                         bits[i] = mPS[ctxt];
                     }
                     else {
                         // -- MPS Exchange
-                        if(la >= q){
+                        if (la >= q) {
                             bits[i] = mPS[ctxt];
                             idx = nMPS[idx];
                             q = qe[idx];
                             // I[ctxt] set at end of loop
                             // -- Renormalize (MPS: no need for while loop)
-                            if(cT==0)
+                            if (cT == 0)
                                 byteIn();
-                            la<<=1;
-                            c<<=1;
+                            la <<= 1;
+                            c <<= 1;
                             cT--;
                             // -- End renormalization
                         }
-                        else{
-                            bits[i] = 1-mPS[ctxt];
-                            if(switchLM[idx]==1)
-                                mPS[ctxt] = 1-mPS[ctxt];
-                            idx =  nLPS[idx];
+                        else {
+                            bits[i] = 1 - mPS[ctxt];
+                            if (switchLM[idx] == 1)
+                                mPS[ctxt] = 1 - mPS[ctxt];
+                            idx = nLPS[idx];
                             q = qe[idx];
                             // I[ctxt] set at end of loop
                             // -- Renormalize
-                            do{
-                                if(cT==0)
+                            do {
+                                if (cT == 0)
                                     byteIn();
-                                la<<=1;
-                                c<<=1;
+                                la <<= 1;
+                                c <<= 1;
                                 cT--;
-                            }while(la < 0x8000);
+                            } while (la < 0x8000);
                             // -- End renormalization
                         }
                         // -- End MPS Exchange
                     }
                 }
                 else {
-                    c -= (la<<16);
+                    c -= (la << 16);
                     // -- LPS Exchange
-                    if(la < q){
+                    if (la < q) {
                         la = q;
                         bits[i] = mPS[ctxt];
                         idx = nMPS[idx];
                         q = qe[idx];
                         // I[ctxt] set at end of loop
                         // -- Renormalize (MPS: no need for while loop)
-                        if(cT==0)
+                        if (cT == 0)
                             byteIn();
-                        la<<=1;
-                        c<<=1;
+                        la <<= 1;
+                        c <<= 1;
                         cT--;
                         // -- End renormalization
                     }
                     else {
                         la = q;
-                        bits[i] = 1-mPS[ctxt];
-                        if(switchLM[idx] == 1)
-                            mPS[ctxt] = 1-mPS[ctxt];
-                        idx =  nLPS[idx];
+                        bits[i] = 1 - mPS[ctxt];
+                        if (switchLM[idx] == 1)
+                            mPS[ctxt] = 1 - mPS[ctxt];
+                        idx = nLPS[idx];
                         q = qe[idx];
                         // I[ctxt] set at end of loop
                         // -- Renormalize
-                        do{
-                            if(cT==0)
+                        do {
+                            if (cT == 0)
                                 byteIn();
-                            la<<=1;
-                            c<<=1;
+                            la <<= 1;
+                            c <<= 1;
                             cT--;
                         } while (la < 0x8000);
                         // -- End renormalization
@@ -300,9 +301,9 @@ public class MQDecoder {
                     // -- End LPS Exchange
                 }
             }
-            a = la;           // save cached A register
-            I[ctxt] = idx;    // save current index for context
-            return false;     // done, did not use speedup mode
+            a = la; // save cached A register
+            I[ctxt] = idx; // save current index for context
+            return false; // done, did not use speedup mode
         } // End normal mode
     }
 
@@ -311,7 +312,8 @@ public class MQDecoder {
      * an array in which to put the decoded symbols and an array of contexts
      * with which to decode them.
      *
-     * <P>Each context has a current MPS and an index describing what the
+     * <P>
+     * Each context has a current MPS and an index describing what the
      * current probability is for the LPS. Each bit is decoded and if the
      * probability of the LPS exceeds .5, the MPS and LPS are switched.
      *
@@ -324,7 +326,8 @@ public class MQDecoder {
      *
      *
      */
-    public final void decodeSymbols(int[] bits, int[] cX, int n){
+    public final void decodeSymbols(int[] bits, int[] cX, int n)
+    {
         int q;
         int ctxt;
         int la; // cache for A register value
@@ -339,44 +342,44 @@ public class MQDecoder {
         // => one renormalization shift is enough for MPS
         // => no need to do a renormalization while loop for MPS
 
-        for (i=0; i<n; i++) {
+        for (i = 0; i < n; i++) {
             ctxt = cX[i];
 
             index = I[ctxt];
             q = qe[index];
 
             a -= q;
-            if ((c>>>16) < a) {
-                if(a >= 0x8000){
+            if ((c >>> 16) < a) {
+                if (a >= 0x8000) {
                     bits[i] = mPS[ctxt];
                 }
                 else {
                     la = a;
                     // -- MPS Exchange
-                    if(la >= q){
+                    if (la >= q) {
                         bits[i] = mPS[ctxt];
                         I[ctxt] = nMPS[index];
                         // -- Renormalize (MPS: no need for while loop)
-                        if(cT==0)
+                        if (cT == 0)
                             byteIn();
-                        la<<=1;
-                        c<<=1;
+                        la <<= 1;
+                        c <<= 1;
                         cT--;
                         // -- End renormalization
                     }
-                    else{
-                        bits[i] = 1-mPS[ctxt];
-                        if(switchLM[index]==1)
-                            mPS[ctxt] = 1-mPS[ctxt];
+                    else {
+                        bits[i] = 1 - mPS[ctxt];
+                        if (switchLM[index] == 1)
+                            mPS[ctxt] = 1 - mPS[ctxt];
                         I[ctxt] = nLPS[index];
                         // -- Renormalize
-                        do{
-                            if(cT==0)
+                        do {
+                            if (cT == 0)
                                 byteIn();
-                            la<<=1;
-                            c<<=1;
+                            la <<= 1;
+                            c <<= 1;
                             cT--;
-                        }while(la < 0x8000);
+                        } while (la < 0x8000);
                         // -- End renormalization
                     }
                     // -- End MPS Exchange
@@ -385,32 +388,32 @@ public class MQDecoder {
             }
             else {
                 la = a;
-                c -= (la<<16);
+                c -= (la << 16);
                 // -- LPS Exchange
-                if(la < q){
+                if (la < q) {
                     la = q;
                     bits[i] = mPS[ctxt];
                     I[ctxt] = nMPS[index];
                     // -- Renormalize (MPS: no need for while loop)
-                    if(cT==0)
+                    if (cT == 0)
                         byteIn();
-                    la<<=1;
-                    c<<=1;
+                    la <<= 1;
+                    c <<= 1;
                     cT--;
                     // -- End renormalization
                 }
                 else {
                     la = q;
-                    bits[i] = 1-mPS[ctxt];
-                    if(switchLM[index] == 1)
-                        mPS[ctxt] = 1-mPS[ctxt];
+                    bits[i] = 1 - mPS[ctxt];
+                    if (switchLM[index] == 1)
+                        mPS[ctxt] = 1 - mPS[ctxt];
                     I[ctxt] = nLPS[index];
                     // -- Renormalize
-                    do{
-                        if(cT==0)
+                    do {
+                        if (cT == 0)
                             byteIn();
-                        la<<=1;
-                        c<<=1;
+                        la <<= 1;
+                        c <<= 1;
                         cT--;
                     } while (la < 0x8000);
                     // -- End renormalization
@@ -427,7 +430,8 @@ public class MQDecoder {
      * Arithmetically decodes one symbol from the bit stream with the given
      * context and returns its decoded value.
      *
-     * <P>Each context has a current MPS and an index describing what the
+     * <P>
+     * Each context has a current MPS and an index describing what the
      * current probability is for the LPS. Each bit is encoded and if the
      * probability of the LPS exceeds .5, the MPS and LPS are switched.
      *
@@ -437,7 +441,8 @@ public class MQDecoder {
      *
      *
      */
-    public final int decodeSymbol(int context){
+    public final int decodeSymbol(int context)
+    {
         int q;
         int la;
         int index;
@@ -455,37 +460,37 @@ public class MQDecoder {
         // => no need to do a renormalization while loop for MPS
 
         a -= q;
-        if ((c>>>16) < a) {
-            if(a >= 0x8000){
+        if ((c >>> 16) < a) {
+            if (a >= 0x8000) {
                 decision = mPS[context];
             }
             else {
                 la = a;
                 // -- MPS Exchange
-                if(la >= q){
+                if (la >= q) {
                     decision = mPS[context];
                     I[context] = nMPS[index];
                     // -- Renormalize (MPS: no need for while loop)
-                    if(cT==0)
+                    if (cT == 0)
                         byteIn();
-                    la<<=1;
-                    c<<=1;
+                    la <<= 1;
+                    c <<= 1;
                     cT--;
                     // -- End renormalization
                 }
-                else{
-                    decision = 1-mPS[context];
-                    if(switchLM[index]==1)
-                        mPS[context] = 1-mPS[context];
+                else {
+                    decision = 1 - mPS[context];
+                    if (switchLM[index] == 1)
+                        mPS[context] = 1 - mPS[context];
                     I[context] = nLPS[index];
                     // -- Renormalize
-                    do{
-                        if(cT==0)
+                    do {
+                        if (cT == 0)
                             byteIn();
-                        la<<=1;
-                        c<<=1;
+                        la <<= 1;
+                        c <<= 1;
                         cT--;
-                    }while(la < 0x8000);
+                    } while (la < 0x8000);
                     // -- End renormalization
                 }
                 // -- End MPS Exchange
@@ -494,32 +499,32 @@ public class MQDecoder {
         }
         else {
             la = a;
-            c -= (la<<16);
+            c -= (la << 16);
             // -- LPS Exchange
-            if(la < q){
+            if (la < q) {
                 la = q;
                 decision = mPS[context];
                 I[context] = nMPS[index];
                 // -- Renormalize (MPS: no need for while loop)
-                if(cT==0)
+                if (cT == 0)
                     byteIn();
-                la<<=1;
-                c<<=1;
+                la <<= 1;
+                c <<= 1;
                 cT--;
                 // -- End renormalization
             }
             else {
                 la = q;
-                decision = 1-mPS[context];
-                if(switchLM[index] == 1)
-                    mPS[context] = 1-mPS[context];
+                decision = 1 - mPS[context];
+                if (switchLM[index] == 1)
+                    mPS[context] = 1 - mPS[context];
                 I[context] = nLPS[index];
                 // -- Renormalize
-                do{
-                    if(cT==0)
+                do {
+                    if (cT == 0)
                         byteIn();
-                    la<<=1;
-                    c<<=1;
+                    la <<= 1;
+                    c <<= 1;
                     cT--;
                 } while (la < 0x8000);
                 // -- End renormalization
@@ -541,9 +546,10 @@ public class MQDecoder {
      * MQ bit stream has been correctly decoded.
      *
      * @return True if errors are found, false otherwise.
-     * */
-    public boolean checkPredTerm() {
-        int k;  // Number of bits that where added in the termination process
+     */
+    public boolean checkPredTerm()
+    {
+        int k; // Number of bits that where added in the termination process
         int q;
 
         // 1) if everything has been OK, 'b' must be 0xFF if a terminating
@@ -564,7 +570,7 @@ public class MQDecoder {
         if (cT == 0) {
             if (!markerFound) {
                 // Get next byte and check
-                b=in.read()&0xFF;
+                b = in.read() & 0xFF;
                 if (b <= 0x8F) return true;
             }
             // Adjust cT for last byte
@@ -574,7 +580,7 @@ public class MQDecoder {
         // 5) Now we can calculate the number 'k' of bits having error
         // resilience information, which is the number of bits left to
         // normalization in the C register, minus 1.
-        k = cT-1;
+        k = cT - 1;
 
         // 6) The predictable termination policy is as if an LPS interval was
         // coded that caused a renormalization of 'k' bits, before the
@@ -583,26 +589,26 @@ public class MQDecoder {
         // We first check if an LPS is decoded, that causes a renormalization
         // of 'k' bits. Worst case is smallest LPS probability 'q' that causes
         // a renormalization of 'k' bits.
-        q = 0x8000>>k;
+        q = 0x8000 >> k;
 
         // Check that we can decode an LPS interval of probability 'q'
         a -= q;
-        if ((c>>>16) < a) {
+        if ((c >>> 16) < a) {
             // Error: MPS interval decoded
             return true;
         }
         // OK: LPS interval decoded
-        c -= (a<<16);
+        c -= (a << 16);
         // -- LPS Exchange
         // Here 'a' can not be smaller than 'q' because the minimum value
         // for 'a' is 0x8000-0x4000=0x4000 and 'q' is set to a value equal
         // to or smaller than that.
         a = q;
         // -- Renormalize
-        do{
-            if(cT==0) byteIn();
-            a<<=1;
-            c<<=1;
+        do {
+            if (cT == 0) byteIn();
+            a <<= 1;
+            c <<= 1;
             cT--;
         } while (a < 0x8000);
         // -- End renormalization
@@ -622,39 +628,43 @@ public class MQDecoder {
      *
      *
      */
-    private void byteIn(){
-        if(!markerFound){
-            if(b==0xFF){
-                b=in.read()&0xFF; // Convert EOFs (-1) to 0xFF
+    private void byteIn()
+    {
+        if (!markerFound) {
+            if (b == 0xFF) {
+                b = in.read() & 0xFF; // Convert EOFs (-1) to 0xFF
 
-                if(b>0x8F){
-                    markerFound=true;
+                if (b > 0x8F) {
+                    markerFound = true;
                     // software-convention decoder: c unchanged
-                    cT=8;
-                }else{
-                    c += 0xFE00 - (b<<9);
-                    cT=7;
+                    cT = 8;
                 }
-            }else{
-                b=in.read()&0xFF; // Convert EOFs (-1) to 0xFF
-                c += 0xFF00 - (b<<8);
-                cT=8;
+                else {
+                    c += 0xFE00 - (b << 9);
+                    cT = 7;
+                }
+            }
+            else {
+                b = in.read() & 0xFF; // Convert EOFs (-1) to 0xFF
+                c += 0xFF00 - (b << 8);
+                cT = 8;
             }
         }
-        else{
+        else {
             // software-convention decoder: c unchanged
-            cT=8;
+            cT = 8;
         }
     }
 
     /**
-      * Returns the number of contexts in the arithmetic coder.
-      *
-      * @return The number of contexts
-      *
-      *
-      **/
-    public final int getNumCtxts(){
+     * Returns the number of contexts in the arithmetic coder.
+     *
+     * @return The number of contexts
+     *
+     *
+     **/
+    public final int getNumCtxts()
+    {
         return I.length;
     }
 
@@ -666,7 +676,8 @@ public class MQDecoder {
      *
      *
      */
-    public final void resetCtxt(int c){
+    public final void resetCtxt(int c)
+    {
         I[c] = initStates[c];
         mPS[c] = 0;
     }
@@ -677,9 +688,10 @@ public class MQDecoder {
      * implementation of the arithmetic coder or decoder.
      *
      */
-    public final void resetCtxts(){
-        System.arraycopy(initStates,0,I,0,I.length);
-        Arrays.fill(mPS,0);
+    public final void resetCtxts()
+    {
+        System.arraycopy(initStates, 0, I, 0, I.length);
+        Arrays.fill(mPS, 0);
     }
 
     /**
@@ -697,10 +709,11 @@ public class MQDecoder {
      * bytes are taken to be 0xFF.
      *
      *
-     * */
-    public final void nextSegment(byte buf[], int off, int len) {
+     */
+    public final void nextSegment(byte buf[], int off, int len)
+    {
         // Set the new input
-        in.setByteArray(buf,off,len);
+        in.setByteArray(buf, off, len);
         // Reinitialize MQ
         init();
     }
@@ -711,8 +724,9 @@ public class MQDecoder {
      *
      * @return The underlying ByteInputBuffer.
      *
-     * */
-    public ByteInputBuffer getByteInputBuffer() {
+     */
+    public ByteInputBuffer getByteInputBuffer()
+    {
         return in;
     }
 
@@ -721,24 +735,26 @@ public class MQDecoder {
      * context states. It sets the registers (A,C,B) and the "marker found"
      * state to the initial state, to start the decoding of a new segment.
      *
-     * <P>To have a complete reset of the MQ (as if a new MQDecoder object was
+     * <P>
+     * To have a complete reset of the MQ (as if a new MQDecoder object was
      * created) 'resetCtxts()' should be called after this method.
      *
      *
-     * */
-    private void init() {
+     */
+    private void init()
+    {
         // --- INITDEC
         markerFound = false;
 
         // Read first byte
-        b=in.read()&0xFF;
+        b = in.read() & 0xFF;
 
         // Software conventions decoder
-        c=(b^0xFF)<<16;
+        c = (b ^ 0xFF) << 16;
         byteIn();
-        c=c<<7;
-        cT=cT-7;
-        a=0x8000;
+        c = c << 7;
+        cT = cT - 7;
+        a = 0x8000;
 
         // End of INITDEC ---
     }

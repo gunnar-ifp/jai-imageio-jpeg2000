@@ -50,8 +50,9 @@ package jj2000.j2k.entropy.decoder;
  * output obejcts that inherit from a 'ByteInputBuffer' class. This class also
  * performs the bit unstuffing procedure specified for the 'selective
  * arithmetic coding bypass' mode of the JPEG 2000 entropy coder.
- * */
-class ByteToBitInput {
+ */
+class ByteToBitInput
+{
 
     /** The byte based input */
     ByteInputBuffer in;
@@ -59,16 +60,20 @@ class ByteToBitInput {
     /** The bit buffer */
     int bbuf;
 
-    /** The position of the next bit to get from the byte buffer. When it is
-     * -1 the bit buffer is empty. */
+    /**
+     * The position of the next bit to get from the byte buffer. When it is
+     * -1 the bit buffer is empty.
+     */
     int bpos = -1;
 
-    /** Instantiates a new 'ByteToBitInput' object that uses 'in' as the
+    /**
+     * Instantiates a new 'ByteToBitInput' object that uses 'in' as the
      * underlying byte based input.
      *
      * @param in The underlying byte based input.
-     * */
-    ByteToBitInput(ByteInputBuffer in) {
+     */
+    ByteToBitInput(ByteInputBuffer in)
+    {
         this.in = in;
     }
 
@@ -78,10 +83,11 @@ class ByteToBitInput {
      * necessary the bit unstuffing will be applied.
      *
      * @return The read bit (0 or 1).
-     * */
-    final int readBit() {
+     */
+    final int readBit()
+    {
         if (bpos < 0) {
-            if ((bbuf&0xFF) != 0xFF) { // Normal byte to read
+            if ((bbuf & 0xFF) != 0xFF) { // Normal byte to read
                 bbuf = in.read();
                 bpos = 7;
             }
@@ -90,7 +96,7 @@ class ByteToBitInput {
                 bpos = 6;
             }
         }
-        return (bbuf>>bpos--)&0x01;
+        return (bbuf >> bpos--) & 0x01;
     }
 
     /**
@@ -102,8 +108,9 @@ class ByteToBitInput {
      * correctly decoded.
      *
      * @return True if errors are found, false otherwise.
-     * */
-    public boolean checkBytePadding() {
+     */
+    public boolean checkBytePadding()
+    {
         int seq; // Byte padding sequence in last byte
 
         // If there are no spare bits and bbuf is 0xFF (not EOF), then there
@@ -115,9 +122,9 @@ class ByteToBitInput {
 
         // 1) Not yet read bits in the last byte must be an alternating
         // sequence of 0s and 1s, starting with 0.
-        if (bpos>=0) {
-            seq = bbuf&((1<<(bpos+1))-1);
-            if (seq != (0x55>>(7-bpos))) return true;
+        if (bpos >= 0) {
+            seq = bbuf & ((1 << (bpos + 1)) - 1);
+            if (seq != (0x55 >> (7 - bpos))) return true;
         }
 
         // 2) We must have already reached the last byte in the terminated
@@ -125,7 +132,7 @@ class ByteToBitInput {
         // can output an extra byte which is smaller than 0x80.
         if (bbuf != -1) {
             if (bbuf == 0xFF && bpos == 0) {
-                if ((in.read()&0xFF) >= 0x80) return true;
+                if ((in.read() & 0xFF) >= 0x80) return true;
             }
             else {
                 if (in.read() != -1) return true;
@@ -140,8 +147,9 @@ class ByteToBitInput {
      * Flushes (i.e. empties) the bit buffer, without loading any new
      * bytes. This realigns the input at the next byte boundary, if not
      * already at one.
-     * */
-    final void flush() {
+     */
+    final void flush()
+    {
         bbuf = 0; // reset any bit stuffing state
         bpos = -1;
     }
@@ -159,9 +167,10 @@ class ByteToBitInput {
      *
      * @param len The number of bytes in 'buf' to be decoded. Any subsequent
      * bytes are taken to be 0xFF.
-     * */
-    final void setByteArray(byte buf[], int off, int len) {
-        in.setByteArray(buf,off,len);
+     */
+    final void setByteArray(byte buf[], int off, int len)
+    {
+        in.setByteArray(buf, off, len);
         bbuf = 0; // reset any bit stuffing state
         bpos = -1;
     }

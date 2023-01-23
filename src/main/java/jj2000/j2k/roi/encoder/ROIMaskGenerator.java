@@ -50,7 +50,8 @@ import jj2000.j2k.wavelet.Subband;
  * This class generates the ROI masks for the ROIScaler.It gives the scaler
  * the ROI mask for the current code-block.
  *
- * <P>The values are calculated from the scaling factors of the ROIs. The
+ * <P>
+ * The values are calculated from the scaling factors of the ROIs. The
  * values with which to scale are equal to u-umin where umin is the lowest
  * scaling factor within the block. The umin value is sent to the entropy
  * coder to be used for scaling the distortion values.
@@ -58,8 +59,9 @@ import jj2000.j2k.wavelet.Subband;
  * @see RectROIMaskGenerator
  *
  * @see ArbROIMaskGenerator
- *  */
-public abstract class ROIMaskGenerator{
+ */
+public abstract class ROIMaskGenerator
+{
 
     /** Array containing the ROIs */
     protected ROI[] rois;
@@ -80,10 +82,11 @@ public abstract class ROIMaskGenerator{
      *
      * @param nrc The number of components
      */
-    public ROIMaskGenerator(ROI[] rois, int nrc){
-        this.rois=rois;
-        this.nrc=nrc;
-        tileMaskMade=new boolean[nrc];
+    public ROIMaskGenerator(ROI[] rois, int nrc)
+    {
+        this.rois = rois;
+        this.nrc = nrc;
+        tileMaskMade = new boolean[nrc];
     }
 
     /**
@@ -91,7 +94,8 @@ public abstract class ROIMaskGenerator{
      *
      * @return The ROIs in the image
      */
-    public ROI[] getROIs(){
+    public ROI[] getROIs()
+    {
         return rois;
     }
 
@@ -109,9 +113,10 @@ public abstract class ROIMaskGenerator{
      *
      * @param c Component number
      *
-     * @return Whether or not a mask was needed for this tile */
+     * @return Whether or not a mask was needed for this tile
+     */
     public abstract boolean getROIMask(DataBlkInt db, Subband sb,
-                                       int magbits, int c);
+        int magbits, int c);
 
     /**
      * This function generates the ROI mask for the entire tile. The mask is
@@ -130,9 +135,10 @@ public abstract class ROIMaskGenerator{
      * This function is called every time the tile is changed to indicate
      * that there is need to make a new mask
      */
-    public void tileChanged(){
-        for(int i=0;i<nrc;i++)
-            tileMaskMade[i]=false;
+    public void tileChanged()
+    {
+        for (int i = 0; i < nrc; i++)
+            tileMaskMade[i] = false;
     }
 
 }

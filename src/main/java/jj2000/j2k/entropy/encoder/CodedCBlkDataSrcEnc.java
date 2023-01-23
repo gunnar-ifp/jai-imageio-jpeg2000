@@ -49,6 +49,7 @@
 
 
 package jj2000.j2k.entropy.encoder;
+
 import jj2000.j2k.wavelet.analysis.ForwWTDataProps;
 
 /**
@@ -57,10 +58,12 @@ import jj2000.j2k.wavelet.analysis.ForwWTDataProps;
  * 'getNextCodeBlock()' a new coded code-block is returned. The code-block are
  * retruned in no specific-order.
  *
- * <P>This interface is the source of data for the rate allocator. See the
+ * <P>
+ * This interface is the source of data for the rate allocator. See the
  * 'PostCompRateAllocator' class.
  *
- * <P>For each coded-code-block the entropy-coded data is returned along with
+ * <P>
+ * For each coded-code-block the entropy-coded data is returned along with
  * the rate-distortion statistics in a 'CBlkRateDistStats' object.
  *
  * @see PostCompRateAllocator
@@ -68,8 +71,9 @@ import jj2000.j2k.wavelet.analysis.ForwWTDataProps;
  * @see CBlkRateDistStats
  *
  * @see EntropyCoder
- * */
-public interface CodedCBlkDataSrcEnc extends ForwWTDataProps {
+ */
+public interface CodedCBlkDataSrcEnc extends ForwWTDataProps
+{
 
     /**
      * Returns the next coded code-block in the current tile for the specified
@@ -80,11 +84,13 @@ public interface CodedCBlkDataSrcEnc extends ForwWTDataProps {
      * the code-blocks have been returned for the current tile calls to this
      * method will return 'null'.
      *
-     * <P>When changing the current tile (through 'setTile()' or 'nextTile()')
+     * <P>
+     * When changing the current tile (through 'setTile()' or 'nextTile()')
      * this method will always return the first code-block, as if this method
      * was never called before for the new current tile.
      *
-     * <P>The data returned by this method is always a copy of the internal
+     * <P>
+     * The data returned by this method is always a copy of the internal
      * data of this object, if any, and it can be modified "in place" without
      * any problems after being returned.
      *
@@ -102,7 +108,7 @@ public interface CodedCBlkDataSrcEnc extends ForwWTDataProps {
      * @see CBlkRateDistStats
      *
      *
-     * */
+     */
     public CBlkRateDistStats getNextCodeBlock(int c, CBlkRateDistStats ccb);
 
     /**
@@ -118,7 +124,7 @@ public interface CodedCBlkDataSrcEnc extends ForwWTDataProps {
      * @return The width of a packet for the specified tile-
      * component and resolution level.
      *
-     * */
+     */
     public int getPPX(int t, int c, int r);
 
     /**
@@ -134,7 +140,7 @@ public interface CodedCBlkDataSrcEnc extends ForwWTDataProps {
      * @return The height of a packet for the specified tile-
      * component and resolution level.
      *
-     * */
+     */
     public int getPPY(int t, int c, int r);
 
     /**

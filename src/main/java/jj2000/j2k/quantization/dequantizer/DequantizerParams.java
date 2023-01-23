@@ -52,8 +52,9 @@ package jj2000.j2k.quantization.dequantizer;
  * for each type of dequantizer, there should be a corresponding class to
  * store its parameters. The parameters are those that come from the bit
  * stream header, that concern dequantization.
- * */
-public abstract class DequantizerParams {
+ */
+public abstract class DequantizerParams
+{
 
     /**
      * Returns the type of the dequantizer for which the parameters are. The
@@ -63,7 +64,7 @@ public abstract class DequantizerParams {
      * are.
      *
      * @see Dequantizer
-     * */
+     */
     public abstract int getDequantizerType();
 
 }

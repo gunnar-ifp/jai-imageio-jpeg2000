@@ -54,39 +54,51 @@ package jj2000.j2k.util;
  * a terminal, text file, text area in a GUI display, dialog boxes in a GUI
  * display, etc., or a combination of those.
  *
- * <P>Messages are short strings (a couple of lines) that indicate some state
+ * <P>
+ * Messages are short strings (a couple of lines) that indicate some state
  * of the program, and that have a severity code associated with them (see
  * below). Simple strings is text (can be long) that has no severity code
  * associated with it. Typical use of simple strings is to display help texts.
  *
- * <P>Each message has a severity code, which can be one of the following:
+ * <P>
+ * Each message has a severity code, which can be one of the following:
  * LOG, INFO, WARNING, ERROR. Each implementation should treat each severity
  * code in a way which corresponds to the type of diplay used.
  *
- * <P>Messages are printed via the 'printmsg()' method. Simple strings are
+ * <P>
+ * Messages are printed via the 'printmsg()' method. Simple strings are
  * printed via the 'print()', 'println()' and 'flush()' methods, each simple
  * string is considered to be terminated once the 'flush()' method has been
  * called. The 'printmsg()' method should never be called before a previous
  * simple string has been terminated.
  *
- * */
-public interface MsgLogger {
+ */
+public interface MsgLogger
+{
 
-    /** Severity of message. LOG messages are just for bookkeeping and do not
-     * need to be displayed in the majority of cases */
+    /**
+     * Severity of message. LOG messages are just for bookkeeping and do not
+     * need to be displayed in the majority of cases
+     */
     public static final int LOG = 0;
 
-    /** Severity of message. INFO messages should be displayed just for user
-     *  feedback. */
+    /**
+     * Severity of message. INFO messages should be displayed just for user
+     * feedback.
+     */
     public static final int INFO = 1;
 
-    /** Severity of message. WARNING messages denote that an unexpected state
-     * has been reached and should be given as feedback to the user. */
-     public static final int WARNING = 2;
+    /**
+     * Severity of message. WARNING messages denote that an unexpected state
+     * has been reached and should be given as feedback to the user.
+     */
+    public static final int WARNING = 2;
 
-    /** Severity of message. ERROR messages denote that something has gone
+    /**
+     * Severity of message. ERROR messages denote that something has gone
      * wrong and probably that execution has ended. They should be definetely
-     * displayed to the user. */
+     * displayed to the user.
+     */
     public static final int ERROR = 3;
 
     /**
@@ -102,7 +114,7 @@ public interface MsgLogger {
      * @param msg The message to display
      *
      *
-     * */
+     */
     public void printmsg(int sev, String msg);
 
     /**
@@ -123,13 +135,13 @@ public interface MsgLogger {
      * @param ind Indentation of any other lines.
      *
      *
-     * */
+     */
     public void println(String str, int flind, int ind);
 
     /**
      * Writes any buffered data from the println() method to the device.
      *
      *
-     * */
+     */
     public void flush();
 }

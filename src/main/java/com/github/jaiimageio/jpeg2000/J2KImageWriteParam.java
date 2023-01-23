@@ -52,98 +52,110 @@ import javax.imageio.ImageWriteParam;
  * A subclass of <code>ImageWriteParam</code> for writing images in
  * the JPEG 2000 format.
  *
- * <p>JPEG 2000 plugin supports to losslessly or lossy compress gray-scale,
- * RGB, and RGBA images with byte, unsigned short or short data type.  It also
- * supports losslessly compress bilevel, and 8-bit color indexed images.  The
+ * <p>
+ * JPEG 2000 plugin supports to losslessly or lossy compress gray-scale,
+ * RGB, and RGBA images with byte, unsigned short or short data type. It also
+ * supports losslessly compress bilevel, and 8-bit color indexed images. The
  * result data is in the of JP2 format -- JPEG 2000 Part 1 or baseline format.
  *
- * <p>The parameters for encoding JPEG 2000 are listed in the following table:
+ * <p>
+ * The parameters for encoding JPEG 2000 are listed in the following table:
  *
- * <table>
+ * <table border=1>
  * <caption><b>JPEG 2000 Plugin Decoding Parameters</b></caption>
- * <tr><th>Parameter Name</th> <th>Description</th></tr>
  * <tr>
- *    <td>numDecompositionLevels</td>
- *    <td> The number of decomposition levels to generate. This value must
- *         be in the range
- *         <code>0&nbsp;&le;&nbsp;numDecompositionLevels&nbsp;&le;&nbsp;32
+ * <th>Parameter Name</th>
+ * <th>Description</th>
+ * </tr>
+ * <tr>
+ * <td>numDecompositionLevels</td>
+ * <td>The number of decomposition levels to generate. This value must
+ * be in the range
+ * <code>0&nbsp;&le;&nbsp;numDecompositionLevels&nbsp;&le;&nbsp;32
  *         </code>. The default value is <code>5</code>. Note that the number
- *         of resolution levels is
- *         <code>numDecompositionLevels&nbsp;+&nbsp;1</code>.
- *         The number of decomposition levels is constant across
- *         all components and all tiles.
- *    </td>
+ * of resolution levels is
+ * <code>numDecompositionLevels&nbsp;+&nbsp;1</code>.
+ * The number of decomposition levels is constant across
+ * all components and all tiles.
+ * </td>
  * </tr>
  * <tr>
- *    <td>encodingRate</td>
- *    <td> The bitrate in bits-per-pixel for encoding.  Should be set when
- *    lossy compression scheme is used.  With the default value
- *    <code>Double.MAX_VALUE</code>, a lossless compression will be done.
- *    </td>
+ * <td>encodingRate</td>
+ * <td>The bitrate in bits-per-pixel for encoding. Should be set when
+ * lossy compression scheme is used. With the default value
+ * <code>Double.MAX_VALUE</code>, a lossless compression will be done.
+ * </td>
  * </tr>
  * <tr>
- *    <td>lossless</td>
- *    <td> Indicates using the lossless scheme or not.  It is equivalent to
- *    use reversible quantization and 5x3 integer wavelet filters.  The
- *    default is <code>true</code>.
- *    </td>
+ * <td>lossless</td>
+ * <td>Indicates using the lossless scheme or not. It is equivalent to
+ * use reversible quantization and 5x3 integer wavelet filters. The
+ * default is <code>true</code>.
+ * </td>
  * </tr>
  * <tr>
- *    <td>componentTransformation</td>
- *    <td> Specifies to utilize the component transformation on some tiles.
- *    If the wavelet transform is reversible (w5x3 filter), the Reversible
- *    Component Transformation (RCT) is applied. If not reversible
- *    (w9x7 filter), the Irreversible Component Transformation (ICT) is used.
- *    </td>
+ * <td>componentTransformation</td>
+ * <td>Specifies to utilize the component transformation on some tiles.
+ * If the wavelet transform is reversible (w5x3 filter), the Reversible
+ * Component Transformation (RCT) is applied. If not reversible
+ * (w9x7 filter), the Irreversible Component Transformation (ICT) is used.
+ * </td>
  * </tr>
  * <tr>
- *    <td>filters</td>
- *    <td> Specifies which wavelet filters to use for the specified
- *    tile-components.  JPEG 2000 part I only supports w5x3 and w9x7 filters.
- *    </td>
+ * <td>filters</td>
+ * <td>Specifies which wavelet filters to use for the specified
+ * tile-components. JPEG 2000 part I only supports w5x3 and w9x7 filters.
+ * </td>
  * </tr>
  * <tr>
- *    <td>codeBlockSize</td>
- *    <td> Specifies the maximum code-block size to use for tile-component.
- *    The maximum width and height is 1024, however the block size
- *    (i.e. width x height) must not exceed 4096.  The minimum width and
- *    height is 4.  The default values are (64, 64).
- *    </td>
+ * <td>codeBlockSize</td>
+ * <td>Specifies the maximum code-block size to use for tile-component.
+ * The maximum width and height is 1024, however the block size
+ * (i.e. width x height) must not exceed 4096. The minimum width and
+ * height is 4. The default values are (64, 64).
+ * </td>
  * </tr>
  * <tr>
- *    <td>progressionType</td>
- *    <td> Specifies which type of progression should be used when generating
- *    the codestream.
- *    <p> The format is one of the progression types defined below:
+ * <td>progressionType</td>
+ * <td>Specifies which type of progression should be used when generating
+ * the codestream.
+ * <p>
+ * The format is one of the progression types defined below:
  *
- *    <p> res : Resolution-Layer-Component-Position
- *    <p> layer: Layer-Resolution-Component-Position
- *    <p> res-pos: Resolution-Position-Component-Layer
- *    <p> pos-comp: Position-Component-Resolution-Layer
- *    <p> comp-pos: Component-Position-Resolution-Layer
- *    </td>
+ * <p>
+ * res : Resolution-Layer-Component-Position
+ * <p>
+ * layer: Layer-Resolution-Component-Position
+ * <p>
+ * res-pos: Resolution-Position-Component-Layer
+ * <p>
+ * pos-comp: Position-Component-Resolution-Layer
+ * <p>
+ * comp-pos: Component-Position-Resolution-Layer
+ * </td>
  * </tr>
  * <tr>
- *    <td>SOP</td>
- *    <td>Specifies whether start of packet (SOP) markers should be used.
- *    true enables, false disables it.  The default value is false.
- *    </td>
+ * <td>SOP</td>
+ * <td>Specifies whether start of packet (SOP) markers should be used.
+ * true enables, false disables it. The default value is false.
+ * </td>
  * </tr>
  * <tr>
- *    <td>EPH</td>
- *    <td>Specifies whether end of packet header (EPH) markers should be used.
- *    true enables, false disables it.  The default value is false.
- *    </td>
+ * <td>EPH</td>
+ * <td>Specifies whether end of packet header (EPH) markers should be used.
+ * true enables, false disables it. The default value is false.
+ * </td>
  * </tr>
  * <tr>
- *    <td>writeCodeStreamOnly</td>
- *    <td>Specifies whether write only the jpeg2000 code stream, i.e, no any
- *    box is written.  The default value is false.
- *    </td>
- * </tr> 
+ * <td>writeCodeStreamOnly</td>
+ * <td>Specifies whether write only the jpeg2000 code stream, i.e, no any
+ * box is written. The default value is false.
+ * </td>
+ * </tr>
  * </table>
  */
-public class J2KImageWriteParam extends ImageWriteParam {
+public class J2KImageWriteParam extends ImageWriteParam
+{
     /** The filter for lossy compression. */
     public static final String FILTER_97 = "w9x7";
 
@@ -156,54 +168,61 @@ public class J2KImageWriteParam extends ImageWriteParam {
     private int numDecompositionLevels = 5;
 
     /**
-     * The bitrate in bits-per-pixel for encoding.  Should be set when lossy
-     * compression scheme is used.  The default is
+     * The bitrate in bits-per-pixel for encoding. Should be set when lossy
+     * compression scheme is used. The default is
      * <code>Double.MAX_VALUE</code>.
      */
     private double encodingRate = Double.MAX_VALUE;
 
     /**
-     * Indicates using the lossless scheme or not.  It is equivalent to
+     * Indicates using the lossless scheme or not. It is equivalent to
      * use reversible quantization and 5x3 integer wavelet filters.
      */
     private boolean lossless = true;
 
-    /** Specifies to utilize the component transformation with some tiles.
-     *  If the wavelet transform is reversible (w5x3 filter), the
-     *  Reversible Component Transformation (RCT) is applied. If not reversible
-     *  (w9x7 filter), the Irreversible Component Transformation (ICT)
-     *  is used.
+    /**
+     * Specifies to utilize the component transformation with some tiles.
+     * If the wavelet transform is reversible (w5x3 filter), the
+     * Reversible Component Transformation (RCT) is applied. If not reversible
+     * (w9x7 filter), the Irreversible Component Transformation (ICT)
+     * is used.
      */
     private boolean componentTransformation = true;
 
-    /** Specifies which filters to use for the specified tile-components.
-     *  JPEG 2000 part I only supports w5x3 and w9x7 filters.
+    /**
+     * Specifies which filters to use for the specified tile-components.
+     * JPEG 2000 part I only supports w5x3 and w9x7 filters.
      */
     private String filter = FILTER_53;
 
-    /** Specifies the maximum code-block size to use for tile-component.
-     *  The maximum width and height is 1024, however the image area
-     *  (i.e. width x height) must not exceed 4096. The minimum
-     *  width and height is 4.  Default: 64 64.
+    /**
+     * Specifies the maximum code-block size to use for tile-component.
+     * The maximum width and height is 1024, however the image area
+     * (i.e. width x height) must not exceed 4096. The minimum
+     * width and height is 4. Default: 64 64.
      */
-    private int[] codeBlockSize = new int[]{64, 64};
+    private int[] codeBlockSize = new int[] { 64, 64 };
 
-    /** See above.
+    /**
+     * See above.
      */
     private String progressionType = "layer";
 
-    /** Specifies whether end of packet header (EPH) markers should be used.
-     *  true enables, false disables it.  Default: false.
+    /**
+     * Specifies whether end of packet header (EPH) markers should be used.
+     * true enables, false disables it. Default: false.
      */
-     private boolean EPH = false;
+    private boolean EPH = false;
 
-    /** Specifies whether start of packet (SOP) markers should be used.
-     *  true enables, false disables it. Default: false.
+    /**
+     * Specifies whether start of packet (SOP) markers should be used.
+     * true enables, false disables it. Default: false.
      */
     private boolean SOP = false;
 
-    /** Specifies whether write only the jpeg2000 code stream, i.e, no any
-     *  box is written.  The default value is false.
+    /**
+     * Specifies whether write only the jpeg2000 code stream, i.e, no any
+     * box is written. The default value is false.
      */
     private boolean writeCodeStreamOnly = false;
 
@@ -214,7 +233,8 @@ public class J2KImageWriteParam extends ImageWriteParam {
      * compression type names and quality descriptions, or
      * <code>null</code>.
      */
-    public J2KImageWriteParam(Locale locale) {
+    public J2KImageWriteParam(Locale locale)
+    {
         super(locale);
         setDefaults();
     }
@@ -223,20 +243,22 @@ public class J2KImageWriteParam extends ImageWriteParam {
      * Constructs a <code>J2KImageWriteParam</code> object with default
      * values for all parameters.
      */
-    public J2KImageWriteParam() {
+    public J2KImageWriteParam()
+    {
         super();
         setDefaults();
     }
 
     /** Set source */
-    private void setDefaults() {
+    private void setDefaults()
+    {
         // override the params in the super class
         canOffsetTiles = true;
         canWriteTiles = true;
         canOffsetTiles = true;
-        compressionTypes = new String[] {"JPEG2000"};
+        compressionTypes = new String[] { "JPEG2000" };
         canWriteCompressed = true;
-        canWriteProgressive= true;
+        canWriteProgressive = true;
         tilingMode = MODE_EXPLICIT;
     }
 
@@ -248,10 +270,10 @@ public class J2KImageWriteParam extends ImageWriteParam {
      * is negative or greater than 32.
      * @see #getNumDecompositionLevels
      */
-    public void setNumDecompositionLevels(int numDecompositionLevels) {
-        if(numDecompositionLevels < 0 || numDecompositionLevels > 32) {
-            throw new IllegalArgumentException
-                ("numDecompositionLevels < 0 || numDecompositionLevels > 32");
+    public void setNumDecompositionLevels(int numDecompositionLevels)
+    {
+        if (numDecompositionLevels < 0 || numDecompositionLevels > 32) {
+            throw new IllegalArgumentException("numDecompositionLevels < 0 || numDecompositionLevels > 32");
         }
         this.numDecompositionLevels = numDecompositionLevels;
     }
@@ -262,7 +284,8 @@ public class J2KImageWriteParam extends ImageWriteParam {
      * @return the number of decomposition levels.
      * @see #setNumDecompositionLevels
      */
-    public int getNumDecompositionLevels() {
+    public int getNumDecompositionLevels()
+    {
         return numDecompositionLevels;
     }
 
@@ -272,15 +295,17 @@ public class J2KImageWriteParam extends ImageWriteParam {
      * @param rate the encoding rate in bits-per-pixel.
      * @see #getEncodingRate()
      */
-    public void setEncodingRate(double rate) {
+    public void setEncodingRate(double rate)
+    {
         this.encodingRate = rate;
         if (encodingRate != Double.MAX_VALUE) {
             lossless = false;
-	    filter = FILTER_97;
-        } else {
+            filter = FILTER_97;
+        }
+        else {
             lossless = true;
-	    filter = FILTER_53;
-	}
+            filter = FILTER_53;
+        }
     }
 
     /**
@@ -289,7 +314,8 @@ public class J2KImageWriteParam extends ImageWriteParam {
      * @return the encoding rate in bits-per-pixel.
      * @see #setEncodingRate(double)
      */
-    public double getEncodingRate() {
+    public double getEncodingRate()
+    {
         return encodingRate;
     }
 
@@ -299,7 +325,8 @@ public class J2KImageWriteParam extends ImageWriteParam {
      * @param lossless whether the compression scheme is lossless.
      * @see #getLossless()
      */
-    public void setLossless(boolean lossless) {
+    public void setLossless(boolean lossless)
+    {
         this.lossless = lossless;
     }
 
@@ -309,7 +336,8 @@ public class J2KImageWriteParam extends ImageWriteParam {
      * @return whether the compression scheme is lossless.
      * @see #setLossless(boolean)
      */
-    public boolean getLossless() {
+    public boolean getLossless()
+    {
         return lossless;
     }
 
@@ -320,7 +348,8 @@ public class J2KImageWriteParam extends ImageWriteParam {
      * tile-components.
      * @see #getFilter()
      */
-    public void setFilter(String value) {
+    public void setFilter(String value)
+    {
         filter = value;
     }
 
@@ -331,7 +360,8 @@ public class J2KImageWriteParam extends ImageWriteParam {
      * tile-components.
      * @see #setFilter(String)
      */
-    public String getFilter() {
+    public String getFilter()
+    {
         return filter;
     }
 
@@ -341,7 +371,8 @@ public class J2KImageWriteParam extends ImageWriteParam {
      * @param value whether to utilize the component transformation.
      * @see #getComponentTransformation()
      */
-    public void setComponentTransformation(boolean value) {
+    public void setComponentTransformation(boolean value)
+    {
         componentTransformation = value;
     }
 
@@ -351,7 +382,8 @@ public class J2KImageWriteParam extends ImageWriteParam {
      * @return whether to utilize the component transformation.
      * @see #setComponentTransformation(boolean)
      */
-    public boolean getComponentTransformation() {
+    public boolean getComponentTransformation()
+    {
         return componentTransformation;
     }
 
@@ -361,7 +393,8 @@ public class J2KImageWriteParam extends ImageWriteParam {
      * @param value the maximum code-block size to use per tile-component.
      * @see #getCodeBlockSize()
      */
-    public void setCodeBlockSize(int[] value) {
+    public void setCodeBlockSize(int[] value)
+    {
         codeBlockSize = value;
     }
 
@@ -371,7 +404,8 @@ public class J2KImageWriteParam extends ImageWriteParam {
      * @return the maximum code-block size to use per tile-component.
      * @see #setCodeBlockSize(int[])
      */
-    public int[] getCodeBlockSize() {
+    public int[] getCodeBlockSize()
+    {
         return codeBlockSize;
     }
 
@@ -381,7 +415,8 @@ public class J2KImageWriteParam extends ImageWriteParam {
      * @param value whether start of packet (SOP) markers should be used.
      * @see #getSOP()
      */
-    public void setSOP(boolean value) {
+    public void setSOP(boolean value)
+    {
         SOP = value;
     }
 
@@ -391,7 +426,8 @@ public class J2KImageWriteParam extends ImageWriteParam {
      * @return whether start of packet (SOP) markers should be used.
      * @see #setSOP(boolean)
      */
-    public boolean getSOP() {
+    public boolean getSOP()
+    {
         return SOP;
     }
 
@@ -401,7 +437,8 @@ public class J2KImageWriteParam extends ImageWriteParam {
      * @param value whether end of packet header (EPH) markers should be used.
      * @see #getEPH()
      */
-    public void setEPH(boolean value) {
+    public void setEPH(boolean value)
+    {
         EPH = value;
     }
 
@@ -411,7 +448,8 @@ public class J2KImageWriteParam extends ImageWriteParam {
      * @return whether end of packet header (EPH) markers should be used.
      * @see #setEPH(boolean)
      */
-    public boolean getEPH() {
+    public boolean getEPH()
+    {
         return EPH;
     }
 
@@ -422,7 +460,8 @@ public class J2KImageWriteParam extends ImageWriteParam {
      * the codestream.
      * @see #getProgressionType()
      */
-    public void setProgressionType(String value) {
+    public void setProgressionType(String value)
+    {
         progressionType = value;
     }
 
@@ -433,27 +472,32 @@ public class J2KImageWriteParam extends ImageWriteParam {
      * the codestream.
      * @see #setProgressionType(String)
      */
-    public String getProgressionType() {
+    public String getProgressionType()
+    {
         return progressionType;
     }
 
-    /** Sets <code>writeCodeStreamOnly</code>.
+    /**
+     * Sets <code>writeCodeStreamOnly</code>.
      *
      * @param value Whether the jpeg2000 code stream only or the jp2 format
-     *	       will be written into the output.
+     * will be written into the output.
      * @see #getWriteCodeStreamOnly()
      */
-    public void setWriteCodeStreamOnly(boolean value) {
+    public void setWriteCodeStreamOnly(boolean value)
+    {
         writeCodeStreamOnly = value;
     }
 
-    /** Gets <code>writeCodeStreamOnly</code>.
+    /**
+     * Gets <code>writeCodeStreamOnly</code>.
      *
      * @return whether the jpeg2000 code stream only or the jp2 format
-     *	       will be written into the output.
+     * will be written into the output.
      * @see #setWriteCodeStreamOnly(boolean)
      */
-    public boolean  getWriteCodeStreamOnly() {
+    public boolean getWriteCodeStreamOnly()
+    {
         return writeCodeStreamOnly;
     }
 }

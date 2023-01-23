@@ -46,8 +46,9 @@ package jj2000.j2k.codestream;
  * codestream. They are 16 bit values, always appearing in big-endian (most
  * significant byte first) and byte-aligned in the codestream. This interface
  * also defines some other constants such as bit-masks and bit-shifts.
- * */
-public interface Markers {
+ */
+public interface Markers
+{
 
     // ----> Delimiting markers and marker segments <----
 
@@ -70,8 +71,10 @@ public interface Markers {
     /** SIZ marker (Image and tile size): 0xFF51 */
     public final static short SIZ = (short)0xff51;
 
-    /** No special capabilities (baseline) in codestream, in Rsiz field of SIZ
-     * marker: 0x00. All flag bits are turned off */
+    /**
+     * No special capabilities (baseline) in codestream, in Rsiz field of SIZ
+     * marker: 0x00. All flag bits are turned off
+     */
     public final static int RSIZ_BASELINE = 0x00;
     /** Error resilience marker flag bit in Rsiz field in SIZ marker: 0x01 */
     public final static int RSIZ_ER_FLAG = 0x01;
@@ -110,8 +113,10 @@ public interface Markers {
     /** Region-of-interest (RGN): 0xFF5E */
     public final static short RGN = (short)0xff5e;
 
-    /** Implicit (i.e. max-shift) ROI flag for Srgn field in RGN marker
-        segment: 0x00 */
+    /**
+     * Implicit (i.e. max-shift) ROI flag for Srgn field in RGN marker
+     * segment: 0x00
+     */
     public final static int SRGN_IMPLICIT = 0x00;
 
     // ** QCD/QCC markers **
@@ -126,19 +131,25 @@ public interface Markers {
     public final static int SQCX_GB_SHIFT = 5;
     /** Guard bits mask in SQCX field: 7 */
     public final static int SQCX_GB_MSK = 7;
-    /** No quantization (i.e. embedded reversible) flag for Sqcd or Sqcc
-     * (Sqcx) fields: 0x00. */
+    /**
+     * No quantization (i.e. embedded reversible) flag for Sqcd or Sqcc
+     * (Sqcx) fields: 0x00.
+     */
     public final static int SQCX_NO_QUANTIZATION = 0x00;
-    /** Scalar derived (i.e. LL values only) quantization flag for Sqcd or
-     * Sqcc (Sqcx) fields: 0x01. */
+    /**
+     * Scalar derived (i.e. LL values only) quantization flag for Sqcd or
+     * Sqcc (Sqcx) fields: 0x01.
+     */
     public final static int SQCX_SCALAR_DERIVED = 0x01;
-    /** Scalar expounded (i.e. all values) quantization flag for Sqcd or Sqcc
-     * (Sqcx) fields: 0x02. */
+    /**
+     * Scalar expounded (i.e. all values) quantization flag for Sqcd or Sqcc
+     * (Sqcx) fields: 0x02.
+     */
     public final static int SQCX_SCALAR_EXPOUNDED = 0x02;
     /** Exponent shift in SPQCX when no quantization: 3 */
     public final static int SQCX_EXP_SHIFT = 3;
     /** Exponent bitmask in SPQCX when no quantization: 3 */
-    public final static int SQCX_EXP_MASK = (1<<5)-1;
+    public final static int SQCX_EXP_MASK = (1 << 5) - 1;
     /** The "SOP marker segments used" flag within Sers: 1 */
     public final static int ERS_SOP = 1;
     /** The "segmentation symbols used" flag within Sers: 2 */
