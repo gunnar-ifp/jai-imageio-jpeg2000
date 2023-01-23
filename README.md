@@ -36,13 +36,11 @@ maintained and extends the original imageio with many useful features,
 but depends on the
 [binary distribution of jai_core](http://download.osgeo.org/webdav/geotools/javax/media/jai_core/1.1.3/).
 
-[![xkcd 2254](https://imgs.xkcd.com/comics/jpeg2000.png)](https://xkcd.com/2254/)
-
 ## Contribute
 
-You are welcome to raise 
+You are welcome to raise
 [Github pull requests](https://github.com/jai-imageio/jai-imageio-jpeg2000/pulls) for any improvements,
-or to create [GitHub issues](https://github.com/jai-imageio/jai-imageio-jpeg2000/issues) for any bugs 
+or to create [GitHub issues](https://github.com/jai-imageio/jai-imageio-jpeg2000/issues) for any bugs
 discovered.
 
 This project is maintained fully on GitHub by its community - to follow the project, simply
@@ -142,7 +140,7 @@ Changelog
 * 1.3.1 - Now an OSGi bundle
 * 1.3.0 - Changed package name to org.github.imageio.plugins.jpeg2000.
       Added JPEG2000 test. Java 8-workaround in test.
-* 1.2-pre-dr-b04-2014-09-13 - Include jpeg2000 plugin that was remaining in jai-imageio-core. 
+* 1.2-pre-dr-b04-2014-09-13 - Include jpeg2000 plugin that was remaining in jai-imageio-core.
       Improved javadoc.
 * 1.2-pre-dr-b04-2014-09-12  Separated out [JPEG 2000](https://github.com/jai-imageio/jai-imageio-core/issues/4)
       support from [jai-imageio-core](http://github.com/jai-imageio/jai-imageio-core)
