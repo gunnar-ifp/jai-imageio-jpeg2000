@@ -118,6 +118,11 @@
 					</execution>
 				</executions>
 				<configuration>
+					<encoding>UTF-8</encoding>
+					<doclint>accessibility,html,reference,syntax</doclint>
+					<source>1.6</source>
+					<additionalJOption>--no-module-directories</additionalJOption>
+					<debug>false</debug>
 					<linksource>true</linksource>
 					<protected>true</protected>
 					<links>

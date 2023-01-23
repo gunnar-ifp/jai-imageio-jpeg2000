@@ -53,7 +53,7 @@ import com.github.jaiimageio.jpeg2000.J2KImageReadParam;
  *
  * <p>The decoding parameters for JPEG 2000 are listed below:
  *
- * <p><table border=1>
+ * <table border=1>
  * <caption><b>JPEG 2000 Plugin Decoding Parameters</b></caption>
  * <tr><th>Parameter Name</th> <th>Description</th></tr>
  * <tr>

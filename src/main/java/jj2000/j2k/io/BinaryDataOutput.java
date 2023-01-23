@@ -55,7 +55,7 @@ import java.io.IOException;
  *
  * <P>Byte level output (i.e., for byte, int, long, float, etc.) should
  * always be byte aligned. For example, a request to write an
- * <tt>int</tt> should always realign the output at the byte level.
+ * <code>int</code> should always realign the output at the byte level.
  *
  * <P>The implementation of this interface should clearly define if
  * multi-byte output data is written in little- or big-endian byte
@@ -67,13 +67,13 @@ import java.io.IOException;
 public interface BinaryDataOutput {
 
     /**
-     * Should write the byte value of <tt>v</tt> (i.e., 8 least
+     * Should write the byte value of <code>v</code> (i.e., 8 least
      * significant bits) to the output. Prior to writing, the output
      * should be realigned at the byte level.
      *
      * <P>Signed or unsigned data can be written. To write a signed
-     * value just pass the <tt>byte</tt> value as an argument. To
-     * write unsigned data pass the <tt>int</tt> value as an argument
+     * value just pass the <code>byte</code> value as an argument. To
+     * write unsigned data pass the <code>int</code> value as an argument
      * (it will be automatically casted, and only the 8 least
      * significant bits will be written).
      *
@@ -87,13 +87,13 @@ public interface BinaryDataOutput {
     public void writeByte(int v) throws IOException;
 
     /**
-     * Should write the short value of <tt>v</tt> (i.e., 16 least
+     * Should write the short value of <code>v</code> (i.e., 16 least
      * significant bits) to the output. Prior to writing, the output
      * should be realigned at the byte level.
      *
      * <P>Signed or unsigned data can be written. To write a signed
-     * value just pass the <tt>short</tt> value as an argument. To
-     * write unsigned data pass the <tt>int</tt> value as an argument
+     * value just pass the <code>short</code> value as an argument. To
+     * write unsigned data pass the <code>int</code> value as an argument
      * (it will be automatically casted, and only the 16 least
      * significant bits will be written).
      *
@@ -107,7 +107,7 @@ public interface BinaryDataOutput {
     public void writeShort(int v) throws IOException;
 
     /**
-     * Should write the int value of <tt>v</tt> (i.e., the 32 bits) to
+     * Should write the int value of <code>v</code> (i.e., the 32 bits) to
      * the output. Prior to writing, the output should be realigned at
      * the byte level.
      *
@@ -121,7 +121,7 @@ public interface BinaryDataOutput {
     public void writeInt(int v) throws IOException;
 
     /**
-     * Should write the long value of <tt>v</tt> (i.e., the 64 bits)
+     * Should write the long value of <code>v</code> (i.e., the 64 bits)
      * to the output. Prior to writing, the output should be realigned
      * at the byte level.
      *
@@ -135,7 +135,7 @@ public interface BinaryDataOutput {
     public void writeLong(long v) throws IOException;
 
     /**
-     * Should write the IEEE float value <tt>v</tt> (i.e., 32 bits) to
+     * Should write the IEEE float value <code>v</code> (i.e., 32 bits) to
      * the output. Prior to writing, the output should be realigned at
      * the byte level.
      *
@@ -149,7 +149,7 @@ public interface BinaryDataOutput {
     public void writeFloat(float v) throws IOException;
 
     /**
-     * Should write the IEEE double value <tt>v</tt> (i.e., 64 bits)
+     * Should write the IEEE double value <code>v</code> (i.e., 64 bits)
      * to the output. Prior to writing, the output should be realigned
      * at the byte level.
      *
@@ -168,8 +168,8 @@ public interface BinaryDataOutput {
      * type of endianness or both, which would be decided at creatiuon
      * time.
      *
-     * @return Either <tt>EndianType.BIG_ENDIAN</tt> or
-     * <tt>EndianType.LITTLE_ENDIAN</tt>
+     * @return Either <code>EndianType.BIG_ENDIAN</code> or
+     * <code>EndianType.LITTLE_ENDIAN</code>
      *
      * @see EndianType
      *

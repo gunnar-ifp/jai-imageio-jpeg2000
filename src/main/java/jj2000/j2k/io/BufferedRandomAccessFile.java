@@ -51,14 +51,14 @@ import java.io.RandomAccessFile;
 
 /**
  * This class defines a Buffered Random Access File.  It implements the
- * <tt>BinaryDataInput</tt> and <tt>BinaryDataOutput</tt> interfaces so that
+ * <code>BinaryDataInput</code> and <code>BinaryDataOutput</code> interfaces so that
  * binary data input/output can be performed. This class is abstract since no
  * assumption is done about the byte ordering type (little Endian, big
  * Endian). So subclasses will have to implement methods like
- * <tt>readShort()</tt>, <tt>writeShort()</tt>, <tt>readFloat()</tt>, ...
+ * <code>readShort()</code>, <code>writeShort()</code>, <code>readFloat()</code>, ...
  *
- * <P><tt>BufferedRandomAccessFile</tt> (BRAF for short) is a
- * <tt>RandomAccessFile</tt> containing an extra buffer. When the BRAF is
+ * <P><code>BufferedRandomAccessFile</code> (BRAF for short) is a
+ * <code>RandomAccessFile</code> containing an extra buffer. When the BRAF is
  * accessed, it checks if the requested part of the file is in the buffer or
  * not. If that is the case, the read/write is done on the buffer. If not, the
  * file is uppdated to reflect the current status of the buffer and the file
@@ -399,7 +399,7 @@ public abstract class BufferedRandomAccessFile
      * Writes a byte to the stream. Prior to writing, the stream is
      * realigned at the byte level.
      *
-     * @param b The byte to write. The lower 8 bits of <tt>b</tt> are
+     * @param b The byte to write. The lower 8 bits of <code>b</code> are
      * written.
      *
      * @exception java.io.IOException If an I/O error ocurred.
@@ -477,13 +477,13 @@ public abstract class BufferedRandomAccessFile
     }
 
     /**
-     * Writes the byte value of <tt>v</tt> (i.e., 8 least
+     * Writes the byte value of <code>v</code> (i.e., 8 least
      * significant bits) to the output. Prior to writing, the output
      * should be realigned at the byte level.
      *
      * <P>Signed or unsigned data can be written. To write a signed
-     * value just pass the <tt>byte</tt> value as an argument. To
-     * write unsigned data pass the <tt>int</tt> value as an argument
+     * value just pass the <code>byte</code> value as an argument. To
+     * write unsigned data pass the <code>int</code> value as an argument
      * (it will be automatically casted, and only the 8 least
      * significant bits will be written).
      *
@@ -542,12 +542,12 @@ public abstract class BufferedRandomAccessFile
 
     /**
      * Reads an unsigned byte (i.e., 8 bit) from the input. It is
-     * returned as an <tt>int</tt> since Java does not have an
+     * returned as an <code>int</code> since Java does not have an
      * unsigned byte type. Prior to reading, the input should be
      * realigned at the byte level.
      *
      * @return The next byte-aligned unsigned byte (8 bit) from the
-     * input, as an <tt>int</tt>.
+     * input, as an <code>int</code>.
      *
      * @exception java.io.EOFException If the end-of file was reached before
      * getting all the necessary data.
@@ -565,8 +565,8 @@ public abstract class BufferedRandomAccessFile
      * type of endianness or both, which would be decided at creation
      * time.
      *
-     * @return Either <tt>EndianType.BIG_ENDIAN</tt> or
-     * <tt>EndianType.LITTLE_ENDIAN</tt>
+     * @return Either <code>EndianType.BIG_ENDIAN</code> or
+     * <code>EndianType.LITTLE_ENDIAN</code>
      *
      * @see EndianType
      * */
@@ -576,7 +576,7 @@ public abstract class BufferedRandomAccessFile
     }
 
     /**
-     * Skips <tt>n</tt> bytes from the input. Prior to skipping, the
+     * Skips <code>n</code> bytes from the input. Prior to skipping, the
      * input should be realigned at the byte level.
      *
      * @param n The number of bytes to skip

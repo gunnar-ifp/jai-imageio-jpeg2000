@@ -143,7 +143,7 @@ public interface ImgData {
      *
      * @param c The index of the component, from 0 to N-1.
      *
-     * @return The width in pixels of component <tt>c</tt> in tile<tt>t</tt>.
+     * @return The width in pixels of component <code>c</code> in tile<code>t</code>.
      * */
     public int getTileCompWidth(int t,int c);
 
@@ -154,8 +154,8 @@ public interface ImgData {
      *
      * @param c The index of the component, from 0 to N-1.
      *
-     * @return The height in pixels of component <tt>c</tt> in tile
-     * <tt>t</tt>.
+     * @return The height in pixels of component <code>c</code> in tile
+     * <code>t</code>.
      * */
     public int getTileCompHeight(int t,int c);
 
@@ -165,7 +165,7 @@ public interface ImgData {
      *
      * @param c The index of the component, from 0 to N-1.
      *
-     * @return The width in pixels of component <tt>c</tt> in the overall
+     * @return The width in pixels of component <code>c</code> in the overall
      * image.
      * */
     public int getCompImgWidth(int c);
@@ -176,7 +176,7 @@ public interface ImgData {
      *
      * @param c The index of the component, from 0 to N-1.
      *
-     * @return The height in pixels of component <tt>n</tt> in the overall
+     * @return The height in pixels of component <code>n</code> in the overall
      * image.
      * */
     public int getCompImgHeight(int c);
@@ -184,7 +184,7 @@ public interface ImgData {
     /**
      * Returns the number of bits, referred to as the "range bits",
      * corresponding to the nominal range of the image data in the specified
-     * component. If this number is <i>n</b> then for unsigned data the
+     * component. If this number is <b>n</b> then for unsigned data the
      * nominal range is between 0 and 2^b-1, and for signed data it is between
      * -2^(b-1) and 2^(b-1)-1. In the case of transformed data which is not in
      * the image domain (e.g., wavelet coefficients), this method returns the

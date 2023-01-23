@@ -50,7 +50,7 @@ import jj2000.j2k.image.DataBlk;
  * it quantized or not. This class does not have the notion of
  * components. Therefore, it should be used for data from a single
  * component. Subclasses should implement the different types of storage
- * (<tt>int</tt>, <tt>float</tt>, etc.).
+ * (<code>int</code>, <code>float</code>, etc.).
  *
  * <P>The data is always stored in one array, of the type matching the data
  * type (i.e. for 'int' it's an 'int[]'). The data should be stored in the
@@ -64,8 +64,8 @@ import jj2000.j2k.image.DataBlk;
  * (i.e. '(0,0)' is the top-left coefficient), will appear at position
  * 'offset+y*scanw+x' in the array of data.
  *
- * <P>The classes <tt>CBlkWTDataInt</tt> and <tt>CBlkWTDataFloat</tt>
- * provide implementations for <tt>int</tt> and <tt>float</tt> types
+ * <P>The classes <code>CBlkWTDataInt</code> and <code>CBlkWTDataFloat</code>
+ * provide implementations for <code>int</code> and <code>float</code> types
  * respectively.
  *
  * <P>The types of data are the same as those defined by the 'DataBlk' class.
@@ -138,7 +138,7 @@ public abstract class CBlkWTData {
     public int nROIbp = 0;
 
     /**
-     * Returns the data type of the <tt>CBlkWTData</tt> object, as
+     * Returns the data type of the <code>CBlkWTData</code> object, as
      * defined in the DataBlk class.
      *
      * @return The data type of the object, as defined in the DataBlk class.
@@ -149,15 +149,15 @@ public abstract class CBlkWTData {
 
     /**
      * Returns the array containing the data, or null if there is no data. The
-     * returned array is of the type returned by <tt>getDataType()</tt> (e.g.,
-     * for <tt>TYPE_INT</tt>, it is a <tt>int[]</tt>).
+     * returned array is of the type returned by <code>getDataType()</code> (e.g.,
+     * for <code>TYPE_INT</code>, it is a <code>int[]</code>).
      *
      * <P>Each implementing class should provide a type specific equivalent
-     * method (e.g., <tt>getDataInt()</tt> in <tt>DataBlkInt</tt>) which
+     * method (e.g., <code>getDataInt()</code> in <code>DataBlkInt</code>) which
      * returns an array of the correct type explicitely and not through an
-     * <tt>Object</tt>.
+     * <code>Object</code>.
      *
-     * @return The array containing the data, or <tt>null</tt> if there is no
+     * @return The array containing the data, or <code>null</code> if there is no
      * data.
      *
      * @see #getDataType
@@ -166,17 +166,17 @@ public abstract class CBlkWTData {
 
     /**
      * Sets the data array to the specified one. The type of the specified
-     * data array must match the one returned by <tt>getDataType()</tt> (e.g.,
-     * for <tt>TYPE_INT</tt>, it should be a <tt>int[]</tt>). If the wrong
-     * type of array is given a <tt>ClassCastException</tt> will be thrown.
+     * data array must match the one returned by <code>getDataType()</code> (e.g.,
+     * for <code>TYPE_INT</code>, it should be a <code>int[]</code>). If the wrong
+     * type of array is given a <code>ClassCastException</code> will be thrown.
      *
      * <P>The size of the array is not necessarily checked for consistency
-     * with <tt>w</tt> and <tt>h</tt> or any other fields.
+     * with <code>w</code> and <code>h</code> or any other fields.
      *
      * <P>Each implementing class should provide a type specific equivalent
-     * method (e.g., <tt>setDataInt()</tt> in <tt>DataBlkInt</tt>) which takes
+     * method (e.g., <code>setDataInt()</code> in <code>DataBlkInt</code>) which takes
      * an array of the correct type explicetely and not through an
-     * <tt>Object</tt>.
+     * <code>Object</code>.
      *
      * @param arr The new data array to use
      *

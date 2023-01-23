@@ -137,7 +137,7 @@ public abstract class Dequantizer extends MultiResImgDataAdapter
      * structure, returned by the getSynSubbandTree() method, can be used. See
      * the Subband class for more details.</p>
      *
-     * <p>If this number is <i>b</b> then for unsigned data the nominal range
+     * <p>If this number is <b>b</b> then for unsigned data the nominal range
      * is between 0 and 2^b-1, and for signed data it is between -2^(b-1) and
      * 2^(b-1)-1.</p>
      *

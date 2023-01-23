@@ -58,7 +58,7 @@ package jj2000.j2k.io;
  *
  * <P>This interface defines the constants only. In order to use the
  * constants in any other class you can either use the fully qualified
- * name (e.g., <tt>EndianType.LITTLE_ENDIAN</tt>) or declare this
+ * name (e.g., <code>EndianType.LITTLE_ENDIAN</code>) or declare this
  * interface in the implements clause of the class and then access the
  * identifier directly.
  *

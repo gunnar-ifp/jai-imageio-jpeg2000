@@ -180,13 +180,13 @@ public class ImgDataConverter extends ImgDataAdapter implements BlkImgDataSrc {
      * data is to be modified by the caller then the other method is probably
      * preferable.
      *
-     * <P>If the data array in <tt>blk</tt> is <tt>null</tt>, then a new one
+     * <P>If the data array in <code>blk</code> is <code>null</code>, then a new one
      * is created if necessary. The implementation of this interface may
      * choose to return the same array or a new one, depending on what is more
-     * efficient. Therefore, the data array in <tt>blk</tt> prior to the
+     * efficient. Therefore, the data array in <code>blk</code> prior to the
      * method call should not be considered to contain the returned data, a
      * new array may have been created. Instead, get the array from
-     * <tt>blk</tt> after the method has returned.
+     * <code>blk</code> after the method has returned.
      *
      * <P>The returned data may have its 'progressive' attribute set. In this
      * case the returned data is only an approximation of the "final" data.

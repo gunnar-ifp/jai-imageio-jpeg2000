@@ -199,7 +199,7 @@ public class InvWTFull extends InverseWT {
      * the source returns a value corresponding to the nominal dynamic range
      * of the image data and not not of the wavelet coefficients.
      *
-     * <P>If this number is <i>b</b> then for unsigned data the nominal range
+     * <P>If this number is <b>b</b> then for unsigned data the nominal range
      * is between 0 and 2^b-1, and for signed data it is between -2^(b-1) and
      * 2^(b-1)-1.
      *
@@ -325,8 +325,8 @@ public class InvWTFull extends InverseWT {
      * 0, and the 'scanw' is the same as the block's width. See the 'DataBlk'
      * class.
      *
-     * <P>If the data array in 'blk' is <tt>null</tt>, then a new one is
-     * created. If the data array is not <tt>null</tt> then it must be big
+     * <P>If the data array in 'blk' is <code>null</code>, then a new one is
+     * created. If the data array is not <code>null</code> then it must be big
      * enough to contain the requested area.
      *
      * <P>The returned data always has its 'progressive' attribute unset (i.e

@@ -49,7 +49,7 @@ import java.io.IOException;
 
 /**
  * This abstract class defines the interface to perform random access I/O. It
- * implements the <tt>BinaryDataInput</tt> and <tt>BinaryDataOutput</tt>
+ * implements the <code>BinaryDataInput</code> and <code>BinaryDataOutput</code>
  * interfaces so that binary data input/output can be performed.
  *
  * <P>This interface supports streams of up to 2 GB in length.
@@ -71,7 +71,7 @@ public interface RandomAccessIO
     /**
      * Returns the current position in the stream, which is the position from
      * where the next byte of data would be read. The first byte in the stream
-     * is in position <tt>0</tt>.
+     * is in position <code>0</code>.
      *
      * @return The offset of the current position, in bytes.
      *
@@ -141,7 +141,7 @@ public interface RandomAccessIO
      * Writes a byte to the stream. Prior to writing, the stream is realigned
      * at the byte level.
      *
-     * @param b The byte to write. The lower 8 bits of <tt>b</tt> are
+     * @param b The byte to write. The lower 8 bits of <code>b</code> are
      * written.
      *
      * @exception IOException If an I/O error ocurred.

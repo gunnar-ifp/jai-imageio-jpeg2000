@@ -92,7 +92,7 @@ public abstract class ImgReader implements BlkImgDataSrc {
     /**
      * Returns the width of the current tile in pixels, assuming there is
      * no-tiling. Since no-tiling is assumed this is the same as the width of
-     * the image. The value of <tt>w</tt> is returned.
+     * the image. The value of <code>w</code> is returned.
      *
      * @return The total image width in pixels.
      * */
@@ -104,7 +104,7 @@ public abstract class ImgReader implements BlkImgDataSrc {
     /**
      * Returns the overall height of the current tile in pixels, assuming
      * there is no-tiling. Since no-tiling is assumed this is the same as the
-     * width of the image. The value of <tt>h</tt> is returned.
+     * width of the image. The value of <code>h</code> is returned.
      *
      * @return The total image height in pixels.  */
     @Override
@@ -127,7 +127,7 @@ public abstract class ImgReader implements BlkImgDataSrc {
     /**
      * Returns the overall width of the image in pixels. This is the image's
      * width without accounting for any component subsampling or tiling. The
-     * value of <tt>w</tt> is returned.
+     * value of <code>w</code> is returned.
      *
      * @return The total image's width in pixels.
      * */
@@ -139,7 +139,7 @@ public abstract class ImgReader implements BlkImgDataSrc {
     /**
      * Returns the overall height of the image in pixels. This is the image's
      * height without accounting for any component subsampling or tiling. The
-     * value of <tt>h</tt> is returned.
+     * value of <code>h</code> is returned.
      *
      * @return The total image's height in pixels.
      * */
@@ -149,7 +149,7 @@ public abstract class ImgReader implements BlkImgDataSrc {
     }
 
     /**
-     * Returns the number of components in the image. The value of <tt>nc</tt>
+     * Returns the number of components in the image. The value of <code>nc</code>
      * is returned.
      *
      * @return The number of components in the image.
@@ -203,7 +203,7 @@ public abstract class ImgReader implements BlkImgDataSrc {
      *
      * @param c The index of the component, from 0 to C-1.
      *
-     * @return The width in pixels of component <tt>c</tt> in tile<tt>t</tt>.
+     * @return The width in pixels of component <code>c</code> in tile<code>t</code>.
      * */
     @Override
     public int getTileCompWidth(int t,int c) {
@@ -224,8 +224,8 @@ public abstract class ImgReader implements BlkImgDataSrc {
      *
      * @param c The index of the component, from 0 to C-1.
      *
-     * @return The height in pixels of component <tt>c</tt> in tile
-     * <tt>t</tt>.
+     * @return The height in pixels of component <code>c</code> in tile
+     * <code>t</code>.
      * */
     @Override
     public int getTileCompHeight(int t,int c) {
@@ -243,7 +243,7 @@ public abstract class ImgReader implements BlkImgDataSrc {
      *
      * @param c The index of the component, from 0 to C-1.
      *
-     * @return The width in pixels of component <tt>c</tt> in the overall
+     * @return The width in pixels of component <code>c</code> in the overall
      * image.
      * */
     @Override
@@ -258,7 +258,7 @@ public abstract class ImgReader implements BlkImgDataSrc {
      *
      * @param c The index of the component, from 0 to C-1.
      *
-     * @return The height in pixels of component <tt>c</tt> in the overall
+     * @return The height in pixels of component <code>c</code> in the overall
      * image.
      * */
     @Override

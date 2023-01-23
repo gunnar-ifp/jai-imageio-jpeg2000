@@ -50,7 +50,7 @@ import java.io.InputStream;
 import javax.imageio.stream.ImageInputStream;
 
 /**
- * This class is designed to wrap a <code>ImageInputStream</codem> into
+ * This class is designed to wrap a <code>ImageInputStream</code> into
  *  a <code>InputStream</code>.  The reason is that <code>ImageInputStream</code>
  *  implements <code>DataInput</code> but doesn't extend
  *  <code>InputStream</code>.  However, the JJ2000 JPEG 2000 packages accepts

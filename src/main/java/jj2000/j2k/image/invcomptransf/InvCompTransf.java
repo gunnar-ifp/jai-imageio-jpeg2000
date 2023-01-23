@@ -298,7 +298,7 @@ public class InvCompTransf extends ImgDataAdapter
     /**
      * Returns the number of bits, referred to as the "range bits",
      * corresponding to the nominal range of the data in the specified
-     * component. If this number is <i>b</b> then for unsigned data the
+     * component. If this number is <b>b</b> then for unsigned data the
      * nominal range is between 0 and 2^b-1, and for signed data it is between
      * -2^(b-1) and 2^(b-1)-1.
      *

@@ -64,10 +64,10 @@ public class CBlkWTDataFloat extends CBlkWTData {
     public float[] data;
 
     /**
-     * Returns the identifier of this data type, <tt>TYPE_FLOAT</tt>,
-     * as defined in <tt>DataBlk</tt>.
+     * Returns the identifier of this data type, <code>TYPE_FLOAT</code>,
+     * as defined in <code>DataBlk</code>.
      *
-     * @return The type of data stored. Always <tt>DataBlk.TYPE_FLOAT</tt>
+     * @return The type of data stored. Always <code>DataBlk.TYPE_FLOAT</code>
      *
      * @see DataBlk#TYPE_FLOAT
      *

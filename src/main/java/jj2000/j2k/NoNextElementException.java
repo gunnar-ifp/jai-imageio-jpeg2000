@@ -62,7 +62,7 @@ public class NoNextElementException extends RuntimeException {
     private static final long serialVersionUID = 7199033090111766493L;
 
     /**
-     * Constructs a new <tt>NoNextElementException</tt> exception with no
+     * Constructs a new <code>NoNextElementException</code> exception with no
      * detail message.
      *
      *
@@ -72,7 +72,7 @@ public class NoNextElementException extends RuntimeException {
     }
 
     /**
-     * Constructs a new <tt>NoNextElementException</tt> exception with
+     * Constructs a new <code>NoNextElementException</code> exception with
      * the specified detail message.
      *
      * @param s The detail message.

@@ -154,7 +154,7 @@ public class ImgReaderPGM extends ImgReader {
      * was specified in the constructor, which normally is 8 for non bilevel
      * data, and 1 for bilevel data.
      *
-     * <P>If this number is <i>b</b> then the nominal range is between
+     * <P>If this number is <b>b</b> then the nominal range is between
      * -2^(b-1) and 2^(b-1)-1, since unsigned data is level shifted to have a
      * nominal average of 0.
      *
@@ -207,13 +207,13 @@ public class ImgReaderPGM extends ImgReader {
      * tile. These members are not modified by this method. The 'offset' and
      * 'scanw' of the returned data can be arbitrary. See the 'DataBlk' class.
      *
-     * <P>If the data array in <tt>blk</tt> is <tt>null</tt>, then a new one
+     * <P>If the data array in <code>blk</code> is <code>null</code>, then a new one
      * is created if necessary. The implementation of this interface may
      * choose to return the same array or a new one, depending on what is more
-     * efficient. Therefore, the data array in <tt>blk</tt> prior to the
+     * efficient. Therefore, the data array in <code>blk</code> prior to the
      * method call should not be considered to contain the returned data, a
      * new array may have been created. Instead, get the array from
-     * <tt>blk</tt> after the method has returned.
+     * <code>blk</code> after the method has returned.
      *
      * <P>The returned data always has its 'progressive' attribute unset
      * (i.e. false).

@@ -364,7 +364,7 @@ public class PktDecoder implements StdEntropyCoderOptions{
      *
      * @param r Resolution level index.
      *
-     * @param mdl Number of decomposition level in component <tt>c</tt>.
+     * @param mdl Number of decomposition level in component <code>c</code>.
      * */
     private void fillPrecInfo(int c,int r,int mdl) {
         if(ppinfo[c][r].length==0) return; // No precinct in this
