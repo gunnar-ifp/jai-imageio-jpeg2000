@@ -1,8 +1,6 @@
 jai-imageio-jpeg2000
 ====================
 
-[![Build Status](https://travis-ci.org/jai-imageio/jai-imageio-jpeg2000.svg)](https://travis-ci.org/jai-imageio/jai-imageio-jpeg2000)
-
 JPEG2000 support for Java Advanced Imaging Image I/O Tools API core
 [jai-imagecore-core](https://github.com/jai-imageio/jai-imageio-core).
 
